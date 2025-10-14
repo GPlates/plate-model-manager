@@ -3,6 +3,7 @@
         "SvrBaseURL": "https://www.earthbyte.org/webdav/pmm"
     },
     "default": "@zahirovic2022",
+    "muller2025": "@shirmard2025",
     "shirmard2025": {
         "BigTime": 18000,
         "SmallTime": 0,
@@ -28,7 +29,9 @@
             "StaticPolygons": "@<<SvrBaseURL>>@/alfonso2024/StaticPolygons.zip",
             "Topologies": "@<<SvrBaseURL>>@/alfonso2024/Topologies.zip",
             "Isochrons": "@<<SvrBaseURL>>@/alfonso2024/Isochrons.zip",
-            "Terranes": "@<<SvrBaseURL>>@/alfonso2024/Terranes.zip"
+            "Terranes": "@<<SvrBaseURL>>@/alfonso2024/Terranes.zip",
+            "ContinentalPolygons": "@<<SvrBaseURL>>@/muller2019/ContinentalPolygons.zip",
+            "COBs": "@<<SvrBaseURL>>@/muller2019/COBs.zip"
         },
         "TimeDepRasters": {
             "AgeGrids": "https://repo.gplates.org/webdav/PlateModel_Age_SR_Grids/Alfonso_etal_2024_modClennettMuller/SeafloorAge/Alfonso2024_SEAFLOOR_AGE_grid_{:.2f}Ma.nc",
@@ -121,7 +124,9 @@
             "Coastlines": "https://repo.gplates.org/webdav/pmm/clennett2020_m2019/Coastlines.zip",
             "StaticPolygons": "https://repo.gplates.org/webdav/pmm/clennett2020_m2019/StaticPolygons.zip",
             "Topologies": "https://repo.gplates.org/webdav/pmm/clennett2020_m2019/Topologies.zip",
-            "Terranes": "https://repo.gplates.org/webdav/pmm/clennett2020_m2019/Terranes.zip"
+            "Terranes": "https://repo.gplates.org/webdav/pmm/clennett2020_m2019/Terranes.zip",
+            "ContinentalPolygons": "@<<SvrBaseURL>>@/muller2019/ContinentalPolygons.zip",
+            "COBs": "@<<SvrBaseURL>>@/muller2019/COBs.zip"
         },
         "TimeDepRasters": {
             "AgeGrids": "https://repo.gplates.org/webdav/PlateModel_Age_SR_Grids/Clennett_etal_2020_G3/AgeGrids/Clennett_AgeGrids_0.1d_masked/seafloor_age_mask_{:.1f}Ma.nc",
