@@ -37,7 +37,7 @@ dependencies = [
 dev = ["black", "bumpver", "isort", "pip-tools", "pytest"]
 
 [project.urls]
-Homepage = "https://github.com/michaelchin/plate-model-manager"
+Homepage = "https://github.com/gplates/plate-model-manager"
 
 [project.scripts]
 pmm = "plate_model_manager.__main__:main"

@@ -1,8 +1,8 @@
 # plate-model-manager
 
-![unittest](https://github.com/michaelchin/plate-model-manager/actions/workflows/unittest.yml/badge.svg)
-![unittest-win](https://github.com/michaelchin/plate-model-manager/actions/workflows/unittest-win.yml/badge.svg)
-![build-doc](https://github.com/michaelchin/plate-model-manager/actions/workflows/build-doc-update-gh-pages.yml/badge.svg)
+![unittest](https://github.com/gplates/plate-model-manager/actions/workflows/unittest.yml/badge.svg)
+![unittest-win](https://github.com/gplates/plate-model-manager/actions/workflows/unittest-win.yml/badge.svg)
+![build-doc](https://github.com/gplates/plate-model-manager/actions/workflows/build-doc-update-gh-pages.yml/badge.svg)
 [![PyPI version](https://badge.fury.io/py/plate-model-manager.svg)](https://badge.fury.io/py/plate-model-manager)
 ![anaconda_badge](https://anaconda.org/conda-forge/plate-model-manager/badges/version.svg)
 ![platforms](https://anaconda.org/conda-forge/plate-model-manager/badges/platforms.svg)
@@ -20,22 +20,22 @@ or
 
 `conda install conda-forge::plate-model-manager`
 
-For more information regarding installation, visit [this page](https://michaelchin.github.io/plate-model-manager/latest/installation.html)
+For more information regarding installation, visit [this page](https://gplates.github.io/plate-model-manager/latest/installation.html)
 
 ### How to use the Python module
 
-Visit [this page](https://michaelchin.github.io/plate-model-manager/latest/basic_usages.html) to see how to use the `plate-model-manager` package in assorted scenarios.
+Visit [this page](https://gplates.github.io/plate-model-manager/latest/basic_usages.html) to see how to use the `plate-model-manager` package in assorted scenarios.
 
 ### How to use the command line
 
-Visit [this page](https://michaelchin.github.io/plate-model-manager/latest/command_line_interface.html) to see how to use the `plate-model-manager` command lines.
+Visit [this page](https://gplates.github.io/plate-model-manager/latest/command_line_interface.html) to see how to use the `plate-model-manager` command lines.
 
 ### Documentation
 
-- [latest dev](https://michaelchin.github.io/plate-model-manager/latest/)
-- [latest stable](https://michaelchin.github.io/plate-model-manager/stable/)
-- [v1.3.0](https://michaelchin.github.io/plate-model-manager/v1.3.0/)
-- [v1.2.0](https://michaelchin.github.io/plate-model-manager/v1.2.0/)
+- [latest dev](https://gplates.github.io/plate-model-manager/latest/)
+- [latest stable](https://gplates.github.io/plate-model-manager/stable/)
+- [v1.3.0](https://gplates.github.io/plate-model-manager/v1.3.0/)
+- [v1.2.0](https://gplates.github.io/plate-model-manager/v1.2.0/)
 
 ### Software adoption
 

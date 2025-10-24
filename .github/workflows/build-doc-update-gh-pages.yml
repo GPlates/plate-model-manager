@@ -19,14 +19,14 @@ jobs:
       - name: Checkout main branch
         uses: actions/checkout@v4
         with:
-          repository: michaelchin/plate-model-manager
+          repository: gplates/plate-model-manager
           token: ${{ secrets.GH_PAGE_COMMIT_TOKEN }}
           path: main
 
       - name: Checkout github pages branch
         uses: actions/checkout@v4
         with:
-          repository: michaelchin/plate-model-manager
+          repository: gplates/plate-model-manager
           ref: gh-pages
           token: ${{ secrets.GH_PAGE_COMMIT_TOKEN }}
           path: gh-pages

@@ -37,7 +37,7 @@
 
 #### gh-pages branch
 
-- `git clone https://github.com/michaelchin/plate-model-manager.git gh-pages.git`
+- `git clone https://github.com/gplates/plate-model-manager.git gh-pages.git`
 - `git checkout --orphan gh-pages`
 - `git rm -rf .`
 - `cp -rf ../doc/build/html/* .`
