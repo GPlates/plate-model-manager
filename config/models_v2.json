@@ -15,7 +15,10 @@
             "Topologies": "@<<SvrBaseURL>>@/shirmard2025/Topologies.zip",
             "COBs": "@<<SvrBaseURL>>@/shirmard2025/COBs.zip"
         },
-        "TimeDepRasters": {},
+        "TimeDepRasters": {
+            "AgeGrids": "https://repo.gplates.org/webdav/PlateModel_Age_SR_Grids/Muller_etal_2025/SeafloorAge/SEAFLOOR_AGE_grid_{:.2f}Ma.nc",
+            "SpreadingRate": "https://repo.gplates.org/webdav/PlateModel_Age_SR_Grids/Muller_etal_2025/SpreadingRate/Cao2024_SPREADING_RATE_grid_{:.2f}Ma.nc"
+        },
         "Description": "How Subduction Evolution and Tectonic Stability Drive Sediment-Hosted Mineralization Along Craton Edges.",
         "URL": "https://doi.org/10.5281/zenodo.15233548",
         "Version": "10.5281/zenodo.17142287"
@@ -30,8 +33,8 @@
             "Topologies": "@<<SvrBaseURL>>@/alfonso2024/Topologies.zip",
             "Isochrons": "@<<SvrBaseURL>>@/alfonso2024/Isochrons.zip",
             "Terranes": "@<<SvrBaseURL>>@/alfonso2024/Terranes.zip",
-            "ContinentalPolygons": "@<<SvrBaseURL>>@/muller2019/ContinentalPolygons.zip",
-            "COBs": "@<<SvrBaseURL>>@/muller2019/COBs.zip"
+            "ContinentalPolygons": "@<<SvrBaseURL>>@/alfonso2024/ContinentalPolygons.zip",
+            "COBs": "@<<SvrBaseURL>>@/alfonso2024/COBs.zip"
         },
         "TimeDepRasters": {
             "AgeGrids": "https://repo.gplates.org/webdav/PlateModel_Age_SR_Grids/Alfonso_etal_2024_modClennettMuller/SeafloorAge/Alfonso2024_SEAFLOOR_AGE_grid_{:.2f}Ma.nc",
@@ -39,7 +42,7 @@
         },
         "Description": "alfonso2024",
         "URL": "https://doi.org/10.5281/zenodo.11392268",
-        "Version": "10.5281/zenodo.11392269"
+        "Version": "10.5281/zenodo.19197834"
     },
     "cao2024": {
         "BigTime": 18000,
