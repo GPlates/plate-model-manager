@@ -10,6 +10,8 @@ from datetime import datetime
 from pathlib import Path
 from typing import Dict, List, Union
 
+from plate_model_manager.utils.enums import ReferenceFrame
+
 from .exceptions import LayerNotFoundInModel
 from .utils import download
 
@@ -181,7 +183,7 @@ class PlateModel:
             raise Exception("Fatal: No model configuration found!")
         return list(self.model["Layers"].keys())
 
-    def get_rotation_model(self):
+    def get_rotation_model(self, reference_frame=ReferenceFrame.MantleReferenceFrame):
         """Return a list of rotation files."""
         if not self.readonly:
             rotation_folder = self._download_layer_files("Rotations")
@@ -190,7 +192,19 @@ class PlateModel:
         rotation_files = glob.glob(f"{rotation_folder}/*.rot")
         rotation_files.extend(glob.glob(f"{rotation_folder}/*.grot"))
         # print(rotation_files)
-        return rotation_files
+        if reference_frame == ReferenceFrame.PmagReferenceFrame:
+            attrs = self.model.get("Attributes", None)
+            pmag_ref_frame_anchor_pid = (
+                attrs.get("PmagReferenceFrameAnchorPID", None) if attrs else None
+            )
+            if pmag_ref_frame_anchor_pid is None:
+                raise Exception(
+                    "The model does not have 'Attributes.PmagReferenceFrameAnchorPID' defined. Cannot get rotation model for PMAG reference frame."
+                )
+            return rotation_files, pmag_ref_frame_anchor_pid
+        else:
+            # for mantle reference frame, we don't need to know the anchor PID
+            return rotation_files
 
     def get_coastlines(
         self, return_none_if_not_exist: bool = False

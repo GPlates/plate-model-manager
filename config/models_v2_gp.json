@@ -101,7 +101,10 @@
         },
         "Description": "Subduction kinematics and carbonate platform interactions",
         "URL": "https://doi.org/10.5281/zenodo.4729045",
-        "Version": "10.5281/zenodo.13899315"
+        "Version": "10.5281/zenodo.13899315",
+        "Attributes": {
+            "PmagReferenceFrameAnchorPID": 701701
+        }
     },
     "merdith2021": {
         "BigTime": 1000,

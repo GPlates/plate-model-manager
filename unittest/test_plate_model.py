@@ -5,6 +5,7 @@ import sys
 import unittest
 
 from common import TEMP_TEST_DIR, get_test_logger, is_test_installed_module
+from plate_model_manager.utils.enums import ReferenceFrame
 
 if not is_test_installed_module():
     sys.path.insert(0, f"{os.path.dirname(__file__)}/../src")
@@ -113,6 +114,27 @@ class PlateModelTestCase(unittest.TestCase):
         if self.model is None:
             raise Exception("The self.model is None. This should not happen!")
         self.model.download_all()
+
+    def test_get_rotation_model_for_pmag_reference_frame(self):
+        """Test getting rotation files for pmag reference frame."""
+        logger.info("test_get_rotation_model_for_pmag_reference_frame ...")
+        model_manager = PlateModelManager(
+            f"{os.path.dirname(__file__)}/../config/models.json"
+        )
+        model = model_manager.get_model("zahirovic2022", data_dir=TEMP_TEST_DIR)
+        if model is None:
+            raise Exception("Cannot get zahirovic2022 model!")
+
+        rotation_files, anchor_pid = model.get_rotation_model(
+            reference_frame=ReferenceFrame.PmagReferenceFrame
+        )
+        self.assertTrue(len(rotation_files) > 0)
+        self.assertTrue(
+            anchor_pid == 701701
+        )  # this is the anchor plate in the Pmag reference frame for zahirovic2022
+        logger.info(rotation_files)
+        for f in rotation_files:
+            self.assertTrue(os.path.isfile(f))
 
 
 if __name__ == "__main__":

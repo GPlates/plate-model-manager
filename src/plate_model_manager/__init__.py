@@ -17,8 +17,10 @@ from .utils.misc import (
     setup_logging,
     turn_on_debug_logging,
 )
+from .utils.enums import ReferenceFrame
 
 setup_logging()
+
 
 __all__ = [
     "PlateModelManager",
