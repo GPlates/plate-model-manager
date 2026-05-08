@@ -10,7 +10,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Dict, List, Union
 
-from plate_model_manager.utils.enums import ReferenceFrame
+from plate_model_manager.utils.enums import GenerationMethod, ReferenceFrame
 
 from .exceptions import LayerNotFoundInModel
 from .utils import download
@@ -280,21 +280,45 @@ class PlateModel:
             else:
                 raise e
 
-    def get_raster(self, raster_name: str, time: Union[int, float]) -> str:
-        """Return a local path for the raster file.
+    def get_raster(
+        self,
+        raster_name: str,
+        time: Union[int, float],
+        reference_frame: Union[ReferenceFrame, None] = None,
+        generated_from: Union[GenerationMethod, None] = None,
+    ) -> str:
+        """Return a local path for a single time-dependent raster.
 
-        :param time: A single time of interest.
-        :type time: int or float
+        The final raster key is built from ``raster_name`` and optional suffixes
+        from ``generated_from`` and ``reference_frame`` (in that order), matching
+        the naming convention used in ``model[\"TimeDepRasters\"]``.
 
-        :returns: A local path of the raster file.
-        :rtype: str
+        :param raster_name: Base raster name in ``TimeDepRasters`` (for example,
+                            ``\"AgeGrids\"``).
+        :param time: Reconstruction time (Ma) to fetch.
+        :param reference_frame: Optional reference-frame suffix to append to the
+                                raster name.
+        :param generated_from: Optional generation-method suffix to append to the
+                               raster name.
+
+        :returns: Local file path for the requested raster at ``time``.
+
+        :raises Exception: If this model has no ``TimeDepRasters`` entry, if the
+                           constructed raster name is not configured, if the file
+                           is missing in readonly mode, or if a download fails in
+                           writable mode.
         """
-
+        if generated_from is not None:
+            raster_name = f"{raster_name}{generated_from.value}"
+        if reference_frame is not None:
+            raster_name = f"{raster_name}{reference_frame.value}"
         if not "TimeDepRasters" in self.model:
             raise Exception("No time-dependent rasters found in this model.")
         if not raster_name in self.model["TimeDepRasters"]:
             raise Exception(
-                f"Time-dependent rasters ({raster_name}) not found in this model. {self.model['TimeDepRasters']}"
+                f"Time-dependent rasters ({raster_name}) not found in this model. "
+                + f"The raster name is constructed as: {raster_name}+{generated_from.value}+{reference_frame.value}"
+                + f"Available: {self.model['TimeDepRasters']}"
             )
         url = self.model["TimeDepRasters"][raster_name].format(time)
 
@@ -312,18 +336,45 @@ class PlateModel:
             raise Exception(f"Failed to download {url}")
 
     def get_rasters(
-        self, raster_name: str, times: List[Union[int, float]]
+        self,
+        raster_name: str,
+        times: List[Union[int, float]],
+        reference_frame: Union[ReferenceFrame, None] = None,
+        generated_from: Union[GenerationMethod, None] = None,
     ) -> List[str]:
-        """Return local paths for the raster files.
+        """Return local paths for a sequence of time-dependent rasters.
 
-        :param times: A list of times
-        :returns: A list of local paths
+        The final raster key is built from ``raster_name`` and optional suffixes
+        from ``generated_from`` and ``reference_frame`` (in that order), matching
+        the naming convention used in ``model[\"TimeDepRasters\"]``.
+
+        :param raster_name: Base raster name in ``TimeDepRasters`` (for example,
+                            ``\"AgeGrids\"``).
+        :param times: Reconstruction times (Ma) to fetch.
+        :param reference_frame: Optional reference-frame suffix to append to the
+                                raster name.
+        :param generated_from: Optional generation-method suffix to append to the
+                               raster name.
+
+        :returns: Local file paths for the requested times, in the same order as
+                  ``times``.
+
+        :raises Exception: If this model has no ``TimeDepRasters`` entry, if the
+                           constructed raster name is not configured, if a
+                           requested file is missing in readonly mode, or if a
+                           download fails in writable mode.
         """
+        if generated_from is not None:
+            raster_name = f"{raster_name}{generated_from.value}"
+        if reference_frame is not None:
+            raster_name = f"{raster_name}{reference_frame.value}"
         if not "TimeDepRasters" in self.model:
             raise Exception("No time-dependent rasters found in this model.")
         if not raster_name in self.model["TimeDepRasters"]:
             raise Exception(
-                f"Time-dependent rasters ({raster_name}) not found in this model. {self.model['TimeDepRasters']}"
+                f"Time-dependent rasters ({raster_name}) not found in this model. "
+                + f"The raster name is constructed as: {raster_name}+{generated_from.value}+{reference_frame.value}"
+                + f"Available: {self.model['TimeDepRasters']}"
             )
 
         if not self.readonly:
@@ -343,6 +394,42 @@ class PlateModel:
             else:
                 raise Exception(f"Failed to download {url}")
         return paths
+
+    def get_age_grid(
+        self,
+        time: Union[int, float],
+        reference_frame: Union[ReferenceFrame, None] = None,
+        generated_from: Union[GenerationMethod, None] = None,
+    ) -> str:
+        """Return a local path for the age grid raster file at a given time."""
+        return self.get_raster("AgeGrids", time, reference_frame, generated_from)
+
+    def get_age_grids(
+        self,
+        times: List[Union[int, float]],
+        reference_frame: Union[ReferenceFrame, None] = None,
+        generated_from: Union[GenerationMethod, None] = None,
+    ) -> List[str]:
+        """Return local paths for the age grid raster files at given times."""
+        return self.get_rasters("AgeGrids", times, reference_frame, generated_from)
+
+    def get_spreading_rate_grid(
+        self,
+        time: Union[int, float],
+        reference_frame: Union[ReferenceFrame, None] = None,
+        generated_from: Union[GenerationMethod, None] = None,
+    ) -> str:
+        """Return a local path for the spreading rate grid raster file at a given time."""
+        return self.get_raster("SpreadingRate", time, reference_frame, generated_from)
+
+    def get_spreading_rate_grids(
+        self,
+        times: List[Union[int, float]],
+        reference_frame: Union[ReferenceFrame, None] = None,
+        generated_from: Union[GenerationMethod, None] = None,
+    ) -> List[str]:
+        """Return local paths for the spreading rate grid raster files at given times."""
+        return self.get_rasters("SpreadingRate", times, reference_frame, generated_from)
 
     def create_model_dir(self):
         """Create a folder with a file ``.metadata.json`` in it to keep the model files."""

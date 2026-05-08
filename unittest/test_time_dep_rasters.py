@@ -6,6 +6,7 @@ import sys
 import unittest
 
 from common import TEMP_TEST_DIR, get_test_logger, is_test_installed_module
+from plate_model_manager.utils.enums import GenerationMethod, ReferenceFrame
 
 if not is_test_installed_module():
     sys.path.insert(0, f"{os.path.dirname(__file__)}/../src")
@@ -103,6 +104,34 @@ class TimeDepRastersTestCase(unittest.TestCase):
 
         m = self.model_manager.get_model("seton2012", data_dir=TEMP_TEST_DIR)
         m.get_raster("AgeGrids", 100)
+
+    def test_get_rasters_with_ref_frame_and_generated_from_parameters(self):
+        m = self.model_manager.get_model("zahirovic2022", data_dir=TEMP_TEST_DIR)
+        times = [100, 101]
+        filepaths = m.get_rasters(
+            "Agegrids",
+            times,
+            reference_frame=ReferenceFrame.MantleReferenceFrame,
+            generated_from=GenerationMethod.Isochrons,
+        )
+
+        self.assertEqual(len(filepaths), len(times))
+        for filepath in filepaths:
+            self.assertTrue(os.path.isfile(filepath), msg=f"Missing file: {filepath}")
+
+        raster_dir = (
+            f"{TEMP_TEST_DIR}/zahirovic2022/Rasters/"
+            f"Agegrids{GenerationMethod.Isochrons.value}"
+            f"{ReferenceFrame.MantleReferenceFrame.value}"
+        )
+        self.assertTrue(os.path.isdir(raster_dir), msg=f"Missing dir: {raster_dir}")
+
+        downloaded_files = [
+            f
+            for f in os.listdir(raster_dir)
+            if os.path.isfile(os.path.join(raster_dir, f))
+        ]
+        self.assertGreaterEqual(len(downloaded_files), len(times))
 
 
 if __name__ == "__main__":

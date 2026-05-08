@@ -1,5 +1,3 @@
-# import functions into __init__.py
-
 from .utils.misc import get_distribution_version
 
 # __version__ = "1.3.0"
@@ -17,7 +15,7 @@ from .utils.misc import (
     setup_logging,
     turn_on_debug_logging,
 )
-from .utils.enums import ReferenceFrame
+from .utils.enums import ReferenceFrame, GenerationMethod
 
 setup_logging()
 
