@@ -85,6 +85,8 @@
 
 <span class="kn">import</span> <span class="nn">requests</span>
 
+<span class="kn">from</span> <span class="nn">.utils.enums</span> <span class="kn">import</span> <span class="n">ReferenceFrame</span>
+
 <span class="kn">from</span> <span class="nn">.exceptions</span> <span class="kn">import</span> <span class="n">InvalidConfigFile</span><span class="p">,</span> <span class="n">ServerUnavailable</span>
 <span class="kn">from</span> <span class="nn">.plate_model</span> <span class="kn">import</span> <span class="n">PlateModel</span>
 
@@ -197,46 +199,130 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">continue</span>
 
+    <span class="k">def</span> <span class="nf">_resolve_model_config</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">model_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">data_dir</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">visited</span><span class="p">:</span> <span class="nb">set</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">max_depth</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Resolve model configuration, handling alias chains with recursion protection.</span>
+
+<span class="sd">        :param model_name: The model name (case-insensitive)</span>
+<span class="sd">        :param data_dir: The folder to save model files</span>
+<span class="sd">        :param visited: Set of already visited model names to detect circular aliases</span>
+<span class="sd">        :param max_depth: Maximum recursion depth to prevent infinite loops</span>
+<span class="sd">        :returns: The resolved model configuration dict or None if not found</span>
+<span class="sd">        :raises InvalidConfigFile: If circular alias or max depth exceeded</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">visited</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">visited</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">visited</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">max_depth</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">InvalidConfigFile</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Maximum alias resolution depth (</span><span class="si">{</span><span class="n">max_depth</span><span class="si">}</span><span class="s2">) exceeded. &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;Possible circular alias in model manifest </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">model_manifest</span><span class="si">}</span><span class="s2">. &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;Resolution chain: </span><span class="si">{</span><span class="s1">&#39; -&gt; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">visited</span><span class="p">)</span><span class="si">}</span><span class="s2"> -&gt; </span><span class="si">{</span><span class="n">model_name</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+
+        <span class="n">model_name</span> <span class="o">=</span> <span class="n">model_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">model_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">models</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="n">model_entry</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">models</span><span class="p">[</span><span class="n">model_name</span><span class="p">]</span>
+        <span class="n">visited_copy</span> <span class="o">=</span> <span class="n">visited</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">visited_copy</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">model_name</span><span class="p">)</span>
+
+        <span class="c1"># If entry is a string, it&#39;s an alias reference</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">model_entry</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="c1"># Remove optional &#39;@&#39; prefix that marks aliases</span>
+            <span class="n">target_model_name</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">model_entry</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="k">if</span> <span class="n">model_entry</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;@&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="n">model_entry</span>
+            <span class="p">)</span>
+
+            <span class="c1"># Recursively resolve the target</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_model_config</span><span class="p">(</span>
+                <span class="n">target_model_name</span><span class="p">,</span> <span class="n">data_dir</span><span class="p">,</span> <span class="n">visited_copy</span><span class="p">,</span> <span class="n">max_depth</span>
+            <span class="p">)</span>
+
+        <span class="c1"># Entry is a dict, return it as the configuration</span>
+        <span class="k">return</span> <span class="n">model_entry</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">model_entry</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
+
 <div class="viewcode-block" id="PlateModelManager.get_model">
 <a class="viewcode-back" href="../../plate_model_manager.html#plate_model_manager.PlateModelManager.get_model">[docs]</a>
     <span class="k">def</span> <span class="nf">get_model</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">model_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;default&quot;</span><span class="p">,</span> <span class="n">data_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">model_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;default&quot;</span><span class="p">,</span>
+        <span class="n">data_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span><span class="p">,</span>
+        <span class="n">reference_frame</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ReferenceFrame</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">PlateModel</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a :class:`PlateModel` object for a given plate model name.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve a :class:`PlateModel` object for a given plate model name.</span>
 
-<span class="sd">        Call :meth:`get_available_model_names()` to see a list of available plate model names.</span>
+<span class="sd">        This method resolves model aliases and creates a PlateModel instance configured</span>
+<span class="sd">        with the model&#39;s metadata. Alias resolution follows chains and detects circular</span>
+<span class="sd">        references to prevent infinite loops.</span>
 
-<span class="sd">        :param model_name: the plate model name of interest</span>
-<span class="sd">        :param data_dir: The folder to save the plate model files.</span>
-<span class="sd">                         This ``data_dir`` can be changed with :meth:`PlateModel.set_data_dir()` later.</span>
+<span class="sd">        Call :meth:`get_available_model_names()` to see a list of available model names</span>
+<span class="sd">        and valid aliases.</span>
 
-<span class="sd">        :returns: a :class:`PlateModel` object or ``None`` if the plate model name is no good.</span>
+<span class="sd">        :param model_name: The name of the plate model to retrieve. Case-insensitive.</span>
+<span class="sd">                          Can be a direct model name, an alias, or a variant with</span>
+<span class="sd">                          reference frame suffix (e.g., &quot;model_pmag_ref&quot;).</span>
+<span class="sd">                          Defaults to &quot;default&quot;.</span>
+<span class="sd">        :param data_dir: The folder path to save downloaded plate model files.</span>
+<span class="sd">                        Defaults to the current directory (&quot;.&quot;);</span>
+<span class="sd">                        This path can be changed later with :meth:`PlateModel.set_data_dir()`.</span>
+<span class="sd">        :param reference_frame: Optional reference frame for the plate model. If set to</span>
+<span class="sd">                               :attr:`ReferenceFrame.PmagReferenceFrame` and a &quot;_pmag_ref&quot;</span>
+<span class="sd">                               variant exists, that variant will be loaded automatically.</span>
+
+<span class="sd">        :returns: A :class:`PlateModel` object if the model is found and successfully created,</span>
+<span class="sd">                 ``None`` if the model name is not found in the manifest.</span>
+
+<span class="sd">        :raises InvalidConfigFile: If a circular alias chain is detected or if the maximum</span>
+<span class="sd">                                  alias resolution depth is exceeded, indicating an error</span>
+<span class="sd">                                  in the model manifest.</span>
+
+<span class="sd">        :example:</span>
+<span class="sd">            &gt;&gt;&gt; pmm = PlateModelManager()</span>
+<span class="sd">            &gt;&gt;&gt; model = pmm.get_model(&quot;muller2016&quot;, data_dir=&quot;./models&quot;)</span>
+<span class="sd">            &gt;&gt;&gt; if model:</span>
+<span class="sd">            ...     model.download_all_layers()</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">model_name</span> <span class="o">=</span> <span class="n">model_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">model_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">models</span><span class="p">:</span>
-            <span class="c1"># model name is an alias</span>
-            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">models</span><span class="p">[</span><span class="n">model_name</span><span class="p">],</span> <span class="nb">str</span><span class="p">):</span>
-                <span class="n">m_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">models</span><span class="p">[</span><span class="n">model_name</span><span class="p">]</span>
-                <span class="k">if</span> <span class="n">m_name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;@&quot;</span><span class="p">):</span>
-                    <span class="n">m_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">models</span><span class="p">[</span><span class="n">model_name</span><span class="p">][</span><span class="mi">1</span><span class="p">:]</span>
+        <span class="n">model_name_lower</span> <span class="o">=</span> <span class="n">model_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">reference_frame</span> <span class="o">==</span> <span class="n">ReferenceFrame</span><span class="o">.</span><span class="n">PmagReferenceFrame</span><span class="p">:</span>
+            <span class="k">if</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">model_name_lower</span><span class="si">}</span><span class="s2">_pmag_ref&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">models</span><span class="p">:</span>
+                <span class="n">model_name_lower</span> <span class="o">+=</span> <span class="s2">&quot;_pmag_ref&quot;</span>
 
-                <span class="n">m</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_model</span><span class="p">(</span><span class="n">m_name</span><span class="p">,</span> <span class="n">data_dir</span><span class="o">=</span><span class="n">data_dir</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">m</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
-                        <span class="sa">f</span><span class="s2">&quot;Unable to find model </span><span class="si">{</span><span class="n">m_name</span><span class="si">}</span><span class="s2"> to resolve an alias. There must be errors in the </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">model_manifest</span><span class="si">}</span><span class="s2">&quot;</span>
-                    <span class="p">)</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="k">return</span> <span class="n">PlateModel</span><span class="p">(</span>
-                        <span class="n">model_name</span><span class="p">,</span> <span class="n">model_cfg</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">get_cfg</span><span class="p">(),</span> <span class="n">data_dir</span><span class="o">=</span><span class="n">data_dir</span>
-                    <span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">PlateModel</span><span class="p">(</span>
-                    <span class="n">model_name</span><span class="p">,</span> <span class="n">model_cfg</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">models</span><span class="p">[</span><span class="n">model_name</span><span class="p">],</span> <span class="n">data_dir</span><span class="o">=</span><span class="n">data_dir</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">model_cfg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_model_config</span><span class="p">(</span><span class="n">model_name_lower</span><span class="p">,</span> <span class="n">data_dir</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">InvalidConfigFile</span><span class="p">:</span>
+            <span class="k">raise</span>
+
+        <span class="k">if</span> <span class="n">model_cfg</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Model &#39;</span><span class="si">{</span><span class="n">model_name</span><span class="si">}</span><span class="s2">&#39; is not available.&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="n">reference_frame</span> <span class="o">==</span> <span class="n">ReferenceFrame</span><span class="o">.</span><span class="n">PmagReferenceFrame</span>
+            <span class="ow">and</span> <span class="ow">not</span> <span class="n">model_name_lower</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;_pmag_ref&quot;</span><span class="p">)</span>
+        <span class="p">):</span>
+            <span class="k">if</span> <span class="p">(</span>
+                <span class="n">model_cfg</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Attributes&quot;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;PmagReferenceFrameAnchorPID&quot;</span><span class="p">)</span>
+                <span class="ow">is</span> <span class="kc">None</span>
+            <span class="p">):</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Model &#39;</span><span class="si">{</span><span class="n">model_name</span><span class="si">}</span><span class="s2">&#39; does not have a PMAG reference frame version available.&quot;</span>
                 <span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Model </span><span class="si">{</span><span class="n">model_name</span><span class="si">}</span><span class="s2"> is not available.&quot;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="kc">None</span></div>
+                <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="k">return</span> <span class="n">PlateModel</span><span class="p">(</span>
+            <span class="n">model_name_lower</span><span class="p">,</span>
+            <span class="n">model_cfg</span><span class="o">=</span><span class="n">model_cfg</span><span class="p">,</span>
+            <span class="n">data_dir</span><span class="o">=</span><span class="n">data_dir</span><span class="p">,</span>
+            <span class="n">reference_frame</span><span class="o">=</span><span class="n">reference_frame</span><span class="p">,</span>
+        <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="PlateModelManager.get_available_model_names">

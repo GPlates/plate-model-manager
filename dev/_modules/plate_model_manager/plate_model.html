@@ -137,6 +137,7 @@
         <span class="n">model_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">model_cfg</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">data_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span><span class="p">,</span>
+        <span class="n">reference_frame</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ReferenceFrame</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">readonly</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">timeout</span><span class="o">=</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
     <span class="p">):</span>
@@ -159,6 +160,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">model_name</span> <span class="o">=</span> <span class="n">model_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">meta_filename</span> <span class="o">=</span> <span class="n">METADATA_FILENAME</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_model</span> <span class="o">=</span> <span class="n">model_cfg</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reference_frame</span> <span class="o">=</span> <span class="n">reference_frame</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">readonly</span> <span class="o">=</span> <span class="n">readonly</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">timeout</span> <span class="o">=</span> <span class="n">timeout</span>
 
@@ -290,8 +292,36 @@
 
 <div class="viewcode-block" id="PlateModel.get_rotation_model">
 <a class="viewcode-back" href="../../plate_model_manager.html#plate_model_manager.PlateModel.get_rotation_model">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_rotation_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reference_frame</span><span class="o">=</span><span class="n">ReferenceFrame</span><span class="o">.</span><span class="n">MantleReferenceFrame</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a list of rotation files.&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">get_rotation_model</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">reference_frame</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ReferenceFrame</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return rotation files, and optionally a PMAG anchor plate ID.</span>
+
+<span class="sd">        Rotation files are read from the local model directory in ``readonly``</span>
+<span class="sd">        mode, or downloaded/updated first in writable mode.</span>
+
+<span class="sd">        When ``reference_frame`` is</span>
+<span class="sd">        :attr:`ReferenceFrame.PmagReferenceFrame`, this method also returns the</span>
+<span class="sd">        anchor plate ID required by consumers that need PMAG reference frame rotations.</span>
+<span class="sd">        The anchor ID is read from</span>
+<span class="sd">        ``model[&quot;Attributes&quot;][&quot;PmagReferenceFrameAnchorPID&quot;]`` when present.</span>
+<span class="sd">        If that value is missing but this model is</span>
+<span class="sd">        already under PMAG reference frame, set the anchor ID to ``0``,</span>
+<span class="sd">        such as ``matthews2016_pmag_ref`` model.</span>
+
+<span class="sd">        :param reference_frame: Optional reference frame for</span>
+<span class="sd">                                the returned rotation model. (since version 1.4.0)</span>
+
+<span class="sd">        :returns: If ``reference_frame`` is PMAG, returns</span>
+<span class="sd">                  ``(rotation_files, anchor_pid)`` where ``rotation_files`` is</span>
+<span class="sd">                  a list of ``.rot``/``.grot`` file paths and ``anchor_pid`` is</span>
+<span class="sd">                  an integer. Otherwise returns only ``rotation_files``.</span>
+
+<span class="sd">        :raises Exception: If PMAG is requested but the model is not PMAG and</span>
+<span class="sd">                           ``Attributes.PmagReferenceFrameAnchorPID`` is not</span>
+<span class="sd">                           defined.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">readonly</span><span class="p">:</span>
             <span class="n">rotation_folder</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_download_layer_files</span><span class="p">(</span><span class="s2">&quot;Rotations&quot;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
@@ -299,15 +329,21 @@
         <span class="n">rotation_files</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">rotation_folder</span><span class="si">}</span><span class="s2">/*.rot&quot;</span><span class="p">)</span>
         <span class="n">rotation_files</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">rotation_folder</span><span class="si">}</span><span class="s2">/*.grot&quot;</span><span class="p">))</span>
         <span class="c1"># print(rotation_files)</span>
+        <span class="k">if</span> <span class="n">reference_frame</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">reference_frame</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">reference_frame</span>
         <span class="k">if</span> <span class="n">reference_frame</span> <span class="o">==</span> <span class="n">ReferenceFrame</span><span class="o">.</span><span class="n">PmagReferenceFrame</span><span class="p">:</span>
             <span class="n">attrs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Attributes&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
             <span class="n">pmag_ref_frame_anchor_pid</span> <span class="o">=</span> <span class="p">(</span>
                 <span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;PmagReferenceFrameAnchorPID&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="k">if</span> <span class="n">attrs</span> <span class="k">else</span> <span class="kc">None</span>
             <span class="p">)</span>
             <span class="k">if</span> <span class="n">pmag_ref_frame_anchor_pid</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
-                    <span class="s2">&quot;The model does not have &#39;Attributes.PmagReferenceFrameAnchorPID&#39; defined. Cannot get rotation model for PMAG reference frame.&quot;</span>
-                <span class="p">)</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">reference_frame</span> <span class="o">==</span> <span class="n">ReferenceFrame</span><span class="o">.</span><span class="n">PmagReferenceFrame</span><span class="p">:</span>
+                    <span class="c1"># if the model is already in PMAG reference frame, we can just set the anchor PID to 0</span>
+                    <span class="n">pmag_ref_frame_anchor_pid</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">&quot;The model &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">model_name</span><span class="si">}</span><span class="s2">&#39; is not a PMAG reference frame model and does not have &#39;Attributes.PmagReferenceFrameAnchorPID&#39; defined. Cannot get rotation model for PMAG reference frame.&quot;</span>
+                    <span class="p">)</span>
             <span class="k">return</span> <span class="n">rotation_files</span><span class="p">,</span> <span class="n">pmag_ref_frame_anchor_pid</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># for mantle reference frame, we don&#39;t need to know the anchor PID</span>
@@ -406,6 +442,33 @@
                 <span class="k">raise</span> <span class="n">e</span></div>
 
 
+    <span class="k">def</span> <span class="nf">_resolve_raster_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">raster_name</span><span class="p">,</span> <span class="n">reference_frame</span><span class="p">,</span> <span class="n">generated_from</span><span class="p">):</span>
+        <span class="n">resolved_raster_name</span> <span class="o">=</span> <span class="n">raster_name</span>
+        <span class="k">if</span> <span class="n">reference_frame</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">reference_frame</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">reference_frame</span>
+        <span class="k">if</span> <span class="n">generated_from</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">resolved_raster_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">raster_name</span><span class="si">}{</span><span class="n">generated_from</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">name_without_reference_frame</span> <span class="o">=</span> <span class="n">resolved_raster_name</span>
+        <span class="k">if</span> <span class="n">reference_frame</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">resolved_raster_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">resolved_raster_name</span><span class="si">}{</span><span class="n">reference_frame</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="s2">&quot;TimeDepRasters&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;No time-dependent rasters found in this model &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">model_name</span><span class="si">}</span><span class="s2">&#39;.&quot;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">resolved_raster_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">[</span><span class="s2">&quot;TimeDepRasters&quot;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">name_without_reference_frame</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">[</span><span class="s2">&quot;TimeDepRasters&quot;</span><span class="p">]:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Raster &#39;</span><span class="si">{</span><span class="n">resolved_raster_name</span><span class="si">}</span><span class="s2">&#39; not found in this model &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">model_name</span><span class="si">}</span><span class="s2">&#39;, but &#39;</span><span class="si">{</span><span class="n">name_without_reference_frame</span><span class="si">}</span><span class="s2">&#39; exists. This may be because the model does not have different reference frame versions of this raster. Will use &#39;</span><span class="si">{</span><span class="n">name_without_reference_frame</span><span class="si">}</span><span class="s2">&#39; for now.&quot;</span>
+                <span class="p">)</span>
+                <span class="k">return</span> <span class="n">name_without_reference_frame</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Time-dependent rasters (</span><span class="si">{</span><span class="n">resolved_raster_name</span><span class="si">}</span><span class="s2">) not found in this model &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">model_name</span><span class="si">}</span><span class="s2">&#39;. &quot;</span>
+                    <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;The raster name is constructed as: </span><span class="si">{</span><span class="n">raster_name</span><span class="si">}</span><span class="s2">+</span><span class="si">{</span><span class="n">generated_from</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">+</span><span class="si">{</span><span class="n">reference_frame</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">.&quot;</span>
+                    <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;Available: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">[</span><span class="s1">&#39;TimeDepRasters&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
+        <span class="k">return</span> <span class="n">resolved_raster_name</span>
+
 <div class="viewcode-block" id="PlateModel.get_raster">
 <a class="viewcode-back" href="../../plate_model_manager.html#plate_model_manager.PlateModel.get_raster">[docs]</a>
     <span class="k">def</span> <span class="nf">get_raster</span><span class="p">(</span>
@@ -436,18 +499,9 @@
 <span class="sd">                           is missing in readonly mode, or if a download fails in</span>
 <span class="sd">                           writable mode.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">generated_from</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">raster_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">raster_name</span><span class="si">}{</span><span class="n">generated_from</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span>
-        <span class="k">if</span> <span class="n">reference_frame</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">raster_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">raster_name</span><span class="si">}{</span><span class="n">reference_frame</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="s2">&quot;TimeDepRasters&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;No time-dependent rasters found in this model.&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">raster_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">[</span><span class="s2">&quot;TimeDepRasters&quot;</span><span class="p">]:</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Time-dependent rasters (</span><span class="si">{</span><span class="n">raster_name</span><span class="si">}</span><span class="s2">) not found in this model. &quot;</span>
-                <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;The raster name is constructed as: </span><span class="si">{</span><span class="n">raster_name</span><span class="si">}</span><span class="s2">+</span><span class="si">{</span><span class="n">generated_from</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">+</span><span class="si">{</span><span class="n">reference_frame</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span>
-                <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;Available: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">[</span><span class="s1">&#39;TimeDepRasters&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
-            <span class="p">)</span>
+        <span class="n">raster_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_raster_name</span><span class="p">(</span>
+            <span class="n">raster_name</span><span class="p">,</span> <span class="n">reference_frame</span><span class="p">,</span> <span class="n">generated_from</span>
+        <span class="p">)</span>
         <span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">[</span><span class="s2">&quot;TimeDepRasters&quot;</span><span class="p">][</span><span class="n">raster_name</span><span class="p">]</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">time</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">readonly</span><span class="p">:</span>
@@ -495,19 +549,9 @@
 <span class="sd">                           requested file is missing in readonly mode, or if a</span>
 <span class="sd">                           download fails in writable mode.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">generated_from</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">raster_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">raster_name</span><span class="si">}{</span><span class="n">generated_from</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span>
-        <span class="k">if</span> <span class="n">reference_frame</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">raster_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">raster_name</span><span class="si">}{</span><span class="n">reference_frame</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="s2">&quot;TimeDepRasters&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;No time-dependent rasters found in this model.&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">raster_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">[</span><span class="s2">&quot;TimeDepRasters&quot;</span><span class="p">]:</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Time-dependent rasters (</span><span class="si">{</span><span class="n">raster_name</span><span class="si">}</span><span class="s2">) not found in this model. &quot;</span>
-                <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;The raster name is constructed as: </span><span class="si">{</span><span class="n">raster_name</span><span class="si">}</span><span class="s2">+</span><span class="si">{</span><span class="n">generated_from</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">+</span><span class="si">{</span><span class="n">reference_frame</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span>
-                <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;Available: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">[</span><span class="s1">&#39;TimeDepRasters&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
-            <span class="p">)</span>
-
+        <span class="n">raster_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_raster_name</span><span class="p">(</span>
+            <span class="n">raster_name</span><span class="p">,</span> <span class="n">reference_frame</span><span class="p">,</span> <span class="n">generated_from</span>
+        <span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">readonly</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">download_time_dependent_rasters</span><span class="p">(</span><span class="n">raster_name</span><span class="p">,</span> <span class="n">times</span><span class="p">)</span>
 
