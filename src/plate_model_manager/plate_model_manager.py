@@ -6,6 +6,8 @@ from typing import Dict, Union
 
 import requests
 
+from .utils.enums import ReferenceFrame
+
 from .exceptions import InvalidConfigFile, ServerUnavailable
 from .plate_model import PlateModel
 
@@ -113,44 +115,128 @@ class PlateModelManager:
             else:
                 continue
 
+    def _resolve_model_config(
+        self,
+        model_name: str,
+        data_dir: str,
+        visited: set = None,
+        max_depth: int = 10,
+    ) -> Union[dict, None]:
+        """Resolve model configuration, handling alias chains with recursion protection.
+
+        :param model_name: The model name (case-insensitive)
+        :param data_dir: The folder to save model files
+        :param visited: Set of already visited model names to detect circular aliases
+        :param max_depth: Maximum recursion depth to prevent infinite loops
+        :returns: The resolved model configuration dict or None if not found
+        :raises InvalidConfigFile: If circular alias or max depth exceeded
+        """
+        if visited is None:
+            visited = set()
+
+        if len(visited) >= max_depth:
+            raise InvalidConfigFile(
+                f"Maximum alias resolution depth ({max_depth}) exceeded. "
+                f"Possible circular alias in model manifest {self.model_manifest}. "
+                f"Resolution chain: {' -> '.join(visited)} -> {model_name}"
+            )
+
+        model_name = model_name.lower()
+        if model_name not in self.models:
+            return None
+
+        model_entry = self.models[model_name]
+        visited_copy = visited.copy()
+        visited_copy.add(model_name)
+
+        # If entry is a string, it's an alias reference
+        if isinstance(model_entry, str):
+            # Remove optional '@' prefix that marks aliases
+            target_model_name = (
+                model_entry[1:] if model_entry.startswith("@") else model_entry
+            )
+
+            # Recursively resolve the target
+            return self._resolve_model_config(
+                target_model_name, data_dir, visited_copy, max_depth
+            )
+
+        # Entry is a dict, return it as the configuration
+        return model_entry if isinstance(model_entry, dict) else None
+
     def get_model(
-        self, model_name: str = "default", data_dir: str = "."
+        self,
+        model_name: str = "default",
+        data_dir: str = ".",
+        reference_frame: Union[ReferenceFrame, None] = None,
     ) -> Union[PlateModel, None]:
-        """Return a :class:`PlateModel` object for a given plate model name.
+        """Retrieve a :class:`PlateModel` object for a given plate model name.
 
-        Call :meth:`get_available_model_names()` to see a list of available plate model names.
+        This method resolves model aliases and creates a PlateModel instance configured
+        with the model's metadata. Alias resolution follows chains and detects circular
+        references to prevent infinite loops.
 
-        :param model_name: the plate model name of interest
-        :param data_dir: The folder to save the plate model files.
-                         This ``data_dir`` can be changed with :meth:`PlateModel.set_data_dir()` later.
+        Call :meth:`get_available_model_names()` to see a list of available model names
+        and valid aliases.
 
-        :returns: a :class:`PlateModel` object or ``None`` if the plate model name is no good.
+        :param model_name: The name of the plate model to retrieve. Case-insensitive.
+                          Can be a direct model name, an alias, or a variant with
+                          reference frame suffix (e.g., "model_pmag_ref").
+                          Defaults to "default".
+        :param data_dir: The folder path to save downloaded plate model files.
+                        Defaults to the current directory (".");
+                        This path can be changed later with :meth:`PlateModel.set_data_dir()`.
+        :param reference_frame: Optional reference frame for the plate model. If set to
+                               :attr:`ReferenceFrame.PmagReferenceFrame` and a "_pmag_ref"
+                               variant exists, that variant will be loaded automatically.
+
+        :returns: A :class:`PlateModel` object if the model is found and successfully created,
+                 ``None`` if the model name is not found in the manifest.
+
+        :raises InvalidConfigFile: If a circular alias chain is detected or if the maximum
+                                  alias resolution depth is exceeded, indicating an error
+                                  in the model manifest.
+
+        :example:
+            >>> pmm = PlateModelManager()
+            >>> model = pmm.get_model("muller2016", data_dir="./models")
+            >>> if model:
+            ...     model.download_all_layers()
 
         """
-        model_name = model_name.lower()
-        if model_name in self.models:
-            # model name is an alias
-            if isinstance(self.models[model_name], str):
-                m_name = self.models[model_name]
-                if m_name.startswith("@"):
-                    m_name = self.models[model_name][1:]
+        model_name_lower = model_name.lower()
+        if reference_frame == ReferenceFrame.PmagReferenceFrame:
+            if f"{model_name_lower}_pmag_ref" in self.models:
+                model_name_lower += "_pmag_ref"
 
-                m = self.get_model(m_name, data_dir=data_dir)
-                if m is None:
-                    raise Exception(
-                        f"Unable to find model {m_name} to resolve an alias. There must be errors in the {self.model_manifest}"
-                    )
-                else:
-                    return PlateModel(
-                        model_name, model_cfg=m.get_cfg(), data_dir=data_dir
-                    )
-            else:
-                return PlateModel(
-                    model_name, model_cfg=self.models[model_name], data_dir=data_dir
-                )
-        else:
-            logger.error(f"Model {model_name} is not available.")
+        try:
+            model_cfg = self._resolve_model_config(model_name_lower, data_dir)
+        except InvalidConfigFile:
+            raise
+
+        if model_cfg is None:
+            logger.error(f"Model '{model_name}' is not available.")
             return None
+
+        if (
+            reference_frame == ReferenceFrame.PmagReferenceFrame
+            and not model_name_lower.endswith("_pmag_ref")
+        ):
+            if (
+                model_cfg.get("Attributes", {}).get("PmagReferenceFrameAnchorPID")
+                is None
+            ):
+                logger.error(
+                    f"Model '{model_name}' does not have a PMAG reference frame version available."
+                )
+                return None
+
+        return PlateModel(
+            model_name_lower,
+            model_cfg=model_cfg,
+            data_dir=data_dir,
+            reference_frame=reference_frame,
+        )
 
     def get_available_model_names(self):
         """Return the names of available models as a list."""

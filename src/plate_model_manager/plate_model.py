@@ -54,6 +54,7 @@ class PlateModel:
         model_name: str,
         model_cfg=None,
         data_dir: str = ".",
+        reference_frame: Union[ReferenceFrame, None] = None,
         readonly=False,
         timeout=(None, None),
     ):
@@ -76,6 +77,7 @@ class PlateModel:
         self.model_name = model_name.lower()
         self.meta_filename = METADATA_FILENAME
         self._model = model_cfg
+        self.reference_frame = reference_frame
         self.readonly = readonly
         self.timeout = timeout
 
@@ -183,8 +185,36 @@ class PlateModel:
             raise Exception("Fatal: No model configuration found!")
         return list(self.model["Layers"].keys())
 
-    def get_rotation_model(self, reference_frame=ReferenceFrame.MantleReferenceFrame):
-        """Return a list of rotation files."""
+    def get_rotation_model(
+        self,
+        reference_frame: Union[ReferenceFrame, None] = None,
+    ):
+        """Return rotation files, and optionally a PMAG anchor plate ID.
+
+        Rotation files are read from the local model directory in ``readonly``
+        mode, or downloaded/updated first in writable mode.
+
+        When ``reference_frame`` is
+        :attr:`ReferenceFrame.PmagReferenceFrame`, this method also returns the
+        anchor plate ID required by consumers that need PMAG reference frame rotations.
+        The anchor ID is read from
+        ``model["Attributes"]["PmagReferenceFrameAnchorPID"]`` when present.
+        If that value is missing but this model is
+        already under PMAG reference frame, set the anchor ID to ``0``,
+        such as ``matthews2016_pmag_ref`` model.
+
+        :param reference_frame: Optional reference frame for
+                                the returned rotation model. (since version 1.4.0)
+
+        :returns: If ``reference_frame`` is PMAG, returns
+                  ``(rotation_files, anchor_pid)`` where ``rotation_files`` is
+                  a list of ``.rot``/``.grot`` file paths and ``anchor_pid`` is
+                  an integer. Otherwise returns only ``rotation_files``.
+
+        :raises Exception: If PMAG is requested but the model is not PMAG and
+                           ``Attributes.PmagReferenceFrameAnchorPID`` is not
+                           defined.
+        """
         if not self.readonly:
             rotation_folder = self._download_layer_files("Rotations")
         else:
@@ -192,15 +222,21 @@ class PlateModel:
         rotation_files = glob.glob(f"{rotation_folder}/*.rot")
         rotation_files.extend(glob.glob(f"{rotation_folder}/*.grot"))
         # print(rotation_files)
+        if reference_frame is None:
+            reference_frame = self.reference_frame
         if reference_frame == ReferenceFrame.PmagReferenceFrame:
             attrs = self.model.get("Attributes", None)
             pmag_ref_frame_anchor_pid = (
                 attrs.get("PmagReferenceFrameAnchorPID", None) if attrs else None
             )
             if pmag_ref_frame_anchor_pid is None:
-                raise Exception(
-                    "The model does not have 'Attributes.PmagReferenceFrameAnchorPID' defined. Cannot get rotation model for PMAG reference frame."
-                )
+                if self.reference_frame == ReferenceFrame.PmagReferenceFrame:
+                    # if the model is already in PMAG reference frame, we can just set the anchor PID to 0
+                    pmag_ref_frame_anchor_pid = 0
+                else:
+                    raise Exception(
+                        f"The model '{self.model_name}' is not a PMAG reference frame model and does not have 'Attributes.PmagReferenceFrameAnchorPID' defined. Cannot get rotation model for PMAG reference frame."
+                    )
             return rotation_files, pmag_ref_frame_anchor_pid
         else:
             # for mantle reference frame, we don't need to know the anchor PID
@@ -280,6 +316,33 @@ class PlateModel:
             else:
                 raise e
 
+    def _resolve_raster_name(self, raster_name, reference_frame, generated_from):
+        resolved_raster_name = raster_name
+        if reference_frame is None:
+            reference_frame = self.reference_frame
+        if generated_from is not None:
+            resolved_raster_name = f"{raster_name}{generated_from.value}"
+        name_without_reference_frame = resolved_raster_name
+        if reference_frame is not None:
+            resolved_raster_name = f"{resolved_raster_name}{reference_frame.value}"
+        if not "TimeDepRasters" in self.model:
+            raise Exception(
+                f"No time-dependent rasters found in this model '{self.model_name}'."
+            )
+        if not resolved_raster_name in self.model["TimeDepRasters"]:
+            if name_without_reference_frame in self.model["TimeDepRasters"]:
+                logger.warning(
+                    f"Raster '{resolved_raster_name}' not found in this model '{self.model_name}', but '{name_without_reference_frame}' exists. This may be because the model does not have different reference frame versions of this raster. Will use '{name_without_reference_frame}' for now."
+                )
+                return name_without_reference_frame
+            else:
+                raise Exception(
+                    f"Time-dependent rasters ({resolved_raster_name}) not found in this model '{self.model_name}'. "
+                    + f"The raster name is constructed as: {raster_name}+{generated_from.value}+{reference_frame.value}."
+                    + f"Available: {self.model['TimeDepRasters']}"
+                )
+        return resolved_raster_name
+
     def get_raster(
         self,
         raster_name: str,
@@ -308,18 +371,9 @@ class PlateModel:
                            is missing in readonly mode, or if a download fails in
                            writable mode.
         """
-        if generated_from is not None:
-            raster_name = f"{raster_name}{generated_from.value}"
-        if reference_frame is not None:
-            raster_name = f"{raster_name}{reference_frame.value}"
-        if not "TimeDepRasters" in self.model:
-            raise Exception("No time-dependent rasters found in this model.")
-        if not raster_name in self.model["TimeDepRasters"]:
-            raise Exception(
-                f"Time-dependent rasters ({raster_name}) not found in this model. "
-                + f"The raster name is constructed as: {raster_name}+{generated_from.value}+{reference_frame.value}"
-                + f"Available: {self.model['TimeDepRasters']}"
-            )
+        raster_name = self._resolve_raster_name(
+            raster_name, reference_frame, generated_from
+        )
         url = self.model["TimeDepRasters"][raster_name].format(time)
 
         if not self.readonly:
@@ -364,19 +418,9 @@ class PlateModel:
                            requested file is missing in readonly mode, or if a
                            download fails in writable mode.
         """
-        if generated_from is not None:
-            raster_name = f"{raster_name}{generated_from.value}"
-        if reference_frame is not None:
-            raster_name = f"{raster_name}{reference_frame.value}"
-        if not "TimeDepRasters" in self.model:
-            raise Exception("No time-dependent rasters found in this model.")
-        if not raster_name in self.model["TimeDepRasters"]:
-            raise Exception(
-                f"Time-dependent rasters ({raster_name}) not found in this model. "
-                + f"The raster name is constructed as: {raster_name}+{generated_from.value}+{reference_frame.value}"
-                + f"Available: {self.model['TimeDepRasters']}"
-            )
-
+        raster_name = self._resolve_raster_name(
+            raster_name, reference_frame, generated_from
+        )
         if not self.readonly:
             self.download_time_dependent_rasters(raster_name, times)
 
