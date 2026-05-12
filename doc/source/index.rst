@@ -21,6 +21,7 @@ If the answer is yes, you probably want to check out this ``plate-model-manager`
    examples
    command_line_interface
    api
+   plate_models
 
 .. Hidden TOCs
 
