@@ -6,15 +6,13 @@ Plate Models
    :depth: 1
 
 This chapter describes all plate tectonic reconstruction models available in the
-``plate-model-manager``. The models are listed in the same order as they appear in
-the ``config/models_v2.json`` configuration file.
-Aliases are noted where applicable.
+``plate-model-manager``. 
 
 Each model entry lists:
 
-- **Time range** - the oldest (BigTime) and youngest (SmallTime) reconstruction time in Ma.
+- **Time range** - begin time and end time of this model in Ma.
 - **Layers** - the available data layers (e.g. Coastlines, Topologies).
-- **Time-dependent rasters** - optional raster datasets that vary with time.
+- **Time-dependent rasters** - time-dependent raster files.
 - **Description** - a brief description of the model.
 - **DOI / URL** - a link to the original publication or data repository.
 
@@ -30,11 +28,11 @@ Each model entry lists:
 muller2025
 ----------
 
-**Aliases:** ``shirmard2025``
+**Aliases:** :ref:`shirmard2025 <model-shirmard2025>`
 
-**Time range:** 0 - 18000 Ma
+**Time range:** 18000 - 0 Ma
 
-**Layers:** 
+**Layers:**
 
 - Coastlines 
 - ContinentalPolygons
@@ -42,7 +40,7 @@ muller2025
 - StaticPolygons
 - Topologies
 
-**Time-dependent rasters:** 
+**Time-dependent rasters:**
 
 - AgeGrids
 - SpreadingRate
@@ -59,13 +57,24 @@ Along Craton Edges.
 shirmard2025
 ------------
 
-**Aliases:** ``muller2025``
+**Aliases:** :ref:`muller2025 <model-muller2025>`
 
-**Time range:** 0 - 18000 Ma
+**Time range:** 18000 - 0 Ma
 
-**Layers:** Coastlines, ContinentalPolygons, COBs, StaticPolygons, Topologies
+**Layers:**
 
-**Time-dependent rasters:** AgeGrids, SpreadingRate
+- Coastlines
+- ContinentalPolygons
+- COBs
+- StaticPolygons
+- Topologies
+
+
+**Time-dependent rasters:**
+
+- AgeGrids
+- SpreadingRate
+
 
 **Description:** How Subduction Evolution and Tectonic Stability Drive Sediment-Hosted Mineralization
 Along Craton Edges.
@@ -79,11 +88,24 @@ Along Craton Edges.
 alfonso2024
 -----------
 
-**Time range:** 0 - 170 Ma
+**Time range:** 170 - 0 Ma
 
-**Layers:** Coastlines, ContinentalPolygons, COBs, Isochrons, StaticPolygons, Terranes, Topologies
+**Layers:**
 
-**Time-dependent rasters:** AgeGrids, SpreadingRate
+- Coastlines
+- ContinentalPolygons
+- COBs
+- Isochrons
+- StaticPolygons
+- Terranes
+- Topologies
+
+
+**Time-dependent rasters:**
+
+- AgeGrids
+- SpreadingRate
+
 
 **Description:** alfonso2024
 
@@ -96,11 +118,18 @@ alfonso2024
 cao2024
 -------
 
-**Aliases:** ``cao2023``
+**Aliases:** :ref:`cao2023 <model-cao2023>`
 
-**Time range:** 0 - 18000 Ma
+**Time range:** 18000 - 0 Ma
 
-**Layers:** Coastlines, ContinentalPolygons, COBs, StaticPolygons, Topologies
+**Layers:**
+
+- Coastlines
+- ContinentalPolygons
+- COBs
+- StaticPolygons
+- Topologies
+
 
 **Description:** Earth's tectonic and plate boundary evolution over 1.8 billion years
 
@@ -113,11 +142,18 @@ cao2024
 cao2023
 -------
 
-**Aliases:** ``cao2024``
+**Aliases:** :ref:`cao2024 <model-cao2024>`
 
-**Time range:** 0 - 18000 Ma
+**Time range:** 18000 - 0 Ma
 
-**Layers:** Coastlines, ContinentalPolygons, COBs, StaticPolygons, Topologies
+**Layers:**
+
+- Coastlines
+- ContinentalPolygons
+- COBs
+- StaticPolygons
+- Topologies
+
 
 **Description:** Earth's tectonic and plate boundary evolution over 1.8 billion years
 
@@ -130,11 +166,23 @@ cao2023
 muller2022
 ----------
 
-**Time range:** 0 - 1000 Ma
+**Time range:** 1000 - 0 Ma
 
-**Layers:** Coastlines, COBs, ContinentalPolygons, Cratons, StaticPolygons, Topologies
+**Layers:**
 
-**Time-dependent rasters:** AgeGrids, AgeGridsPMAG
+- Coastlines
+- COBs
+- ContinentalPolygons
+- Cratons
+- StaticPolygons
+- Topologies
+
+
+**Time-dependent rasters:**
+
+- AgeGrids
+- AgeGridsPMAG
+
 
 **Description:** This model is based on MERDITH2021 for relative plate motions but uses a mantle
 reference frame that orients the plates relative to the mantle using a set of geodynamic rules to
@@ -155,11 +203,25 @@ zahirovic2022
 .. note::
    This is the **default** plate model.
 
-**Time range:** 0 - 410 Ma
+**Time range:** 410 - 0 Ma
 
-**Layers:** Coastlines, ContinentalPolygons, StaticPolygons, Topologies
+**Layers:**
 
-**Time-dependent rasters:** AgegridsUsingIsochronsMantleFrame, AgegridsUsingIsochronsPMAG, AgegridsUsingTopologiesMantleFrame, AgegridsUsingTopologiesPMAG, SpreadingRateUsingTopologiesMantleFrame, SpreadingRateUsingTopologiesPMAG
+- Coastlines
+- ContinentalPolygons
+- StaticPolygons
+- Topologies
+
+
+**Time-dependent rasters:**
+
+- AgegridsUsingIsochronsMantleFrame
+- AgegridsUsingIsochronsPMAG
+- AgegridsUsingTopologiesMantleFrame
+- AgegridsUsingTopologiesPMAG
+- SpreadingRateUsingTopologiesMantleFrame
+- SpreadingRateUsingTopologiesPMAG
+
 
 **Description:** Subduction kinematics and carbonate platform interactions
 
@@ -172,9 +234,16 @@ zahirovic2022
 merdith2021
 -----------
 
-**Time range:** 0 - 1000 Ma
+**Time range:** 1000 - 0 Ma
 
-**Layers:** Coastlines, ContinentalPolygons, Cratons, StaticPolygons, Topologies
+**Layers:**
+
+- Coastlines
+- ContinentalPolygons
+- Cratons
+- StaticPolygons
+- Topologies
+
 
 **Description:** This plate model for the last 1000 Ma is based on a paleomagnetic reference frame.
 In this model the longitudinal positions of the plates are unconstrained, due to the radial symmetry of
@@ -190,13 +259,25 @@ the Earth's magnetic field. It is broadly based on a modified combination of MUL
 clennett2020
 ------------
 
-**Aliases:** ``clennett2020_m2019``
+**Aliases:** :ref:`clennett2020_m2019 <model-clennett2020-m2019>`
 
-**Time range:** 0 - 170 Ma
+**Time range:** 170 - 0 Ma
 
-**Layers:** Coastlines, COBs, ContinentalPolygons, StaticPolygons, Terranes, Topologies
+**Layers:**
 
-**Time-dependent rasters:** AgeGrids, SpreadingRate
+- Coastlines
+- COBs
+- ContinentalPolygons
+- StaticPolygons
+- Terranes
+- Topologies
+
+
+**Time-dependent rasters:**
+
+- AgeGrids
+- SpreadingRate
+
 
 **Description:** The model was implemented into the Müller et al. (2019) reference frame
 
@@ -209,13 +290,25 @@ clennett2020
 clennett2020_m2019
 ------------------
 
-**Aliases:** ``clennett2020``
+**Aliases:** :ref:`clennett2020 <model-clennett2020>`
 
-**Time range:** 0 - 170 Ma
+**Time range:** 170 - 0 Ma
 
-**Layers:** Coastlines, COBs, ContinentalPolygons, StaticPolygons, Terranes, Topologies
+**Layers:**
 
-**Time-dependent rasters:** AgeGrids, SpreadingRate
+- Coastlines
+- COBs
+- ContinentalPolygons
+- StaticPolygons
+- Terranes
+- Topologies
+
+
+**Time-dependent rasters:**
+
+- AgeGrids
+- SpreadingRate
+
 
 **Description:** The model was implemented into the Müller et al. (2019) reference frame
 
@@ -228,9 +321,15 @@ clennett2020_m2019
 clennett2020_s2013
 ------------------
 
-**Time range:** 0 - 170 Ma
+**Time range:** 170 - 0 Ma
 
-**Layers:** Coastlines, StaticPolygons, Terranes, Topologies
+**Layers:**
+
+- Coastlines
+- StaticPolygons
+- Terranes
+- Topologies
+
 
 **Description:** The model was implemented into the Shephard et al. (2013) global plate model.
 
@@ -243,11 +342,26 @@ clennett2020_s2013
 muller2019
 ----------
 
-**Time range:** 0 - 250 Ma
+**Time range:** 250 - 0 Ma
 
-**Layers:** Coastlines, COBs, ContinentalPolygons, Hotspots, Johansson2018LIPs, SeafloorFabric, StaticPolygons, Topologies, Whittaker2015LIPs
+**Layers:**
 
-**Time-dependent rasters:** AgeGrids, SedimentThickness
+- Coastlines
+- COBs
+- ContinentalPolygons
+- Hotspots
+- Johansson2018LIPs
+- SeafloorFabric
+- StaticPolygons
+- Topologies
+- Whittaker2015LIPs
+
+
+**Time-dependent rasters:**
+
+- AgeGrids
+- SedimentThickness
+
 
 **Description:** This plate model for the last 250 Ma is based on a mantle reference frame, ie it orients
 the plates relative to the mantle using a set of geodynamic rules to exclude geodynamically unreasonable
@@ -263,9 +377,15 @@ continental deformation both along major rift systems and collisional plate boun
 young2018
 ---------
 
-**Time range:** 0 - 410 Ma
+**Time range:** 410 - 0 Ma
 
-**Layers:** Coastlines, ContinentalPolygons, StaticPolygons, Topologies
+**Layers:**
+
+- Coastlines
+- ContinentalPolygons
+- StaticPolygons
+- Topologies
+
 
 **Description:** Global kinematics of tectonic plates and subduction zones since the late Paleozoic Era
 
@@ -278,9 +398,13 @@ young2018
 torsvikcocks2017
 ----------------
 
-**Time range:** 0 - 540 Ma
+**Time range:** 540 - 0 Ma
 
-**Layers:** Coastlines, StaticPolygons
+**Layers:**
+
+- Coastlines
+- StaticPolygons
+
 
 .. note::
    Only locations on land can be reconstructed with this model.
@@ -294,13 +418,24 @@ torsvikcocks2017
 matthews2016
 ------------
 
-**Aliases:** ``matthews2016_mantle_ref``
+**Aliases:** :ref:`matthews2016_mantle_ref <model-matthews2016-mantle-ref>`
 
-**Time range:** 0 - 410 Ma
+**Time range:** 410 - 0 Ma
 
-**Layers:** Coastlines, ContinentalPolygons, StaticPolygons, Topologies
+**Layers:**
 
-**Time-dependent rasters:** AgeGrids, Coastlines, Topologies
+- Coastlines
+- ContinentalPolygons
+- StaticPolygons
+- Topologies
+
+
+**Time-dependent rasters:**
+
+- AgeGrids
+- Coastlines
+- Topologies
+
 
 **Description:** This model is identical to MATTHEWS2016_pmag_ref in terms of relative plate models
 but uses a true polar wander corrected paleomagnetic model, viewed as a proxy for a mantle reference
@@ -315,13 +450,24 @@ frame model.
 matthews2016_mantle_ref
 -----------------------
 
-**Aliases:** ``matthews2016``
+**Aliases:** :ref:`matthews2016 <model-matthews2016>`
 
-**Time range:** 0 - 410 Ma
+**Time range:** 410 - 0 Ma
 
-**Layers:** Coastlines, ContinentalPolygons, StaticPolygons, Topologies
+**Layers:**
 
-**Time-dependent rasters:** AgeGrids, Coastlines, Topologies
+- Coastlines
+- ContinentalPolygons
+- StaticPolygons
+- Topologies
+
+
+**Time-dependent rasters:**
+
+- AgeGrids
+- Coastlines
+- Topologies
+
 
 **Description:** This model is identical to MATTHEWS2016_pmag_ref in terms of relative plate models
 but uses a true polar wander corrected paleomagnetic model, viewed as a proxy for a mantle reference
@@ -336,9 +482,14 @@ frame model.
 matthews2016_pmag_ref
 ---------------------
 
-**Time range:** 0 - 410 Ma
+**Time range:** 410 - 0 Ma
 
-**Layers:** Coastlines, ContinentalPolygons, StaticPolygons
+**Layers:**
+
+- Coastlines
+- ContinentalPolygons
+- StaticPolygons
+
 
 **Description:** This plate model represents the first continuous late Paleozoic to present-day global
 plate model with evolving plate boundaries, building on and extending two previously published models
@@ -357,11 +508,20 @@ western North America.
 muller2016
 ----------
 
-**Time range:** 0 - 230 Ma
+**Time range:** 230 - 0 Ma
 
-**Layers:** Coastlines, COBs, StaticPolygons, Topologies
+**Layers:**
 
-**Time-dependent rasters:** AgeGrids
+- Coastlines
+- COBs
+- StaticPolygons
+- Topologies
+
+
+**Time-dependent rasters:**
+
+- AgeGrids
+
 
 **Description:** This model represents an update of the SETON2012 model, both in terms of relative and
 absolute plate motions. The absolute reference used is based on the same hotspot model for the last
@@ -379,11 +539,21 @@ reference frame.
 zahirovic2016
 -------------
 
-**Time range:** 0 - 230 Ma
+**Time range:** 230 - 0 Ma
 
-**Layers:** Coastlines, ContinentalPolygons, Isochrons, StaticPolygons, Topologies
+**Layers:**
 
-**Time-dependent rasters:** AgeGrids
+- Coastlines
+- ContinentalPolygons
+- Isochrons
+- StaticPolygons
+- Topologies
+
+
+**Time-dependent rasters:**
+
+- AgeGrids
+
 
 **DOI / URL:** https://doi.org/10.5281/zenodo.10531296
 
@@ -394,9 +564,14 @@ zahirovic2016
 gibbons2015
 -----------
 
-**Time range:** 0 - 300 Ma
+**Time range:** 300 - 0 Ma
 
-**Layers:** Coastlines, StaticPolygons, Topologies
+**Layers:**
+
+- Coastlines
+- StaticPolygons
+- Topologies
+
 
 **DOI / URL:** https://doi.org/10.5281/zenodo.10595658
 
@@ -407,9 +582,14 @@ gibbons2015
 domeier2014
 -----------
 
-**Time range:** 250 - 410 Ma
+**Time range:** 410 - 250 Ma
 
-**Layers:** Coastlines, StaticPolygons, Topologies
+**Layers:**
+
+- Coastlines
+- StaticPolygons
+- Topologies
+
 
 ----
 
@@ -418,9 +598,13 @@ domeier2014
 zahirovic2014
 -------------
 
-**Time range:** 0 - 300 Ma
+**Time range:** 300 - 0 Ma
 
-**Layers:** Coastlines, StaticPolygons
+**Layers:**
+
+- Coastlines
+- StaticPolygons
+
 
 **DOI / URL:** https://doi.org/10.5281/zenodo.10595658
 
@@ -431,9 +615,14 @@ zahirovic2014
 shephard2013
 ------------
 
-**Time range:** 0 - 200 Ma
+**Time range:** 200 - 0 Ma
 
-**Layers:** Coastlines, StaticPolygons, Topologies
+**Layers:**
+
+- Coastlines
+- StaticPolygons
+- Topologies
+
 
 **Description:** the tectonic evolution of the Arctic since Pangea breakup
 
@@ -446,9 +635,14 @@ shephard2013
 gurnis2012
 ----------
 
-**Time range:** 0 - 140 Ma
+**Time range:** 140 - 0 Ma
 
-**Layers:** Coastlines, StaticPolygons, Topologies
+**Layers:**
+
+- Coastlines
+- StaticPolygons
+- Topologies
+
 
 **Description:** Plate tectonic reconstructions with continuously closing plates
 
@@ -461,11 +655,21 @@ gurnis2012
 seton2012
 ---------
 
-**Time range:** 0 - 200 Ma
+**Time range:** 200 - 0 Ma
 
-**Layers:** Coastlines, COBs, ContinentalPolygons, StaticPolygons, Topologies
+**Layers:**
 
-**Time-dependent rasters:** AgeGrids
+- Coastlines
+- COBs
+- ContinentalPolygons
+- StaticPolygons
+- Topologies
+
+
+**Time-dependent rasters:**
+
+- AgeGrids
+
 
 **Description:** This model represents the first global plate model with topological plate boundaries.
 It is based on a hybrid absolute reference frame, based on a moving hotspot model for the last 100 Ma,
@@ -481,9 +685,12 @@ reference frames is viewed as a proxy for a mantle reference frame model.
 muller2008
 ----------
 
-**Time range:** 0 - 140 Ma
+**Time range:** 140 - 0 Ma
 
-**Layers:** StaticPolygons
+**Layers:**
+
+- StaticPolygons
+
 
 ----
 
@@ -492,9 +699,13 @@ muller2008
 golonka
 -------
 
-**Time range:** 0 - 540 Ma
+**Time range:** 540 - 0 Ma
 
-**Layers:** Coastlines, StaticPolygons
+**Layers:**
+
+- Coastlines
+- StaticPolygons
+
 
 **URL:** https://gwsdoc.gplates.org/models#golonka
 
@@ -505,11 +716,15 @@ golonka
 paleomap
 --------
 
-**Aliases:** ``scotese2016``
+**Aliases:** :ref:`scotese2016 <model-paleomap>`
 
-**Time range:** 0 - 750 Ma
+**Time range:** 750 - 0 Ma
 
-**Layers:** Coastlines, StaticPolygons
+**Layers:**
+
+- Coastlines
+- StaticPolygons
+
 
 **Description:** also known as Scotese2016
 
@@ -522,10 +737,14 @@ paleomap
 rodinia
 -------
 
-**Aliases:** ``li2008``
+**Aliases:** :ref:`li2008 <model-rodinia>`
 
-**Time range:** 530 - 1100 Ma
+**Time range:** 1100 - 530 Ma
 
-**Layers:** Coastlines, StaticPolygons
+**Layers:**
+
+- Coastlines
+- StaticPolygons
+
 
 **URL:** https://gwsdoc.gplates.org/models#rodinia
