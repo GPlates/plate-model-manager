@@ -126,9 +126,9 @@ class PlateModel:
 
     def __getstate__(self):
         attributes = self.__dict__.copy()
-        del attributes["executor"]
-        del attributes["loop"]
-        del attributes["run"]
+        attributes.pop("executor", None)
+        attributes.pop("loop", None)
+        attributes.pop("run", None)
         return attributes
 
     def __setstate__(self, state):
