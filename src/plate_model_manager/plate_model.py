@@ -16,6 +16,7 @@ from .exceptions import LayerNotFoundInModel
 from .utils import download
 
 METADATA_FILENAME = ".metadata.json"
+README_FILENAME = "readme.txt"
 
 FILE_EXT = [
     "gpml",
@@ -475,8 +476,44 @@ class PlateModel:
         """Return local paths for the spreading rate grid raster files at given times."""
         return self.get_rasters("SpreadingRate", times, reference_frame, generated_from)
 
+    def _create_readme_content(self) -> str:
+        """Return a human-readable string summarising the model metadata for readme.txt."""
+        lines = []
+        lines.append(f"Model: {self.model_name}")
+        lines.append("")
+
+        if "Description" in self.model:
+            lines.append(f"Description: {self.model['Description']}")
+            lines.append("")
+
+        if "BigTime" in self.model and "SmallTime" in self.model:
+            lines.append(
+                f"Reconstruction time range: {self.model['SmallTime']} - {self.model['BigTime']} Ma"
+            )
+            lines.append("")
+
+        if "Layers" in self.model and self.model["Layers"]:
+            lines.append("Layers:")
+            for layer in self.model["Layers"]:
+                lines.append(f"  - {layer}")
+            lines.append("")
+
+        if "TimeDepRasters" in self.model and self.model["TimeDepRasters"]:
+            lines.append("Time-dependent rasters:")
+            for raster in self.model["TimeDepRasters"]:
+                lines.append(f"  - {raster}")
+            lines.append("")
+
+        if "URL" in self.model:
+            lines.append(f"URL: {self.model['URL']}")
+
+        if "Version" in self.model:
+            lines.append(f"Version: {self.model['Version']}")
+
+        return "\n".join(lines) + "\n"
+
     def create_model_dir(self):
-        """Create a folder with a file ``.metadata.json`` in it to keep the model files."""
+        """Create a folder with a file ``.metadata.json`` and ``readme.txt`` in it to keep the model files."""
         if self.readonly:
             raise Exception("Unable to create model dir in readonly mode.")
         if not self.model_dir:
@@ -498,6 +535,11 @@ class PlateModel:
         if not os.path.isfile(metadata_file):
             with open(metadata_file, "w+") as f:
                 json.dump(self.model, f)
+
+        readme_file = f"{model_path}/{README_FILENAME}"
+        if not os.path.isfile(readme_file):
+            with open(readme_file, "w+", encoding="utf-8") as f:
+                f.write(self._create_readme_content())
 
         return model_path
 
