@@ -410,7 +410,22 @@ Do not create a <a class="reference internal" href="#plate_model_manager.plate_m
 <dl class="py method">
 <dt class="sig sig-object py" id="plate_model_manager.plate_model.PlateModel.create_model_dir">
 <span class="sig-name descname"><span class="pre">create_model_dir</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/plate_model_manager/plate_model.html#PlateModel.create_model_dir"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plate_model_manager.plate_model.PlateModel.create_model_dir" title="Link to this definition"></a></dt>
-<dd><p>Create a folder with a file <code class="docutils literal notranslate"><span class="pre">.metadata.json</span></code> in it to keep the model files.</p>
+<dd><p>Ensure the model folder exists and refresh local metadata files.</p>
+<p>This method creates <code class="docutils literal notranslate"><span class="pre">self.model_dir</span></code> when missing, then always rewrites
+<code class="docutils literal notranslate"><span class="pre">.metadata.json</span></code> and <code class="docutils literal notranslate"><span class="pre">readme.txt</span></code> from the current in-memory model
+configuration, even if the folder already exists.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The model folder path.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a></p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#Exception" title="(in Python v3.14)"><strong>Exception</strong></a> – If running in readonly mode, if <code class="docutils literal notranslate"><span class="pre">self.model_dir</span></code> is
+invalid/empty, or if the model path exists as a file.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -916,7 +931,22 @@ Do not create a <a class="reference internal" href="#plate_model_manager.PlateMo
 <dl class="py method">
 <dt class="sig sig-object py" id="plate_model_manager.PlateModel.create_model_dir">
 <span class="sig-name descname"><span class="pre">create_model_dir</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/plate_model_manager/plate_model.html#PlateModel.create_model_dir"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plate_model_manager.PlateModel.create_model_dir" title="Link to this definition"></a></dt>
-<dd><p>Create a folder with a file <code class="docutils literal notranslate"><span class="pre">.metadata.json</span></code> in it to keep the model files.</p>
+<dd><p>Ensure the model folder exists and refresh local metadata files.</p>
+<p>This method creates <code class="docutils literal notranslate"><span class="pre">self.model_dir</span></code> when missing, then always rewrites
+<code class="docutils literal notranslate"><span class="pre">.metadata.json</span></code> and <code class="docutils literal notranslate"><span class="pre">readme.txt</span></code> from the current in-memory model
+configuration, even if the folder already exists.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The model folder path.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a></p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#Exception" title="(in Python v3.14)"><strong>Exception</strong></a> – If running in readonly mode, if <code class="docutils literal notranslate"><span class="pre">self.model_dir</span></code> is
+invalid/empty, or if the model path exists as a file.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
