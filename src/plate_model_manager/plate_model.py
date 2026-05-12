@@ -16,6 +16,7 @@ from .exceptions import LayerNotFoundInModel
 from .utils import download
 
 METADATA_FILENAME = ".metadata.json"
+README_FILENAME = "readme.txt"
 
 FILE_EXT = [
     "gpml",
@@ -475,29 +476,75 @@ class PlateModel:
         """Return local paths for the spreading rate grid raster files at given times."""
         return self.get_rasters("SpreadingRate", times, reference_frame, generated_from)
 
-    def create_model_dir(self):
-        """Create a folder with a file ``.metadata.json`` in it to keep the model files."""
-        if self.readonly:
-            raise Exception("Unable to create model dir in readonly mode.")
-        if not self.model_dir:
-            raise Exception(f"Error: model dir is {self.model_dir}")
+    def _create_readme_content(self) -> str:
+        """Return a human-readable string summarising the model metadata for readme.txt."""
+        lines = []
+        lines.append(f"Model: {self.model_name}")
+        lines.append("")
 
-        # model dir already exists
-        if PlateModel.is_model_dir(self.model_dir):
-            return self.model_dir
+        if "Description" in self.model:
+            lines.append(f"Description: {self.model['Description']}")
+            lines.append("")
+
+        if "BigTime" in self.model and "SmallTime" in self.model:
+            lines.append(
+                f"Reconstruction time range: {self.model['SmallTime']} - {self.model['BigTime']} Ma"
+            )
+            lines.append("")
+
+        if "Layers" in self.model and self.model["Layers"]:
+            lines.append("Layers:")
+            for layer in self.model["Layers"]:
+                lines.append(f"  - {layer}")
+            lines.append("")
+
+        if "TimeDepRasters" in self.model and self.model["TimeDepRasters"]:
+            lines.append("Time-dependent rasters:")
+            for raster in self.model["TimeDepRasters"]:
+                lines.append(f"  - {raster}")
+            lines.append("")
+
+        if "URL" in self.model:
+            lines.append(f"URL: {self.model['URL']}")
+
+        if "Version" in self.model:
+            lines.append(f"Version: {self.model['Version']}")
+
+        return "\n".join(lines) + "\n"
+
+    def create_model_dir(self):
+        """Ensure the model folder exists and refresh local metadata files.
+
+        This method creates ``self.model_dir`` when missing, then always rewrites
+        ``.metadata.json`` and ``readme.txt`` from the current in-memory model
+        configuration, even if the folder already exists.
+
+        :returns: The model folder path.
+        :rtype: str
+
+        :raises Exception: If running in readonly mode, if ``self.model_dir`` is
+                           invalid/empty, or if the model path exists as a file.
+        """
+        if self.readonly:
+            raise Exception("Unable to create model folder in readonly mode.")
+        if not self.model_dir:
+            raise Exception(f"Error: Invalid model folder {self.model_dir}")
 
         model_path = self.model_dir
         if os.path.isfile(model_path):
             raise Exception(
-                f"Fatal: the model folder {model_path} already exists and is a file!! Remove the file or use another path."
+                f"Fatal: The model folder {model_path} already exists and is a file!! Remove the file or use another folder to download the model."
             )
 
         Path(model_path).mkdir(parents=True, exist_ok=True)
 
         metadata_file = f"{model_path}/{self.meta_filename}"
-        if not os.path.isfile(metadata_file):
-            with open(metadata_file, "w+") as f:
-                json.dump(self.model, f)
+        with open(metadata_file, "w", encoding="utf-8") as f:
+            json.dump(self.model, f)
+
+        readme_file = f"{model_path}/{README_FILENAME}"
+        with open(readme_file, "w", encoding="utf-8") as f:
+            f.write(self._create_readme_content())
 
         return model_path
 
