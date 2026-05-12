@@ -1,5 +1,5 @@
-Plate Model Manager Documentation v1.3.0
-========================================
+Plate Model Manager Documentation Development
+=============================================
 
 Originally the ``plate-model-manager`` was designed for GPlately_. 
 Later, it was found also useful in other scenarios and contexts. 

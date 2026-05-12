@@ -19,7 +19,7 @@
       "AgeGrids": "https://repo.gplates.org/webdav/PlateModel_Age_SR_Grids/Muller_etal_2025/SeafloorAge/SEAFLOOR_AGE_grid_{:.2f}Ma.nc",
       "SpreadingRate": "https://repo.gplates.org/webdav/PlateModel_Age_SR_Grids/Muller_etal_2025/SpreadingRate/Cao2024_SPREADING_RATE_grid_{:.2f}Ma.nc"
     },
-    "Description": "How Subduction Evolution and Tectonic Stability Drive Sediment-Hosted Mineralization Along Craton Edges.",
+    "Description": "Mantle-reference plate model based on Cao et al. (2024), covering deep-time reconstructions. See the 'URL' below for more details.",
     "URL": "https://doi.org/10.5281/zenodo.15233548",
     "Version": "10.5281/zenodo.17142287"
   },
@@ -40,7 +40,7 @@
       "AgeGrids": "https://repo.gplates.org/webdav/PlateModel_Age_SR_Grids/Alfonso_etal_2024_modClennettMuller/SeafloorAge/Alfonso2024_SEAFLOOR_AGE_grid_{:.2f}Ma.nc",
       "SpreadingRate": "https://repo.gplates.org/webdav/PlateModel_Age_SR_Grids/Alfonso_etal_2024_modClennettMuller/SpreadingRate/Alfonso2024_SPREADING_RATE_grid_{:.2f}Ma.nc"
     },
-    "Description": "alfonso2024",
+    "Description": "Modified global model focused on Western North America and the eastern Pacific tomotectonic reconstruction. See the 'URL' below for more details.",
     "URL": "https://doi.org/10.5281/zenodo.11392268",
     "Version": "10.5281/zenodo.19872554"
   },
@@ -56,7 +56,7 @@
       "COBs": "@<<SvrBaseURL>>@/cao2024/COBs.zip"
     },
     "TimeDepRasters": {},
-    "Description": "Earth's tectonic and plate boundary evolution over 1.8 billion years",
+    "Description": "Global tectonic and plate-boundary reconstruction spanning ~1.8 billion years. See the 'URL' below for more details.",
     "URL": "https://doi.org/10.5281/zenodo.11536686",
     "Version": "10.5281/zenodo.13628813"
   },
@@ -79,7 +79,7 @@
       "SpreadingRateUsingTopologiesMantleFrame": "https://repo.gplates.org/webdav/PlateModel_Age_SR_Grids/Zahirovic_etal_2022_GDJ/02_AgegridsUsingTopologies/OptimisedMantleFrame/SeafloorSpreadingRateGrids/Zahirovic_etal_2022-v2_OPT_SPREADING_RATE_grid_{:.1f}Ma.nc",
       "SpreadingRateUsingTopologiesPMAG": "https://repo.gplates.org/webdav/PlateModel_Age_SR_Grids/Zahirovic_etal_2022_GDJ/02_AgegridsUsingTopologies/PaleomagneticFrame/SeafloorSpreadingRateGrids/Zahirovic_etal_2022-v2_PMAG_SPREADING_RATE_grid_{:.1f}Ma.nc"
     },
-    "Description": "Subduction kinematics and carbonate platform interactions",
+    "Description": "Model for subduction kinematics and carbonate platform interactions. See the 'URL' below for more details.",
     "URL": "https://doi.org/10.5281/zenodo.4729045",
     "Version": "10.5281/zenodo.13899315",
     "Attributes": {
@@ -102,7 +102,7 @@
       "AgeGrids": "https://repo.gplates.org/webdav/PlateModel_Age_SR_Grids/Muller_etal_2022_SE/v1.2.1/Muller_etal_2022_SE_mantle-ref-frame-oceanic-crustal-agegrids_v1.2.1/Muller2022_SEAFLOOR_AGE_grid_{:.1f}Ma.nc",
       "AgeGridsPMAG": "https://repo.gplates.org/webdav/PlateModel_Age_SR_Grids/Muller_etal_2022_SE/v1.2.1/Muller_etal_2022_SE_Merdith21_PMAG-ref-frame-oceanic-crustal-agegrids_v1.2.1/Merdith2021_SEAFLOOR_AGE_grid_{:.1f}Ma.nc"
     },
-    "Description": "This model is based on MERDITH2021 for relative plate motions but uses a mantle reference frame that orients the plates relative to the mantle using a set of geodynamic rules to exclude geodynamically unreasonable plate motions. The difference between the paleomagnetic and mantle reference frames grows cumulatively back in time – hence the two reconstructions (MERDITH2021 versus MULLER2022) diverge progressively in the Paleozoic and Proterozoic both in terms of paleolatitude and paleolongitude.",
+    "Description": "This model is based on MERDITH2021 for relative plate motions but uses a mantle reference frame that orients the plates relative to the mantle using a set of geodynamic rules to exclude geodynamically unreasonable plate motions. The difference between the paleomagnetic and mantle reference frames grows cumulatively back in time - hence the two reconstructions (MERDITH2021 versus MULLER2022) diverge progressively in the Paleozoic and Proterozoic both in terms of paleolatitude and paleolongitude.See the 'URL' below for more details.",
     "URL": "https://doi.org/10.5281/zenodo.10297173",
     "Version": "10.5281/zenodo.13636799"
   },
@@ -117,7 +117,7 @@
       "Topologies": "@<<SvrBaseURL>>@/merdith2021/Topologies.zip",
       "Cratons": "@<<SvrBaseURL>>@/merdith2021/Cratons.zip"
     },
-    "Description": "This plate model for the last 1000 Ma is based on a paleomagnetic reference frame. In this model the longitudinal positions of the plates are unconstrained, due to the radial symmetry of the Earth's magnetic field. It is broadly based on a modified combination of MULLER2016 for the last 230 Ma, the MATTHEWS2016_pmag_ref model for 250-410 Ma and a newly constructed model for earlier times.",
+    "Description": "This plate model for the last 1000 Ma is based on a paleomagnetic reference frame. In this model the longitudinal positions of the plates are unconstrained, due to the radial symmetry of the Earth's magnetic field. It is broadly based on a modified combination of MULLER2016 for the last 230 Ma, the MATTHEWS2016_pmag_ref model for 250-410 Ma and a newly constructed model for earlier times. See the 'URL' below for more details.",
     "URL": "https://doi.org/10.5281/zenodo.10346399",
     "Version": "10.5281/zenodo.13635864"
   },
@@ -139,7 +139,7 @@
       "SpreadRate": "https://repo.gplates.org/webdav/PlateModel_Age_SR_Grids/Clennett_etal_2020_G3/SpreadingRateGrids/Clennett_etal_2020_SpreadRate_Grids/rategrid_final_mask_{:.0f}.nc",
       "SpreadingRate": "https://repo.gplates.org/webdav/PlateModel_Age_SR_Grids/Clennett_etal_2020_G3/SpreadingRateGrids/Clennett_etal_2020_SpreadRate_Grids/rategrid_final_mask_{:.0f}.nc"
     },
-    "Description": "The model was implemented into the Müller et al. (2019) reference frame",
+    "Description": "Quantitative tomotectonic reconstruction of western North America and the eastern Pacific basin. See the 'URL' below for more details.",
     "URL": "https://doi.org/10.5281/zenodo.10348270",
     "Version": "10.5281/zenodo.10348271"
   },
@@ -153,7 +153,7 @@
       "Topologies": "https://repo.gplates.org/webdav/pmm/clennett2020_s2013/Topologies.zip",
       "Terranes": "https://repo.gplates.org/webdav/pmm/clennett2020_s2013/Terranes.zip"
     },
-    "Description": "The model was implemented into the Shephard et al. (2013) global plate model.",
+    "Description": "Quantitative tomotectonic reconstruction of western North America and the eastern Pacific basin. See the 'URL' below for more details.",
     "URL": "https://doi.org/10.5281/zenodo.10348270",
     "Version": "10.5281/zenodo.10348271"
   },
@@ -176,7 +176,7 @@
       "AgeGrids": "https://repo.gplates.org/webdav/PlateModel_Age_SR_Grids/Muller_etal_2019_Tectonics/v2.0/Muller_etal_2019_Tectonics_v2.0_netCDF/Muller_etal_2019_Tectonics_v2.0_AgeGrid-{:.0f}.nc",
       "SedimentThickness": "@<<SvrBaseURL>>@/muller2019/decompacted_sediment_thickness/decompacted_sediment_thickness_0.5_{:.0f}.nc"
     },
-    "Description": "This plate model for the last 250 Ma is based on a mantle reference frame, ie it orients the plates relative to the mantle using a set of geodynamic rules to exclude geodynamically unreasonable plate motions, which typically result from models based on paleomagnetic data. The model also includes continental deformation both along major rift systems and collisional plate boundary zones.",
+    "Description": "This plate model for the last 250 Ma is based on a mantle reference frame, ie it orients the plates relative to the mantle using a set of geodynamic rules to exclude geodynamically unreasonable plate motions, which typically result from models based on paleomagnetic data. The model also includes continental deformation both along major rift systems and collisional plate boundary zones. See the 'URL' below for more details.",
     "URL": "https://doi.org/10.5281/zenodo.10525286",
     "Version": "10.5281/zenodo.11601026"
   },
@@ -191,7 +191,7 @@
       "Topologies": "@<<SvrBaseURL>>@/young2018/Topologies.zip"
     },
     "TimeDepRasters": {},
-    "Description": "Global kinematics of tectonic plates and subduction zones since the late Paleozoic Era",
+    "Description": "Global plate and subduction-zone kinematics since the late Paleozoic. See the 'URL' below for more details.",
     "URL": "https://doi.org/10.5281/zenodo.10525369",
     "Version": "10.5281/zenodo.10525370"
   },
@@ -203,7 +203,7 @@
       "Coastlines": "@<<SvrBaseURL>>@/torsvikcocks2017/Coastlines.zip",
       "StaticPolygons": "@<<SvrBaseURL>>@/torsvikcocks2017/StaticPolygons.zip"
     },
-    "Description": "https://gwsdoc.gplates.org/models#torsvikcocks2017. Only locations on land can be reconstructed.",
+    "Description": "Earth History and Palaeogeography reconstruction resource (Torsvik and Cocks framework). See the 'URL' below for more details.",
     "URL": "https://www.earthdynamics.org/earthhistory/data_info.html",
     "Version": "2023-12-06_20-09-00"
   },
@@ -220,7 +220,7 @@
     "TimeDepRasters": {
       "AgeGrids": "https://repo.gplates.org/webdav/PlateModel_Age_SR_Grids/Muller_etal_2016_AREPS/v1.17/Muller_etal_2016_AREPS_v1.17_netCDF/Muller_etal_2016_AREPS_v1.17_AgeGrid-{:.0f}.nc"
     },
-    "Description": "This model represents an update of the SETON2012 model, both in terms of relative and absolute plate motions. The absolute reference used is based on the same hotspot model for the last 100 Ma as used in SETON2012, and a true-polar wander corrected paleomagnetic model for 230 to 100 Ma, with an added 10 deg longitudinal correction for the time period from 100-230 Ma in an attempt to minimise geodynamically unreasonable longitudinal plate motions, resulting in a modified mantle reference frame.",
+    "Description": "This model represents an update of the SETON2012 model, both in terms of relative and absolute plate motions. The absolute reference used is based on the same hotspot model for the last 100 Ma as used in SETON2012, and a true-polar wander corrected paleomagnetic model for 230 to 100 Ma, with an added 10 deg longitudinal correction for the time period from 100-230 Ma in an attempt to minimise geodynamically unreasonable longitudinal plate motions, resulting in a modified mantle reference frame. See the 'URL' below for more details.",
     "URL": "https://doi.org/10.5281/zenodo.10565444",
     "Version": "10.5281/zenodo.11607841"
   },
@@ -240,7 +240,7 @@
       "Coastlines": "https://repo.gplates.org/webdav/pmm/matthews2016_mantle_ref/Rasters/coastlines/coastlines-{:.0f}-Ma.png",
       "Topologies": "https://repo.gplates.org/webdav/pmm/matthews2016_mantle_ref/Rasters/topologies/topologies-{:.0f}-Ma.png"
     },
-    "Description": "This model is identical to MATTHEWS2016_pmag_ref in terms of relative plate models but uses a true polar wander corrected paleomagnetic model, viewed as a proxy for a mantle reference frame model.",
+    "Description": "This model is identical to MATTHEWS2016_pmag_ref in terms of relative plate models but uses a true polar wander corrected paleomagnetic model, viewed as a proxy for a mantle reference frame model. See the 'URL' below for more details.",
     "URL": "https://doi.org/10.5281/zenodo.10526156",
     "Version": "10.5281/zenodo.10526157"
   },
@@ -253,7 +253,7 @@
       "StaticPolygons": "@<<SvrBaseURL>>@/matthews2016_pmag_ref/StaticPolygons.zip",
       "ContinentalPolygons": "@<<SvrBaseURL>>@/matthews2016_pmag_ref/ContinentalPolygons.zip"
     },
-    "Description": "This plate model represents the first continuous late Paleozoic to present-day global plate model with evolving plate boundaries, building on and extending two previously published models for the late Paleozoic (410–250 Ma) (Domeier and Torsvik, 2014 ) and the MULLER2016 model Mesozoic-Cenozoic (230–0 Ma). The model was designed for continuity during the 250–230 Ma transition period between the two models, used an updated absolute reference frame of the Mesozoic-Cenozoic model and added a new Paleozoic reconstruction for the Baltica-derived Alexander Terrane, now accreted to western North America.",
+    "Description": "This plate model represents the first continuous late Paleozoic to present-day global plate model with evolving plate boundaries, building on and extending two previously published models for the late Paleozoic (410-250 Ma) (Domeier and Torsvik, 2014) and the MULLER2016 model Mesozoic-Cenozoic (230-0 Ma). The model was designed for continuity during the 250-230 Ma transition period between the two models, used an updated absolute reference frame of the Mesozoic-Cenozoic model and added a new Paleozoic reconstruction for the Baltica-derived Alexander Terrane, now accreted to western North America. See the 'URL' below for more details.",
     "URL": "https://gwsdoc.gplates.org/models#matthews2016_pmag_ref",
     "Version": "2024-07-23"
   },
@@ -281,7 +281,7 @@
       "Topologies": "@<<SvrBaseURL>>@/shephard2013/Topologies.zip"
     },
     "TimeDepRasters": {},
-    "Description": "the tectonic evolution of the Arctic since Pangea breakup",
+    "Description": "Arctic tectonic evolution model since Pangea breakup integrating geology, geophysics, and mantle context. See the 'URL' below for more details.",
     "URL": "https://doi.org/10.5281/zenodo.10595888",
     "Version": "10.5281/zenodo.10595889"
   },
@@ -299,7 +299,7 @@
     "TimeDepRasters": {
       "AgeGrids": "https://repo.gplates.org/webdav/PlateModel_Age_SR_Grids/Seton_etal_2012_ESR/netCDF_0-200Ma/agegrid_{:.0f}.nc"
     },
-    "Description": "This model represents the first global plate model with topological plate boundaries. It is based on a hybrid reference frame hybrid absolute reference frame, based on a moving hotspot model for the last 100 Ma, and a true-polar wander corrected paleomagnetic model for 200 to 100 Ma. This combination of absolute reference frames is viewed as a proxy for a mantle reference frame model.",
+    "Description": "This model represents the first global plate model with topological plate boundaries. It is based on a hybrid absolute reference frame, based on a moving hotspot model for the last 100 Ma, and a true-polar wander corrected paleomagnetic model for 200 to 100 Ma. This combination of absolute reference frames is viewed as a proxy for a mantle reference frame model. See the 'URL' below for more details.",
     "URL": "https://doi.org/10.5281/zenodo.10596049",
     "Version": "10.5281/zenodo.10596050"
   },
@@ -312,7 +312,7 @@
       "Coastlines": "@<<SvrBaseURL>>@/golonka/Coastlines.zip",
       "StaticPolygons": "@<<SvrBaseURL>>@/golonka/StaticPolygons.zip"
     },
-    "Description": "https://gwsdoc.gplates.org/models#golonka",
+    "Description": "Community-driven paleogeographic reconstruction model (GOLONKA) with deep-time coverage. See the 'URL' below for more details.",
     "URL": "https://gwsdoc.gplates.org/models#golonka",
     "Version": "2023-12-06"
   },
@@ -324,7 +324,7 @@
       "Coastlines": "@<<SvrBaseURL>>@/paleomap/Coastlines.zip",
       "StaticPolygons": "@<<SvrBaseURL>>@/paleomap/StaticPolygons.zip"
     },
-    "Description": "also known as Scotese2016",
+    "Description": "PALEOMAP PaleoAtlas reconstruction dataset for GPlates (Scotese framework). See the 'URL' below for more details.",
     "URL": "https://doi.org/10.5281/zenodo.10596609",
     "Version": "10.5281/zenodo.10596610"
   },
@@ -336,7 +336,7 @@
       "Coastlines": "@<<SvrBaseURL>>@/rodinia/Coastlines.zip",
       "StaticPolygons": "@<<SvrBaseURL>>@/rodinia/StaticPolygons.zip"
     },
-    "Description": "https://gwsdoc.gplates.org/models#rodinia",
+    "Description": "Rodinia-focused Precambrian reconstruction model for deep-time paleogeography. See the 'URL' below for more details.",
     "URL": "https://gwsdoc.gplates.org/models#rodinia",
     "Version": "2023-12-06"
   },
@@ -354,7 +354,7 @@
     "TimeDepRasters": {
       "AgeGrids": "https://repo.gplates.org/webdav/PlateModel_Age_SR_Grids/Zahirovic_etal_2016_ESR/netCDF/EarthByte_Zahirovic_etal_2016_ESR_r888_AgeGrid-{:.0f}.nc"
     },
-    "Description": "",
+    "Description": "Eastern Tethys tectonic evolution and deep-mantle-structure reconstruction since the latest Jurassic. See the 'URL' below for more details.",
     "URL": "https://doi.org/10.5281/zenodo.10531296",
     "Version": "10.5281/zenodo.10531297"
   },
@@ -367,7 +367,7 @@
       "StaticPolygons": "@<<SvrBaseURL>>@/gurnis2012/StaticPolygons.zip",
       "Topologies": "@<<SvrBaseURL>>@/gurnis2012/Topologies.zip"
     },
-    "Description": "Plate tectonic reconstructions with continuously closing plates",
+    "Description": "Continuously closing-plate reconstruction model for self-consistent global plate polygons. See the 'URL' below for more details.",
     "URL": "https://doi.org/10.5281/zenodo.10596349",
     "Version": "10.5281/zenodo.10596350"
   },
@@ -378,7 +378,7 @@
     "Layers": {
       "StaticPolygons": "@<<SvrBaseURL>>@/muller2008/StaticPolygons.zip"
     },
-    "Description": "",
+    "Description": "MULLER2008 model data archive index. See the 'URL' below for available files and more details.",
     "URL": "https://earthbyte.org/webdav/ftp/incoming/mchin/plate-models/MULLER2008",
     "Version": "2024-10-23"
   },
@@ -391,7 +391,7 @@
       "StaticPolygons": "@<<SvrBaseURL>>@/gibbons2015/StaticPolygons.zip",
       "Topologies": "@<<SvrBaseURL>>@/gibbons2015/Topologies.zip"
     },
-    "Description": "",
+    "Description": "Model reconciling India-Eurasia and intra-oceanic arc collisions in the central-eastern Tethys. See the 'URL' below for more details.",
     "URL": "https://doi.org/10.5281/zenodo.10595658",
     "Version": "10.5281/zenodo.10595659"
   },
@@ -403,7 +403,7 @@
       "Coastlines": "@<<SvrBaseURL>>@/zahirovic2014/Coastlines.zip",
       "StaticPolygons": "@<<SvrBaseURL>>@/zahirovic2014/StaticPolygons.zip"
     },
-    "Description": "",
+    "Description": "Model reconciling India-Eurasia and intra-oceanic arc collisions in the central-eastern Tethys. See the 'URL' below for more details.",
     "URL": "https://doi.org/10.5281/zenodo.10595658",
     "Version": "10.5281/zenodo.10595659"
   }
