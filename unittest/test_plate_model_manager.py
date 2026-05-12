@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 import os
+import shutil
 import sys
+import tempfile
 import unittest
 
 from plate_model_manager.utils.enums import ReferenceFrame
@@ -10,6 +12,7 @@ from common import TEMP_TEST_DIR, get_test_logger
 
 from plate_model_manager import PlateModel, PlateModelManager
 from plate_model_manager.exceptions import InvalidConfigFile, ServerUnavailable
+from plate_model_manager.plate_model import README_FILENAME
 
 if __name__ == "__main__":
     logger_name = "test_plate_model_manager_main"
@@ -109,6 +112,63 @@ class PlateModelManagerestCase(unittest.TestCase):
             PlateModelManager(
                 "https://100.11.12.10/webdav/pmm/model.json", timeout=(5, 5)
             )
+
+
+class ReadmeCreationTestCase(unittest.TestCase):
+    """Tests that readme.txt is created in the model folder when create_model_dir() is called."""
+
+    def setUp(self):
+        self.test_dir = tempfile.mkdtemp(prefix="pmm_test_readme_")
+        self.model_cfg = {
+            "BigTime": 250,
+            "SmallTime": 0,
+            "Rotations": "https://example.com/Rotations.zip",
+            "Layers": {
+                "Coastlines": "https://example.com/Coastlines.zip",
+                "StaticPolygons": "https://example.com/StaticPolygons.zip",
+            },
+            "TimeDepRasters": {
+                "AgeGrids": "https://example.com/AgeGrid_{:.0f}.nc",
+            },
+            "Description": "A test plate model description.",
+            "URL": "https://doi.org/10.5281/zenodo.0000000",
+            "Version": "10.5281/zenodo.0000001",
+        }
+        self.model_name = "test_readme_model"
+
+    def tearDown(self):
+        shutil.rmtree(self.test_dir, ignore_errors=True)
+
+    def test_readme_created_in_model_dir(self):
+        """readme.txt should be created when create_model_dir() is called."""
+        model = PlateModel(
+            self.model_name, model_cfg=self.model_cfg, data_dir=self.test_dir
+        )
+        model_dir = model.create_model_dir()
+
+        readme_path = os.path.join(model_dir, README_FILENAME)
+        self.assertTrue(
+            os.path.isfile(readme_path),
+            f"readme.txt was not created at {readme_path}",
+        )
+
+    def test_readme_contains_model_info(self):
+        """readme.txt should contain key model information."""
+        model = PlateModel(
+            self.model_name, model_cfg=self.model_cfg, data_dir=self.test_dir
+        )
+        model_dir = model.create_model_dir()
+
+        readme_path = os.path.join(model_dir, README_FILENAME)
+        with open(readme_path, encoding="utf-8") as f:
+            content = f.read()
+
+        self.assertIn(self.model_name, content)
+        self.assertIn("A test plate model description.", content)
+        self.assertIn("https://doi.org/10.5281/zenodo.0000000", content)
+        self.assertIn("250", content)
+        self.assertIn("Coastlines", content)
+        self.assertIn("AgeGrids", content)
 
 
 if __name__ == "__main__":
