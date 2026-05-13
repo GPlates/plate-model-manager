@@ -50,6 +50,7 @@
 <li class="toctree-l1"><a class="reference internal" href="command_line_interface.html">Command Line Interface (CLI)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Plate Models</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#default">Default</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#muller2025">Muller2025</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#shirmard2025">Shirmard2025</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#alfonso2024">Alfonso2024</a></li>
@@ -116,36 +117,37 @@
 <h1>Plate Models<a class="headerlink" href="#plate-models" title="Link to this heading"></a></h1>
 <nav class="contents local" id="contents">
 <ul class="simple">
-<li><p><a class="reference internal" href="#muller2025" id="id1">Muller2025</a></p></li>
-<li><p><a class="reference internal" href="#shirmard2025" id="id2">Shirmard2025</a></p></li>
-<li><p><a class="reference internal" href="#alfonso2024" id="id3">Alfonso2024</a></p></li>
-<li><p><a class="reference internal" href="#cao2024" id="id4">Cao2024</a></p></li>
-<li><p><a class="reference internal" href="#cao2023" id="id5">Cao2023</a></p></li>
-<li><p><a class="reference internal" href="#muller2022" id="id6">Muller2022</a></p></li>
-<li><p><a class="reference internal" href="#zahirovic2022" id="id7">Zahirovic2022</a></p></li>
-<li><p><a class="reference internal" href="#merdith2021" id="id8">Merdith2021</a></p></li>
-<li><p><a class="reference internal" href="#clennett2020" id="id9">Clennett2020</a></p></li>
-<li><p><a class="reference internal" href="#clennett2020-m2019" id="id10">Clennett2020_m2019</a></p></li>
-<li><p><a class="reference internal" href="#clennett2020-s2013" id="id11">Clennett2020_s2013</a></p></li>
-<li><p><a class="reference internal" href="#muller2019" id="id12">Muller2019</a></p></li>
-<li><p><a class="reference internal" href="#young2018" id="id13">Young2018</a></p></li>
-<li><p><a class="reference internal" href="#torsvikcocks2017" id="id14">Torsvikcocks2017</a></p></li>
-<li><p><a class="reference internal" href="#matthews2016" id="id15">Matthews2016</a></p></li>
-<li><p><a class="reference internal" href="#matthews2016-mantle-ref" id="id16">Matthews2016_mantle_ref</a></p></li>
-<li><p><a class="reference internal" href="#matthews2016-pmag-ref" id="id17">Matthews2016_pmag_ref</a></p></li>
-<li><p><a class="reference internal" href="#muller2016" id="id18">Muller2016</a></p></li>
-<li><p><a class="reference internal" href="#scotese2016" id="id19">Scotese2016</a></p></li>
-<li><p><a class="reference internal" href="#zahirovic2016" id="id20">Zahirovic2016</a></p></li>
-<li><p><a class="reference internal" href="#gibbons2015" id="id21">Gibbons2015</a></p></li>
-<li><p><a class="reference internal" href="#domeier2014" id="id22">Domeier2014</a></p></li>
-<li><p><a class="reference internal" href="#zahirovic2014" id="id23">Zahirovic2014</a></p></li>
-<li><p><a class="reference internal" href="#shephard2013" id="id24">Shephard2013</a></p></li>
-<li><p><a class="reference internal" href="#gurnis2012" id="id25">Gurnis2012</a></p></li>
-<li><p><a class="reference internal" href="#seton2012" id="id26">Seton2012</a></p></li>
-<li><p><a class="reference internal" href="#muller2008" id="id27">Muller2008</a></p></li>
-<li><p><a class="reference internal" href="#golonka" id="id28">Golonka</a></p></li>
-<li><p><a class="reference internal" href="#paleomap" id="id29">Paleomap</a></p></li>
-<li><p><a class="reference internal" href="#rodinia" id="id30">Rodinia</a></p></li>
+<li><p><a class="reference internal" href="#default" id="id1">Default</a></p></li>
+<li><p><a class="reference internal" href="#muller2025" id="id2">Muller2025</a></p></li>
+<li><p><a class="reference internal" href="#shirmard2025" id="id3">Shirmard2025</a></p></li>
+<li><p><a class="reference internal" href="#alfonso2024" id="id4">Alfonso2024</a></p></li>
+<li><p><a class="reference internal" href="#cao2024" id="id5">Cao2024</a></p></li>
+<li><p><a class="reference internal" href="#cao2023" id="id6">Cao2023</a></p></li>
+<li><p><a class="reference internal" href="#muller2022" id="id7">Muller2022</a></p></li>
+<li><p><a class="reference internal" href="#zahirovic2022" id="id8">Zahirovic2022</a></p></li>
+<li><p><a class="reference internal" href="#merdith2021" id="id9">Merdith2021</a></p></li>
+<li><p><a class="reference internal" href="#clennett2020" id="id10">Clennett2020</a></p></li>
+<li><p><a class="reference internal" href="#clennett2020-m2019" id="id11">Clennett2020_m2019</a></p></li>
+<li><p><a class="reference internal" href="#clennett2020-s2013" id="id12">Clennett2020_s2013</a></p></li>
+<li><p><a class="reference internal" href="#muller2019" id="id13">Muller2019</a></p></li>
+<li><p><a class="reference internal" href="#young2018" id="id14">Young2018</a></p></li>
+<li><p><a class="reference internal" href="#torsvikcocks2017" id="id15">Torsvikcocks2017</a></p></li>
+<li><p><a class="reference internal" href="#matthews2016" id="id16">Matthews2016</a></p></li>
+<li><p><a class="reference internal" href="#matthews2016-mantle-ref" id="id17">Matthews2016_mantle_ref</a></p></li>
+<li><p><a class="reference internal" href="#matthews2016-pmag-ref" id="id18">Matthews2016_pmag_ref</a></p></li>
+<li><p><a class="reference internal" href="#muller2016" id="id19">Muller2016</a></p></li>
+<li><p><a class="reference internal" href="#scotese2016" id="id20">Scotese2016</a></p></li>
+<li><p><a class="reference internal" href="#zahirovic2016" id="id21">Zahirovic2016</a></p></li>
+<li><p><a class="reference internal" href="#gibbons2015" id="id22">Gibbons2015</a></p></li>
+<li><p><a class="reference internal" href="#domeier2014" id="id23">Domeier2014</a></p></li>
+<li><p><a class="reference internal" href="#zahirovic2014" id="id24">Zahirovic2014</a></p></li>
+<li><p><a class="reference internal" href="#shephard2013" id="id25">Shephard2013</a></p></li>
+<li><p><a class="reference internal" href="#gurnis2012" id="id26">Gurnis2012</a></p></li>
+<li><p><a class="reference internal" href="#seton2012" id="id27">Seton2012</a></p></li>
+<li><p><a class="reference internal" href="#muller2008" id="id28">Muller2008</a></p></li>
+<li><p><a class="reference internal" href="#golonka" id="id29">Golonka</a></p></li>
+<li><p><a class="reference internal" href="#paleomap" id="id30">Paleomap</a></p></li>
+<li><p><a class="reference internal" href="#rodinia" id="id31">Rodinia</a></p></li>
 </ul>
 </nav>
 <p>This chapter describes all plate tectonic reconstruction models available in the
@@ -164,8 +166,17 @@
 For example: <code class="docutils literal notranslate"><span class="pre">pmm</span> <span class="pre">download</span> <span class="pre">Cao2024</span> <span class="pre">./my-models</span></code></p>
 </div>
 <hr class="docutils" />
+<section id="default">
+<span id="model-default"></span><h2><a class="toc-backref" href="#id1" role="doc-backlink">Default</a><a class="headerlink" href="#default" title="Link to this heading"></a></h2>
+<p><strong>Aliases:</strong> <a class="reference internal" href="#model-zahirovic2022"><span class="std std-ref">Zahirovic2022</span></a></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The current <strong>default</strong> plate model is <a class="reference internal" href="#model-zahirovic2022"><span class="std std-ref">Zahirovic2022</span></a>. This may change in the future as new models are added or updated. Always check the documentation for the most up-to-date information on the default model.</p>
+</div>
+<hr class="docutils" />
+</section>
 <section id="muller2025">
-<span id="model-muller2025"></span><h2><a class="toc-backref" href="#id1" role="doc-backlink">Muller2025</a><a class="headerlink" href="#muller2025" title="Link to this heading"></a></h2>
+<span id="model-muller2025"></span><h2><a class="toc-backref" href="#id2" role="doc-backlink">Muller2025</a><a class="headerlink" href="#muller2025" title="Link to this heading"></a></h2>
 <p><strong>Aliases:</strong> <a class="reference internal" href="#model-shirmard2025"><span class="std std-ref">Shirmard2025</span></a></p>
 <p><strong>Time range:</strong> 18000 - 0 Ma</p>
 <p><strong>Layers:</strong></p>
@@ -187,7 +198,7 @@ For example: <code class="docutils literal notranslate"><span class="pre">pmm</s
 <hr class="docutils" />
 </section>
 <section id="shirmard2025">
-<span id="model-shirmard2025"></span><h2><a class="toc-backref" href="#id2" role="doc-backlink">Shirmard2025</a><a class="headerlink" href="#shirmard2025" title="Link to this heading"></a></h2>
+<span id="model-shirmard2025"></span><h2><a class="toc-backref" href="#id3" role="doc-backlink">Shirmard2025</a><a class="headerlink" href="#shirmard2025" title="Link to this heading"></a></h2>
 <p><strong>Aliases:</strong> <a class="reference internal" href="#model-muller2025"><span class="std std-ref">Muller2025</span></a></p>
 <p><strong>Time range:</strong> 18000 - 0 Ma</p>
 <p><strong>Layers:</strong></p>
@@ -209,7 +220,7 @@ For example: <code class="docutils literal notranslate"><span class="pre">pmm</s
 <hr class="docutils" />
 </section>
 <section id="alfonso2024">
-<span id="model-alfonso2024"></span><h2><a class="toc-backref" href="#id3" role="doc-backlink">Alfonso2024</a><a class="headerlink" href="#alfonso2024" title="Link to this heading"></a></h2>
+<span id="model-alfonso2024"></span><h2><a class="toc-backref" href="#id4" role="doc-backlink">Alfonso2024</a><a class="headerlink" href="#alfonso2024" title="Link to this heading"></a></h2>
 <p><strong>Time range:</strong> 170 - 0 Ma</p>
 <p><strong>Layers:</strong></p>
 <ul class="simple">
@@ -227,12 +238,12 @@ For example: <code class="docutils literal notranslate"><span class="pre">pmm</s
 <li><p>SpreadingRate</p></li>
 </ul>
 <p><strong>Description:</strong> Modified global model focused on Western North America and the eastern Pacific tomotectonic
-reconstruction. See the ‘URL’ below for more details.</p>
+reconstruction. Set the anchor plate ID to 701701 to use PMAG reference frame. See the ‘URL’ below for more details.</p>
 <p><strong>DOI / URL:</strong> <a class="reference external" href="https://doi.org/10.5281/zenodo.11392268">https://doi.org/10.5281/zenodo.11392268</a></p>
 <hr class="docutils" />
 </section>
 <section id="cao2024">
-<span id="model-cao2024"></span><h2><a class="toc-backref" href="#id4" role="doc-backlink">Cao2024</a><a class="headerlink" href="#cao2024" title="Link to this heading"></a></h2>
+<span id="model-cao2024"></span><h2><a class="toc-backref" href="#id5" role="doc-backlink">Cao2024</a><a class="headerlink" href="#cao2024" title="Link to this heading"></a></h2>
 <p><strong>Aliases:</strong> <a class="reference internal" href="#model-cao2023"><span class="std std-ref">Cao2023</span></a></p>
 <p><strong>Time range:</strong> 18000 - 0 Ma</p>
 <p><strong>Layers:</strong></p>
@@ -249,7 +260,7 @@ for more details.</p>
 <hr class="docutils" />
 </section>
 <section id="cao2023">
-<span id="model-cao2023"></span><h2><a class="toc-backref" href="#id5" role="doc-backlink">Cao2023</a><a class="headerlink" href="#cao2023" title="Link to this heading"></a></h2>
+<span id="model-cao2023"></span><h2><a class="toc-backref" href="#id6" role="doc-backlink">Cao2023</a><a class="headerlink" href="#cao2023" title="Link to this heading"></a></h2>
 <p><strong>Aliases:</strong> <a class="reference internal" href="#model-cao2024"><span class="std std-ref">Cao2024</span></a></p>
 <p><strong>Time range:</strong> 18000 - 0 Ma</p>
 <p><strong>Layers:</strong></p>
@@ -266,7 +277,7 @@ for more details.</p>
 <hr class="docutils" />
 </section>
 <section id="muller2022">
-<span id="model-muller2022"></span><h2><a class="toc-backref" href="#id6" role="doc-backlink">Muller2022</a><a class="headerlink" href="#muller2022" title="Link to this heading"></a></h2>
+<span id="model-muller2022"></span><h2><a class="toc-backref" href="#id7" role="doc-backlink">Muller2022</a><a class="headerlink" href="#muller2022" title="Link to this heading"></a></h2>
 <p><strong>Time range:</strong> 1000 - 0 Ma</p>
 <p><strong>Layers:</strong></p>
 <ul class="simple">
@@ -292,7 +303,7 @@ paleolongitude.See the ‘URL’ below for more details.</p>
 <hr class="docutils" />
 </section>
 <section id="zahirovic2022">
-<span id="model-zahirovic2022"></span><h2><a class="toc-backref" href="#id7" role="doc-backlink">Zahirovic2022</a><a class="headerlink" href="#zahirovic2022" title="Link to this heading"></a></h2>
+<span id="model-zahirovic2022"></span><h2><a class="toc-backref" href="#id8" role="doc-backlink">Zahirovic2022</a><a class="headerlink" href="#zahirovic2022" title="Link to this heading"></a></h2>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>This is the <strong>default</strong> plate model.</p>
@@ -314,13 +325,13 @@ paleolongitude.See the ‘URL’ below for more details.</p>
 <li><p>SpreadingRateUsingTopologiesMantleFrame</p></li>
 <li><p>SpreadingRateUsingTopologiesPMAG</p></li>
 </ul>
-<p><strong>Description:</strong> Model for subduction kinematics and carbonate platform interactions. See the ‘URL’ below for more
+<p><strong>Description:</strong> Model for subduction kinematics and carbonate platform interactions. Set the anchor plate ID to 701701 to use PMAG reference frame. See the ‘URL’ below for more
 details.</p>
 <p><strong>DOI / URL:</strong> <a class="reference external" href="https://doi.org/10.5281/zenodo.4729045">https://doi.org/10.5281/zenodo.4729045</a></p>
 <hr class="docutils" />
 </section>
 <section id="merdith2021">
-<span id="model-merdith2021"></span><h2><a class="toc-backref" href="#id8" role="doc-backlink">Merdith2021</a><a class="headerlink" href="#merdith2021" title="Link to this heading"></a></h2>
+<span id="model-merdith2021"></span><h2><a class="toc-backref" href="#id9" role="doc-backlink">Merdith2021</a><a class="headerlink" href="#merdith2021" title="Link to this heading"></a></h2>
 <p><strong>Time range:</strong> 1000 - 0 Ma</p>
 <p><strong>Layers:</strong></p>
 <ul class="simple">
@@ -339,7 +350,7 @@ MATTHEWS2016_pmag_ref model for 250-410 Ma and a newly constructed model for ear
 <hr class="docutils" />
 </section>
 <section id="clennett2020">
-<span id="model-clennett2020"></span><h2><a class="toc-backref" href="#id9" role="doc-backlink">Clennett2020</a><a class="headerlink" href="#clennett2020" title="Link to this heading"></a></h2>
+<span id="model-clennett2020"></span><h2><a class="toc-backref" href="#id10" role="doc-backlink">Clennett2020</a><a class="headerlink" href="#clennett2020" title="Link to this heading"></a></h2>
 <p><strong>Aliases:</strong> <a class="reference internal" href="#model-clennett2020-m2019"><span class="std std-ref">Clennett2020_m2019</span></a></p>
 <p><strong>Time range:</strong> 170 - 0 Ma</p>
 <p><strong>Layers:</strong></p>
@@ -362,7 +373,7 @@ the ‘URL’ below for more details.</p>
 <hr class="docutils" />
 </section>
 <section id="clennett2020-m2019">
-<span id="model-clennett2020-m2019"></span><h2><a class="toc-backref" href="#id10" role="doc-backlink">Clennett2020_m2019</a><a class="headerlink" href="#clennett2020-m2019" title="Link to this heading"></a></h2>
+<span id="model-clennett2020-m2019"></span><h2><a class="toc-backref" href="#id11" role="doc-backlink">Clennett2020_m2019</a><a class="headerlink" href="#clennett2020-m2019" title="Link to this heading"></a></h2>
 <p><strong>Aliases:</strong> <a class="reference internal" href="#model-clennett2020"><span class="std std-ref">Clennett2020</span></a></p>
 <p><strong>Time range:</strong> 170 - 0 Ma</p>
 <p><strong>Layers:</strong></p>
@@ -385,7 +396,7 @@ the ‘URL’ below for more details.</p>
 <hr class="docutils" />
 </section>
 <section id="clennett2020-s2013">
-<span id="model-clennett2020-s2013"></span><h2><a class="toc-backref" href="#id11" role="doc-backlink">Clennett2020_s2013</a><a class="headerlink" href="#clennett2020-s2013" title="Link to this heading"></a></h2>
+<span id="model-clennett2020-s2013"></span><h2><a class="toc-backref" href="#id12" role="doc-backlink">Clennett2020_s2013</a><a class="headerlink" href="#clennett2020-s2013" title="Link to this heading"></a></h2>
 <p><strong>Time range:</strong> 170 - 0 Ma</p>
 <p><strong>Layers:</strong></p>
 <ul class="simple">
@@ -400,7 +411,7 @@ the ‘URL’ below for more details.</p>
 <hr class="docutils" />
 </section>
 <section id="muller2019">
-<span id="model-muller2019"></span><h2><a class="toc-backref" href="#id12" role="doc-backlink">Muller2019</a><a class="headerlink" href="#muller2019" title="Link to this heading"></a></h2>
+<span id="model-muller2019"></span><h2><a class="toc-backref" href="#id13" role="doc-backlink">Muller2019</a><a class="headerlink" href="#muller2019" title="Link to this heading"></a></h2>
 <p><strong>Time range:</strong> 250 - 0 Ma</p>
 <p><strong>Layers:</strong></p>
 <ul class="simple">
@@ -428,7 +439,7 @@ continental deformation both along major rift systems and collisional plate boun
 <hr class="docutils" />
 </section>
 <section id="young2018">
-<span id="model-young2018"></span><h2><a class="toc-backref" href="#id13" role="doc-backlink">Young2018</a><a class="headerlink" href="#young2018" title="Link to this heading"></a></h2>
+<span id="model-young2018"></span><h2><a class="toc-backref" href="#id14" role="doc-backlink">Young2018</a><a class="headerlink" href="#young2018" title="Link to this heading"></a></h2>
 <p><strong>Time range:</strong> 410 - 0 Ma</p>
 <p><strong>Layers:</strong></p>
 <ul class="simple">
@@ -443,7 +454,7 @@ details.</p>
 <hr class="docutils" />
 </section>
 <section id="torsvikcocks2017">
-<span id="model-torsvikcocks2017"></span><h2><a class="toc-backref" href="#id14" role="doc-backlink">Torsvikcocks2017</a><a class="headerlink" href="#torsvikcocks2017" title="Link to this heading"></a></h2>
+<span id="model-torsvikcocks2017"></span><h2><a class="toc-backref" href="#id15" role="doc-backlink">Torsvikcocks2017</a><a class="headerlink" href="#torsvikcocks2017" title="Link to this heading"></a></h2>
 <p><strong>Time range:</strong> 540 - 0 Ma</p>
 <p><strong>Layers:</strong></p>
 <ul class="simple">
@@ -460,7 +471,7 @@ details.</p>
 <hr class="docutils" />
 </section>
 <section id="matthews2016">
-<span id="model-matthews2016"></span><h2><a class="toc-backref" href="#id15" role="doc-backlink">Matthews2016</a><a class="headerlink" href="#matthews2016" title="Link to this heading"></a></h2>
+<span id="model-matthews2016"></span><h2><a class="toc-backref" href="#id16" role="doc-backlink">Matthews2016</a><a class="headerlink" href="#matthews2016" title="Link to this heading"></a></h2>
 <p><strong>Aliases:</strong> <a class="reference internal" href="#model-matthews2016-mantle-ref"><span class="std std-ref">Matthews2016_mantle_ref</span></a></p>
 <p><strong>Time range:</strong> 410 - 0 Ma</p>
 <p><strong>Layers:</strong></p>
@@ -483,7 +494,7 @@ See the ‘URL’ below for more details.</p>
 <hr class="docutils" />
 </section>
 <section id="matthews2016-mantle-ref">
-<span id="model-matthews2016-mantle-ref"></span><h2><a class="toc-backref" href="#id16" role="doc-backlink">Matthews2016_mantle_ref</a><a class="headerlink" href="#matthews2016-mantle-ref" title="Link to this heading"></a></h2>
+<span id="model-matthews2016-mantle-ref"></span><h2><a class="toc-backref" href="#id17" role="doc-backlink">Matthews2016_mantle_ref</a><a class="headerlink" href="#matthews2016-mantle-ref" title="Link to this heading"></a></h2>
 <p><strong>Aliases:</strong> <a class="reference internal" href="#model-matthews2016"><span class="std std-ref">Matthews2016</span></a></p>
 <p><strong>Time range:</strong> 410 - 0 Ma</p>
 <p><strong>Layers:</strong></p>
@@ -506,7 +517,7 @@ See the ‘URL’ below for more details.</p>
 <hr class="docutils" />
 </section>
 <section id="matthews2016-pmag-ref">
-<span id="model-matthews2016-pmag-ref"></span><h2><a class="toc-backref" href="#id17" role="doc-backlink">Matthews2016_pmag_ref</a><a class="headerlink" href="#matthews2016-pmag-ref" title="Link to this heading"></a></h2>
+<span id="model-matthews2016-pmag-ref"></span><h2><a class="toc-backref" href="#id18" role="doc-backlink">Matthews2016_pmag_ref</a><a class="headerlink" href="#matthews2016-pmag-ref" title="Link to this heading"></a></h2>
 <p><strong>Time range:</strong> 410 - 0 Ma</p>
 <p><strong>Layers:</strong></p>
 <ul class="simple">
@@ -525,7 +536,7 @@ North America. See the ‘URL’ below for more details.</p>
 <hr class="docutils" />
 </section>
 <section id="muller2016">
-<span id="model-muller2016"></span><h2><a class="toc-backref" href="#id18" role="doc-backlink">Muller2016</a><a class="headerlink" href="#muller2016" title="Link to this heading"></a></h2>
+<span id="model-muller2016"></span><h2><a class="toc-backref" href="#id19" role="doc-backlink">Muller2016</a><a class="headerlink" href="#muller2016" title="Link to this heading"></a></h2>
 <p><strong>Time range:</strong> 230 - 0 Ma</p>
 <p><strong>Layers:</strong></p>
 <ul class="simple">
@@ -548,7 +559,7 @@ frame. See the ‘URL’ below for more details.</p>
 <hr class="docutils" />
 </section>
 <section id="scotese2016">
-<span id="model-scotese2016"></span><h2><a class="toc-backref" href="#id19" role="doc-backlink">Scotese2016</a><a class="headerlink" href="#scotese2016" title="Link to this heading"></a></h2>
+<span id="model-scotese2016"></span><h2><a class="toc-backref" href="#id20" role="doc-backlink">Scotese2016</a><a class="headerlink" href="#scotese2016" title="Link to this heading"></a></h2>
 <p><strong>Aliases:</strong> <a class="reference internal" href="#model-paleomap"><span class="std std-ref">Paleomap</span></a></p>
 <p><strong>Time range:</strong> 750 - 0 Ma</p>
 <p><strong>Layers:</strong></p>
@@ -561,7 +572,7 @@ frame. See the ‘URL’ below for more details.</p>
 <hr class="docutils" />
 </section>
 <section id="zahirovic2016">
-<span id="model-zahirovic2016"></span><h2><a class="toc-backref" href="#id20" role="doc-backlink">Zahirovic2016</a><a class="headerlink" href="#zahirovic2016" title="Link to this heading"></a></h2>
+<span id="model-zahirovic2016"></span><h2><a class="toc-backref" href="#id21" role="doc-backlink">Zahirovic2016</a><a class="headerlink" href="#zahirovic2016" title="Link to this heading"></a></h2>
 <p><strong>Time range:</strong> 230 - 0 Ma</p>
 <p><strong>Layers:</strong></p>
 <ul class="simple">
@@ -581,7 +592,7 @@ Jurassic. See the ‘URL’ below for more details.</p>
 <hr class="docutils" />
 </section>
 <section id="gibbons2015">
-<span id="model-gibbons2015"></span><h2><a class="toc-backref" href="#id21" role="doc-backlink">Gibbons2015</a><a class="headerlink" href="#gibbons2015" title="Link to this heading"></a></h2>
+<span id="model-gibbons2015"></span><h2><a class="toc-backref" href="#id22" role="doc-backlink">Gibbons2015</a><a class="headerlink" href="#gibbons2015" title="Link to this heading"></a></h2>
 <p><strong>Time range:</strong> 300 - 0 Ma</p>
 <p><strong>Layers:</strong></p>
 <ul class="simple">
@@ -595,7 +606,7 @@ the ‘URL’ below for more details.</p>
 <hr class="docutils" />
 </section>
 <section id="domeier2014">
-<span id="model-domeier2014"></span><h2><a class="toc-backref" href="#id22" role="doc-backlink">Domeier2014</a><a class="headerlink" href="#domeier2014" title="Link to this heading"></a></h2>
+<span id="model-domeier2014"></span><h2><a class="toc-backref" href="#id23" role="doc-backlink">Domeier2014</a><a class="headerlink" href="#domeier2014" title="Link to this heading"></a></h2>
 <p><strong>Time range:</strong> 410 - 250 Ma</p>
 <p><strong>Layers:</strong></p>
 <ul class="simple">
@@ -607,7 +618,7 @@ the ‘URL’ below for more details.</p>
 <hr class="docutils" />
 </section>
 <section id="zahirovic2014">
-<span id="model-zahirovic2014"></span><h2><a class="toc-backref" href="#id23" role="doc-backlink">Zahirovic2014</a><a class="headerlink" href="#zahirovic2014" title="Link to this heading"></a></h2>
+<span id="model-zahirovic2014"></span><h2><a class="toc-backref" href="#id24" role="doc-backlink">Zahirovic2014</a><a class="headerlink" href="#zahirovic2014" title="Link to this heading"></a></h2>
 <p><strong>Time range:</strong> 300 - 0 Ma</p>
 <p><strong>Layers:</strong></p>
 <ul class="simple">
@@ -620,7 +631,7 @@ the ‘URL’ below for more details.</p>
 <hr class="docutils" />
 </section>
 <section id="shephard2013">
-<span id="model-shephard2013"></span><h2><a class="toc-backref" href="#id24" role="doc-backlink">Shephard2013</a><a class="headerlink" href="#shephard2013" title="Link to this heading"></a></h2>
+<span id="model-shephard2013"></span><h2><a class="toc-backref" href="#id25" role="doc-backlink">Shephard2013</a><a class="headerlink" href="#shephard2013" title="Link to this heading"></a></h2>
 <p><strong>Time range:</strong> 200 - 0 Ma</p>
 <p><strong>Layers:</strong></p>
 <ul class="simple">
@@ -634,7 +645,7 @@ context. See the ‘URL’ below for more details.</p>
 <hr class="docutils" />
 </section>
 <section id="gurnis2012">
-<span id="model-gurnis2012"></span><h2><a class="toc-backref" href="#id25" role="doc-backlink">Gurnis2012</a><a class="headerlink" href="#gurnis2012" title="Link to this heading"></a></h2>
+<span id="model-gurnis2012"></span><h2><a class="toc-backref" href="#id26" role="doc-backlink">Gurnis2012</a><a class="headerlink" href="#gurnis2012" title="Link to this heading"></a></h2>
 <p><strong>Time range:</strong> 140 - 0 Ma</p>
 <p><strong>Layers:</strong></p>
 <ul class="simple">
@@ -648,7 +659,7 @@ context. See the ‘URL’ below for more details.</p>
 <hr class="docutils" />
 </section>
 <section id="seton2012">
-<span id="model-seton2012"></span><h2><a class="toc-backref" href="#id26" role="doc-backlink">Seton2012</a><a class="headerlink" href="#seton2012" title="Link to this heading"></a></h2>
+<span id="model-seton2012"></span><h2><a class="toc-backref" href="#id27" role="doc-backlink">Seton2012</a><a class="headerlink" href="#seton2012" title="Link to this heading"></a></h2>
 <p><strong>Time range:</strong> 200 - 0 Ma</p>
 <p><strong>Layers:</strong></p>
 <ul class="simple">
@@ -671,7 +682,7 @@ details.</p>
 <hr class="docutils" />
 </section>
 <section id="muller2008">
-<span id="model-muller2008"></span><h2><a class="toc-backref" href="#id27" role="doc-backlink">Muller2008</a><a class="headerlink" href="#muller2008" title="Link to this heading"></a></h2>
+<span id="model-muller2008"></span><h2><a class="toc-backref" href="#id28" role="doc-backlink">Muller2008</a><a class="headerlink" href="#muller2008" title="Link to this heading"></a></h2>
 <p><strong>Time range:</strong> 140 - 0 Ma</p>
 <p><strong>Layers:</strong></p>
 <ul class="simple">
@@ -681,7 +692,7 @@ details.</p>
 <hr class="docutils" />
 </section>
 <section id="golonka">
-<span id="model-golonka"></span><h2><a class="toc-backref" href="#id28" role="doc-backlink">Golonka</a><a class="headerlink" href="#golonka" title="Link to this heading"></a></h2>
+<span id="model-golonka"></span><h2><a class="toc-backref" href="#id29" role="doc-backlink">Golonka</a><a class="headerlink" href="#golonka" title="Link to this heading"></a></h2>
 <p><strong>Time range:</strong> 540 - 0 Ma</p>
 <p><strong>Layers:</strong></p>
 <ul class="simple">
@@ -694,7 +705,7 @@ details.</p>
 <hr class="docutils" />
 </section>
 <section id="paleomap">
-<span id="model-paleomap"></span><h2><a class="toc-backref" href="#id29" role="doc-backlink">Paleomap</a><a class="headerlink" href="#paleomap" title="Link to this heading"></a></h2>
+<span id="model-paleomap"></span><h2><a class="toc-backref" href="#id30" role="doc-backlink">Paleomap</a><a class="headerlink" href="#paleomap" title="Link to this heading"></a></h2>
 <p><strong>Aliases:</strong> <a class="reference internal" href="#model-scotese2016"><span class="std std-ref">Scotese2016</span></a></p>
 <p><strong>Time range:</strong> 750 - 0 Ma</p>
 <p><strong>Layers:</strong></p>
@@ -708,7 +719,7 @@ more details.</p>
 <hr class="docutils" />
 </section>
 <section id="rodinia">
-<span id="model-rodinia"></span><h2><a class="toc-backref" href="#id30" role="doc-backlink">Rodinia</a><a class="headerlink" href="#rodinia" title="Link to this heading"></a></h2>
+<span id="model-rodinia"></span><h2><a class="toc-backref" href="#id31" role="doc-backlink">Rodinia</a><a class="headerlink" href="#rodinia" title="Link to this heading"></a></h2>
 <p><strong>Aliases:</strong> <a class="reference internal" href="#model-rodinia"><span class="std std-ref">Li2008</span></a></p>
 <p><strong>Time range:</strong> 1100 - 530 Ma</p>
 <p><strong>Layers:</strong></p>
