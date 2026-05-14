@@ -121,3 +121,30 @@ Assume you had downloaded ``zahirovic2022`` model in the folder ``plate-model-re
 
     for layer in model.get_avail_layers():
         print(model.get_layer(layer))
+
+
+Use with joblib best practice 
+-----------------------------
+
+.. code-block:: python
+    :linenos:
+    :emphasize-lines: 6,13
+
+    from joblib import Parallel, delayed, dump, load
+    import gplately
+    from plate_model_manager import PlateModelManager
+
+    def worker_task(index, static_polygons_pkl_file):
+        static_polygons = load(static_polygons_pkl_file, mmap_mode="r")
+        print(f"Worker {index} is processing {len(static_polygons)} static polygons.")
+        return
+
+    static_polygons_feature_collection = gplately.gpml.merge_feature_collections(
+        PlateModelManager().get_model("zahirovic2022").get_static_polygons()
+    )
+    static_polygons_pkl_file = "static_polygons.pkl"
+    dump(static_polygons_feature_collection, static_polygons_pkl_file)
+
+    Parallel(n_jobs=4)(
+        delayed(worker_task)(idx, static_polygons_pkl_file) for idx in range(10)
+)
