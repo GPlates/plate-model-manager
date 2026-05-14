@@ -19,7 +19,7 @@ Each model entry lists:
 .. note::
 
    Use the model name (case-insensitive) when calling the ``plate-model-manager`` API or CLI.
-   For example: ``pmm download Cao2024 ./my-models``
+   For example: ``pmm download Muller2025 ./my-models``
 
 ----
 
@@ -27,8 +27,6 @@ Each model entry lists:
 
 Default
 -------
-
-**Aliases:** :ref:`Zahirovic2022 <model-zahirovic2022>`
 
 .. note::
    The current **default** plate model is :ref:`Zahirovic2022 <model-zahirovic2022>`. This may change in the future as new models are added or updated. Always check the documentation for the most up-to-date information on the default model.
@@ -39,8 +37,6 @@ Default
 
 Muller2025
 ----------
-
-**Aliases:** :ref:`Shirmard2025 <model-shirmard2025>`
 
 **Time range:** 18000 - 0 Ma
 
@@ -69,29 +65,7 @@ Muller2025
 Shirmard2025
 ------------
 
-**Aliases:** :ref:`Muller2025 <model-muller2025>`
-
-**Time range:** 18000 - 0 Ma
-
-**Layers:**
-
-- Coastlines
-- ContinentalPolygons
-- COBs
-- StaticPolygons
-- Topologies
-
-
-**Time-dependent rasters:**
-
-- AgeGrids
-- SpreadingRate
-
-
-**Description:** Mantle-reference plate model based on Cao et al. (2024), covering deep-time reconstructions. See the
-'URL' below for more details.
-
-**DOI / URL:** https://doi.org/10.5281/zenodo.15233548
+The model Shirmard2025 is an alias for :ref:`Muller2025 <model-muller2025>`. The two models are identical.
 
 ----
 
@@ -131,8 +105,6 @@ reconstruction. Set the anchor plate ID to 701701 to use PMAG reference frame. S
 Cao2024
 -------
 
-**Aliases:** Cao2023
-
 **Time range:** 18000 - 0 Ma
 
 **Layers:**
@@ -156,7 +128,7 @@ for more details.
 Cao2023
 -------
 
-**Aliases:** :ref:`Cao2024 <model-cao2024>`
+The model Cao2023 is an alias for :ref:`Cao2024 <model-cao2024>`. The two models are identical.
 
 ----
 
@@ -200,7 +172,7 @@ Zahirovic2022
 -------------
 
 .. note::
-   This is the **default** plate model.
+   This is the **default** plate model as of now. This may change in the future as new models are added or updated. Always check the documentation for the most up-to-date information on the default model.
 
 **Time range:** 410 - 0 Ma
 
@@ -259,30 +231,7 @@ MATTHEWS2016_pmag_ref model for 250-410 Ma and a newly constructed model for ear
 Clennett2020
 ------------
 
-**Aliases:** :ref:`Clennett2020_m2019 <model-clennett2020-m2019>`
-
-**Time range:** 170 - 0 Ma
-
-**Layers:**
-
-- Coastlines
-- COBs
-- ContinentalPolygons
-- StaticPolygons
-- Terranes
-- Topologies
-
-
-**Time-dependent rasters:**
-
-- AgeGrids
-- SpreadingRate
-
-
-**Description:** Quantitative tomotectonic reconstruction of western North America and the eastern Pacific basin. See
-the 'URL' below for more details.
-
-**DOI / URL:** https://doi.org/10.5281/zenodo.10348270
+The model Clennett2020 is an alias for :ref:`Clennett2020_m2019 <model-clennett2020-m2019>`. The two models are identical.
 
 ----
 
@@ -291,7 +240,6 @@ the 'URL' below for more details.
 Clennett2020_m2019
 ------------------
 
-**Aliases:** :ref:`Clennett2020 <model-clennett2020>`
 
 **Time range:** 170 - 0 Ma
 
@@ -426,29 +374,7 @@ Torsvikcocks2017
 Matthews2016
 ------------
 
-**Aliases:** :ref:`Matthews2016_mantle_ref <model-matthews2016-mantle-ref>`
-
-**Time range:** 410 - 0 Ma
-
-**Layers:**
-
-- Coastlines
-- ContinentalPolygons
-- StaticPolygons
-- Topologies
-
-
-**Time-dependent rasters:**
-
-- AgeGrids
-- Coastlines
-- Topologies
-
-
-**Description:** This model is identical to MATTHEWS2016_pmag_ref in terms of relative plate models but uses a true
-polar wander corrected paleomagnetic model, viewed as a proxy for a mantle reference frame model. See the 'URL' below for more details.
-
-**DOI / URL:** https://doi.org/10.5281/zenodo.10526156
+The model Matthews2016 is an alias for :ref:`Matthews2016_mantle_ref <model-matthews2016-mantle-ref>`. The two models are identical.
 
 ----
 
@@ -456,8 +382,6 @@ polar wander corrected paleomagnetic model, viewed as a proxy for a mantle refer
 
 Matthews2016_mantle_ref
 -----------------------
-
-**Aliases:** :ref:`Matthews2016 <model-matthews2016>`
 
 **Time range:** 410 - 0 Ma
 
@@ -544,8 +468,6 @@ frame. See the 'URL' below for more details.
 
 Scotese2016
 -----------
-
-**Aliases:** :ref:`Paleomap <model-paleomap>`
 
 **Time range:** 750 - 0 Ma
 
@@ -726,7 +648,7 @@ details.
 Li2008
 ------
 
-**Aliases:** :ref:`Rodinia <model-rodinia>`
+The model Li2008 is an alias for :ref:`Rodinia <model-rodinia>`. The two models are identical.
 
 ----
 
@@ -773,21 +695,7 @@ Golonka
 Paleomap
 --------
 
-**Aliases:** :ref:`Scotese2016 <model-scotese2016>`
-
-**Time range:** 750 - 0 Ma
-
-**Layers:**
-
-- Coastlines
-- StaticPolygons
-
-
-**Description:** PALEOMAP PaleoAtlas reconstruction dataset for GPlates (Scotese framework). See the 'URL' below for
-more details.
-
-**DOI / URL:** https://doi.org/10.5281/zenodo.10596609
-
+The model Paleomap is an alias for :ref:`Scotese2016 <model-scotese2016>`. The two models are identical.
 
 ----
 
@@ -795,8 +703,6 @@ more details.
 
 Rodinia
 -------
-
-**Aliases:** Li2008
 
 **Time range:** 1100 - 530 Ma
 

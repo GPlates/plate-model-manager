@@ -63,6 +63,10 @@ def print_error(msg):
 
 
 def is_debug_mode():
+    """Check if the debug mode is enabled by checking the environment variable "PMM_DEBUG".
+
+    export PMM_DEBUG=true to enable the debug mode.
+    """
     return "PMM_DEBUG" in os.environ and os.environ["PMM_DEBUG"].lower() == "true"
 
 

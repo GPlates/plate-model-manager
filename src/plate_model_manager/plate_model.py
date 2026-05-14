@@ -78,13 +78,11 @@ class PlateModel:
         self.model_name = model_name.lower()
         self.meta_filename = METADATA_FILENAME
         self._model = model_cfg
-        self.reference_frame = reference_frame
+        self._reference_frame = reference_frame
         self.readonly = readonly
         self.timeout = timeout
 
         self.data_dir = data_dir
-
-        self.model_dir = f"{self.data_dir}/{self.model_name}"
 
         if readonly:
             if not PlateModel.is_model_dir(self.model_dir):
@@ -154,23 +152,28 @@ class PlateModel:
 
     def get_model_dir(self):
         """Return the path to a folder containing the model files."""
-        if PlateModel.is_model_dir(self.model_dir):
-            return self.model_dir
+        _model_dir = f"{self.data_dir}/{self.model_name}"
+        if PlateModel.is_model_dir(_model_dir):
+            return _model_dir
         elif not self.readonly:
             return self.create_model_dir()
         else:
             raise Exception(
-                f"The model dir {self.model_dir} is invalid and could not create it (in readonly mode)."
+                f"The model dir {_model_dir} is invalid and could not create it (in readonly mode)."
             )
 
     def get_data_dir(self):
         """Return the path to a folder (parent folder of the ``model dir``) containing a set of downloaded models."""
         return self.data_dir
 
+    @property
+    def model_dir(self):
+        """Return the folder path for this model under ``data_dir``."""
+        return self.get_model_dir()
+
     def set_data_dir(self, new_dir):
         """Change the folder (parent folder of the ``model dir``) in which you would like to save your model."""
         self.data_dir = new_dir
-        self.model_dir = f"{self.data_dir}/{self.model_name}/"
 
     def get_big_time(self):
         """The max (big number in Ma) reconstruction time in the model."""
@@ -219,19 +222,22 @@ class PlateModel:
         if not self.readonly:
             rotation_folder = self._download_layer_files("Rotations")
         else:
+            logger.debug(
+                f"Getting rotation files from local folder {self.model_dir}/Rotations since we are in readonly mode."
+            )
             rotation_folder = f"{self.model_dir}/Rotations"
         rotation_files = glob.glob(f"{rotation_folder}/*.rot")
         rotation_files.extend(glob.glob(f"{rotation_folder}/*.grot"))
         # print(rotation_files)
         if reference_frame is None:
-            reference_frame = self.reference_frame
+            reference_frame = self._reference_frame
         if reference_frame == ReferenceFrame.PmagReferenceFrame:
             attrs = self.model.get("Attributes", None)
             pmag_ref_frame_anchor_pid = (
                 attrs.get("PmagReferenceFrameAnchorPID", None) if attrs else None
             )
             if pmag_ref_frame_anchor_pid is None:
-                if self.reference_frame == ReferenceFrame.PmagReferenceFrame:
+                if self._reference_frame == ReferenceFrame.PmagReferenceFrame:
                     # if the model is already in PMAG reference frame, we can just set the anchor PID to 0
                     pmag_ref_frame_anchor_pid = 0
                 else:
@@ -317,10 +323,57 @@ class PlateModel:
             else:
                 raise e
 
+    def get_layer_metadata(
+        self, layer_name: str, return_none_if_not_exist: bool = False
+    ) -> Union[Dict, None]:
+        """Return metadata for a layer as a dictionary.
+
+        In writable mode, this method ensures the layer is downloaded/updated
+        before reading metadata. In readonly mode, it reads from the local
+        layer folder directly.
+
+        :param layer_name: The layer name of interest.
+        :param return_none_if_not_exist: If set to ``True``, return ``None``
+                                         when the layer does not exist in the
+                                         model.
+
+        :returns: Layer metadata dictionary, or ``None`` if
+                  ``return_none_if_not_exist`` is set to ``True`` and the layer
+                  is not found.
+
+        :raises :class:`LayerNotFoundInModel`: Raise this exception if the
+                                               layer name does not exist in this
+                                               model.
+        :raises Exception: If the layer metadata file is missing.
+        """
+        try:
+            if not self.readonly:
+                layer_folder = self._download_layer_files(layer_name)
+            else:
+                layer_folder = f"{self.model_dir}/{layer_name}"
+
+            metadata_file = f"{layer_folder}/{self.meta_filename}"
+            if not os.path.isfile(metadata_file):
+                raise Exception(
+                    f"Layer metadata file not found for layer({layer_name}) in model({self.model_name}): {metadata_file}"
+                )
+
+            with open(metadata_file, "r") as f:
+                return json.load(f)
+        except LayerNotFoundInModel as e:
+            logger.warning(e)
+            if return_none_if_not_exist:
+                logger.warning(
+                    f"The layer({layer_name}) does not exist in model({self.model_name})."
+                )
+                return None
+            else:
+                raise e
+
     def _resolve_raster_name(self, raster_name, reference_frame, generated_from):
         resolved_raster_name = raster_name
         if reference_frame is None:
-            reference_frame = self.reference_frame
+            reference_frame = self._reference_frame
         if generated_from is not None:
             resolved_raster_name = f"{raster_name}{generated_from.value}"
         name_without_reference_frame = resolved_raster_name
@@ -525,12 +578,12 @@ class PlateModel:
         :raises Exception: If running in readonly mode, if ``self.model_dir`` is
                            invalid/empty, or if the model path exists as a file.
         """
+        model_path = f"{self.data_dir}/{self.model_name}"
         if self.readonly:
             raise Exception("Unable to create model folder in readonly mode.")
-        if not self.model_dir:
-            raise Exception(f"Error: Invalid model folder {self.model_dir}")
+        if not model_path:
+            raise Exception(f"Error: Invalid model folder {model_path}")
 
-        model_path = self.model_dir
         if os.path.isfile(model_path):
             raise Exception(
                 f"Fatal: The model folder {model_path} already exists and is a file!! Remove the file or use another folder to download the model."
@@ -608,11 +661,14 @@ class PlateModel:
         else:
             if downloader.check_if_expire_date_need_update():
                 # update the expiry date
+                logger.debug(
+                    f"The local files in {layer_folder} are still good but the expiry date needs to be updated. Will update the expiry date in metadata."
+                )
                 downloader.update_metadata()
-
-            logger.debug(
-                f"The local files in {layer_folder} are still good. Will not download again at this moment."
-            )
+            else:
+                logger.debug(
+                    f"The local files in {layer_folder} are still good. Will not download again at this moment."
+                )
 
         return layer_folder
 

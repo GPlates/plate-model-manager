@@ -42,7 +42,7 @@ def _run_download_command(args):
 
     if args.model.lower() == "all":
         pm_manager.download_all_models(args.path)
-        logger.info(f"All models have been downloaded and saved in {args.path}")
+        logger.info(f"All models have been saved in {args.path}.")
     else:
         model = pm_manager.get_model(args.model)
         if model is not None:
@@ -52,9 +52,7 @@ def _run_download_command(args):
                 model.download_all()
             else:
                 model.download_all_layers()
-            logger.info(
-                f"Model({args.model}) has been downloaded and saved in {args.path}"
-            )
+            logger.info(f"Model({args.model}) has been saved in {model.model_dir}.")
 
 
 def _run_check_update_command(args):

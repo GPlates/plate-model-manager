@@ -63,13 +63,22 @@ class FileDownloader:
         self.http_client = http_client
 
     def check_if_file_need_update(self):
-        """check if the file need an update(download/re-download the files)
-        return true if "need update", otherwise false
+        """Decide whether the target file should be downloaded again.
 
-        1. check if the metadata file exists
-        2. check if the file urls match
-        3. check expire date
-        4. check etag
+        Returns:
+            bool: ``True`` when the file should be downloaded/re-downloaded,
+            ``False`` when the existing local file can be reused.
+
+        Decision flow:
+            1. If the metadata file is missing, return ``True``.
+            2. If the stored ``url`` differs from ``self.file_url`` (or is
+               missing), return ``True``.
+            3. If the metadata ``expiry`` is still valid, return ``False``.
+            4. If expired (or expiry is invalid/missing), compare remote
+               content state:
+               - Prefer SHA-256 comparison when available.
+               - Fall back to ETag comparison if SHA-256 cannot be obtained.
+               - If neither reliable value is available, return ``True``.
         """
 
         #
@@ -111,23 +120,26 @@ class FileDownloader:
                     )
                     now = datetime.now()
                     if now > expiry_date:
-                        logger.debug("The file expired. Check etag.")
-                        need_check_etag = True  # expired, need to check etag to decide
+                        logger.debug("The file expired. Check sha256 or etag.")
+                        need_check_etag = (
+                            True  # expired, need to check sha256 or etag to decide
+                        )
                     else:
                         # layer file has not expired yet, no need to check update
+                        logger.debug(
+                            f"The file has not expired yet (expiry date: {expiry_date}, now: {now}). No need to check sha256 or etag. Will use the local file."
+                        )
                         return False
                 except ValueError:
-                    need_check_etag = (
-                        True  # invalid expiry date, need to check etag to decide
-                    )
+                    need_check_etag = True  # invalid expiry date, need to check sha256 or etag to decide
             else:
-                need_check_etag = (
-                    True  # no expiry date in metafile, need to check etag to make sure
-                )
+                need_check_etag = True  # no expiry date in metafile, need to check sha256 or etag to make sure
 
             if need_check_etag:
                 self.meta_sha256 = meta.get("sha256")
-                self.new_sha256 = network.get_sha256(self.file_url, timeout=self.timeout)
+                self.new_sha256 = network.get_sha256(
+                    self.file_url, timeout=self.timeout
+                )
 
                 if self.new_sha256:
                     if self.meta_sha256 == self.new_sha256:
@@ -225,4 +237,6 @@ class FileDownloader:
     def check_if_expire_date_need_update(self):
         # if we have checked the etag and it is the same as before
         # we need to update the expiry date
-        return self.new_etag is not None and self.new_etag == self.meta_etag
+        return (
+            self.new_sha256 is not None and self.meta_sha256 == self.new_sha256
+        ) or (self.new_etag is not None and self.new_etag == self.meta_etag)
