@@ -30,6 +30,10 @@ Visit [this page](https://gplates.github.io/plate-model-manager/latest/basic_usa
 
 Visit [this page](https://gplates.github.io/plate-model-manager/latest/command_line_interface.html) to see how to use the `plate-model-manager` command lines.
 
+### Best practice using with joblib
+
+Visit [this page](https://gplates.github.io/plate-model-manager/latest/examples.html#use-with-joblib-best-practice) for the best practice using with joblib.
+
 ### Documentation
 
 - [latest dev](https://gplates.github.io/plate-model-manager/latest/)
