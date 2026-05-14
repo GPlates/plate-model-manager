@@ -54,6 +54,8 @@ class FileDownloader:
         self.expiry_time_format = expiry_time_format
         self.meta_etag = None
         self.new_etag = None
+        self.meta_sha256 = None
+        self.new_sha256 = None
         self.file_size = None
         self.large_file_hint = large_file_hint
         self.timeout = timeout
@@ -124,6 +126,18 @@ class FileDownloader:
                 )
 
             if need_check_etag:
+                self.meta_sha256 = meta.get("sha256")
+                self.new_sha256 = network.get_sha256(self.file_url, timeout=self.timeout)
+
+                if self.new_sha256:
+                    if self.meta_sha256 == self.new_sha256:
+                        logger.debug(f"{self.meta_sha256} -- {self.new_sha256}")
+                        return False
+                    logger.debug(
+                        f"sha256 has been changed or missing in metadata. re-download the file({self.file_url})"
+                    )
+                    return True
+
                 if "etag" in meta:
                     meta_etag = meta["etag"]
                     headers = network.get_headers(self.file_url)
@@ -190,12 +204,15 @@ class FileDownloader:
 
     def update_metadata(self):
         """update metadata file"""
+        if self.new_sha256 is None:
+            self.new_sha256 = network.get_sha256(self.file_url, timeout=self.timeout)
         metadata = {
             "url": self.file_url,
             "expiry": (datetime.now() + timedelta(hours=self.expire_hours)).strftime(
                 self.expiry_time_format
             ),
             "etag": self.new_etag,
+            "sha256": self.new_sha256,
         }
         Path("/".join(self.meta_filepath.split("/")[:-1])).mkdir(
             parents=True, exist_ok=True

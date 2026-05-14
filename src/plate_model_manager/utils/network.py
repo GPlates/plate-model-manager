@@ -1,3 +1,6 @@
+import re
+from urllib.parse import urlparse
+
 import requests
 
 from . import misc
@@ -30,3 +33,22 @@ def get_etag(headers):
         new_etag = new_etag.replace("-gzip", "")
 
     return new_etag
+
+
+def get_sha256(url, timeout=(None, None)):
+    """return the sha256 hash from the sidecar file name in a WebDAV directory listing."""
+    parsed_url = urlparse(url)
+    filename = parsed_url.path.split("/")[-1]
+    if not filename:
+        return None
+
+    directory_url = url.rsplit("/", 1)[0] + "/"
+    r = requests.get(directory_url, timeout=timeout)
+    if not r.ok:
+        return None
+
+    match = re.search(rf"{re.escape(filename)}\.([0-9a-fA-F]{{64}})", r.text)
+    if not match:
+        return None
+
+    return match.group(1).lower()
