@@ -20,6 +20,9 @@ class _HrefParser(HTMLParser):
                 self.hrefs.append(attr_value)
 
 
+SHA256_HEX_LENGTH = 64
+
+
 def get_headers(url, timeout=(None, None)):
     headers = {"Accept-Encoding": "identity"}
     r = requests.head(url, headers=headers, timeout=timeout)
@@ -85,7 +88,9 @@ def get_sha256(url, timeout=(None, None)):
         if not link_name.startswith(expected_prefix):
             continue
         hash_string = link_name[len(expected_prefix) :]
-        if len(hash_string) == 64 and all(c in string.hexdigits for c in hash_string):
+        if len(hash_string) == SHA256_HEX_LENGTH and all(
+            c in string.hexdigits for c in hash_string
+        ):
             return hash_string.lower()
 
     return None
