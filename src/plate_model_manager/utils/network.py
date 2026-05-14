@@ -1,9 +1,23 @@
-import re
+import string
+import xml.etree.ElementTree as ET
+from html.parser import HTMLParser
+from urllib.parse import unquote
 from urllib.parse import urlparse
 
 import requests
 
 from . import misc
+
+
+class _HrefParser(HTMLParser):
+    def __init__(self):
+        super().__init__()
+        self.hrefs = []
+
+    def handle_starttag(self, tag, attrs):
+        for attr_name, attr_value in attrs:
+            if attr_name == "href" and attr_value:
+                self.hrefs.append(attr_value)
 
 
 def get_headers(url, timeout=(None, None)):
@@ -51,8 +65,27 @@ def get_sha256(url, timeout=(None, None)):
     if not r.ok:
         return None
 
-    match = re.search(rf"{re.escape(filename)}\.([0-9a-fA-F]{{64}})", r.text)
-    if not match:
-        return None
+    links = []
+    try:
+        root = ET.fromstring(r.text)
+        for elem in root.iter():
+            if elem.tag.endswith("href") and elem.text:
+                links.append(elem.text)
+    except ET.ParseError:
+        pass
 
-    return match.group(1).lower()
+    if not links:
+        parser = _HrefParser()
+        parser.feed(r.text)
+        links = parser.hrefs
+
+    for link in links:
+        link_name = unquote(link).split("/")[-1]
+        expected_prefix = f"{filename}."
+        if not link_name.startswith(expected_prefix):
+            continue
+        hash_string = link_name[len(expected_prefix) :]
+        if len(hash_string) == 64 and all(c in string.hexdigits for c in hash_string):
+            return hash_string.lower()
+
+    return None

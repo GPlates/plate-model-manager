@@ -5,7 +5,7 @@ import sys
 import tempfile
 import unittest
 from datetime import datetime, timedelta
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 from common import is_test_installed_module
 
@@ -13,6 +13,7 @@ if not is_test_installed_module():
     sys.path.insert(0, f"{os.path.dirname(__file__)}/../src")
 
 from plate_model_manager.utils.download import FileDownloader
+from plate_model_manager.utils.network import get_sha256
 
 
 class DownloadFileSha256TestCase(unittest.TestCase):
@@ -74,6 +75,41 @@ class DownloadFileSha256TestCase(unittest.TestCase):
                 ),
             ):
                 self.assertFalse(downloader.check_if_file_need_update())
+
+    def test_get_sha256_from_webdav_xml_listing(self):
+        with patch("plate_model_manager.utils.network.requests.get") as mock_get:
+            mock_get.return_value = Mock(
+                ok=True,
+                text="""<?xml version="1.0"?>
+<d:multistatus xmlns:d="DAV:">
+  <d:response>
+    <d:href>/webdav/pmm/muller2025/Rotations.zip.a7d126e6f1de27fffeda9734bb06fec4873805bf0bbbcd6a2719e9dca253608d</d:href>
+  </d:response>
+</d:multistatus>""",
+            )
+
+            sha256 = get_sha256(
+                "https://repo.gplates.org/webdav/pmm/muller2025/Rotations.zip"
+            )
+            self.assertEqual(
+                sha256,
+                "a7d126e6f1de27fffeda9734bb06fec4873805bf0bbbcd6a2719e9dca253608d",
+            )
+
+    def test_get_sha256_from_html_listing(self):
+        with patch("plate_model_manager.utils.network.requests.get") as mock_get:
+            mock_get.return_value = Mock(
+                ok=True,
+                text='<a href="Rotations.zip.a7d126e6f1de27fffeda9734bb06fec4873805bf0bbbcd6a2719e9dca253608d">hash</a>',
+            )
+
+            sha256 = get_sha256(
+                "https://repo.gplates.org/webdav/pmm/muller2025/Rotations.zip"
+            )
+            self.assertEqual(
+                sha256,
+                "a7d126e6f1de27fffeda9734bb06fec4873805bf0bbbcd6a2719e9dca253608d",
+            )
 
     def test_check_update_falls_back_to_etag_when_sha256_unavailable(self):
         with tempfile.TemporaryDirectory() as tmpdir:

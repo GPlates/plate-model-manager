@@ -136,7 +136,7 @@ class FileDownloader:
                         )
                         return False
                     logger.debug(
-                        f"sha256 has been changed or missing in metadata. re-download the file({self.file_url})"
+                        f"SHA-256 has been changed or missing in metadata. re-download the file({self.file_url})"
                     )
                     return True
 
