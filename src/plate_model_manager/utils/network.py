@@ -53,7 +53,7 @@ def get_etag(headers):
 
 
 def get_sha256(url, timeout=(None, None)):
-    """return the sha256 hash from the sidecar file name in a WebDAV directory listing.
+    """return the sha256 hash from the sidecar file name in a WebDAV/XML or HTML directory listing.
 
     :param timeout: a (connect_timeout, read_timeout) tuple for requests.get().
         None keeps requests' default behavior for that timeout component.
