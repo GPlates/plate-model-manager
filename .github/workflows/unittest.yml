@@ -33,6 +33,7 @@ jobs:
           python3 -m pip install requests
           python3 -m pip install aiohttp
           python3 -m pip install nest_asyncio
+          python3 -m pip install joblib
           pip3 install .
 
       - name: Run tests
