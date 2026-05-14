@@ -131,7 +131,9 @@ class FileDownloader:
 
                 if self.new_sha256:
                     if self.meta_sha256 == self.new_sha256:
-                        logger.debug(f"{self.meta_sha256} -- {self.new_sha256}")
+                        logger.debug(
+                            f"SHA-256 unchanged: {self.meta_sha256} matches {self.new_sha256}"
+                        )
                         return False
                     logger.debug(
                         f"sha256 has been changed or missing in metadata. re-download the file({self.file_url})"
