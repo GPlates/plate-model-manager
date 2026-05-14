@@ -79,6 +79,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#plate_model_manager.PlateModel.get_continental_polygons"><code class="docutils literal notranslate"><span class="pre">PlateModel.get_continental_polygons()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#plate_model_manager.PlateModel.get_data_dir"><code class="docutils literal notranslate"><span class="pre">PlateModel.get_data_dir()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#plate_model_manager.PlateModel.get_layer"><code class="docutils literal notranslate"><span class="pre">PlateModel.get_layer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plate_model_manager.PlateModel.get_layer_metadata"><code class="docutils literal notranslate"><span class="pre">PlateModel.get_layer_metadata()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#plate_model_manager.PlateModel.get_model_dir"><code class="docutils literal notranslate"><span class="pre">PlateModel.get_model_dir()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#plate_model_manager.PlateModel.get_raster"><code class="docutils literal notranslate"><span class="pre">PlateModel.get_raster()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#plate_model_manager.PlateModel.get_rasters"><code class="docutils literal notranslate"><span class="pre">PlateModel.get_rasters()</span></code></a></li>
@@ -89,6 +90,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#plate_model_manager.PlateModel.get_static_polygons"><code class="docutils literal notranslate"><span class="pre">PlateModel.get_static_polygons()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#plate_model_manager.PlateModel.get_topologies"><code class="docutils literal notranslate"><span class="pre">PlateModel.get_topologies()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#plate_model_manager.PlateModel.is_model_dir"><code class="docutils literal notranslate"><span class="pre">PlateModel.is_model_dir()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plate_model_manager.PlateModel.model_dir"><code class="docutils literal notranslate"><span class="pre">PlateModel.model_dir</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#plate_model_manager.PlateModel.purge"><code class="docutils literal notranslate"><span class="pre">PlateModel.purge()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#plate_model_manager.PlateModel.purge_layer"><code class="docutils literal notranslate"><span class="pre">PlateModel.purge_layer()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#plate_model_manager.PlateModel.purge_time_dependent_rasters"><code class="docutils literal notranslate"><span class="pre">PlateModel.purge_time_dependent_rasters()</span></code></a></li>
@@ -444,6 +446,40 @@ Set <code class="docutils literal notranslate"><span class="pre">return_none_if_
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="plate_model_manager.PlateModel.get_layer_metadata">
+<span class="sig-name descname"><span class="pre">get_layer_metadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">layer_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_none_if_not_exist</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><span class="pre">Dict</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="_modules/plate_model_manager/plate_model.html#PlateModel.get_layer_metadata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plate_model_manager.PlateModel.get_layer_metadata" title="Link to this definition"></a></dt>
+<dd><p>Return metadata for a layer as a dictionary.</p>
+<p>In writable mode, this method ensures the layer is downloaded/updated
+before reading metadata. In readonly mode, it reads from the local
+layer folder directly.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>layer_name</strong> – The layer name of interest.</p></li>
+<li><p><strong>return_none_if_not_exist</strong> – If set to <code class="docutils literal notranslate"><span class="pre">True</span></code>, return <code class="docutils literal notranslate"><span class="pre">None</span></code>
+when the layer does not exist in the
+model.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Layer metadata dictionary, or <code class="docutils literal notranslate"><span class="pre">None</span></code> if
+<code class="docutils literal notranslate"><span class="pre">return_none_if_not_exist</span></code> is set to <code class="docutils literal notranslate"><span class="pre">True</span></code> and the layer
+is not found.</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>:raises <code class="xref py py-class docutils literal notranslate"><span class="pre">LayerNotFoundInModel</span></code>: Raise this exception if the</dt><dd><p>layer name does not exist in this
+model.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#Exception" title="(in Python v3.14)"><strong>Exception</strong></a> – If the layer metadata file is missing.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="plate_model_manager.PlateModel.get_model_dir">
 <span class="sig-name descname"><span class="pre">get_model_dir</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/plate_model_manager/plate_model.html#PlateModel.get_model_dir"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plate_model_manager.PlateModel.get_model_dir" title="Link to this definition"></a></dt>
 <dd><p>Return the path to a folder containing the model files.</p>
@@ -579,6 +615,12 @@ defined.</p>
 <dt class="sig sig-object py" id="plate_model_manager.PlateModel.is_model_dir">
 <span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">is_model_dir</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plate_model_manager/plate_model.html#PlateModel.is_model_dir"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plate_model_manager.PlateModel.is_model_dir" title="Link to this definition"></a></dt>
 <dd><p>Return <code class="docutils literal notranslate"><span class="pre">True</span></code> if the folder contains files of a plate model, otherwise <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="plate_model_manager.PlateModel.model_dir">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">model_dir</span></span><a class="headerlink" href="#plate_model_manager.PlateModel.model_dir" title="Link to this definition"></a></dt>
+<dd><p>Return the folder path for this model under <code class="docutils literal notranslate"><span class="pre">data_dir</span></code>.</p>
 </dd></dl>
 
 <dl class="py method">

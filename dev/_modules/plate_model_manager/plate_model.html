@@ -162,13 +162,11 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">model_name</span> <span class="o">=</span> <span class="n">model_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">meta_filename</span> <span class="o">=</span> <span class="n">METADATA_FILENAME</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_model</span> <span class="o">=</span> <span class="n">model_cfg</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">reference_frame</span> <span class="o">=</span> <span class="n">reference_frame</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_reference_frame</span> <span class="o">=</span> <span class="n">reference_frame</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">readonly</span> <span class="o">=</span> <span class="n">readonly</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">timeout</span> <span class="o">=</span> <span class="n">timeout</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">data_dir</span> <span class="o">=</span> <span class="n">data_dir</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">model_dir</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">data_dir</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">model_name</span><span class="si">}</span><span class="s2">&quot;</span>
 
         <span class="k">if</span> <span class="n">readonly</span><span class="p">:</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">PlateModel</span><span class="o">.</span><span class="n">is_model_dir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model_dir</span><span class="p">):</span>
@@ -244,13 +242,14 @@
 <a class="viewcode-back" href="../../plate_model_manager.html#plate_model_manager.PlateModel.get_model_dir">[docs]</a>
     <span class="k">def</span> <span class="nf">get_model_dir</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the path to a folder containing the model files.&quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">PlateModel</span><span class="o">.</span><span class="n">is_model_dir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model_dir</span><span class="p">):</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_dir</span>
+        <span class="n">_model_dir</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">data_dir</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">model_name</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">if</span> <span class="n">PlateModel</span><span class="o">.</span><span class="n">is_model_dir</span><span class="p">(</span><span class="n">_model_dir</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">_model_dir</span>
         <span class="k">elif</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">readonly</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_model_dir</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;The model dir </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">model_dir</span><span class="si">}</span><span class="s2"> is invalid and could not create it (in readonly mode).&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;The model dir </span><span class="si">{</span><span class="n">_model_dir</span><span class="si">}</span><span class="s2"> is invalid and could not create it (in readonly mode).&quot;</span>
             <span class="p">)</span></div>
 
 
@@ -261,12 +260,16 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_dir</span></div>
 
 
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">model_dir</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the folder path for this model under ``data_dir``.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_model_dir</span><span class="p">()</span>
+
 <div class="viewcode-block" id="PlateModel.set_data_dir">
 <a class="viewcode-back" href="../../plate_model_manager.html#plate_model_manager.PlateModel.set_data_dir">[docs]</a>
     <span class="k">def</span> <span class="nf">set_data_dir</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_dir</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Change the folder (parent folder of the ``model dir``) in which you would like to save your model.&quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">data_dir</span> <span class="o">=</span> <span class="n">new_dir</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">model_dir</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">data_dir</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">model_name</span><span class="si">}</span><span class="s2">/&quot;</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_dir</span> <span class="o">=</span> <span class="n">new_dir</span></div>
 
 
 <div class="viewcode-block" id="PlateModel.get_big_time">
@@ -327,19 +330,22 @@
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">readonly</span><span class="p">:</span>
             <span class="n">rotation_folder</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_download_layer_files</span><span class="p">(</span><span class="s2">&quot;Rotations&quot;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Getting rotation files from local folder </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">model_dir</span><span class="si">}</span><span class="s2">/Rotations since we are in readonly mode.&quot;</span>
+            <span class="p">)</span>
             <span class="n">rotation_folder</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">model_dir</span><span class="si">}</span><span class="s2">/Rotations&quot;</span>
         <span class="n">rotation_files</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">rotation_folder</span><span class="si">}</span><span class="s2">/*.rot&quot;</span><span class="p">)</span>
         <span class="n">rotation_files</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">rotation_folder</span><span class="si">}</span><span class="s2">/*.grot&quot;</span><span class="p">))</span>
         <span class="c1"># print(rotation_files)</span>
         <span class="k">if</span> <span class="n">reference_frame</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">reference_frame</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">reference_frame</span>
+            <span class="n">reference_frame</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reference_frame</span>
         <span class="k">if</span> <span class="n">reference_frame</span> <span class="o">==</span> <span class="n">ReferenceFrame</span><span class="o">.</span><span class="n">PmagReferenceFrame</span><span class="p">:</span>
             <span class="n">attrs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Attributes&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
             <span class="n">pmag_ref_frame_anchor_pid</span> <span class="o">=</span> <span class="p">(</span>
                 <span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;PmagReferenceFrameAnchorPID&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="k">if</span> <span class="n">attrs</span> <span class="k">else</span> <span class="kc">None</span>
             <span class="p">)</span>
             <span class="k">if</span> <span class="n">pmag_ref_frame_anchor_pid</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">reference_frame</span> <span class="o">==</span> <span class="n">ReferenceFrame</span><span class="o">.</span><span class="n">PmagReferenceFrame</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reference_frame</span> <span class="o">==</span> <span class="n">ReferenceFrame</span><span class="o">.</span><span class="n">PmagReferenceFrame</span><span class="p">:</span>
                     <span class="c1"># if the model is already in PMAG reference frame, we can just set the anchor PID to 0</span>
                     <span class="n">pmag_ref_frame_anchor_pid</span> <span class="o">=</span> <span class="mi">0</span>
                 <span class="k">else</span><span class="p">:</span>
@@ -444,10 +450,60 @@
                 <span class="k">raise</span> <span class="n">e</span></div>
 
 
+<div class="viewcode-block" id="PlateModel.get_layer_metadata">
+<a class="viewcode-back" href="../../plate_model_manager.html#plate_model_manager.PlateModel.get_layer_metadata">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_layer_metadata</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">layer_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">return_none_if_not_exist</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return metadata for a layer as a dictionary.</span>
+
+<span class="sd">        In writable mode, this method ensures the layer is downloaded/updated</span>
+<span class="sd">        before reading metadata. In readonly mode, it reads from the local</span>
+<span class="sd">        layer folder directly.</span>
+
+<span class="sd">        :param layer_name: The layer name of interest.</span>
+<span class="sd">        :param return_none_if_not_exist: If set to ``True``, return ``None``</span>
+<span class="sd">                                         when the layer does not exist in the</span>
+<span class="sd">                                         model.</span>
+
+<span class="sd">        :returns: Layer metadata dictionary, or ``None`` if</span>
+<span class="sd">                  ``return_none_if_not_exist`` is set to ``True`` and the layer</span>
+<span class="sd">                  is not found.</span>
+
+<span class="sd">        :raises :class:`LayerNotFoundInModel`: Raise this exception if the</span>
+<span class="sd">                                               layer name does not exist in this</span>
+<span class="sd">                                               model.</span>
+<span class="sd">        :raises Exception: If the layer metadata file is missing.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">readonly</span><span class="p">:</span>
+                <span class="n">layer_folder</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_download_layer_files</span><span class="p">(</span><span class="n">layer_name</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">layer_folder</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">model_dir</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">layer_name</span><span class="si">}</span><span class="s2">&quot;</span>
+
+            <span class="n">metadata_file</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">layer_folder</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">meta_filename</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">metadata_file</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Layer metadata file not found for layer(</span><span class="si">{</span><span class="n">layer_name</span><span class="si">}</span><span class="s2">) in model(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">model_name</span><span class="si">}</span><span class="s2">): </span><span class="si">{</span><span class="n">metadata_file</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
+
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">metadata_file</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">LayerNotFoundInModel</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">return_none_if_not_exist</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;The layer(</span><span class="si">{</span><span class="n">layer_name</span><span class="si">}</span><span class="s2">) does not exist in model(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">model_name</span><span class="si">}</span><span class="s2">).&quot;</span>
+                <span class="p">)</span>
+                <span class="k">return</span> <span class="kc">None</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">e</span></div>
+
+
     <span class="k">def</span> <span class="nf">_resolve_raster_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">raster_name</span><span class="p">,</span> <span class="n">reference_frame</span><span class="p">,</span> <span class="n">generated_from</span><span class="p">):</span>
         <span class="n">resolved_raster_name</span> <span class="o">=</span> <span class="n">raster_name</span>
         <span class="k">if</span> <span class="n">reference_frame</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">reference_frame</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">reference_frame</span>
+            <span class="n">reference_frame</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reference_frame</span>
         <span class="k">if</span> <span class="n">generated_from</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">resolved_raster_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">raster_name</span><span class="si">}{</span><span class="n">generated_from</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="n">name_without_reference_frame</span> <span class="o">=</span> <span class="n">resolved_raster_name</span>
@@ -672,12 +728,12 @@
 <span class="sd">        :raises Exception: If running in readonly mode, if ``self.model_dir`` is</span>
 <span class="sd">                           invalid/empty, or if the model path exists as a file.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">model_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">data_dir</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">model_name</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">readonly</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Unable to create model folder in readonly mode.&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_dir</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error: Invalid model folder </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">model_dir</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">model_path</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error: Invalid model folder </span><span class="si">{</span><span class="n">model_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-        <span class="n">model_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_dir</span>
         <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">model_path</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
                 <span class="sa">f</span><span class="s2">&quot;Fatal: The model folder </span><span class="si">{</span><span class="n">model_path</span><span class="si">}</span><span class="s2"> already exists and is a file!! Remove the file or use another folder to download the model.&quot;</span>
@@ -768,11 +824,14 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">downloader</span><span class="o">.</span><span class="n">check_if_expire_date_need_update</span><span class="p">():</span>
                 <span class="c1"># update the expiry date</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;The local files in </span><span class="si">{</span><span class="n">layer_folder</span><span class="si">}</span><span class="s2"> are still good but the expiry date needs to be updated. Will update the expiry date in metadata.&quot;</span>
+                <span class="p">)</span>
                 <span class="n">downloader</span><span class="o">.</span><span class="n">update_metadata</span><span class="p">()</span>
-
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;The local files in </span><span class="si">{</span><span class="n">layer_folder</span><span class="si">}</span><span class="s2"> are still good. Will not download again at this moment.&quot;</span>
-            <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;The local files in </span><span class="si">{</span><span class="n">layer_folder</span><span class="si">}</span><span class="s2"> are still good. Will not download again at this moment.&quot;</span>
+                <span class="p">)</span>
 
         <span class="k">return</span> <span class="n">layer_folder</span>
 
