@@ -40,9 +40,12 @@
             "AgeGrids": "https://repo.gplates.org/webdav/PlateModel_Age_SR_Grids/Alfonso_etal_2024_modClennettMuller/SeafloorAge/Alfonso2024_SEAFLOOR_AGE_grid_{:.2f}Ma.nc",
             "SpreadingRate": "https://repo.gplates.org/webdav/PlateModel_Age_SR_Grids/Alfonso_etal_2024_modClennettMuller/SpreadingRate/Alfonso2024_SPREADING_RATE_grid_{:.2f}Ma.nc"
         },
-        "Description": "Modified global model focused on Western North America and the eastern Pacific tomotectonic reconstruction. See the 'URL' below for more details.",
+        "Description": "Modified global model focused on Western North America and the eastern Pacific tomotectonic reconstruction. Set the anchor plate ID to 701701 to use PMAG reference frame. See the 'URL' below for more details.",
         "URL": "https://doi.org/10.5281/zenodo.11392268",
-        "Version": "10.5281/zenodo.19872554"
+        "Version": "10.5281/zenodo.19872554",
+        "Attributes": {
+            "PmagReferenceFrameAnchorPID": 701701
+        }
     },
     "cao2024": {
         "BigTime": 18000,
@@ -99,7 +102,7 @@
             "SpreadingRateUsingTopologiesMantleFrame": "https://repo.gplates.org/webdav/PlateModel_Age_SR_Grids/Zahirovic_etal_2022_GDJ/02_AgegridsUsingTopologies/OptimisedMantleFrame/SeafloorSpreadingRateGrids/Zahirovic_etal_2022-v2_OPT_SPREADING_RATE_grid_{:.1f}Ma.nc",
             "SpreadingRateUsingTopologiesPMAG": "https://repo.gplates.org/webdav/PlateModel_Age_SR_Grids/Zahirovic_etal_2022_GDJ/02_AgegridsUsingTopologies/PaleomagneticFrame/SeafloorSpreadingRateGrids/Zahirovic_etal_2022-v2_PMAG_SPREADING_RATE_grid_{:.1f}Ma.nc"
         },
-        "Description": "Model for subduction kinematics and carbonate platform interactions. See the 'URL' below for more details.",
+        "Description": "Model for subduction kinematics and carbonate platform interactions. Set the anchor plate ID to 701701 to use PMAG reference frame. See the 'URL' below for more details.",
         "URL": "https://doi.org/10.5281/zenodo.4729045",
         "Version": "10.5281/zenodo.13899315",
         "Attributes": {

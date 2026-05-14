@@ -23,6 +23,18 @@ Each model entry lists:
 
 ----
 
+.. _model-default:
+
+Default
+-------
+
+**Aliases:** :ref:`Zahirovic2022 <model-zahirovic2022>`
+
+.. note::
+   The current **default** plate model is :ref:`Zahirovic2022 <model-zahirovic2022>`. This may change in the future as new models are added or updated. Always check the documentation for the most up-to-date information on the default model.
+
+----
+
 .. _model-muller2025:
 
 Muller2025
@@ -108,7 +120,7 @@ Alfonso2024
 
 
 **Description:** Modified global model focused on Western North America and the eastern Pacific tomotectonic
-reconstruction. See the 'URL' below for more details.
+reconstruction. Set the anchor plate ID to 701701 to use PMAG reference frame. See the 'URL' below for more details.
 
 **DOI / URL:** https://doi.org/10.5281/zenodo.11392268
 
@@ -199,7 +211,6 @@ Zahirovic2022
 - StaticPolygons
 - Topologies
 
-
 **Time-dependent rasters:**
 
 - AgegridsUsingIsochronsMantleFrame
@@ -210,7 +221,7 @@ Zahirovic2022
 - SpreadingRateUsingTopologiesPMAG
 
 
-**Description:** Model for subduction kinematics and carbonate platform interactions. See the 'URL' below for more
+**Description:** Model for subduction kinematics and carbonate platform interactions. Set the anchor plate ID to 701701 to use PMAG reference frame. See the 'URL' below for more
 details.
 
 **DOI / URL:** https://doi.org/10.5281/zenodo.4729045
