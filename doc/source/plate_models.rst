@@ -723,6 +723,9 @@ details.
 
 .. _model-li2008:
 
+Li2008
+------
+
 **Aliases:** :ref:`Rodinia <model-rodinia>`
 
 ----
