@@ -119,7 +119,7 @@ reconstruction. See the 'URL' below for more details.
 Cao2024
 -------
 
-**Aliases:** :ref:`Cao2023 <model-cao2023>`
+**Aliases:** Cao2023
 
 **Time range:** 18000 - 0 Ma
 
@@ -145,22 +145,6 @@ Cao2023
 -------
 
 **Aliases:** :ref:`Cao2024 <model-cao2024>`
-
-**Time range:** 18000 - 0 Ma
-
-**Layers:**
-
-- Coastlines
-- ContinentalPolygons
-- COBs
-- StaticPolygons
-- Topologies
-
-
-**Description:** Global tectonic and plate-boundary reconstruction spanning ~1.8 billion years. See the 'URL' below
-for more details.
-
-**DOI / URL:** https://doi.org/10.5281/zenodo.11536686
 
 ----
 
@@ -192,7 +176,7 @@ orients the plates relative to the mantle using a set of geodynamic rules to exc
 unreasonable plate motions. The difference between the paleomagnetic and mantle reference frames
 grows cumulatively back in time - hence the two reconstructions (MERDITH2021 versus MULLER2022)
 diverge progressively in the Paleozoic and Proterozoic both in terms of paleolatitude and
-paleolongitude.See the 'URL' below for more details.
+paleolongitude. See the 'URL' below for more details.
 
 **DOI / URL:** https://doi.org/10.5281/zenodo.10297173
 
@@ -451,8 +435,7 @@ Matthews2016
 
 
 **Description:** This model is identical to MATTHEWS2016_pmag_ref in terms of relative plate models but uses a true
-polar wander corrected paleomagnetic model, viewed as a proxy for a mantle reference frame model.
-See the 'URL' below for more details.
+polar wander corrected paleomagnetic model, viewed as a proxy for a mantle reference frame model. See the 'URL' below for more details.
 
 **DOI / URL:** https://doi.org/10.5281/zenodo.10526156
 
@@ -483,8 +466,7 @@ Matthews2016_mantle_ref
 
 
 **Description:** This model is identical to MATTHEWS2016_pmag_ref in terms of relative plate models but uses a true
-polar wander corrected paleomagnetic model, viewed as a proxy for a mantle reference frame model.
-See the 'URL' below for more details.
+polar wander corrected paleomagnetic model, viewed as a proxy for a mantle reference frame model. See the 'URL' below for more details.
 
 **DOI / URL:** https://doi.org/10.5281/zenodo.10526156
 
@@ -544,8 +526,6 @@ geodynamically unreasonable longitudinal plate motions, resulting in a modified 
 frame. See the 'URL' below for more details.
 
 **DOI / URL:** https://doi.org/10.5281/zenodo.10565444
-
-
 
 ----
 
@@ -730,6 +710,12 @@ details.
 
 ----
 
+.. _model-li2008:
+
+**Aliases:** :ref:`Rodinia <model-rodinia>`
+
+----
+
 .. _model-muller2008:
 
 Muller2008
@@ -742,7 +728,9 @@ Muller2008
 - StaticPolygons
 
 
-**Description:** MULLER2008 model data archive index. See the 'URL' below for available files and more details.
+**Description:** MULLER2008 model data archive.
+
+**URL:** https://earthbyte.org/webdav/ftp/incoming/mchin/plate-models/MULLER2008,
 
 ----
 
@@ -794,7 +782,7 @@ more details.
 Rodinia
 -------
 
-**Aliases:** :ref:`Li2008 <model-rodinia>`
+**Aliases:** Li2008
 
 **Time range:** 1100 - 530 Ma
 
