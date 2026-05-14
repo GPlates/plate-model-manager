@@ -21,6 +21,7 @@ class _HrefParser(HTMLParser):
 
 
 SHA256_HEX_LENGTH = 64
+HEX_DIGITS = set(string.hexdigits)
 
 
 def get_headers(url, timeout=(None, None)):
@@ -53,7 +54,7 @@ def get_etag(headers):
 
 
 def get_sha256(url, timeout=(None, None)):
-    """return the sha256 hash from the sidecar file name in a WebDAV/XML or HTML directory listing.
+    """Return the sha256 hash from the sidecar file name in a WebDAV/XML or HTML directory listing.
 
     :param timeout: a (connect_timeout, read_timeout) tuple for requests.get().
         None keeps requests' default behavior for that timeout component.
@@ -88,9 +89,7 @@ def get_sha256(url, timeout=(None, None)):
         if not link_name.startswith(expected_prefix):
             continue
         hash_string = link_name[len(expected_prefix) :]
-        if len(hash_string) == SHA256_HEX_LENGTH and all(
-            c in string.hexdigits for c in hash_string
-        ):
+        if len(hash_string) == SHA256_HEX_LENGTH and all(c in HEX_DIGITS for c in hash_string):
             return hash_string.lower()
 
     return None
