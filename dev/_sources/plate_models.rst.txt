@@ -38,7 +38,7 @@ Default
 Muller2025
 ----------
 
-**Time range:** 18000 - 0 Ma
+**Time range:** 1800 - 0 Ma
 
 **Layers:**
 
@@ -105,7 +105,7 @@ reconstruction. Set the anchor plate ID to 701701 to use PMAG reference frame. S
 Cao2024
 -------
 
-**Time range:** 18000 - 0 Ma
+**Time range:** 1800 - 0 Ma
 
 **Layers:**
 
