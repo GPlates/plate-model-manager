@@ -5,7 +5,7 @@
     "default": "@zahirovic2022",
     "muller2025": "@shirmard2025",
     "shirmard2025": {
-        "BigTime": 18000,
+        "BigTime": 1800,
         "SmallTime": 0,
         "Rotations": "@<<SvrBaseURL>>@/shirmard2025/Rotations.zip",
         "Layers": {
@@ -48,7 +48,7 @@
         }
     },
     "cao2024": {
-        "BigTime": 18000,
+        "BigTime": 1800,
         "SmallTime": 0,
         "Rotations": "@<<SvrBaseURL>>@/cao2024/Rotations.zip",
         "Layers": {

@@ -128,16 +128,18 @@ Use with joblib best practice
 
 .. code-block:: python
     :linenos:
-    :emphasize-lines: 6,13
+    :emphasize-lines: 7,16
 
     from joblib import Parallel, delayed, dump, load
     import gplately
     from plate_model_manager import PlateModelManager
 
+
     def worker_task(index, static_polygons_pkl_file):
-        static_polygons = load(static_polygons_pkl_file, mmap_mode="r")
+        static_polygons = load(static_polygons_pkl_file)
         print(f"Worker {index} is processing {len(static_polygons)} static polygons.")
         return
+
 
     static_polygons_feature_collection = gplately.gpml.merge_feature_collections(
         PlateModelManager().get_model("zahirovic2022").get_static_polygons()
@@ -147,4 +149,4 @@ Use with joblib best practice
 
     Parallel(n_jobs=4)(
         delayed(worker_task)(idx, static_polygons_pkl_file) for idx in range(10)
-)
+    )

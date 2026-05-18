@@ -2,7 +2,7 @@
     "default": "@zahirovic2022",
     "muller2025": "@shirmard2025",
     "shirmard2025": {
-        "BigTime": 18000,
+        "BigTime": 1800,
         "SmallTime": 0,
         "Rotations": "https://repo.gplates.org/webdav/pmm/shirmard2025/Rotations.zip",
         "Layers": {
@@ -45,7 +45,7 @@
         }
     },
     "cao2024": {
-        "BigTime": 18000,
+        "BigTime": 1800,
         "SmallTime": 0,
         "Rotations": "https://repo.gplates.org/webdav/pmm/cao2024/Rotations.zip",
         "Layers": {
