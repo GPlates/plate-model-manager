@@ -333,6 +333,7 @@ class PlateModel:
         layer folder directly.
 
         :param layer_name: The layer name of interest.
+
         :param return_none_if_not_exist: If set to ``True``, return ``None``
                                          when the layer does not exist in the
                                          model.
@@ -341,10 +342,10 @@ class PlateModel:
                   ``return_none_if_not_exist`` is set to ``True`` and the layer
                   is not found.
 
-        :raises :class:`LayerNotFoundInModel`: Raise this exception if the
-                                               layer name does not exist in this
-                                               model.
+        :raises LayerNotFoundInModel: Raise this exception if the layer name
+                          does not exist in this model.
         :raises Exception: If the layer metadata file is missing.
+
         """
         try:
             if not self.readonly:

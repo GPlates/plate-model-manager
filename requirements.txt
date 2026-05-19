@@ -30,6 +30,8 @@ multidict==6.0.4
     # via
     #   aiohttp
     #   yarl
+nest-asyncio==1.6.0
+    # via plate-model-manager (pyproject.toml)
 requests==2.31.0
     # via plate-model-manager (pyproject.toml)
 urllib3==2.0.4

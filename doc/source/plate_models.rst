@@ -21,22 +21,50 @@ Each model entry lists:
    Use the model name (case-insensitive) when calling the ``plate-model-manager`` API or CLI.
    For example: ``pmm download Muller2025 ./my-models``
 
-----
-
-.. _model-default:
-
-Default
--------
+Default Model 
+-------------
 
 .. note::
-   The current **default** plate model is :ref:`Zahirovic2022 <model-zahirovic2022>`. This may change in the future as new models are added or updated. Always check the documentation for the most up-to-date information on the default model.
+   The current **default** plate model is :ref:`Zahirovic2022 <model-zahirovic2022>`. If user calls :meth:`plate_model_manager.PlateModelManager.get_model` without specifying a model name, this will be the one used. This may change in the future as new models are added or updated. Always check the documentation for the most up-to-date information on the default model.
+
+.. _model-zahirovic2022:
+
+Zahirovic2022
+~~~~~~~~~~~~~
+
+**Time range:** 410 - 0 Ma
+
+**Layers:**
+
+- Coastlines
+- ContinentalPolygons
+- StaticPolygons
+- Topologies
+
+**Time-dependent rasters:**
+
+- AgegridsUsingIsochronsMantleFrame
+- AgegridsUsingIsochronsPMAG
+- AgegridsUsingTopologiesMantleFrame
+- AgegridsUsingTopologiesPMAG
+- SpreadingRateUsingTopologiesMantleFrame
+- SpreadingRateUsingTopologiesPMAG
+
+
+**Description:** Model for subduction kinematics and carbonate platform interactions. Set the anchor plate ID to 701701 to use PMAG reference frame. See the 'URL' below for more
+details.
+
+**DOI / URL:** https://doi.org/10.5281/zenodo.4729045
 
 ----
+
+Recommended Alternative Models
+------------------------------
 
 .. _model-muller2025:
 
 Muller2025
-----------
+~~~~~~~~~~
 
 **Time range:** 1800 - 0 Ma
 
@@ -60,19 +88,10 @@ Muller2025
 
 ----
 
-.. _model-shirmard2025:
-
-Shirmard2025
-------------
-
-The model Shirmard2025 is an alias for :ref:`Muller2025 <model-muller2025>`. The two models are identical.
-
-----
-
 .. _model-alfonso2024:
 
 Alfonso2024
------------
+~~~~~~~~~~~
 
 **Time range:** 170 - 0 Ma
 
@@ -103,7 +122,7 @@ reconstruction. Set the anchor plate ID to 701701 to use PMAG reference frame. S
 .. _model-cao2024:
 
 Cao2024
--------
+~~~~~~~
 
 **Time range:** 1800 - 0 Ma
 
@@ -121,21 +140,13 @@ for more details.
 
 **DOI / URL:** https://doi.org/10.5281/zenodo.11536686
 
-----
-
-.. _model-cao2023:
-
-Cao2023
--------
-
-The model Cao2023 is an alias for :ref:`Cao2024 <model-cao2024>`. The two models are identical.
 
 ----
 
 .. _model-muller2022:
 
 Muller2022
-----------
+~~~~~~~~~~
 
 **Time range:** 1000 - 0 Ma
 
@@ -166,44 +177,10 @@ paleolongitude. See the 'URL' below for more details.
 
 ----
 
-.. _model-zahirovic2022:
-
-Zahirovic2022
--------------
-
-.. note::
-   This is the **default** plate model as of now. This may change in the future as new models are added or updated. Always check the documentation for the most up-to-date information on the default model.
-
-**Time range:** 410 - 0 Ma
-
-**Layers:**
-
-- Coastlines
-- ContinentalPolygons
-- StaticPolygons
-- Topologies
-
-**Time-dependent rasters:**
-
-- AgegridsUsingIsochronsMantleFrame
-- AgegridsUsingIsochronsPMAG
-- AgegridsUsingTopologiesMantleFrame
-- AgegridsUsingTopologiesPMAG
-- SpreadingRateUsingTopologiesMantleFrame
-- SpreadingRateUsingTopologiesPMAG
-
-
-**Description:** Model for subduction kinematics and carbonate platform interactions. Set the anchor plate ID to 701701 to use PMAG reference frame. See the 'URL' below for more
-details.
-
-**DOI / URL:** https://doi.org/10.5281/zenodo.4729045
-
-----
-
 .. _model-merdith2021:
 
 Merdith2021
------------
+~~~~~~~~~~~
 
 **Time range:** 1000 - 0 Ma
 
@@ -226,20 +203,10 @@ MATTHEWS2016_pmag_ref model for 250-410 Ma and a newly constructed model for ear
 
 ----
 
-.. _model-clennett2020:
-
-Clennett2020
-------------
-
-The model Clennett2020 is an alias for :ref:`Clennett2020_m2019 <model-clennett2020-m2019>`. The two models are identical.
-
-----
-
 .. _model-clennett2020-m2019:
 
 Clennett2020_m2019
-------------------
-
+~~~~~~~~~~~~~~~~~~
 
 **Time range:** 170 - 0 Ma
 
@@ -269,7 +236,7 @@ the 'URL' below for more details.
 .. _model-clennett2020-s2013:
 
 Clennett2020_s2013
-------------------
+~~~~~~~~~~~~~~~~~~   
 
 **Time range:** 170 - 0 Ma
 
@@ -291,7 +258,7 @@ the 'URL' below for more details.
 .. _model-muller2019:
 
 Muller2019
-----------
+~~~~~~~~~~
 
 **Time range:** 250 - 0 Ma
 
@@ -327,7 +294,7 @@ continental deformation both along major rift systems and collisional plate boun
 .. _model-young2018:
 
 Young2018
----------
+~~~~~~~~~
 
 **Time range:** 410 - 0 Ma
 
@@ -349,7 +316,7 @@ details.
 .. _model-torsvikcocks2017:
 
 Torsvikcocks2017
-----------------
+~~~~~~~~~~~~~~~~
 
 **Time range:** 540 - 0 Ma
 
@@ -369,19 +336,10 @@ Torsvikcocks2017
 
 ----
 
-.. _model-matthews2016:
-
-Matthews2016
-------------
-
-The model Matthews2016 is an alias for :ref:`Matthews2016_mantle_ref <model-matthews2016-mantle-ref>`. The two models are identical.
-
-----
-
 .. _model-matthews2016-mantle-ref:
 
 Matthews2016_mantle_ref
------------------------
+~~~~~~~~~~~~~~~~~~~~~~~
 
 **Time range:** 410 - 0 Ma
 
@@ -410,7 +368,7 @@ polar wander corrected paleomagnetic model, viewed as a proxy for a mantle refer
 .. _model-matthews2016-pmag-ref:
 
 Matthews2016_pmag_ref
----------------------
+~~~~~~~~~~~~~~~~~~~~~
 
 **Time range:** 410 - 0 Ma
 
@@ -436,7 +394,7 @@ North America. See the 'URL' below for more details.
 .. _model-muller2016:
 
 Muller2016
-----------
+~~~~~~~~~~
 
 **Time range:** 230 - 0 Ma
 
@@ -467,7 +425,7 @@ frame. See the 'URL' below for more details.
 .. _model-scotese2016:
 
 Scotese2016
------------
+~~~~~~~~~~~
 
 **Time range:** 750 - 0 Ma
 
@@ -486,7 +444,7 @@ Scotese2016
 .. _model-zahirovic2016:
 
 Zahirovic2016
--------------
+~~~~~~~~~~~~~
 
 **Time range:** 230 - 0 Ma
 
@@ -514,7 +472,7 @@ Jurassic. See the 'URL' below for more details.
 .. _model-gibbons2015:
 
 Gibbons2015
------------
+~~~~~~~~~~~
 
 **Time range:** 300 - 0 Ma
 
@@ -530,30 +488,14 @@ the 'URL' below for more details.
 
 **DOI / URL:** https://doi.org/10.5281/zenodo.10595658
 
-----
 
-.. _model-domeier2014:
-
-Domeier2014
------------
-
-**Time range:** 410 - 250 Ma
-
-**Layers:**
-
-- Coastlines
-- StaticPolygons
-- Topologies
-
-
-**Description:** unknown
 
 ----
 
 .. _model-zahirovic2014:
 
 Zahirovic2014
--------------
+~~~~~~~~~~~~~
 
 **Time range:** 300 - 0 Ma
 
@@ -573,7 +515,7 @@ the 'URL' below for more details.
 .. _model-shephard2013:
 
 Shephard2013
-------------
+~~~~~~~~~~~~
 
 **Time range:** 200 - 0 Ma
 
@@ -594,7 +536,7 @@ context. See the 'URL' below for more details.
 .. _model-gurnis2012:
 
 Gurnis2012
-----------
+~~~~~~~~~~
 
 **Time range:** 140 - 0 Ma
 
@@ -615,7 +557,7 @@ Gurnis2012
 .. _model-seton2012:
 
 Seton2012
----------
+~~~~~~~~~
 
 **Time range:** 200 - 0 Ma
 
@@ -643,19 +585,10 @@ details.
 
 ----
 
-.. _model-li2008:
-
-Li2008
-------
-
-The model Li2008 is an alias for :ref:`Rodinia <model-rodinia>`. The two models are identical.
-
-----
-
 .. _model-muller2008:
 
 Muller2008
-----------
+~~~~~~~~~~
 
 **Time range:** 140 - 0 Ma
 
@@ -673,7 +606,7 @@ Muller2008
 .. _model-golonka:
 
 Golonka
--------
+~~~~~~~
 
 **Time range:** 540 - 0 Ma
 
@@ -690,19 +623,10 @@ Golonka
 
 ----
 
-.. _model-paleomap:
-
-Paleomap
---------
-
-The model Paleomap is an alias for :ref:`Scotese2016 <model-scotese2016>`. The two models are identical.
-
-----
-
 .. _model-rodinia:
 
 Rodinia
--------
+~~~~~~~
 
 **Time range:** 1100 - 530 Ma
 
@@ -716,3 +640,85 @@ Rodinia
 for more details.
 
 **URL:** https://gwsdoc.gplates.org/models#rodinia
+
+----
+
+.. _model-aliases:
+
+Model Aliases
+-------------
+
+Some models have aliases, which are alternative names that can be used to refer to the same model. For example, the model "Muller2025" can also be referred to as "Shirmard2025". 
+
+
+Default 
+~~~~~~~
+
+The "Default" model is an alias for :ref:`Zahirovic2022 <model-zahirovic2022>`. The two models are identical.
+
+----
+
+Shirmard2025
+~~~~~~~~~~~~
+
+The "Shirmard2025" model is an alias for :ref:`Muller2025 <model-muller2025>`. The two models are identical.
+
+----
+
+Cao2023
+~~~~~~~
+
+The "Cao2023" model is an alias for :ref:`Cao2024 <model-cao2024>`. The two models are identical.
+
+----
+
+Matthews2016
+~~~~~~~~~~~~
+
+The "Matthews2016" model is an alias for :ref:`Matthews2016_mantle_ref <model-matthews2016-mantle-ref>`. The two models are identical.
+
+----
+
+Clennett2020
+~~~~~~~~~~~~
+
+The "Clennett2020" model is an alias for :ref:`Clennett2020_m2019 <model-clennett2020-m2019>`. The two models are identical.
+
+----
+
+Paleomap
+~~~~~~~~
+
+The "Paleomap" model is an alias for :ref:`Scotese2016 <model-scotese2016>`. The two models are identical.
+
+----
+
+Li2008
+~~~~~~
+
+The "Li2008" model is an alias for :ref:`Rodinia <model-rodinia>`. The two models are identical.
+
+----
+
+.. _archived-models:
+
+Archived Models
+---------------
+
+The following models are archived and no longer actively maintained. They are retained for historical reference.
+
+.. _model-domeier2014:
+
+Domeier2014
+~~~~~~~~~~~
+
+**Time range:** 410 - 250 Ma
+
+**Layers:**
+
+- Coastlines
+- StaticPolygons
+- Topologies
+
+**Description:** unknown
+
