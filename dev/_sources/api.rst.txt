@@ -20,6 +20,7 @@ You can use this class to do the things listed below.
     :undoc-members:
     :special-members: __init__
     :exclude-members: models
+    :no-index: 
 
 PlateModel
 ----------
@@ -38,6 +39,7 @@ You can use this class to do the things listed below.
     :undoc-members:
     :special-members: __init__
     :exclude-members: model
+    :no-index: 
     
 PresentDayRasterManager
 -----------------------
@@ -53,6 +55,7 @@ You can use this class to do the things listed below.
     :undoc-members:
     :special-members: __init__
     :exclude-members: rasters
+    :no-index: 
 
 Auxiliary Function
 ------------------
@@ -60,4 +63,5 @@ Auxiliary Function
 Auxiliary functon for users' convenience.
 
 .. autofunction:: plate_model_manager.get_plate_model
+    :no-index: 
     
