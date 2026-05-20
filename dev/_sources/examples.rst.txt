@@ -8,6 +8,8 @@ Examples
 Use with pyGPlates 
 ------------------
 
+The Python code snippet below demonstrates how to use PMM with pyGPlates to reconstruct a point feature at (0,0) to 140 Ma using the Zahirovic2022 plate model. The static polygon and rotation model files are automatically downloaded by PMM.
+
 .. code-block:: python
     :linenos:
     :emphasize-lines: 14,15,24
@@ -17,7 +19,7 @@ Use with pyGPlates
     from plate_model_manager import PlateModelManager
 
     pm_manager = PlateModelManager()
-    model = pm_manager.get_model("Muller2019")
+    model = pm_manager.get_model("Zahirovic2022")
 
     # create a point feature at (0,0)
     point_feature = pygplates.Feature()
@@ -52,20 +54,23 @@ Use with pyGPlates
 Use with GPlately 
 -----------------
 
+The Python code snippet below demonstrates how to use PMM with GPlately to create a PlateReconstruction object and PlotTopologies object. It also shows how to get present-day and paleo rasters from PMM and create Raster objects.
+
 .. code-block:: python
     :linenos:
-    :emphasize-lines: 16,17,21,22,26,28
+    :emphasize-lines: 17,18,22,23
 
     from gplately import (
-        PlateModelManager,
-        PlateReconstruction,
-        PlotTopologies,
-        PresentDayRasterManager,
-        Raster,
+    PlateModelManager,
+    PlateReconstruction,
+    PlotTopologies,
+    PresentDayRasterManager,
+    Raster,
     )
+    from plate_model_manager import ReferenceFrame, GenerationMethod
 
     model = PlateModelManager().get_model(
-        "Muller2019",  # model name
+        "Zahirovic2022",  # model name
         data_dir="plate-model-repo",  # the folder to save the model files
     )
 
@@ -77,17 +82,24 @@ Use with GPlately
     gplot = PlotTopologies(
         recon_model,
         coastlines=model.get_layer("Coastlines"),
-        COBs=model.get_layer("COBs"),
+        COBs=model.get_layer("COBs", return_none_if_not_exist=True),
         time=55,
     )
     # get present-day topography raster
     raster = Raster(PresentDayRasterManager().get_raster("topography"))
-    # get paleo-agegrid raster at 100Ma from Muller2019 model
-    agegrid = Raster(model.get_raster("AgeGrids", time=100))
+    # get paleo-agegrid raster at 100Ma from Zahirovic2022 model
+    agegrid = Raster(
+        model.get_raster(
+            "AgeGrids",
+            time=100,
+            reference_frame=ReferenceFrame.PmagReferenceFrame,
+            generated_from=GenerationMethod.Topologies,
+        )
+    )
 
 .. seealso::
-    Examples of using PMM with GPlately:
-    
+    Examples of using PMM with GPlately: 
+
     - `introducing plate model manager`_
     - `working with plate model manager`_
 
@@ -98,7 +110,7 @@ Use with GPlately
 Use without Internet 
 --------------------
 
-Assume you had downloaded ``zahirovic2022`` model in the folder ``plate-model-repo`` previously when you had Internet connection.  
+The Python code snippet below assumes you have already downloaded the Zahirovic2022 model into the ``plate-model-repo`` folder while connected to the Internet. When you run the code snippet below without Internet connection, PMM will try to load the model files from the local ``plate-model-repo`` folder. If the model files are found, PMM will load them in readonly mode and print a warning message. If the model files are not found, PMM will raise an exception.
 
 .. seealso::
 
@@ -111,11 +123,11 @@ Assume you had downloaded ``zahirovic2022`` model in the folder ``plate-model-re
     from plate_model_manager import PlateModel
 
     try:
-        model = PlateModelManager().get_model("zahirovic2022", data_dir="plate-model-repo")
+        model = PlateModelManager().get_model("Zahirovic2022", data_dir="plate-model-repo")
     except:
         # if unable to connect to the servers, try to use the local files
         model = PlateModel(
-            model_name="zahirovic2022", data_dir="plate-model-repo", readonly=True
+            model_name="Zahirovic2022", data_dir="plate-model-repo", readonly=True
         )
         print("Unable to connect to the servers. Using local files in readonly mode.")
 
@@ -123,30 +135,32 @@ Assume you had downloaded ``zahirovic2022`` model in the folder ``plate-model-re
         print(model.get_layer(layer))
 
 
-Use with joblib best practice 
------------------------------
+Use with joblib 
+---------------
+
+For better performance, load static polygon files inside each worker process instead of loading them once in the main process and passing the loaded data to workers. `pygplates.FeatureCollection <https://www.gplates.org/docs/pygplates/generated/pygplates.featurecollection>`__ objects can take a long time to pickle and unpickle.
 
 .. code-block:: python
     :linenos:
-    :emphasize-lines: 7,16
+    :emphasize-lines: 7,8,9,14,15,16
 
-    from joblib import Parallel, delayed, dump, load
+    from joblib import Parallel, delayed
     import gplately
     from plate_model_manager import PlateModelManager
 
 
-    def worker_task(index, static_polygons_pkl_file):
-        static_polygons = load(static_polygons_pkl_file)
+    def worker_task(index, static_polygons_files):
+        static_polygons = gplately.gpml.load_feature_collection_from_files(
+            static_polygons_files
+        )
         print(f"Worker {index} is processing {len(static_polygons)} static polygons.")
         return
 
 
-    static_polygons_feature_collection = gplately.gpml.merge_feature_collections(
-        PlateModelManager().get_model("zahirovic2022").get_static_polygons()
+    static_polygons_files = (
+        PlateModelManager().get_model("Zahirovic2022").get_static_polygons()
     )
-    static_polygons_pkl_file = "static_polygons.pkl"
-    dump(static_polygons_feature_collection, static_polygons_pkl_file)
 
     Parallel(n_jobs=4)(
-        delayed(worker_task)(idx, static_polygons_pkl_file) for idx in range(10)
+        delayed(worker_task)(idx, static_polygons_files) for idx in range(10)
     )

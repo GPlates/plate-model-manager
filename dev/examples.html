@@ -50,7 +50,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#use-with-pygplates">Use with pyGPlates</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#use-with-gplately">Use with GPlately</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#use-without-internet">Use without Internet</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#use-with-joblib-best-practice">Use with joblib best practice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#use-with-joblib">Use with joblib</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="command_line_interface.html">Command Line Interface (CLI)</a></li>
@@ -93,17 +93,18 @@
 <li><p><a class="reference internal" href="#use-with-pygplates" id="id1">Use with pyGPlates</a></p></li>
 <li><p><a class="reference internal" href="#use-with-gplately" id="id2">Use with GPlately</a></p></li>
 <li><p><a class="reference internal" href="#use-without-internet" id="id3">Use without Internet</a></p></li>
-<li><p><a class="reference internal" href="#use-with-joblib-best-practice" id="id4">Use with joblib best practice</a></p></li>
+<li><p><a class="reference internal" href="#use-with-joblib" id="id4">Use with joblib</a></p></li>
 </ul>
 </nav>
 <section id="use-with-pygplates">
 <h2><a class="toc-backref" href="#id1" role="doc-backlink">Use with pyGPlates</a><a class="headerlink" href="#use-with-pygplates" title="Link to this heading"></a></h2>
+<p>The Python code snippet below demonstrates how to use PMM with pyGPlates to reconstruct a point feature at (0,0) to 140 Ma using the Zahirovic2022 plate model. The static polygon and rotation model files are automatically downloaded by PMM.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">import</span> <span class="nn">pygplates</span>
 <span class="linenos"> 2</span>
 <span class="linenos"> 3</span><span class="kn">from</span> <span class="nn">plate_model_manager</span> <span class="kn">import</span> <span class="n">PlateModelManager</span>
 <span class="linenos"> 4</span>
 <span class="linenos"> 5</span><span class="n">pm_manager</span> <span class="o">=</span> <span class="n">PlateModelManager</span><span class="p">()</span>
-<span class="linenos"> 6</span><span class="n">model</span> <span class="o">=</span> <span class="n">pm_manager</span><span class="o">.</span><span class="n">get_model</span><span class="p">(</span><span class="s2">&quot;Muller2019&quot;</span><span class="p">)</span>
+<span class="linenos"> 6</span><span class="n">model</span> <span class="o">=</span> <span class="n">pm_manager</span><span class="o">.</span><span class="n">get_model</span><span class="p">(</span><span class="s2">&quot;Zahirovic2022&quot;</span><span class="p">)</span>
 <span class="linenos"> 7</span>
 <span class="linenos"> 8</span><span class="c1"># create a point feature at (0,0)</span>
 <span class="linenos"> 9</span><span class="n">point_feature</span> <span class="o">=</span> <span class="n">pygplates</span><span class="o">.</span><span class="n">Feature</span><span class="p">()</span>
@@ -138,35 +139,44 @@
 </section>
 <section id="use-with-gplately">
 <h2><a class="toc-backref" href="#id2" role="doc-backlink">Use with GPlately</a><a class="headerlink" href="#use-with-gplately" title="Link to this heading"></a></h2>
+<p>The Python code snippet below demonstrates how to use PMM with GPlately to create a PlateReconstruction object and PlotTopologies object. It also shows how to get present-day and paleo rasters from PMM and create Raster objects.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">from</span> <span class="nn">gplately</span> <span class="kn">import</span> <span class="p">(</span>
-<span class="linenos"> 2</span>    <span class="n">PlateModelManager</span><span class="p">,</span>
-<span class="linenos"> 3</span>    <span class="n">PlateReconstruction</span><span class="p">,</span>
-<span class="linenos"> 4</span>    <span class="n">PlotTopologies</span><span class="p">,</span>
-<span class="linenos"> 5</span>    <span class="n">PresentDayRasterManager</span><span class="p">,</span>
-<span class="linenos"> 6</span>    <span class="n">Raster</span><span class="p">,</span>
+<span class="linenos"> 2</span><span class="n">PlateModelManager</span><span class="p">,</span>
+<span class="linenos"> 3</span><span class="n">PlateReconstruction</span><span class="p">,</span>
+<span class="linenos"> 4</span><span class="n">PlotTopologies</span><span class="p">,</span>
+<span class="linenos"> 5</span><span class="n">PresentDayRasterManager</span><span class="p">,</span>
+<span class="linenos"> 6</span><span class="n">Raster</span><span class="p">,</span>
 <span class="linenos"> 7</span><span class="p">)</span>
-<span class="linenos"> 8</span>
-<span class="linenos"> 9</span><span class="n">model</span> <span class="o">=</span> <span class="n">PlateModelManager</span><span class="p">()</span><span class="o">.</span><span class="n">get_model</span><span class="p">(</span>
-<span class="linenos">10</span>    <span class="s2">&quot;Muller2019&quot;</span><span class="p">,</span>  <span class="c1"># model name</span>
-<span class="linenos">11</span>    <span class="n">data_dir</span><span class="o">=</span><span class="s2">&quot;plate-model-repo&quot;</span><span class="p">,</span>  <span class="c1"># the folder to save the model files</span>
-<span class="linenos">12</span><span class="p">)</span>
-<span class="linenos">13</span>
-<span class="linenos">14</span><span class="n">recon_model</span> <span class="o">=</span> <span class="n">PlateReconstruction</span><span class="p">(</span>
-<span class="linenos">15</span>    <span class="n">model</span><span class="o">.</span><span class="n">get_rotation_model</span><span class="p">(),</span>
-<span class="hll"><span class="linenos">16</span>    <span class="n">topology_features</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">get_layer</span><span class="p">(</span><span class="s2">&quot;Topologies&quot;</span><span class="p">),</span>
-</span><span class="hll"><span class="linenos">17</span>    <span class="n">static_polygons</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">get_layer</span><span class="p">(</span><span class="s2">&quot;StaticPolygons&quot;</span><span class="p">),</span>
-</span><span class="linenos">18</span><span class="p">)</span>
-<span class="linenos">19</span><span class="n">gplot</span> <span class="o">=</span> <span class="n">PlotTopologies</span><span class="p">(</span>
-<span class="linenos">20</span>    <span class="n">recon_model</span><span class="p">,</span>
-<span class="hll"><span class="linenos">21</span>    <span class="n">coastlines</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">get_layer</span><span class="p">(</span><span class="s2">&quot;Coastlines&quot;</span><span class="p">),</span>
-</span><span class="hll"><span class="linenos">22</span>    <span class="n">COBs</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">get_layer</span><span class="p">(</span><span class="s2">&quot;COBs&quot;</span><span class="p">),</span>
-</span><span class="linenos">23</span>    <span class="n">time</span><span class="o">=</span><span class="mi">55</span><span class="p">,</span>
-<span class="linenos">24</span><span class="p">)</span>
-<span class="linenos">25</span><span class="c1"># get present-day topography raster</span>
-<span class="hll"><span class="linenos">26</span><span class="n">raster</span> <span class="o">=</span> <span class="n">Raster</span><span class="p">(</span><span class="n">PresentDayRasterManager</span><span class="p">()</span><span class="o">.</span><span class="n">get_raster</span><span class="p">(</span><span class="s2">&quot;topography&quot;</span><span class="p">))</span>
-</span><span class="linenos">27</span><span class="c1"># get paleo-agegrid raster at 100Ma from Muller2019 model</span>
-<span class="hll"><span class="linenos">28</span><span class="n">agegrid</span> <span class="o">=</span> <span class="n">Raster</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">get_raster</span><span class="p">(</span><span class="s2">&quot;AgeGrids&quot;</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="mi">100</span><span class="p">))</span>
-</span></pre></div>
+<span class="linenos"> 8</span><span class="kn">from</span> <span class="nn">plate_model_manager</span> <span class="kn">import</span> <span class="n">ReferenceFrame</span><span class="p">,</span> <span class="n">GenerationMethod</span>
+<span class="linenos"> 9</span>
+<span class="linenos">10</span><span class="n">model</span> <span class="o">=</span> <span class="n">PlateModelManager</span><span class="p">()</span><span class="o">.</span><span class="n">get_model</span><span class="p">(</span>
+<span class="linenos">11</span>    <span class="s2">&quot;Zahirovic2022&quot;</span><span class="p">,</span>  <span class="c1"># model name</span>
+<span class="linenos">12</span>    <span class="n">data_dir</span><span class="o">=</span><span class="s2">&quot;plate-model-repo&quot;</span><span class="p">,</span>  <span class="c1"># the folder to save the model files</span>
+<span class="linenos">13</span><span class="p">)</span>
+<span class="linenos">14</span>
+<span class="linenos">15</span><span class="n">recon_model</span> <span class="o">=</span> <span class="n">PlateReconstruction</span><span class="p">(</span>
+<span class="linenos">16</span>    <span class="n">model</span><span class="o">.</span><span class="n">get_rotation_model</span><span class="p">(),</span>
+<span class="hll"><span class="linenos">17</span>    <span class="n">topology_features</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">get_layer</span><span class="p">(</span><span class="s2">&quot;Topologies&quot;</span><span class="p">),</span>
+</span><span class="hll"><span class="linenos">18</span>    <span class="n">static_polygons</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">get_layer</span><span class="p">(</span><span class="s2">&quot;StaticPolygons&quot;</span><span class="p">),</span>
+</span><span class="linenos">19</span><span class="p">)</span>
+<span class="linenos">20</span><span class="n">gplot</span> <span class="o">=</span> <span class="n">PlotTopologies</span><span class="p">(</span>
+<span class="linenos">21</span>    <span class="n">recon_model</span><span class="p">,</span>
+<span class="hll"><span class="linenos">22</span>    <span class="n">coastlines</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">get_layer</span><span class="p">(</span><span class="s2">&quot;Coastlines&quot;</span><span class="p">),</span>
+</span><span class="hll"><span class="linenos">23</span>    <span class="n">COBs</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">get_layer</span><span class="p">(</span><span class="s2">&quot;COBs&quot;</span><span class="p">,</span> <span class="n">return_none_if_not_exist</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+</span><span class="linenos">24</span>    <span class="n">time</span><span class="o">=</span><span class="mi">55</span><span class="p">,</span>
+<span class="linenos">25</span><span class="p">)</span>
+<span class="linenos">26</span><span class="c1"># get present-day topography raster</span>
+<span class="linenos">27</span><span class="n">raster</span> <span class="o">=</span> <span class="n">Raster</span><span class="p">(</span><span class="n">PresentDayRasterManager</span><span class="p">()</span><span class="o">.</span><span class="n">get_raster</span><span class="p">(</span><span class="s2">&quot;topography&quot;</span><span class="p">))</span>
+<span class="linenos">28</span><span class="c1"># get paleo-agegrid raster at 100Ma from Zahirovic2022 model</span>
+<span class="linenos">29</span><span class="n">agegrid</span> <span class="o">=</span> <span class="n">Raster</span><span class="p">(</span>
+<span class="linenos">30</span>    <span class="n">model</span><span class="o">.</span><span class="n">get_raster</span><span class="p">(</span>
+<span class="linenos">31</span>        <span class="s2">&quot;AgeGrids&quot;</span><span class="p">,</span>
+<span class="linenos">32</span>        <span class="n">time</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+<span class="linenos">33</span>        <span class="n">reference_frame</span><span class="o">=</span><span class="n">ReferenceFrame</span><span class="o">.</span><span class="n">PmagReferenceFrame</span><span class="p">,</span>
+<span class="linenos">34</span>        <span class="n">generated_from</span><span class="o">=</span><span class="n">GenerationMethod</span><span class="o">.</span><span class="n">Topologies</span><span class="p">,</span>
+<span class="linenos">35</span>    <span class="p">)</span>
+<span class="linenos">36</span><span class="p">)</span>
+</pre></div>
 </div>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
@@ -179,7 +189,7 @@
 </section>
 <section id="use-without-internet">
 <h2><a class="toc-backref" href="#id3" role="doc-backlink">Use without Internet</a><a class="headerlink" href="#use-without-internet" title="Link to this heading"></a></h2>
-<p>Assume you had downloaded <code class="docutils literal notranslate"><span class="pre">zahirovic2022</span></code> model in the folder <code class="docutils literal notranslate"><span class="pre">plate-model-repo</span></code> previously when you had Internet connection.</p>
+<p>The Python code snippet below assumes you have already downloaded the Zahirovic2022 model into the <code class="docutils literal notranslate"><span class="pre">plate-model-repo</span></code> folder while connected to the Internet. When you run the code snippet below without Internet connection, PMM will try to load the model files from the local <code class="docutils literal notranslate"><span class="pre">plate-model-repo</span></code> folder. If the model files are found, PMM will load them in readonly mode and print a warning message. If the model files are not found, PMM will raise an exception.</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
 <p><a class="reference external" href="command_line_interface.html#download-a-plate-model">How to download a plate model?</a></p>
@@ -187,11 +197,11 @@
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">from</span> <span class="nn">plate_model_manager</span> <span class="kn">import</span> <span class="n">PlateModel</span>
 <span class="linenos"> 2</span>
 <span class="linenos"> 3</span><span class="k">try</span><span class="p">:</span>
-<span class="linenos"> 4</span>    <span class="n">model</span> <span class="o">=</span> <span class="n">PlateModelManager</span><span class="p">()</span><span class="o">.</span><span class="n">get_model</span><span class="p">(</span><span class="s2">&quot;zahirovic2022&quot;</span><span class="p">,</span> <span class="n">data_dir</span><span class="o">=</span><span class="s2">&quot;plate-model-repo&quot;</span><span class="p">)</span>
+<span class="linenos"> 4</span>    <span class="n">model</span> <span class="o">=</span> <span class="n">PlateModelManager</span><span class="p">()</span><span class="o">.</span><span class="n">get_model</span><span class="p">(</span><span class="s2">&quot;Zahirovic2022&quot;</span><span class="p">,</span> <span class="n">data_dir</span><span class="o">=</span><span class="s2">&quot;plate-model-repo&quot;</span><span class="p">)</span>
 <span class="linenos"> 5</span><span class="k">except</span><span class="p">:</span>
 <span class="linenos"> 6</span>    <span class="c1"># if unable to connect to the servers, try to use the local files</span>
 <span class="hll"><span class="linenos"> 7</span>    <span class="n">model</span> <span class="o">=</span> <span class="n">PlateModel</span><span class="p">(</span>
-</span><span class="hll"><span class="linenos"> 8</span>        <span class="n">model_name</span><span class="o">=</span><span class="s2">&quot;zahirovic2022&quot;</span><span class="p">,</span> <span class="n">data_dir</span><span class="o">=</span><span class="s2">&quot;plate-model-repo&quot;</span><span class="p">,</span> <span class="n">readonly</span><span class="o">=</span><span class="kc">True</span>
+</span><span class="hll"><span class="linenos"> 8</span>        <span class="n">model_name</span><span class="o">=</span><span class="s2">&quot;Zahirovic2022&quot;</span><span class="p">,</span> <span class="n">data_dir</span><span class="o">=</span><span class="s2">&quot;plate-model-repo&quot;</span><span class="p">,</span> <span class="n">readonly</span><span class="o">=</span><span class="kc">True</span>
 </span><span class="hll"><span class="linenos"> 9</span>    <span class="p">)</span>
 </span><span class="linenos">10</span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Unable to connect to the servers. Using local files in readonly mode.&quot;</span><span class="p">)</span>
 <span class="linenos">11</span>
@@ -200,27 +210,28 @@
 </pre></div>
 </div>
 </section>
-<section id="use-with-joblib-best-practice">
-<h2><a class="toc-backref" href="#id4" role="doc-backlink">Use with joblib best practice</a><a class="headerlink" href="#use-with-joblib-best-practice" title="Link to this heading"></a></h2>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">from</span> <span class="nn">joblib</span> <span class="kn">import</span> <span class="n">Parallel</span><span class="p">,</span> <span class="n">delayed</span><span class="p">,</span> <span class="n">dump</span><span class="p">,</span> <span class="n">load</span>
+<section id="use-with-joblib">
+<h2><a class="toc-backref" href="#id4" role="doc-backlink">Use with joblib</a><a class="headerlink" href="#use-with-joblib" title="Link to this heading"></a></h2>
+<p>For better performance, load static polygon files inside each worker process instead of loading them once in the main process and passing the loaded data to workers. <a class="reference external" href="https://www.gplates.org/docs/pygplates/generated/pygplates.featurecollection">pygplates.FeatureCollection</a> objects can take a long time to pickle and unpickle.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">from</span> <span class="nn">joblib</span> <span class="kn">import</span> <span class="n">Parallel</span><span class="p">,</span> <span class="n">delayed</span>
 <span class="linenos"> 2</span><span class="kn">import</span> <span class="nn">gplately</span>
 <span class="linenos"> 3</span><span class="kn">from</span> <span class="nn">plate_model_manager</span> <span class="kn">import</span> <span class="n">PlateModelManager</span>
 <span class="linenos"> 4</span>
 <span class="linenos"> 5</span>
-<span class="linenos"> 6</span><span class="k">def</span> <span class="nf">worker_task</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">static_polygons_pkl_file</span><span class="p">):</span>
-<span class="hll"><span class="linenos"> 7</span>    <span class="n">static_polygons</span> <span class="o">=</span> <span class="n">load</span><span class="p">(</span><span class="n">static_polygons_pkl_file</span><span class="p">)</span>
-</span><span class="linenos"> 8</span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Worker </span><span class="si">{</span><span class="n">index</span><span class="si">}</span><span class="s2"> is processing </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">static_polygons</span><span class="p">)</span><span class="si">}</span><span class="s2"> static polygons.&quot;</span><span class="p">)</span>
-<span class="linenos"> 9</span>    <span class="k">return</span>
-<span class="linenos">10</span>
-<span class="linenos">11</span>
-<span class="linenos">12</span><span class="n">static_polygons_feature_collection</span> <span class="o">=</span> <span class="n">gplately</span><span class="o">.</span><span class="n">gpml</span><span class="o">.</span><span class="n">merge_feature_collections</span><span class="p">(</span>
-<span class="linenos">13</span>    <span class="n">PlateModelManager</span><span class="p">()</span><span class="o">.</span><span class="n">get_model</span><span class="p">(</span><span class="s2">&quot;zahirovic2022&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">get_static_polygons</span><span class="p">()</span>
-<span class="linenos">14</span><span class="p">)</span>
-<span class="linenos">15</span><span class="n">static_polygons_pkl_file</span> <span class="o">=</span> <span class="s2">&quot;static_polygons.pkl&quot;</span>
-<span class="hll"><span class="linenos">16</span><span class="n">dump</span><span class="p">(</span><span class="n">static_polygons_feature_collection</span><span class="p">,</span> <span class="n">static_polygons_pkl_file</span><span class="p">)</span>
+<span class="linenos"> 6</span><span class="k">def</span> <span class="nf">worker_task</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">static_polygons_files</span><span class="p">):</span>
+<span class="hll"><span class="linenos"> 7</span>    <span class="n">static_polygons</span> <span class="o">=</span> <span class="n">gplately</span><span class="o">.</span><span class="n">gpml</span><span class="o">.</span><span class="n">load_feature_collection_from_files</span><span class="p">(</span>
+</span><span class="hll"><span class="linenos"> 8</span>        <span class="n">static_polygons_files</span>
+</span><span class="hll"><span class="linenos"> 9</span>    <span class="p">)</span>
+</span><span class="linenos">10</span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Worker </span><span class="si">{</span><span class="n">index</span><span class="si">}</span><span class="s2"> is processing </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">static_polygons</span><span class="p">)</span><span class="si">}</span><span class="s2"> static polygons.&quot;</span><span class="p">)</span>
+<span class="linenos">11</span>    <span class="k">return</span>
+<span class="linenos">12</span>
+<span class="linenos">13</span>
+<span class="hll"><span class="linenos">14</span><span class="n">static_polygons_files</span> <span class="o">=</span> <span class="p">(</span>
+</span><span class="hll"><span class="linenos">15</span>    <span class="n">PlateModelManager</span><span class="p">()</span><span class="o">.</span><span class="n">get_model</span><span class="p">(</span><span class="s2">&quot;Zahirovic2022&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">get_static_polygons</span><span class="p">()</span>
+</span><span class="hll"><span class="linenos">16</span><span class="p">)</span>
 </span><span class="linenos">17</span>
 <span class="linenos">18</span><span class="n">Parallel</span><span class="p">(</span><span class="n">n_jobs</span><span class="o">=</span><span class="mi">4</span><span class="p">)(</span>
-<span class="linenos">19</span>    <span class="n">delayed</span><span class="p">(</span><span class="n">worker_task</span><span class="p">)(</span><span class="n">idx</span><span class="p">,</span> <span class="n">static_polygons_pkl_file</span><span class="p">)</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="linenos">19</span>    <span class="n">delayed</span><span class="p">(</span><span class="n">worker_task</span><span class="p">)(</span><span class="n">idx</span><span class="p">,</span> <span class="n">static_polygons_files</span><span class="p">)</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
 <span class="linenos">20</span><span class="p">)</span>
 </pre></div>
 </div>
