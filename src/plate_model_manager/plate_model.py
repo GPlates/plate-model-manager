@@ -385,6 +385,12 @@ class PlateModel:
                 f"No time-dependent rasters found in this model '{self.model_name}'."
             )
         if not resolved_raster_name in self.model["TimeDepRasters"]:
+            for name in self.model["TimeDepRasters"]:
+                if name.lower() == resolved_raster_name.lower():
+                    logger.warning(
+                        f"Raster '{resolved_raster_name}' not found in this model '{self.model_name}', but '{name}' exists. Will use '{name}' for now."
+                    )
+                    return name
             if name_without_reference_frame in self.model["TimeDepRasters"]:
                 logger.warning(
                     f"Raster '{resolved_raster_name}' not found in this model '{self.model_name}', but '{name_without_reference_frame}' exists. This may be because the model does not have different reference frame versions of this raster. Will use '{name_without_reference_frame}' for now."
@@ -392,9 +398,9 @@ class PlateModel:
                 return name_without_reference_frame
             else:
                 raise Exception(
-                    f"Time-dependent rasters ({resolved_raster_name}) not found in this model '{self.model_name}'. "
-                    + f"The raster name is constructed as: {raster_name}+{generated_from.value}+{reference_frame.value}."
-                    + f"Available: {self.model['TimeDepRasters']}"
+                    f"Time-dependent rasters ({resolved_raster_name}) were not found in this model '{self.model_name}'.\n"
+                    + f"Available time-dependent rasters in '{self.model_name}':\n"
+                    + "\n".join(self.model["TimeDepRasters"].keys())
                 )
         return resolved_raster_name
 
