@@ -75,10 +75,10 @@
       "Topologies": "@<<SvrBaseURL>>@/zahirovic2022/Topologies.zip"
     },
     "TimeDepRasters": {
-      "AgegridsUsingIsochronsMantleFrame": "https://repo.gplates.org/webdav/PlateModel_Age_SR_Grids/Zahirovic_etal_2022_GDJ/01_AgegridsUsingIsochrons/OptimisedMantleFrame/Zahirovic_etal_2022-v2_OPT_netCDF/Zahirovic_etal_2022-v2_OPT_AgeGrid-{:.0f}.nc",
-      "AgegridsUsingIsochronsPMAG": "https://repo.gplates.org/webdav/PlateModel_Age_SR_Grids/Zahirovic_etal_2022_GDJ/01_AgegridsUsingIsochrons/PaleomagneticFrame/Zahirovic_etal_2022_PaleomagneticFrame_netCDF/Zahirovic_etal_2022_PaleomagneticFrame_AgeGrid-{:.0f}.nc",
-      "AgegridsUsingTopologiesMantleFrame": "https://repo.gplates.org/webdav/PlateModel_Age_SR_Grids/Zahirovic_etal_2022_GDJ/02_AgegridsUsingTopologies/OptimisedMantleFrame/Agegrids/Zahirovic_etal_2022-v2_OPT_SEAFLOOR_AGE_grid_{:.1f}Ma.nc",
-      "AgegridsUsingTopologiesPMAG": "https://repo.gplates.org/webdav/PlateModel_Age_SR_Grids/Zahirovic_etal_2022_GDJ/02_AgegridsUsingTopologies/PaleomagneticFrame/Agegrids/Zahirovic_etal_2022-v2_PMAG_SEAFLOOR_AGE_grid_{:.1f}Ma.nc",
+      "AgeGridsUsingIsochronsMantleFrame": "https://repo.gplates.org/webdav/PlateModel_Age_SR_Grids/Zahirovic_etal_2022_GDJ/01_AgegridsUsingIsochrons/OptimisedMantleFrame/Zahirovic_etal_2022-v2_OPT_netCDF/Zahirovic_etal_2022-v2_OPT_AgeGrid-{:.0f}.nc",
+      "AgeGridsUsingIsochronsPMAG": "https://repo.gplates.org/webdav/PlateModel_Age_SR_Grids/Zahirovic_etal_2022_GDJ/01_AgegridsUsingIsochrons/PaleomagneticFrame/Zahirovic_etal_2022_PaleomagneticFrame_netCDF/Zahirovic_etal_2022_PaleomagneticFrame_AgeGrid-{:.0f}.nc",
+      "AgeGridsUsingTopologiesMantleFrame": "https://repo.gplates.org/webdav/PlateModel_Age_SR_Grids/Zahirovic_etal_2022_GDJ/02_AgegridsUsingTopologies/OptimisedMantleFrame/Agegrids/Zahirovic_etal_2022-v2_OPT_SEAFLOOR_AGE_grid_{:.1f}Ma.nc",
+      "AgeGridsUsingTopologiesPMAG": "https://repo.gplates.org/webdav/PlateModel_Age_SR_Grids/Zahirovic_etal_2022_GDJ/02_AgegridsUsingTopologies/PaleomagneticFrame/Agegrids/Zahirovic_etal_2022-v2_PMAG_SEAFLOOR_AGE_grid_{:.1f}Ma.nc",
       "SpreadingRateUsingTopologiesMantleFrame": "https://repo.gplates.org/webdav/PlateModel_Age_SR_Grids/Zahirovic_etal_2022_GDJ/02_AgegridsUsingTopologies/OptimisedMantleFrame/SeafloorSpreadingRateGrids/Zahirovic_etal_2022-v2_OPT_SPREADING_RATE_grid_{:.1f}Ma.nc",
       "SpreadingRateUsingTopologiesPMAG": "https://repo.gplates.org/webdav/PlateModel_Age_SR_Grids/Zahirovic_etal_2022_GDJ/02_AgegridsUsingTopologies/PaleomagneticFrame/SeafloorSpreadingRateGrids/Zahirovic_etal_2022-v2_PMAG_SPREADING_RATE_grid_{:.1f}Ma.nc"
     },

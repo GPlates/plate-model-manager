@@ -14,14 +14,29 @@ logger = logging.getLogger("pmm")
 def get_plate_model(
     model_name: str, data_dir: Union[str, os.PathLike]
 ) -> Union[PlateModel, None]:
-    """Convenient function to create a :class:`PlateModel` instance using best effort.
-    First, try to get the plate model with :class:`PlateModelManager`.
-    If the servers cannot be reached, try to use the local plate model files which were previously downloaded.
+    """Return a plate model instance using online lookup with local fallback.
 
-    :param model_name: the plate model name of interest
-    :param data_dir: The folder to save the plate model files.
+    This helper first attempts to resolve ``model_name`` through
+    :class:`PlateModelManager`. If the PMM servers are unavailable, it falls back
+    to creating a local, read-only :class:`PlateModel` from files already present
+    in ``data_dir``.
 
-    :returns: a :class:`PlateModel` object or ``None`` if the plate model name is no good.
+    :param model_name: Name of the plate model to resolve.
+    :param data_dir: Directory containing downloaded plate model data.
+    :returns: A :class:`PlateModel` instance, or ``None`` if the model name cannot
+        be resolved.
+
+    Example usage:
+
+    .. code-block:: python
+
+        from plate_model_manager import get_plate_model
+
+        model = get_plate_model("Muller2025", data_dir="plate-models-data-dir")
+        if model is not None:
+            print(model.get_rotation_model())
+        else:
+            print("Model not found.")
     """
     try:
         model = PlateModelManager().get_model(model_name, data_dir=data_dir)
@@ -35,8 +50,14 @@ def get_plate_model(
 
 
 def check_update():
-    """Check if new versions of plate models are available on Zenodo.
-    Mainly used by Michael Chin to update the PMM server.
+    """Check whether configured models have newer versions on Zenodo.
+
+    For each model that includes both ``URL`` and ``Version`` metadata, this
+    function compares the stored Zenodo version identifier against the latest
+    available record version. It logs update status for each model and logs a
+    summary when everything is up-to-date.
+
+    This function is intended for PMM server maintenance workflows.
     """
     need_update = False
     models = PlateModelManager().models

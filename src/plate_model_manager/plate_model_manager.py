@@ -15,24 +15,28 @@ logger = logging.getLogger("pmm")
 
 
 class PlateModelManager:
-    """Manage a set of publicly available plate reconstruction models.
-    The model files are hosted on EarthByte servers.
-    You need Internet connection to use this class and download the files.
+    """Manage discovery and loading of plate reconstruction model metadata.
+
+    Model manifests can be loaded from a local file or an HTTP(S) endpoint.
+    Retrieved model configurations are used to construct :class:`PlateModel`
+    instances.
     """
 
     # Load a models.json file and manage plate models.
     # See an example models.json file at PlateModelManager.get_default_repo_url().
 
     def __init__(self, model_manifest: str = "", timeout=(None, None)):
-        """Constructor. Create a :class:`PlateModelManager` instance.
-        You need Internet connection to create an instance of this class.
-        If you don't have Internet connection, use :class:`PlateModel` class directly in ``readonly`` mode.
-        Visit `this page <examples.html#use-without-internet>`__ to see an example.
+        """Create a :class:`PlateModelManager` instance.
 
-        :param model_manifest: The URL to a ``models.json`` metadata file.
-                               Normally you don't need to provide this parameter unless
-                               you would like to setup your own plate model server.
+        If ``model_manifest`` is omitted, the manager probes known PMM manifest
+        endpoints and uses the first reachable URL.
 
+        :param model_manifest: Local path or HTTP(S) URL for a ``models.json``
+            manifest. Use this when hosting a custom model repository.
+        :param timeout: Timeout tuple passed to HTTP requests.
+        :raises InvalidConfigFile: If the manifest path/URL is invalid or does
+            not contain valid JSON.
+        :raises ServerUnavailable: If the manifest URL cannot be reached.
         """
         if not model_manifest:
             self.model_manifest = PlateModelManager.get_default_repo_url()
@@ -87,7 +91,12 @@ class PlateModelManager:
 
     @property
     def models(self) -> Dict:
-        """The metadata for all the models."""
+        """Return metadata for all configured models.
+
+        :returns: Mapping from model names to model entries.
+        :rtype: Dict
+        :raises Exception: If model metadata is unavailable.
+        """
         if self._models is not None:
             return self._models
         else:
@@ -100,7 +109,14 @@ class PlateModelManager:
         self._models = var
 
     def _replace_vars_with_values(self, var_dict, json_obj):
-        """Replace the variables in `json_obj` with the real values. The variables are defined in `var_dict`."""
+        """Expand template variables in-place within a manifest dictionary.
+
+        Variables use the marker format ``@<<name>>@`` and are resolved from
+        ``var_dict``.
+
+        :param var_dict: Variable name/value mapping.
+        :param json_obj: JSON-like dictionary to mutate in place.
+        """
         for key, value in json_obj.items():
             if key == "vars":
                 continue
@@ -122,14 +138,17 @@ class PlateModelManager:
         visited: set = None,
         max_depth: int = 10,
     ) -> Union[dict, None]:
-        """Resolve model configuration, handling alias chains with recursion protection.
+        """Resolve a model entry to its final configuration dictionary.
 
-        :param model_name: The model name (case-insensitive)
-        :param data_dir: The folder to save model files
-        :param visited: Set of already visited model names to detect circular aliases
-        :param max_depth: Maximum recursion depth to prevent infinite loops
-        :returns: The resolved model configuration dict or None if not found
-        :raises InvalidConfigFile: If circular alias or max depth exceeded
+        Alias chains are resolved recursively with cycle/depth protection.
+
+        :param model_name: Model name to resolve (case-insensitive).
+        :param data_dir: Reserved for compatibility with existing call sites.
+        :param visited: Set of previously visited model names.
+        :param max_depth: Maximum alias-chain depth.
+        :returns: Resolved model configuration dictionary, or ``None`` when the
+            model name is not present.
+        :raises InvalidConfigFile: If alias resolution exceeds ``max_depth``.
         """
         if visited is None:
             visited = set()
@@ -170,39 +189,21 @@ class PlateModelManager:
         data_dir: str = ".",
         reference_frame: Union[ReferenceFrame, None] = None,
     ) -> Union[PlateModel, None]:
-        """Retrieve a :class:`PlateModel` object for a given plate model name.
+        """Return a :class:`PlateModel` for ``model_name``.
 
-        This method resolves model aliases and creates a PlateModel instance configured
-        with the model's metadata. Alias resolution follows chains and detects circular
-        references to prevent infinite loops.
+        The method resolves aliases, applies optional reference-frame handling,
+        and instantiates :class:`PlateModel` with the resolved configuration.
 
-        Call :meth:`get_available_model_names()` to see a list of available model names
-        and valid aliases.
-
-        :param model_name: The name of the plate model to retrieve. Case-insensitive.
-                          Can be a direct model name, an alias, or a variant with
-                          reference frame suffix (e.g., "model_pmag_ref").
-                          Defaults to "default".
-        :param data_dir: The folder path to save downloaded plate model files.
-                        Defaults to the current directory (".");
-                        This path can be changed later with :meth:`PlateModel.set_data_dir()`.
-        :param reference_frame: Optional reference frame for the plate model. If set to
-                               :attr:`ReferenceFrame.PmagReferenceFrame` and a "_pmag_ref"
-                               variant exists, that variant will be loaded automatically.
-
-        :returns: A :class:`PlateModel` object if the model is found and successfully created,
-                 ``None`` if the model name is not found in the manifest.
-
-        :raises InvalidConfigFile: If a circular alias chain is detected or if the maximum
-                                  alias resolution depth is exceeded, indicating an error
-                                  in the model manifest.
-
-        :example:
-            >>> pmm = PlateModelManager()
-            >>> model = pmm.get_model("muller2016", data_dir="./models")
-            >>> if model:
-            ...     model.download_all_layers()
-
+        :param model_name: Model name or alias (case-insensitive). Defaults to
+            ``"default"``.
+        :param data_dir: Parent directory for model downloads and cache files.
+        :param reference_frame: Optional reference frame. When PMAG is requested
+            and a ``_pmag_ref`` variant exists, that variant is selected
+            automatically.
+        :returns: A configured :class:`PlateModel`, or ``None`` if the model is
+            unavailable or incompatible with the requested reference frame.
+        :raises InvalidConfigFile: If alias resolution detects an invalid alias
+            chain.
         """
         model_name_lower = model_name.lower()
         if reference_frame == ReferenceFrame.PmagReferenceFrame:
@@ -239,15 +240,22 @@ class PlateModelManager:
         )
 
     def get_available_model_names(self):
-        """Return the names of available models as a list."""
+        """Return all model keys from the loaded manifest.
+
+        :returns: Available model names and aliases.
+        :rtype: list[str]
+        """
         return list(self.models.keys())
 
     @staticmethod
     def get_local_available_model_names(local_dir: str):
-        """Return a list of model names in a local folder.
+        """Return locally available model names from ``local_dir``.
 
         :param local_dir: The local folder containing models.
         :type local_dir: str
+        :returns: Names of subdirectories that look like valid local PMM models
+            (contain ``.metadata.json``).
+        :rtype: list[str]
         """
         models = []
         for file in os.listdir(local_dir):
@@ -258,7 +266,15 @@ class PlateModelManager:
 
     @staticmethod
     def get_default_repo_url():
-        """Return the URL to the configuration data of models."""
+        """Return the first reachable default model-manifest URL.
+
+        Endpoints are probed in order using HTTP ``HEAD`` requests.
+
+        :returns: Reachable manifest URL.
+        :rtype: str
+        :raises ServerUnavailable: If none of the default endpoints are
+            reachable.
+        """
         default_repo_url_list = [
             "https://repo.gplates.org/webdav/pmm/config/models_v2.json",
             "https://www.earthbyte.org/webdav/pmm/config/models_v2_eb.json",
@@ -282,9 +298,9 @@ class PlateModelManager:
         )
 
     def download_all_models(self, data_dir: str = "./") -> None:
-        """Download all available models into the ``data_dir``.
+        """Download layer data for all available models into ``data_dir``.
 
-        :param data_dir: The folder to save the model files.
+        :param data_dir: Destination directory for downloaded model data.
         :type data_dir: str
         """
         for name in self.get_available_model_names():
