@@ -96,14 +96,29 @@
 <span class="k">def</span> <span class="nf">get_plate_model</span><span class="p">(</span>
     <span class="n">model_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data_dir</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">PathLike</span><span class="p">]</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">PlateModel</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convenient function to create a :class:`PlateModel` instance using best effort.</span>
-<span class="sd">    First, try to get the plate model with :class:`PlateModelManager`.</span>
-<span class="sd">    If the servers cannot be reached, try to use the local plate model files which were previously downloaded.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a plate model instance using online lookup with local fallback.</span>
 
-<span class="sd">    :param model_name: the plate model name of interest</span>
-<span class="sd">    :param data_dir: The folder to save the plate model files.</span>
+<span class="sd">    This helper first attempts to resolve ``model_name`` through</span>
+<span class="sd">    :class:`PlateModelManager`. If the PMM servers are unavailable, it falls back</span>
+<span class="sd">    to creating a local, read-only :class:`PlateModel` from files already present</span>
+<span class="sd">    in ``data_dir``.</span>
 
-<span class="sd">    :returns: a :class:`PlateModel` object or ``None`` if the plate model name is no good.</span>
+<span class="sd">    :param model_name: Name of the plate model to resolve.</span>
+<span class="sd">    :param data_dir: Directory containing downloaded plate model data.</span>
+<span class="sd">    :returns: A :class:`PlateModel` instance, or ``None`` if the model name cannot</span>
+<span class="sd">        be resolved.</span>
+
+<span class="sd">    Example usage:</span>
+
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">        from plate_model_manager import get_plate_model</span>
+
+<span class="sd">        model = get_plate_model(&quot;Muller2025&quot;, data_dir=&quot;plate-models-data-dir&quot;)</span>
+<span class="sd">        if model is not None:</span>
+<span class="sd">            print(model.get_rotation_model())</span>
+<span class="sd">        else:</span>
+<span class="sd">            print(&quot;Model not found.&quot;)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">model</span> <span class="o">=</span> <span class="n">PlateModelManager</span><span class="p">()</span><span class="o">.</span><span class="n">get_model</span><span class="p">(</span><span class="n">model_name</span><span class="p">,</span> <span class="n">data_dir</span><span class="o">=</span><span class="n">data_dir</span><span class="p">)</span>
@@ -120,8 +135,14 @@
 <div class="viewcode-block" id="check_update">
 <a class="viewcode-back" href="../../plate_model_manager.html#plate_model_manager.check_update">[docs]</a>
 <span class="k">def</span> <span class="nf">check_update</span><span class="p">():</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if new versions of plate models are available on Zenodo.</span>
-<span class="sd">    Mainly used by Michael Chin to update the PMM server.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check whether configured models have newer versions on Zenodo.</span>
+
+<span class="sd">    For each model that includes both ``URL`` and ``Version`` metadata, this</span>
+<span class="sd">    function compares the stored Zenodo version identifier against the latest</span>
+<span class="sd">    available record version. It logs update status for each model and logs a</span>
+<span class="sd">    summary when everything is up-to-date.</span>
+
+<span class="sd">    This function is intended for PMM server maintenance workflows.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">need_update</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">models</span> <span class="o">=</span> <span class="n">PlateModelManager</span><span class="p">()</span><span class="o">.</span><span class="n">models</span>

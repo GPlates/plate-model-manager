@@ -118,14 +118,13 @@
 <div class="viewcode-block" id="PlateModel">
 <a class="viewcode-back" href="../../plate_model_manager.html#plate_model_manager.PlateModel">[docs]</a>
 <span class="k">class</span> <span class="nc">PlateModel</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Download and manage files required for a plate reconstruction model.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Download and manage files for a plate reconstruction model.</span>
 
-<span class="sd">    👀👇 **LOOK HERE!!!** 👀👇</span>
-
-<span class="sd">    Normally you should always use :py:meth:`PlateModelManager.get_model()` to get a :class:`PlateModel` object.</span>
-<span class="sd">    Create a :class:`PlateModel` object directly only when you don&#39;t have Internet connection and would like</span>
-<span class="sd">    to use the local model files in ``readonly`` mode.</span>
-<span class="sd">    Do not create a :class:`PlateModel` object directly if you have no idea what&#39;s going on.</span>
+<span class="sd">    In most workflows, create instances through</span>
+<span class="sd">    :py:meth:`PlateModelManager.get_model` so model configuration and metadata</span>
+<span class="sd">    are resolved automatically. Direct instantiation is primarily intended for</span>
+<span class="sd">    advanced or offline use (for example, ``readonly=True`` with pre-downloaded</span>
+<span class="sd">    local files).</span>
 
 <span class="sd">    .. seealso::</span>
 
@@ -143,21 +142,24 @@
         <span class="n">readonly</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">timeout</span><span class="o">=</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Constructor. Create a :class:`PlateModel` instance.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a :class:`PlateModel` instance.</span>
 
-<span class="sd">        :param model_name: The model name of interest.</span>
+<span class="sd">        :param model_name: Model name to load.</span>
 <span class="sd">        :type model_name: str</span>
-<span class="sd">        :param model_cfg: The model configuration in JSON format.</span>
-<span class="sd">                          The configuration is either downloaded from the server or</span>
-<span class="sd">                          loaded from a local file ``.metadata.json``. If you are confused by this parameter,</span>
-<span class="sd">                          use :py:meth:`PlateModelManager.get_model()` to get a :class:`PlateModel` object instead.</span>
-<span class="sd">        :param data_dir: The folder path to save the model data.</span>
+<span class="sd">        :param model_cfg: Model configuration dictionary. This is typically</span>
+<span class="sd">            provided by :py:meth:`PlateModelManager.get_model`, or loaded from</span>
+<span class="sd">            local metadata in readonly mode.</span>
+<span class="sd">        :param data_dir: Parent directory used to store model files.</span>
 <span class="sd">        :type data_dir: str, default=&quot;.&quot;</span>
-<span class="sd">        :param readonly: If this flag is set to ``True``, The :class:`PlateModel` object will use</span>
-<span class="sd">                         the files in the local folder and will not attempt to</span>
-<span class="sd">                         download/update the files from the server.</span>
+<span class="sd">        :param reference_frame: Default reference frame associated with this</span>
+<span class="sd">            instance.</span>
+<span class="sd">        :type reference_frame: ReferenceFrame or None</span>
+<span class="sd">        :param readonly: If ``True``, use only local files and do not perform</span>
+<span class="sd">            downloads or updates.</span>
 <span class="sd">        :type readonly: bool, default=False</span>
-<span class="sd">        :param timeout: Network connection `timeout parameter &lt;https://requests.readthedocs.io/en/latest/user/advanced/#timeouts&gt;`__.</span>
+<span class="sd">        :param timeout: Network timeout tuple passed to file downloads.</span>
+<span class="sd">        :raises Exception: If ``readonly=True`` and the local model directory is</span>
+<span class="sd">            invalid.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">model_name</span> <span class="o">=</span> <span class="n">model_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">meta_filename</span> <span class="o">=</span> <span class="n">METADATA_FILENAME</span>
@@ -192,7 +194,12 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">model</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;The model metadata.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return model metadata for this instance.</span>
+
+<span class="sd">        :returns: Model configuration dictionary.</span>
+<span class="sd">        :rtype: Dict</span>
+<span class="sd">        :raises Exception: If model configuration is unexpectedly unavailable.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model</span>
         <span class="k">else</span><span class="p">:</span>
@@ -209,6 +216,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_model</span> <span class="o">=</span> <span class="n">var</span>
 
     <span class="k">def</span> <span class="nf">__getstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return picklable instance state without executor or event loop.&quot;&quot;&quot;</span>
         <span class="n">attributes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
         <span class="n">attributes</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;executor&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="n">attributes</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;loop&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
@@ -216,6 +224,7 @@
         <span class="k">return</span> <span class="n">attributes</span>
 
     <span class="k">def</span> <span class="nf">__setstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Restore instance state and recreate async helpers when writable.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">=</span> <span class="n">state</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">readonly</span><span class="p">:</span>
             <span class="c1"># async and concurrent things</span>
@@ -225,6 +234,7 @@
             <span class="n">asyncio</span><span class="o">.</span><span class="n">set_event_loop</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">loop</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Close the event loop when the instance is garbage collected.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">readonly</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">loop</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
@@ -234,14 +244,25 @@
 <div class="viewcode-block" id="PlateModel.get_cfg">
 <a class="viewcode-back" href="../../plate_model_manager.html#plate_model_manager.PlateModel.get_cfg">[docs]</a>
     <span class="k">def</span> <span class="nf">get_cfg</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the model configuration.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the model configuration dictionary.</span>
+
+<span class="sd">        :returns: Model metadata dictionary.</span>
+<span class="sd">        :rtype: Dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span></div>
 
 
 <div class="viewcode-block" id="PlateModel.get_model_dir">
 <a class="viewcode-back" href="../../plate_model_manager.html#plate_model_manager.PlateModel.get_model_dir">[docs]</a>
     <span class="k">def</span> <span class="nf">get_model_dir</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the path to a folder containing the model files.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the local directory path for this model.</span>
+
+<span class="sd">        In writable mode, the model directory is created when missing.</span>
+
+<span class="sd">        :returns: Absolute or relative path to this model folder.</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        :raises Exception: If the folder is missing in readonly mode.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">_model_dir</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">data_dir</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">model_name</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="k">if</span> <span class="n">PlateModel</span><span class="o">.</span><span class="n">is_model_dir</span><span class="p">(</span><span class="n">_model_dir</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">_model_dir</span>
@@ -256,40 +277,52 @@
 <div class="viewcode-block" id="PlateModel.get_data_dir">
 <a class="viewcode-back" href="../../plate_model_manager.html#plate_model_manager.PlateModel.get_data_dir">[docs]</a>
     <span class="k">def</span> <span class="nf">get_data_dir</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the path to a folder (parent folder of the ``model dir``) containing a set of downloaded models.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the parent directory containing downloaded models.</span>
+
+<span class="sd">        :returns: Data directory path.</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_dir</span></div>
 
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">model_dir</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the folder path for this model under ``data_dir``.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the model folder path under ``data_dir``.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_model_dir</span><span class="p">()</span>
 
 <div class="viewcode-block" id="PlateModel.set_data_dir">
 <a class="viewcode-back" href="../../plate_model_manager.html#plate_model_manager.PlateModel.set_data_dir">[docs]</a>
     <span class="k">def</span> <span class="nf">set_data_dir</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_dir</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Change the folder (parent folder of the ``model dir``) in which you would like to save your model.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set a new parent directory for this model.</span>
+
+<span class="sd">        :param new_dir: New data directory path.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">data_dir</span> <span class="o">=</span> <span class="n">new_dir</span></div>
 
 
 <div class="viewcode-block" id="PlateModel.get_big_time">
 <a class="viewcode-back" href="../../plate_model_manager.html#plate_model_manager.PlateModel.get_big_time">[docs]</a>
     <span class="k">def</span> <span class="nf">get_big_time</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;The max (big number in Ma) reconstruction time in the model.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the maximum reconstruction time in Ma.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">[</span><span class="s2">&quot;BigTime&quot;</span><span class="p">]</span></div>
 
 
 <div class="viewcode-block" id="PlateModel.get_small_time">
 <a class="viewcode-back" href="../../plate_model_manager.html#plate_model_manager.PlateModel.get_small_time">[docs]</a>
     <span class="k">def</span> <span class="nf">get_small_time</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;The min (small number in Ma) reconstruction time in the model.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the minimum reconstruction time in Ma.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">[</span><span class="s2">&quot;SmallTime&quot;</span><span class="p">]</span></div>
 
 
 <div class="viewcode-block" id="PlateModel.get_avail_layers">
 <a class="viewcode-back" href="../../plate_model_manager.html#plate_model_manager.PlateModel.get_avail_layers">[docs]</a>
     <span class="k">def</span> <span class="nf">get_avail_layers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get all available layers in this plate model.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return all available geometry layer names in this model.</span>
+
+<span class="sd">        :returns: Layer names.</span>
+<span class="sd">        :rtype: list[str]</span>
+<span class="sd">        :raises Exception: If model configuration is missing.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Fatal: No model configuration found!&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">[</span><span class="s2">&quot;Layers&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span></div>
@@ -363,7 +396,7 @@
     <span class="k">def</span> <span class="nf">get_coastlines</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">return_none_if_not_exist</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="kc">None</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a list of ``coastlines`` files.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return local file paths for the ``Coastlines`` layer.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_layer</span><span class="p">(</span>
             <span class="s2">&quot;Coastlines&quot;</span><span class="p">,</span> <span class="n">return_none_if_not_exist</span><span class="o">=</span><span class="n">return_none_if_not_exist</span>
         <span class="p">)</span></div>
@@ -374,7 +407,7 @@
     <span class="k">def</span> <span class="nf">get_static_polygons</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">return_none_if_not_exist</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="kc">None</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a list of ``static polygons`` files.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return local file paths for the ``StaticPolygons`` layer.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_layer</span><span class="p">(</span>
             <span class="s2">&quot;StaticPolygons&quot;</span><span class="p">,</span> <span class="n">return_none_if_not_exist</span><span class="o">=</span><span class="n">return_none_if_not_exist</span>
         <span class="p">)</span></div>
@@ -385,7 +418,7 @@
     <span class="k">def</span> <span class="nf">get_continental_polygons</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">return_none_if_not_exist</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="kc">None</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a list of ``continental polygons`` files.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return local file paths for the ``ContinentalPolygons`` layer.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_layer</span><span class="p">(</span>
             <span class="s2">&quot;ContinentalPolygons&quot;</span><span class="p">,</span> <span class="n">return_none_if_not_exist</span><span class="o">=</span><span class="n">return_none_if_not_exist</span>
         <span class="p">)</span></div>
@@ -396,7 +429,7 @@
     <span class="k">def</span> <span class="nf">get_topologies</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">return_none_if_not_exist</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="kc">None</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a list of ``topologies`` files.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return local file paths for the ``Topologies`` layer.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_layer</span><span class="p">(</span>
             <span class="s2">&quot;Topologies&quot;</span><span class="p">,</span> <span class="n">return_none_if_not_exist</span><span class="o">=</span><span class="n">return_none_if_not_exist</span>
         <span class="p">)</span></div>
@@ -407,7 +440,7 @@
     <span class="k">def</span> <span class="nf">get_COBs</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">return_none_if_not_exist</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="kc">None</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a list of ``Continent-Ocean Boundaries`` files.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return local file paths for the ``COBs`` layer.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_layer</span><span class="p">(</span><span class="s2">&quot;COBs&quot;</span><span class="p">,</span> <span class="n">return_none_if_not_exist</span><span class="o">=</span><span class="n">return_none_if_not_exist</span><span class="p">)</span></div>
 
 
@@ -416,18 +449,20 @@
     <span class="k">def</span> <span class="nf">get_layer</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">layer_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">return_none_if_not_exist</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="kc">None</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get a list of layer files by a layer name. Call :meth:`get_avail_layers` to get all the available layer names.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return local file paths for a geometry layer.</span>
 
-<span class="sd">        Raise :class:`LayerNotFoundInModel` exception to get user&#39;s attention by default.</span>
-<span class="sd">        Set ``return_none_if_not_exist`` to ``True`` if you don&#39;t want to see the :class:`LayerNotFoundInModel` exception.</span>
+<span class="sd">        In writable mode, layer data are downloaded or updated before paths are</span>
+<span class="sd">        returned. In readonly mode, paths are resolved from the local model</span>
+<span class="sd">        folder.</span>
 
-<span class="sd">        :param layer_name: The layer name of interest.</span>
-<span class="sd">        :param return_none_if_not_exist: If set to ``True``, return ``None`` when the layer does not exist in the model.</span>
-
-<span class="sd">        :returns: A list of file names or ``None`` if ``return_none_if_not_exist`` is set to ``True``.</span>
-
-<span class="sd">        :raises :class:`LayerNotFoundInModel`: Raise this exception if the layer name does not exist in this model.</span>
-
+<span class="sd">        :param layer_name: Layer name. Call :meth:`get_avail_layers` to list</span>
+<span class="sd">            valid names.</span>
+<span class="sd">        :param return_none_if_not_exist: If ``True``, return ``None`` instead</span>
+<span class="sd">            of raising when the layer is missing.</span>
+<span class="sd">        :returns: List of matching layer file paths, or ``None`` when</span>
+<span class="sd">            ``return_none_if_not_exist=True`` and the layer is missing.</span>
+<span class="sd">        :raises LayerNotFoundInModel: If the layer does not exist and</span>
+<span class="sd">            ``return_none_if_not_exist`` is ``False``.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">readonly</span><span class="p">:</span>
@@ -502,6 +537,16 @@
 
 
     <span class="k">def</span> <span class="nf">_resolve_raster_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">raster_name</span><span class="p">,</span> <span class="n">reference_frame</span><span class="p">,</span> <span class="n">generated_from</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Resolve a canonical time-dependent raster key from optional suffixes.</span>
+
+<span class="sd">        :param raster_name: Base raster name.</span>
+<span class="sd">        :param reference_frame: Optional reference frame suffix.</span>
+<span class="sd">        :param generated_from: Optional generation method suffix.</span>
+<span class="sd">        :returns: Raster key present in ``model[&quot;TimeDepRasters&quot;]``.</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        :raises Exception: If the model has no time-dependent rasters or the</span>
+<span class="sd">            resolved name cannot be matched.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">resolved_raster_name</span> <span class="o">=</span> <span class="n">raster_name</span>
         <span class="k">if</span> <span class="n">reference_frame</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">reference_frame</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reference_frame</span>
@@ -644,7 +689,7 @@
         <span class="n">reference_frame</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ReferenceFrame</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">generated_from</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">GenerationMethod</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a local path for the age grid raster file at a given time.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a local path for an ``AgeGrids`` raster at ``time`` Ma.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_raster</span><span class="p">(</span><span class="s2">&quot;AgeGrids&quot;</span><span class="p">,</span> <span class="n">time</span><span class="p">,</span> <span class="n">reference_frame</span><span class="p">,</span> <span class="n">generated_from</span><span class="p">)</span></div>
 
 
@@ -656,7 +701,7 @@
         <span class="n">reference_frame</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ReferenceFrame</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">generated_from</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">GenerationMethod</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return local paths for the age grid raster files at given times.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return local paths for ``AgeGrids`` rasters at multiple times.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_rasters</span><span class="p">(</span><span class="s2">&quot;AgeGrids&quot;</span><span class="p">,</span> <span class="n">times</span><span class="p">,</span> <span class="n">reference_frame</span><span class="p">,</span> <span class="n">generated_from</span><span class="p">)</span></div>
 
 
@@ -668,7 +713,7 @@
         <span class="n">reference_frame</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ReferenceFrame</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">generated_from</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">GenerationMethod</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a local path for the spreading rate grid raster file at a given time.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a local path for a ``SpreadingRate`` raster at ``time`` Ma.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_raster</span><span class="p">(</span><span class="s2">&quot;SpreadingRate&quot;</span><span class="p">,</span> <span class="n">time</span><span class="p">,</span> <span class="n">reference_frame</span><span class="p">,</span> <span class="n">generated_from</span><span class="p">)</span></div>
 
 
@@ -680,7 +725,7 @@
         <span class="n">reference_frame</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ReferenceFrame</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">generated_from</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">GenerationMethod</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return local paths for the spreading rate grid raster files at given times.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return local paths for ``SpreadingRate`` rasters at multiple times.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_rasters</span><span class="p">(</span><span class="s2">&quot;SpreadingRate&quot;</span><span class="p">,</span> <span class="n">times</span><span class="p">,</span> <span class="n">reference_frame</span><span class="p">,</span> <span class="n">generated_from</span><span class="p">)</span></div>
 
 
@@ -763,7 +808,7 @@
 <a class="viewcode-back" href="../../plate_model_manager.html#plate_model_manager.PlateModel.is_model_dir">[docs]</a>
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">is_model_dir</span><span class="p">(</span><span class="n">folder_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return ``True`` if the folder contains files of a plate model, otherwise ``False``.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return whether ``folder_path`` looks like a local model directory.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">folder_path</span><span class="p">)</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span>
             <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">folder_path</span><span class="si">}</span><span class="s2">/.metadata.json&quot;</span>
         <span class="p">)</span></div>
@@ -772,7 +817,7 @@
 <div class="viewcode-block" id="PlateModel.purge">
 <a class="viewcode-back" href="../../plate_model_manager.html#plate_model_manager.PlateModel.purge">[docs]</a>
     <span class="k">def</span> <span class="nf">purge</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove the model folder and everything inside the folder.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Delete the model directory and all files under it, if present.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model_dir</span><span class="p">):</span>
             <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model_dir</span><span class="p">)</span></div>
 
@@ -780,7 +825,7 @@
 <div class="viewcode-block" id="PlateModel.purge_layer">
 <a class="viewcode-back" href="../../plate_model_manager.html#plate_model_manager.PlateModel.purge_layer">[docs]</a>
     <span class="k">def</span> <span class="nf">purge_layer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">layer_name</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove the layer folder of the given layer name.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Delete a local layer directory for ``layer_name``, if present.&quot;&quot;&quot;</span>
         <span class="n">layer_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">model_dir</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">layer_name</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">layer_path</span><span class="p">):</span>
             <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">layer_path</span><span class="p">)</span></div>
@@ -789,22 +834,25 @@
 <div class="viewcode-block" id="PlateModel.purge_time_dependent_rasters">
 <a class="viewcode-back" href="../../plate_model_manager.html#plate_model_manager.PlateModel.purge_time_dependent_rasters">[docs]</a>
     <span class="k">def</span> <span class="nf">purge_time_dependent_rasters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">raster_name</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove the raster folder of the given raster name.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Delete local cached rasters for ``raster_name``, if present.&quot;&quot;&quot;</span>
         <span class="n">raster_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">model_dir</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">raster_name</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">raster_path</span><span class="p">):</span>
             <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">raster_path</span><span class="p">)</span></div>
 
 
     <span class="k">def</span> <span class="nf">_download_layer_files</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">layer_name</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Download layer files for a given layer name. You should use :meth:`get_layer`, instead of this one, whenever possible.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Download and cache files for one layer, then return its folder path.</span>
 
-<span class="sd">        The layer files are in a &quot;.zip&quot; file. This function will download and unzip it.</span>
+<span class="sd">        Prefer :meth:`get_layer` for normal usage. This lower-level helper is</span>
+<span class="sd">        used internally and handles update checks and historical backups of</span>
+<span class="sd">        replaced layer folders.</span>
 
-<span class="sd">        :param layer_name: the layer name, such as &quot;Rotations&quot;,&quot;Coastlines&quot;, &quot;StaticPolygons&quot;, &quot;ContinentalPolygons&quot;, &quot;Topologies&quot;, etc.</span>
-<span class="sd">                           Call :meth:`get_avail_layers` to get all the available layer names.</span>
-
-<span class="sd">        :returns: the folder path which contains the layer files</span>
-
+<span class="sd">        :param layer_name: Layer name such as ``Rotations`` or ``Coastlines``.</span>
+<span class="sd">        :returns: Path to the local layer folder.</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        :raises Exception: If called in readonly mode.</span>
+<span class="sd">        :raises LayerNotFoundInModel: If the layer is not configured in this</span>
+<span class="sd">            model.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">readonly</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Unable to download layer files in readonly mode.&quot;</span><span class="p">)</span>
@@ -845,7 +893,11 @@
 <div class="viewcode-block" id="PlateModel.download_all_layers">
 <a class="viewcode-back" href="../../plate_model_manager.html#plate_model_manager.PlateModel.download_all_layers">[docs]</a>
     <span class="k">def</span> <span class="nf">download_all_layers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Download all layers. This function calls :meth:`download_layer_files()` on every available layer.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Download all configured layers for this model.</span>
+
+<span class="sd">        This includes ``Rotations`` when available, plus every entry under</span>
+<span class="sd">        ``model[&quot;Layers&quot;]``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">readonly</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Unable to download all layers in readonly mode.&quot;</span><span class="p">)</span>
 
@@ -872,7 +924,12 @@
 <div class="viewcode-block" id="PlateModel.get_avail_time_dependent_raster_names">
 <a class="viewcode-back" href="../../plate_model_manager.html#plate_model_manager.PlateModel.get_avail_time_dependent_raster_names">[docs]</a>
     <span class="k">def</span> <span class="nf">get_avail_time_dependent_raster_names</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return all time-dependent raster names in this plate model.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return configured names of time-dependent rasters.</span>
+
+<span class="sd">        :returns: Raster names from ``TimeDepRasters``, or an empty list when</span>
+<span class="sd">            the model defines none.</span>
+<span class="sd">        :rtype: list[str]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="s2">&quot;TimeDepRasters&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">[]</span>
         <span class="k">else</span><span class="p">:</span>
@@ -882,12 +939,13 @@
 <div class="viewcode-block" id="PlateModel.download_time_dependent_rasters">
 <a class="viewcode-back" href="../../plate_model_manager.html#plate_model_manager.PlateModel.download_time_dependent_rasters">[docs]</a>
     <span class="k">def</span> <span class="nf">download_time_dependent_rasters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">raster_name</span><span class="p">,</span> <span class="n">times</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Download time-dependent rasters for a given raster name.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Download and cache a time series of rasters for ``raster_name``.</span>
 
-<span class="sd">        Call :meth:`get_avail_time_dependent_raster_names()` to see all the available raster names in this model.</span>
-
-<span class="sd">        :param raster_name: the raster name of interest</span>
-<span class="sd">        :param times: if not given, download from begin to end with 1My interval</span>
+<span class="sd">        :param raster_name: Raster key in ``model[&quot;TimeDepRasters&quot;]``.</span>
+<span class="sd">        :param times: Iterable of reconstruction times (Ma). If omitted, download</span>
+<span class="sd">            every integer time from ``SmallTime`` to ``BigTime`` inclusive.</span>
+<span class="sd">        :raises Exception: If called in readonly mode or raster configuration is</span>
+<span class="sd">            missing.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">readonly</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
@@ -933,13 +991,14 @@
 
 
     <span class="k">def</span> <span class="nf">_download_raster</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">dst_path</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Download a single raster file from ``url`` and save the file in ``dst_path``.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Download one raster file to ``dst_path`` with metadata tracking.</span>
 
-<span class="sd">        A metadata file will also be created for the raster file in folder ``f&quot;{dst_path}/metadata&quot;``</span>
+<span class="sd">        A per-file metadata JSON is stored under ``{dst_path}/.metadata`` and</span>
+<span class="sd">        used to decide whether updates are required on subsequent calls.</span>
 
-<span class="sd">        :param url: the url to the raster file</span>
-<span class="sd">        :param dst_path: the folder path to save the raster file</span>
-
+<span class="sd">        :param url: Source URL of the raster file.</span>
+<span class="sd">        :param dst_path: Destination folder path for the downloaded file.</span>
+<span class="sd">        :raises Exception: If called in readonly mode.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">readonly</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Unable to download raster in readonly mode.&quot;</span><span class="p">)</span>
@@ -965,7 +1024,7 @@
 <div class="viewcode-block" id="PlateModel.download_all">
 <a class="viewcode-back" href="../../plate_model_manager.html#plate_model_manager.PlateModel.download_all">[docs]</a>
     <span class="k">def</span> <span class="nf">download_all</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Download everything in this plate model.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Download all layers and all configured time-dependent rasters.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">readonly</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Unable to download all in readonly mode.&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">download_all_layers</span><span class="p">()</span>
@@ -975,6 +1034,16 @@
 
 
     <span class="k">def</span> <span class="nf">_get_layer_file_url</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">layer_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the download URL for a configured layer.</span>
+
+<span class="sd">        ``Rotations`` is stored as a top-level model entry, while geometry</span>
+<span class="sd">        layers are stored under ``model[&quot;Layers&quot;]``.</span>
+
+<span class="sd">        :param layer_name: Layer name to resolve.</span>
+<span class="sd">        :returns: Layer archive URL.</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        :raises LayerNotFoundInModel: If ``layer_name`` is not configured.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># find the layer file url. two parts. one is the rotation, the other is all other geometry layers</span>
         <span class="k">if</span> <span class="n">layer_name</span> <span class="o">==</span> <span class="s2">&quot;Rotations&quot;</span><span class="p">:</span>
             <span class="c1"># for Rotations</span>

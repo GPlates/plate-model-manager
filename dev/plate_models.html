@@ -169,16 +169,39 @@ For example: <code class="docutils literal notranslate"><span class="pre">pmm</s
 </ul>
 <p><strong>Time-dependent rasters:</strong></p>
 <ul class="simple">
-<li><p>AgegridsUsingIsochronsMantleFrame</p></li>
-<li><p>AgegridsUsingIsochronsPMAG</p></li>
-<li><p>AgegridsUsingTopologiesMantleFrame</p></li>
-<li><p>AgegridsUsingTopologiesPMAG</p></li>
+<li><p>AgeGridsUsingIsochronsMantleFrame</p></li>
+<li><p>AgeGridsUsingIsochronsPMAG</p></li>
+<li><p>AgeGridsUsingTopologiesMantleFrame</p></li>
+<li><p>AgeGridsUsingTopologiesPMAG</p></li>
 <li><p>SpreadingRateUsingTopologiesMantleFrame</p></li>
 <li><p>SpreadingRateUsingTopologiesPMAG</p></li>
 </ul>
 <p><strong>Description:</strong> Model for subduction kinematics and carbonate platform interactions. Set the anchor plate ID to 701701 to use PMAG reference frame. See the ‘URL’ below for more
 details.</p>
 <p><strong>DOI / URL:</strong> <a class="reference external" href="https://doi.org/10.5281/zenodo.4729045">https://doi.org/10.5281/zenodo.4729045</a></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This model provides both mantle and PMAG reference frame options.</p>
+<p><strong>PMAG Reference Frame</strong></p>
+<p>To access the PMAG rotation model with its anchor plate ID:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">PlateModelManager</span><span class="p">()</span><span class="o">.</span><span class="n">get_model</span><span class="p">(</span><span class="s2">&quot;zahirovic2022&quot;</span><span class="p">)</span>
+<span class="n">rotation_files</span><span class="p">,</span> <span class="n">anchor_pid</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">get_rotation_model</span><span class="p">(</span>
+    <span class="n">reference_frame</span><span class="o">=</span><span class="n">ReferenceFrame</span><span class="o">.</span><span class="n">PmagReferenceFrame</span>
+<span class="p">)</span>
+<span class="n">rotation_model</span> <span class="o">=</span> <span class="n">pygplates</span><span class="o">.</span><span class="n">RotationModel</span><span class="p">(</span>
+    <span class="n">rotation_files</span><span class="p">,</span>
+    <span class="n">default_anchor_plate_id</span><span class="o">=</span><span class="n">anchor_pid</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Mantle Reference Frame</strong></p>
+<p>For the default mantle reference frame (no anchor plate ID specification needed):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">PlateModelManager</span><span class="p">()</span><span class="o">.</span><span class="n">get_model</span><span class="p">(</span><span class="s2">&quot;zahirovic2022&quot;</span><span class="p">)</span>
+<span class="n">rotation_files</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">get_rotation_model</span><span class="p">()</span>
+<span class="n">rotation_model</span> <span class="o">=</span> <span class="n">pygplates</span><span class="o">.</span><span class="n">RotationModel</span><span class="p">(</span><span class="n">rotation_files</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
 </section>
 </section>
 <hr class="docutils" />
@@ -223,9 +246,31 @@ details.</p>
 <li><p>AgeGrids</p></li>
 <li><p>SpreadingRate</p></li>
 </ul>
-<p><strong>Description:</strong> Modified global model focused on Western North America and the eastern Pacific tomotectonic
-reconstruction. Set the anchor plate ID to 701701 to use PMAG reference frame. See the ‘URL’ below for more details.</p>
+<p><strong>Description:</strong> Modified global model focused on Western North America and the eastern Pacific tomotectonic reconstruction. Set the anchor plate ID to 701701 to use PMAG reference frame. See the ‘URL’ below for more details.</p>
 <p><strong>DOI / URL:</strong> <a class="reference external" href="https://doi.org/10.5281/zenodo.11392268">https://doi.org/10.5281/zenodo.11392268</a></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This model provides both mantle and PMAG reference frame options.</p>
+<p><strong>PMAG Reference Frame</strong></p>
+<p>To access the PMAG rotation model with its anchor plate ID:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">PlateModelManager</span><span class="p">()</span><span class="o">.</span><span class="n">get_model</span><span class="p">(</span><span class="s2">&quot;Alfonso2024&quot;</span><span class="p">)</span>
+<span class="n">rotation_files</span><span class="p">,</span> <span class="n">anchor_pid</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">get_rotation_model</span><span class="p">(</span>
+    <span class="n">reference_frame</span><span class="o">=</span><span class="n">ReferenceFrame</span><span class="o">.</span><span class="n">PmagReferenceFrame</span>
+<span class="p">)</span>
+<span class="n">rotation_model</span> <span class="o">=</span> <span class="n">pygplates</span><span class="o">.</span><span class="n">RotationModel</span><span class="p">(</span>
+    <span class="n">rotation_files</span><span class="p">,</span>
+    <span class="n">default_anchor_plate_id</span><span class="o">=</span><span class="n">anchor_pid</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Mantle Reference Frame</strong></p>
+<p>For the default mantle reference frame (no anchor plate ID specification needed):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">PlateModelManager</span><span class="p">()</span><span class="o">.</span><span class="n">get_model</span><span class="p">(</span><span class="s2">&quot;Alfonso2024&quot;</span><span class="p">)</span>
+<span class="n">rotation_files</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">get_rotation_model</span><span class="p">()</span>
+<span class="n">rotation_model</span> <span class="o">=</span> <span class="n">pygplates</span><span class="o">.</span><span class="n">RotationModel</span><span class="p">(</span><span class="n">rotation_files</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
 <hr class="docutils" />
 </section>
 <section id="cao2024">
@@ -309,6 +354,10 @@ MATTHEWS2016_pmag_ref model for 250-410 Ma and a newly constructed model for ear
 <p><strong>Description:</strong> Quantitative tomotectonic reconstruction of western North America and the eastern Pacific basin. See
 the ‘URL’ below for more details.</p>
 <p><strong>DOI / URL:</strong> <a class="reference external" href="https://doi.org/10.5281/zenodo.10348270">https://doi.org/10.5281/zenodo.10348270</a></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This model can also be accessed using the alias <code class="docutils literal notranslate"><span class="pre">Clennett2020</span></code>. The two models are identical.</p>
+</div>
 <hr class="docutils" />
 </section>
 <section id="clennett2020-s2013">
@@ -405,6 +454,16 @@ details.</p>
 <p><strong>Description:</strong> This model is identical to MATTHEWS2016_pmag_ref in terms of relative plate models but uses a true
 polar wander corrected paleomagnetic model, viewed as a proxy for a mantle reference frame model. See the ‘URL’ below for more details.</p>
 <p><strong>DOI / URL:</strong> <a class="reference external" href="https://doi.org/10.5281/zenodo.10526156">https://doi.org/10.5281/zenodo.10526156</a></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This model can also be accessed using the alias <code class="docutils literal notranslate"><span class="pre">matthews2016</span></code> or using the following Python code.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">model_manager</span><span class="o">.</span><span class="n">get_model</span><span class="p">(</span>
+   <span class="s2">&quot;matthews2016&quot;</span><span class="p">,</span>
+   <span class="n">reference_frame</span><span class="o">=</span><span class="n">ReferenceFrame</span><span class="o">.</span><span class="n">MantleReferenceFrame</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
 <hr class="docutils" />
 </section>
 <section id="matthews2016-pmag-ref">
@@ -424,6 +483,16 @@ the two models, used an updated absolute reference frame of the Mesozoic-Cenozoi
 new Paleozoic reconstruction for the Baltica-derived Alexander Terrane, now accreted to western
 North America. See the ‘URL’ below for more details.</p>
 <p><strong>URL:</strong> <a class="reference external" href="https://gwsdoc.gplates.org/models#matthews2016_pmag_ref">https://gwsdoc.gplates.org/models#matthews2016_pmag_ref</a></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This model can also be accessed using the following Python code.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">model_manager</span><span class="o">.</span><span class="n">get_model</span><span class="p">(</span>
+   <span class="s2">&quot;matthews2016&quot;</span><span class="p">,</span>
+   <span class="n">reference_frame</span><span class="o">=</span><span class="n">ReferenceFrame</span><span class="o">.</span><span class="n">PmagReferenceFrame</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
 <hr class="docutils" />
 </section>
 <section id="muller2016">
@@ -459,6 +528,10 @@ frame. See the ‘URL’ below for more details.</p>
 </ul>
 <p><strong>Description:</strong> PALEOMAP PaleoAtlas reconstruction dataset for GPlates (Scotese framework). See the ‘URL’ below for more details.</p>
 <p><strong>DOI / URL:</strong> <a class="reference external" href="https://doi.org/10.5281/zenodo.10596609">https://doi.org/10.5281/zenodo.10596609</a></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This model is also known as <code class="docutils literal notranslate"><span class="pre">Paleomap</span></code>. The two model names can be used interchangeably to refer to the same model.</p>
+</div>
 <hr class="docutils" />
 </section>
 <section id="zahirovic2016">

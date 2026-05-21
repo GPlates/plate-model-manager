@@ -98,14 +98,14 @@
 </nav>
 <section id="download-rotation-files">
 <h2><a class="toc-backref" href="#id1" role="doc-backlink">Download rotation files</a><a class="headerlink" href="#download-rotation-files" title="Link to this heading"></a></h2>
-<p>The Python code below downloads the <code class="docutils literal notranslate"><span class="pre">rotation</span></code> files from the <code class="docutils literal notranslate"><span class="pre">Cao2024</span></code> model into a local folder <code class="docutils literal notranslate"><span class="pre">plate-models-data-dir</span></code>
+<p>The Python code below downloads the <code class="docutils literal notranslate"><span class="pre">rotation</span></code> files from the <code class="docutils literal notranslate"><span class="pre">Muller2025</span></code> model into a local folder <code class="docutils literal notranslate"><span class="pre">plate-models-data-dir</span></code>
 and displays the file paths on screen.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="kn">from</span> <span class="nn">plate_model_manager</span> <span class="kn">import</span> <span class="n">PlateModelManager</span>
 <span class="linenos">2</span>
 <span class="linenos">3</span><span class="n">mgr</span> <span class="o">=</span> <span class="n">PlateModelManager</span><span class="p">()</span>
-<span class="hll"><span class="linenos">4</span><span class="n">cao2024_model</span> <span class="o">=</span> <span class="n">mgr</span><span class="o">.</span><span class="n">get_model</span><span class="p">(</span><span class="s2">&quot;Cao2024&quot;</span><span class="p">,</span> <span class="n">data_dir</span><span class="o">=</span><span class="s2">&quot;plate-models-data-dir&quot;</span><span class="p">)</span>
+<span class="hll"><span class="linenos">4</span><span class="n">muller2025_model</span> <span class="o">=</span> <span class="n">mgr</span><span class="o">.</span><span class="n">get_model</span><span class="p">(</span><span class="s2">&quot;Muller2025&quot;</span><span class="p">,</span> <span class="n">data_dir</span><span class="o">=</span><span class="s2">&quot;plate-models-data-dir&quot;</span><span class="p">)</span>
 </span><span class="linenos">5</span><span class="c1"># download the rotation files and print their local paths</span>
-<span class="hll"><span class="linenos">6</span><span class="nb">print</span><span class="p">(</span><span class="n">cao2024_model</span><span class="o">.</span><span class="n">get_rotation_model</span><span class="p">())</span>
+<span class="hll"><span class="linenos">6</span><span class="nb">print</span><span class="p">(</span><span class="n">muller2025_model</span><span class="o">.</span><span class="n">get_rotation_model</span><span class="p">())</span>
 </span></pre></div>
 </div>
 <div class="admonition seealso">
@@ -115,14 +115,14 @@ and displays the file paths on screen.</p>
 </section>
 <section id="download-a-layer">
 <h2><a class="toc-backref" href="#id2" role="doc-backlink">Download a layer</a><a class="headerlink" href="#download-a-layer" title="Link to this heading"></a></h2>
-<p>The Python code below downloads the <code class="docutils literal notranslate"><span class="pre">Coastlines</span></code> layer from the <code class="docutils literal notranslate"><span class="pre">Cao2024</span></code> model
+<p>The Python code below downloads the <code class="docutils literal notranslate"><span class="pre">Coastlines</span></code> layer from the <code class="docutils literal notranslate"><span class="pre">Muller2025</span></code> model
 and displays the file paths on screen.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="kn">from</span> <span class="nn">plate_model_manager</span> <span class="kn">import</span> <span class="n">PlateModelManager</span>
 <span class="linenos">2</span>
 <span class="linenos">3</span><span class="n">mgr</span> <span class="o">=</span> <span class="n">PlateModelManager</span><span class="p">()</span>
-<span class="hll"><span class="linenos">4</span><span class="n">cao2024_model</span> <span class="o">=</span> <span class="n">mgr</span><span class="o">.</span><span class="n">get_model</span><span class="p">(</span><span class="s2">&quot;Cao2024&quot;</span><span class="p">,</span> <span class="n">data_dir</span><span class="o">=</span><span class="s2">&quot;plate-models-data-dir&quot;</span><span class="p">)</span>
-</span><span class="linenos">5</span><span class="c1"># download Coastlines from model Cao2024 and display the local path</span>
-<span class="hll"><span class="linenos">6</span><span class="nb">print</span><span class="p">(</span><span class="n">cao2024_model</span><span class="o">.</span><span class="n">get_layer</span><span class="p">(</span><span class="s2">&quot;Coastlines&quot;</span><span class="p">))</span>
+<span class="hll"><span class="linenos">4</span><span class="n">muller2025_model</span> <span class="o">=</span> <span class="n">mgr</span><span class="o">.</span><span class="n">get_model</span><span class="p">(</span><span class="s2">&quot;Muller2025&quot;</span><span class="p">,</span> <span class="n">data_dir</span><span class="o">=</span><span class="s2">&quot;plate-models-data-dir&quot;</span><span class="p">)</span>
+</span><span class="linenos">5</span><span class="c1"># download Coastlines from model Muller2025 and display the local path</span>
+<span class="hll"><span class="linenos">6</span><span class="nb">print</span><span class="p">(</span><span class="n">muller2025_model</span><span class="o">.</span><span class="n">get_layer</span><span class="p">(</span><span class="s2">&quot;Coastlines&quot;</span><span class="p">))</span>
 </span></pre></div>
 </div>
 <div class="admonition seealso">
@@ -132,13 +132,13 @@ and displays the file paths on screen.</p>
 </section>
 <section id="list-all-layer-names">
 <span id="list-all-layers"></span><h2><a class="toc-backref" href="#id3" role="doc-backlink">List all layer names</a><a class="headerlink" href="#list-all-layer-names" title="Link to this heading"></a></h2>
-<p>The Python code below displays a list of available layers in the model <strong>Cao2024</strong> on the screen.</p>
+<p>The Python code below displays a list of available layers in the model <strong>Muller2025</strong> on the screen.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="kn">from</span> <span class="nn">plate_model_manager</span> <span class="kn">import</span> <span class="n">PlateModelManager</span>
 <span class="linenos">2</span>
 <span class="linenos">3</span><span class="n">mgr</span> <span class="o">=</span> <span class="n">PlateModelManager</span><span class="p">()</span>
-<span class="hll"><span class="linenos">4</span><span class="n">cao2024_model</span> <span class="o">=</span> <span class="n">mgr</span><span class="o">.</span><span class="n">get_model</span><span class="p">(</span><span class="s2">&quot;Cao2024&quot;</span><span class="p">,</span> <span class="n">data_dir</span><span class="o">=</span><span class="s2">&quot;plate-models-data-dir&quot;</span><span class="p">)</span>
-</span><span class="linenos">5</span><span class="c1"># display a list of available layers in model Cao2024</span>
-<span class="hll"><span class="linenos">6</span><span class="nb">print</span><span class="p">(</span><span class="n">cao2024_model</span><span class="o">.</span><span class="n">get_avail_layers</span><span class="p">())</span>
+<span class="hll"><span class="linenos">4</span><span class="n">muller2025_model</span> <span class="o">=</span> <span class="n">mgr</span><span class="o">.</span><span class="n">get_model</span><span class="p">(</span><span class="s2">&quot;Muller2025&quot;</span><span class="p">,</span> <span class="n">data_dir</span><span class="o">=</span><span class="s2">&quot;plate-models-data-dir&quot;</span><span class="p">)</span>
+</span><span class="linenos">5</span><span class="c1"># display a list of available layers in model Muller2025</span>
+<span class="hll"><span class="linenos">6</span><span class="nb">print</span><span class="p">(</span><span class="n">muller2025_model</span><span class="o">.</span><span class="n">get_avail_layers</span><span class="p">())</span>
 </span></pre></div>
 </div>
 </section>

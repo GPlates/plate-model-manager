@@ -43,10 +43,10 @@ Zahirovic2022
 
 **Time-dependent rasters:**
 
-- AgegridsUsingIsochronsMantleFrame
-- AgegridsUsingIsochronsPMAG
-- AgegridsUsingTopologiesMantleFrame
-- AgegridsUsingTopologiesPMAG
+- AgeGridsUsingIsochronsMantleFrame
+- AgeGridsUsingIsochronsPMAG
+- AgeGridsUsingTopologiesMantleFrame
+- AgeGridsUsingTopologiesPMAG
 - SpreadingRateUsingTopologiesMantleFrame
 - SpreadingRateUsingTopologiesPMAG
 
@@ -55,6 +55,35 @@ Zahirovic2022
 details.
 
 **DOI / URL:** https://doi.org/10.5281/zenodo.4729045
+
+.. note::
+
+   This model provides both mantle and PMAG reference frame options.
+
+   **PMAG Reference Frame**
+
+   To access the PMAG rotation model with its anchor plate ID:
+
+   .. code-block:: python
+
+      model = PlateModelManager().get_model("zahirovic2022")
+      rotation_files, anchor_pid = model.get_rotation_model(
+          reference_frame=ReferenceFrame.PmagReferenceFrame
+      )
+      rotation_model = pygplates.RotationModel(
+          rotation_files,
+          default_anchor_plate_id=anchor_pid
+      )
+
+   **Mantle Reference Frame**
+
+   For the default mantle reference frame (no anchor plate ID specification needed):
+
+   .. code-block:: python
+
+      model = PlateModelManager().get_model("zahirovic2022")
+      rotation_files = model.get_rotation_model()
+      rotation_model = pygplates.RotationModel(rotation_files)
 
 ----
 
@@ -112,10 +141,38 @@ Alfonso2024
 - SpreadingRate
 
 
-**Description:** Modified global model focused on Western North America and the eastern Pacific tomotectonic
-reconstruction. Set the anchor plate ID to 701701 to use PMAG reference frame. See the 'URL' below for more details.
+**Description:** Modified global model focused on Western North America and the eastern Pacific tomotectonic reconstruction. Set the anchor plate ID to 701701 to use PMAG reference frame. See the 'URL' below for more details.
 
 **DOI / URL:** https://doi.org/10.5281/zenodo.11392268
+
+.. note::
+
+   This model provides both mantle and PMAG reference frame options.
+
+   **PMAG Reference Frame**
+
+   To access the PMAG rotation model with its anchor plate ID:
+
+   .. code-block:: python
+
+      model = PlateModelManager().get_model("Alfonso2024")
+      rotation_files, anchor_pid = model.get_rotation_model(
+          reference_frame=ReferenceFrame.PmagReferenceFrame
+      )
+      rotation_model = pygplates.RotationModel(
+          rotation_files,
+          default_anchor_plate_id=anchor_pid
+      )
+
+   **Mantle Reference Frame**
+
+   For the default mantle reference frame (no anchor plate ID specification needed):
+
+   .. code-block:: python
+
+      model = PlateModelManager().get_model("Alfonso2024")
+      rotation_files = model.get_rotation_model()
+      rotation_model = pygplates.RotationModel(rotation_files)
 
 ----
 
@@ -230,6 +287,10 @@ Clennett2020_m2019
 the 'URL' below for more details.
 
 **DOI / URL:** https://doi.org/10.5281/zenodo.10348270
+
+.. note::
+
+   This model can also be accessed using the alias ``Clennett2020``. The two models are identical.
 
 ----
 
@@ -363,6 +424,17 @@ polar wander corrected paleomagnetic model, viewed as a proxy for a mantle refer
 
 **DOI / URL:** https://doi.org/10.5281/zenodo.10526156
 
+.. note::
+
+   This model can also be accessed using the alias ``matthews2016`` or using the following Python code.
+
+   .. code-block:: python
+
+     model = model_manager.get_model(
+        "matthews2016",
+        reference_frame=ReferenceFrame.MantleReferenceFrame,
+     )
+
 ----
 
 .. _model-matthews2016-pmag-ref:
@@ -388,6 +460,17 @@ new Paleozoic reconstruction for the Baltica-derived Alexander Terrane, now accr
 North America. See the 'URL' below for more details.
 
 **URL:** https://gwsdoc.gplates.org/models#matthews2016_pmag_ref
+
+.. note::
+
+   This model can also be accessed using the following Python code.
+
+   .. code-block:: python
+
+     model = model_manager.get_model(
+        "matthews2016",
+        reference_frame=ReferenceFrame.PmagReferenceFrame,
+     )
 
 ----
 
@@ -438,6 +521,10 @@ Scotese2016
 **Description:** PALEOMAP PaleoAtlas reconstruction dataset for GPlates (Scotese framework). See the 'URL' below for more details.
 
 **DOI / URL:** https://doi.org/10.5281/zenodo.10596609
+
+.. note::
+
+   This model is also known as ``Paleomap``. The two model names can be used interchangeably to refer to the same model.
 
 ----
 
