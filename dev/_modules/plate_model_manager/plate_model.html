@@ -536,6 +536,18 @@
                 <span class="k">raise</span> <span class="n">e</span></div>
 
 
+    <span class="k">def</span> <span class="nf">_best_effort_to_get_raster_name_from_config</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">raster_name</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">raster_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;TimeDepRasters&quot;</span><span class="p">,</span> <span class="p">{}):</span>
+            <span class="k">return</span> <span class="n">raster_name</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;TimeDepRasters&quot;</span><span class="p">,</span> <span class="p">{}):</span>
+                <span class="k">if</span> <span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="n">raster_name</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">&quot;Raster &#39;</span><span class="si">{</span><span class="n">raster_name</span><span class="si">}</span><span class="s2">&#39; not found in this model &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">model_name</span><span class="si">}</span><span class="s2">&#39;, but &#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; exists. Will use &#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; for now.&quot;</span>
+                    <span class="p">)</span>
+                    <span class="k">return</span> <span class="n">name</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
     <span class="k">def</span> <span class="nf">_resolve_raster_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">raster_name</span><span class="p">,</span> <span class="n">reference_frame</span><span class="p">,</span> <span class="n">generated_from</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Resolve a canonical time-dependent raster key from optional suffixes.</span>
 
@@ -547,37 +559,56 @@
 <span class="sd">        :raises Exception: If the model has no time-dependent rasters or the</span>
 <span class="sd">            resolved name cannot be matched.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">resolved_raster_name</span> <span class="o">=</span> <span class="n">raster_name</span>
-        <span class="k">if</span> <span class="n">reference_frame</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">reference_frame</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reference_frame</span>
-        <span class="k">if</span> <span class="n">generated_from</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">resolved_raster_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">raster_name</span><span class="si">}{</span><span class="n">generated_from</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span>
-        <span class="n">name_without_reference_frame</span> <span class="o">=</span> <span class="n">resolved_raster_name</span>
-        <span class="k">if</span> <span class="n">reference_frame</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">resolved_raster_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">resolved_raster_name</span><span class="si">}{</span><span class="n">reference_frame</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="s2">&quot;TimeDepRasters&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
                 <span class="sa">f</span><span class="s2">&quot;No time-dependent rasters found in this model &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">model_name</span><span class="si">}</span><span class="s2">&#39;.&quot;</span>
             <span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">resolved_raster_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">[</span><span class="s2">&quot;TimeDepRasters&quot;</span><span class="p">]:</span>
-            <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">[</span><span class="s2">&quot;TimeDepRasters&quot;</span><span class="p">]:</span>
-                <span class="k">if</span> <span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="n">resolved_raster_name</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
-                    <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-                        <span class="sa">f</span><span class="s2">&quot;Raster &#39;</span><span class="si">{</span><span class="n">resolved_raster_name</span><span class="si">}</span><span class="s2">&#39; not found in this model &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">model_name</span><span class="si">}</span><span class="s2">&#39;, but &#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; exists. Will use &#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; for now.&quot;</span>
-                    <span class="p">)</span>
-                    <span class="k">return</span> <span class="n">name</span>
-            <span class="k">if</span> <span class="n">name_without_reference_frame</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">[</span><span class="s2">&quot;TimeDepRasters&quot;</span><span class="p">]:</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;Raster &#39;</span><span class="si">{</span><span class="n">resolved_raster_name</span><span class="si">}</span><span class="s2">&#39; not found in this model &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">model_name</span><span class="si">}</span><span class="s2">&#39;, but &#39;</span><span class="si">{</span><span class="n">name_without_reference_frame</span><span class="si">}</span><span class="s2">&#39; exists. This may be because the model does not have different reference frame versions of this raster. Will use &#39;</span><span class="si">{</span><span class="n">name_without_reference_frame</span><span class="si">}</span><span class="s2">&#39; for now.&quot;</span>
-                <span class="p">)</span>
-                <span class="k">return</span> <span class="n">name_without_reference_frame</span>
+
+        <span class="k">if</span> <span class="n">reference_frame</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">reference_frame</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reference_frame</span>
+
+        <span class="k">if</span> <span class="n">reference_frame</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">generated_from</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">name_in_config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_best_effort_to_get_raster_name_from_config</span><span class="p">(</span>
+                <span class="n">raster_name</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="n">name_in_config</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">name_in_config</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;Time-dependent rasters (</span><span class="si">{</span><span class="n">resolved_raster_name</span><span class="si">}</span><span class="s2">) were not found in this model &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">model_name</span><span class="si">}</span><span class="s2">&#39;.</span><span class="se">\n</span><span class="s2">&quot;</span>
-                    <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;Available time-dependent rasters in &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">model_name</span><span class="si">}</span><span class="s2">&#39;:</span><span class="se">\n</span><span class="s2">&quot;</span>
-                    <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">[</span><span class="s2">&quot;TimeDepRasters&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+                <span class="c1"># try the best to deduce the raster name</span>
+                <span class="n">guessed_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">raster_name</span><span class="si">}{</span><span class="n">GenerationMethod</span><span class="o">.</span><span class="n">Isochrons</span><span class="o">.</span><span class="n">value</span><span class="si">}{</span><span class="n">ReferenceFrame</span><span class="o">.</span><span class="n">MantleReferenceFrame</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="n">name_in_config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_best_effort_to_get_raster_name_from_config</span><span class="p">(</span>
+                    <span class="n">guessed_name</span>
                 <span class="p">)</span>
-        <span class="k">return</span> <span class="n">resolved_raster_name</span>
+                <span class="k">if</span> <span class="n">name_in_config</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">name_in_config</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">resolved_raster_name</span> <span class="o">=</span> <span class="n">raster_name</span>
+            <span class="k">if</span> <span class="n">generated_from</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">resolved_raster_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">raster_name</span><span class="si">}{</span><span class="n">generated_from</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="n">name_without_reference_frame</span> <span class="o">=</span> <span class="n">resolved_raster_name</span>
+            <span class="k">if</span> <span class="n">reference_frame</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">resolved_raster_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">resolved_raster_name</span><span class="si">}{</span><span class="n">reference_frame</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span>
+
+            <span class="n">name_in_config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_best_effort_to_get_raster_name_from_config</span><span class="p">(</span>
+                <span class="n">resolved_raster_name</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="n">name_in_config</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">name_in_config</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">name_in_config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_best_effort_to_get_raster_name_from_config</span><span class="p">(</span>
+                    <span class="n">name_without_reference_frame</span>
+                <span class="p">)</span>
+                <span class="k">if</span> <span class="n">name_in_config</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">&quot;Raster &#39;</span><span class="si">{</span><span class="n">resolved_raster_name</span><span class="si">}</span><span class="s2">&#39; not found in this model &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">model_name</span><span class="si">}</span><span class="s2">&#39;, but &#39;</span><span class="si">{</span><span class="n">name_in_config</span><span class="si">}</span><span class="s2">&#39; exists. Will use &#39;</span><span class="si">{</span><span class="n">name_in_config</span><span class="si">}</span><span class="s2">&#39; for now.&quot;</span>
+                    <span class="p">)</span>
+                    <span class="k">return</span> <span class="n">name_in_config</span>
+
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Time-dependent rasters (</span><span class="si">{</span><span class="n">resolved_raster_name</span><span class="si">}</span><span class="s2">) were not found in this model &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">model_name</span><span class="si">}</span><span class="s2">&#39;.</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;Available time-dependent rasters in &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">model_name</span><span class="si">}</span><span class="s2">&#39;:</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;TimeDepRasters&quot;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+        <span class="p">)</span>
 
 <div class="viewcode-block" id="PlateModel.get_raster">
 <a class="viewcode-back" href="../../plate_model_manager.html#plate_model_manager.PlateModel.get_raster">[docs]</a>
