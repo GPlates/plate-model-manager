@@ -406,6 +406,18 @@ class PlateModel:
             else:
                 raise e
 
+    def _best_effort_to_get_raster_name_from_config(self, raster_name):
+        if raster_name in self.model.get("TimeDepRasters", {}):
+            return raster_name
+        else:
+            for name in self.model.get("TimeDepRasters", {}):
+                if name.lower() == raster_name.lower():
+                    logger.warning(
+                        f"Raster '{raster_name}' not found in this model '{self.model_name}', but '{name}' exists. Will use '{name}' for now."
+                    )
+                    return name
+        return None
+
     def _resolve_raster_name(self, raster_name, reference_frame, generated_from):
         """Resolve a canonical time-dependent raster key from optional suffixes.
 
@@ -417,37 +429,56 @@ class PlateModel:
         :raises Exception: If the model has no time-dependent rasters or the
             resolved name cannot be matched.
         """
-        resolved_raster_name = raster_name
-        if reference_frame is None:
-            reference_frame = self._reference_frame
-        if generated_from is not None:
-            resolved_raster_name = f"{raster_name}{generated_from.value}"
-        name_without_reference_frame = resolved_raster_name
-        if reference_frame is not None:
-            resolved_raster_name = f"{resolved_raster_name}{reference_frame.value}"
         if not "TimeDepRasters" in self.model:
             raise Exception(
                 f"No time-dependent rasters found in this model '{self.model_name}'."
             )
-        if not resolved_raster_name in self.model["TimeDepRasters"]:
-            for name in self.model["TimeDepRasters"]:
-                if name.lower() == resolved_raster_name.lower():
-                    logger.warning(
-                        f"Raster '{resolved_raster_name}' not found in this model '{self.model_name}', but '{name}' exists. Will use '{name}' for now."
-                    )
-                    return name
-            if name_without_reference_frame in self.model["TimeDepRasters"]:
-                logger.warning(
-                    f"Raster '{resolved_raster_name}' not found in this model '{self.model_name}', but '{name_without_reference_frame}' exists. This may be because the model does not have different reference frame versions of this raster. Will use '{name_without_reference_frame}' for now."
-                )
-                return name_without_reference_frame
+
+        if reference_frame is None:
+            reference_frame = self._reference_frame
+
+        if reference_frame is None and generated_from is None:
+            name_in_config = self._best_effort_to_get_raster_name_from_config(
+                raster_name
+            )
+            if name_in_config is not None:
+                return name_in_config
             else:
-                raise Exception(
-                    f"Time-dependent rasters ({resolved_raster_name}) were not found in this model '{self.model_name}'.\n"
-                    + f"Available time-dependent rasters in '{self.model_name}':\n"
-                    + "\n".join(self.model["TimeDepRasters"].keys())
+                # try the best to deduce the raster name
+                guessed_name = f"{raster_name}{GenerationMethod.Isochrons.value}{ReferenceFrame.MantleReferenceFrame.value}"
+                name_in_config = self._best_effort_to_get_raster_name_from_config(
+                    guessed_name
                 )
-        return resolved_raster_name
+                if name_in_config is not None:
+                    return name_in_config
+        else:
+            resolved_raster_name = raster_name
+            if generated_from is not None:
+                resolved_raster_name = f"{raster_name}{generated_from.value}"
+            name_without_reference_frame = resolved_raster_name
+            if reference_frame is not None:
+                resolved_raster_name = f"{resolved_raster_name}{reference_frame.value}"
+
+            name_in_config = self._best_effort_to_get_raster_name_from_config(
+                resolved_raster_name
+            )
+            if name_in_config is not None:
+                return name_in_config
+            else:
+                name_in_config = self._best_effort_to_get_raster_name_from_config(
+                    name_without_reference_frame
+                )
+                if name_in_config is not None:
+                    logger.warning(
+                        f"Raster '{resolved_raster_name}' not found in this model '{self.model_name}', but '{name_in_config}' exists. Will use '{name_in_config}' for now."
+                    )
+                    return name_in_config
+
+        raise Exception(
+            f"Time-dependent rasters ({resolved_raster_name}) were not found in this model '{self.model_name}'.\n"
+            + f"Available time-dependent rasters in '{self.model_name}':\n"
+            + "\n".join(self.model.get("TimeDepRasters", {}).keys())
+        )
 
     def get_raster(
         self,

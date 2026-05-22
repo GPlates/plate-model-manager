@@ -16,6 +16,7 @@ from .utils.misc import (
     turn_on_debug_logging,
 )
 from .utils.enums import ReferenceFrame, GenerationMethod
+from .utils.download import FileDownloader
 
 setup_logging()
 
@@ -25,4 +26,5 @@ __all__ = [
     "PresentDayRasterManager",
     "PlateModel",
     "get_plate_model",
+    "FileDownloader",
 ]
