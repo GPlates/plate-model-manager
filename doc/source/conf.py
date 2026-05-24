@@ -7,9 +7,9 @@
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = "plate-model-manager"
-copyright = "2023-2025, The University of Sydney"
+copyright = "2023-2026, The University of Sydney"
 author = "Michael Chin"
-release = "1.2.2"
+release = "1.4.0"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
