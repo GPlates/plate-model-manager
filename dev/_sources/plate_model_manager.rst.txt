@@ -1,6 +1,14 @@
 plate\_model\_manager package
 =============================
 
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   plate_model_manager.utils
+
 Submodules
 ----------
 

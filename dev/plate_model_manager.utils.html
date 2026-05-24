@@ -1,0 +1,371 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>plate_model_manager.utils package &mdash; plate-model-manager 1.4.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=9172181d"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="plate_model_manager package" href="plate_model_manager.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            plate-model-manager
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="basic_usages.html">Basic Usages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="command_line_interface.html">Command Line Interface (CLI)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plate_models.html">Plate Models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">everything under the hood</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">plate_model_manager</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="plate_model_manager.html">plate_model_manager package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="plate_model_manager.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">plate_model_manager.utils package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="plate_model_manager.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plate_model_manager.html#module-plate_model_manager.auxiliary">plate_model_manager.auxiliary module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plate_model_manager.html#module-plate_model_manager.exceptions">plate_model_manager.exceptions module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plate_model_manager.html#module-plate_model_manager.file_fetcher">plate_model_manager.file_fetcher module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plate_model_manager.html#module-plate_model_manager.network_aiohttp">plate_model_manager.network_aiohttp module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plate_model_manager.html#module-plate_model_manager.network_requests">plate_model_manager.network_requests module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plate_model_manager.html#module-plate_model_manager.plate_model">plate_model_manager.plate_model module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plate_model_manager.html#module-plate_model_manager.plate_model_manager">plate_model_manager.plate_model_manager module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plate_model_manager.html#module-plate_model_manager.present_day_rasters">plate_model_manager.present_day_rasters module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plate_model_manager.html#module-plate_model_manager.zenodo">plate_model_manager.zenodo module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plate_model_manager.html#module-plate_model_manager">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">plate-model-manager</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">plate_model_manager</a></li>
+          <li class="breadcrumb-item"><a href="plate_model_manager.html">plate_model_manager package</a></li>
+      <li class="breadcrumb-item active">plate_model_manager.utils package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/plate_model_manager.utils.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="plate-model-manager-utils-package">
+<h1>plate_model_manager.utils package<a class="headerlink" href="#plate-model-manager-utils-package" title="Link to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="module-plate_model_manager.utils.download">
+<span id="plate-model-manager-utils-download-module"></span><h2>plate_model_manager.utils.download module<a class="headerlink" href="#module-plate_model_manager.utils.download" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="plate_model_manager.utils.download.FileDownloader">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">plate_model_manager.utils.download.</span></span><span class="sig-name descname"><span class="pre">FileDownloader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">meta_filepath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">dst_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_unzip</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expire_hours</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">12</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expiry_time_format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'%Y/%m/%d,</span> <span class="pre">%H:%M:%S'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">large_file_hint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(None,</span> <span class="pre">None)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">http_client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#plate_model_manager.utils.download.HttpClient" title="plate_model_manager.utils.download.HttpClient"><span class="pre">HttpClient</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">HttpClient.REQUESTS</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plate_model_manager/utils/download.html#FileDownloader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plate_model_manager.utils.download.FileDownloader" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>class for managing single file download</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="plate_model_manager.utils.download.FileDownloader.check_if_expire_date_need_update">
+<span class="sig-name descname"><span class="pre">check_if_expire_date_need_update</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/plate_model_manager/utils/download.html#FileDownloader.check_if_expire_date_need_update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plate_model_manager.utils.download.FileDownloader.check_if_expire_date_need_update" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="plate_model_manager.utils.download.FileDownloader.check_if_file_need_update">
+<span class="sig-name descname"><span class="pre">check_if_file_need_update</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/plate_model_manager/utils/download.html#FileDownloader.check_if_file_need_update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plate_model_manager.utils.download.FileDownloader.check_if_file_need_update" title="Link to this definition"></a></dt>
+<dd><p>Decide whether the target file should be downloaded again.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">True</span></code> when the file should be downloaded/re-downloaded,
+<code class="docutils literal notranslate"><span class="pre">False</span></code> when the existing local file can be reused.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)">bool</a></p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Decision flow:</dt><dd><ol class="arabic simple">
+<li><p>If the metadata file is missing, return <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p></li>
+<li><p>If the stored <code class="docutils literal notranslate"><span class="pre">url</span></code> differs from <code class="docutils literal notranslate"><span class="pre">self.file_url</span></code> (or is
+missing), return <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p></li>
+<li><p>If the metadata <code class="docutils literal notranslate"><span class="pre">expiry</span></code> is still valid, return <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p></li>
+<li><p>If expired (or expiry is invalid/missing), compare remote
+content state:
+- Prefer SHA-256 comparison when available.
+- Fall back to ETag comparison if SHA-256 cannot be obtained.
+- If neither reliable value is available, return <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p></li>
+</ol>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="plate_model_manager.utils.download.FileDownloader.download_file_and_update_metadata">
+<span class="sig-name descname"><span class="pre">download_file_and_update_metadata</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/plate_model_manager/utils/download.html#FileDownloader.download_file_and_update_metadata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plate_model_manager.utils.download.FileDownloader.download_file_and_update_metadata" title="Link to this definition"></a></dt>
+<dd><p>download a file from “file_url”, save the file in “dst_dir” and update the metadata file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>file_url</strong> – the url to the file</p></li>
+<li><p><strong>metadata_file</strong> – the path to the metadata file</p></li>
+<li><p><strong>dst_dir</strong> – the destination to save the file</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="plate_model_manager.utils.download.FileDownloader.update_metadata">
+<span class="sig-name descname"><span class="pre">update_metadata</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/plate_model_manager/utils/download.html#FileDownloader.update_metadata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plate_model_manager.utils.download.FileDownloader.update_metadata" title="Link to this definition"></a></dt>
+<dd><p>update metadata file</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="plate_model_manager.utils.download.HttpClient">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">plate_model_manager.utils.download.</span></span><span class="sig-name descname"><span class="pre">HttpClient</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plate_model_manager/utils/download.html#HttpClient"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plate_model_manager.utils.download.HttpClient" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.Enum" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plate_model_manager.utils.download.HttpClient.AIOHTTP">
+<span class="sig-name descname"><span class="pre">AIOHTTP</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></span><a class="headerlink" href="#plate_model_manager.utils.download.HttpClient.AIOHTTP" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plate_model_manager.utils.download.HttpClient.REQUESTS">
+<span class="sig-name descname"><span class="pre">REQUESTS</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></span><a class="headerlink" href="#plate_model_manager.utils.download.HttpClient.REQUESTS" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-plate_model_manager.utils.enums">
+<span id="plate-model-manager-utils-enums-module"></span><h2>plate_model_manager.utils.enums module<a class="headerlink" href="#module-plate_model_manager.utils.enums" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="plate_model_manager.utils.enums.GenerationMethod">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">plate_model_manager.utils.enums.</span></span><span class="sig-name descname"><span class="pre">GenerationMethod</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plate_model_manager/utils/enums.html#GenerationMethod"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plate_model_manager.utils.enums.GenerationMethod" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.Enum" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plate_model_manager.utils.enums.GenerationMethod.Isochrons">
+<span class="sig-name descname"><span class="pre">Isochrons</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'UsingIsochrons'</span></span><a class="headerlink" href="#plate_model_manager.utils.enums.GenerationMethod.Isochrons" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plate_model_manager.utils.enums.GenerationMethod.Topologies">
+<span class="sig-name descname"><span class="pre">Topologies</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'UsingTopologies'</span></span><a class="headerlink" href="#plate_model_manager.utils.enums.GenerationMethod.Topologies" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="plate_model_manager.utils.enums.ReferenceFrame">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">plate_model_manager.utils.enums.</span></span><span class="sig-name descname"><span class="pre">ReferenceFrame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plate_model_manager/utils/enums.html#ReferenceFrame"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plate_model_manager.utils.enums.ReferenceFrame" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.Enum" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plate_model_manager.utils.enums.ReferenceFrame.MantleReferenceFrame">
+<span class="sig-name descname"><span class="pre">MantleReferenceFrame</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'MantleFrame'</span></span><a class="headerlink" href="#plate_model_manager.utils.enums.ReferenceFrame.MantleReferenceFrame" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plate_model_manager.utils.enums.ReferenceFrame.PmagReferenceFrame">
+<span class="sig-name descname"><span class="pre">PmagReferenceFrame</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'PMAG'</span></span><a class="headerlink" href="#plate_model_manager.utils.enums.ReferenceFrame.PmagReferenceFrame" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-plate_model_manager.utils.misc">
+<span id="plate-model-manager-utils-misc-module"></span><h2>plate_model_manager.utils.misc module<a class="headerlink" href="#module-plate_model_manager.utils.misc" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="plate_model_manager.utils.misc.add_logging_file">
+<span class="sig-prename descclassname"><span class="pre">plate_model_manager.utils.misc.</span></span><span class="sig-name descname"><span class="pre">add_logging_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'pmm.log'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">level</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plate_model_manager/utils/misc.html#add_logging_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plate_model_manager.utils.misc.add_logging_file" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="plate_model_manager.utils.misc.disable_stdout_logging">
+<span class="sig-prename descclassname"><span class="pre">plate_model_manager.utils.misc.</span></span><span class="sig-name descname"><span class="pre">disable_stdout_logging</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/plate_model_manager/utils/misc.html#disable_stdout_logging"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plate_model_manager.utils.misc.disable_stdout_logging" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="plate_model_manager.utils.misc.get_distribution_version">
+<span class="sig-prename descclassname"><span class="pre">plate_model_manager.utils.misc.</span></span><span class="sig-name descname"><span class="pre">get_distribution_version</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/plate_model_manager/utils/misc.html#get_distribution_version"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plate_model_manager.utils.misc.get_distribution_version" title="Link to this definition"></a></dt>
+<dd><p>get the version string from the package metadata</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="plate_model_manager.utils.misc.is_debug_mode">
+<span class="sig-prename descclassname"><span class="pre">plate_model_manager.utils.misc.</span></span><span class="sig-name descname"><span class="pre">is_debug_mode</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/plate_model_manager/utils/misc.html#is_debug_mode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plate_model_manager.utils.misc.is_debug_mode" title="Link to this definition"></a></dt>
+<dd><p>Check if the debug mode is enabled by checking the environment variable “PMM_DEBUG”.</p>
+<p>export PMM_DEBUG=true to enable the debug mode.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="plate_model_manager.utils.misc.my_warningformat">
+<span class="sig-prename descclassname"><span class="pre">plate_model_manager.utils.misc.</span></span><span class="sig-name descname"><span class="pre">my_warningformat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">category</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lineno</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plate_model_manager/utils/misc.html#my_warningformat"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plate_model_manager.utils.misc.my_warningformat" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="plate_model_manager.utils.misc.print_error">
+<span class="sig-prename descclassname"><span class="pre">plate_model_manager.utils.misc.</span></span><span class="sig-name descname"><span class="pre">print_error</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plate_model_manager/utils/misc.html#print_error"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plate_model_manager.utils.misc.print_error" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="plate_model_manager.utils.misc.print_warning">
+<span class="sig-prename descclassname"><span class="pre">plate_model_manager.utils.misc.</span></span><span class="sig-name descname"><span class="pre">print_warning</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plate_model_manager/utils/misc.html#print_warning"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plate_model_manager.utils.misc.print_warning" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="plate_model_manager.utils.misc.set_logging_level">
+<span class="sig-prename descclassname"><span class="pre">plate_model_manager.utils.misc.</span></span><span class="sig-name descname"><span class="pre">set_logging_level</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">level</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">30</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plate_model_manager/utils/misc.html#set_logging_level"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plate_model_manager.utils.misc.set_logging_level" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="plate_model_manager.utils.misc.setup_logging">
+<span class="sig-prename descclassname"><span class="pre">plate_model_manager.utils.misc.</span></span><span class="sig-name descname"><span class="pre">setup_logging</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/plate_model_manager/utils/misc.html#setup_logging"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plate_model_manager.utils.misc.setup_logging" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="plate_model_manager.utils.misc.turn_on_debug_logging">
+<span class="sig-prename descclassname"><span class="pre">plate_model_manager.utils.misc.</span></span><span class="sig-name descname"><span class="pre">turn_on_debug_logging</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/plate_model_manager/utils/misc.html#turn_on_debug_logging"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plate_model_manager.utils.misc.turn_on_debug_logging" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-plate_model_manager.utils.network">
+<span id="plate-model-manager-utils-network-module"></span><h2>plate_model_manager.utils.network module<a class="headerlink" href="#module-plate_model_manager.utils.network" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="plate_model_manager.utils.network.get_content_length">
+<span class="sig-prename descclassname"><span class="pre">plate_model_manager.utils.network.</span></span><span class="sig-name descname"><span class="pre">get_content_length</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">headers</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plate_model_manager/utils/network.html#get_content_length"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plate_model_manager.utils.network.get_content_length" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="plate_model_manager.utils.network.get_etag">
+<span class="sig-prename descclassname"><span class="pre">plate_model_manager.utils.network.</span></span><span class="sig-name descname"><span class="pre">get_etag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">headers</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plate_model_manager/utils/network.html#get_etag"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plate_model_manager.utils.network.get_etag" title="Link to this definition"></a></dt>
+<dd><p>return the etag in the headers. The return could be none if the server does not support etag.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>headers</strong> – call get_headers(url) to get headers</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="plate_model_manager.utils.network.get_headers">
+<span class="sig-prename descclassname"><span class="pre">plate_model_manager.utils.network.</span></span><span class="sig-name descname"><span class="pre">get_headers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(None,</span> <span class="pre">None)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plate_model_manager/utils/network.html#get_headers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plate_model_manager.utils.network.get_headers" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="plate_model_manager.utils.network.get_sha256">
+<span class="sig-prename descclassname"><span class="pre">plate_model_manager.utils.network.</span></span><span class="sig-name descname"><span class="pre">get_sha256</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(None,</span> <span class="pre">None)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plate_model_manager/utils/network.html#get_sha256"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plate_model_manager.utils.network.get_sha256" title="Link to this definition"></a></dt>
+<dd><p>Return the sha256 hash from the sidecar file name in a WebDAV/XML or HTML directory listing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>timeout</strong> – a (connect_timeout, read_timeout) tuple for requests.get().
+None keeps requests’ default behavior for that timeout component.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-plate_model_manager.utils.unzip">
+<span id="plate-model-manager-utils-unzip-module"></span><h2>plate_model_manager.utils.unzip module<a class="headerlink" href="#module-plate_model_manager.utils.unzip" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="plate_model_manager.utils.unzip.save_compressed_data">
+<span class="sig-prename descclassname"><span class="pre">plate_model_manager.utils.unzip.</span></span><span class="sig-name descname"><span class="pre">save_compressed_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dst_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plate_model_manager/utils/unzip.html#save_compressed_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plate_model_manager.utils.unzip.save_compressed_data" title="Link to this definition"></a></dt>
+<dd><p>extract files from compressed data</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>url</strong> – URL</p></li>
+<li><p><strong>data</strong> – bytes-like object</p></li>
+<li><p><strong>dst_path</strong> – location to save the files</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-plate_model_manager.utils">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-plate_model_manager.utils" title="Link to this heading"></a></h2>
+<p>Utility helpers for plate_model_manager.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="plate_model_manager.html" class="btn btn-neutral float-left" title="plate_model_manager package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023-2026, The University of Sydney.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
