@@ -180,6 +180,19 @@
         "URL": "https://doi.org/10.5281/zenodo.10525286",
         "Version": "10.5281/zenodo.11601026"
     },
+    "scotese_and_wright2018": {
+        "BigTime": 540,
+        "SmallTime": 0,
+        "Rotations": "https://repo.gplates.org/webdav/pmm/scotese_and_wright2018/Rotations.zip",
+        "Layers": {
+            "StaticPolygons": "https://repo.gplates.org/webdav/pmm/scotese_and_wright2018/StaticPolygons.zip",
+            "Topologies": "https://repo.gplates.org/webdav/pmm/scotese_and_wright2018/Topologies.zip",
+            "ContinentalPolygons": "https://repo.gplates.org/webdav/pmm/scotese_and_wright2018/ContinentalPolygons.zip"
+        },
+        "Description": "Scotese and Wright (2018) deep-time plate reconstruction model. See the 'URL' below for more details.",
+        "URL": "https://doi.org/10.5281/zenodo.5348491",
+        "Version": "10.5281/zenodo.5460860"
+    },
     "young2018": {
         "BigTime": 410,
         "SmallTime": 0,

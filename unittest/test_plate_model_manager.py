@@ -102,6 +102,13 @@ class PlateModelManagerestCase(unittest.TestCase):
         )
         self.assertIsNone(model)
 
+    def test_scotese_and_wright2018_present_in_local_config(self):
+        model_manager = PlateModelManager(
+            f"{os.path.dirname(__file__)}/../config/models_v2.json"
+        )
+        model_names = model_manager.get_available_model_names()
+        self.assertIn("scotese_and_wright2018", model_names)
+
     def test_plate_model_manager_timeout(self):
         with self.assertRaises(InvalidConfigFile):
             PlateModelManager(
