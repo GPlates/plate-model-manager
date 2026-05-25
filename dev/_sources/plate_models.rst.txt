@@ -352,6 +352,30 @@ continental deformation both along major rift systems and collisional plate boun
 
 ----
 
+.. _model-scotese-and-wright2018:
+
+Scotese_and_wright2018
+~~~~~~~~~~~~~~~~~~~~~~
+
+**Time range:** 540 - 0 Ma
+
+**Layers:**
+
+- ContinentalPolygons
+- StaticPolygons
+- Topologies
+
+
+**Description:** Scotese and Wright (2018) deep-time plate reconstruction model. See the 'URL' below for more details.
+
+**DOI / URL:** https://doi.org/10.5281/zenodo.5348491
+
+.. note::
+
+    The model has plate topologies only for the last 100 Ma. And only locations on land can be reconstructed with this model.
+
+----
+
 .. _model-young2018:
 
 Young2018
@@ -527,6 +551,8 @@ Scotese2016
    This model is also known as ``Paleomap``. The two model names can be used interchangeably to refer to the same model.
 
 ----
+
+
 
 .. _model-zahirovic2016:
 
