@@ -12,7 +12,6 @@ fi
 target_dir="$1"
 
 python3 collect_alfonso2024.py "$target_dir"
-python3 collect_cao2020.py "$target_dir"
 python3 collect_cao2024.py "$target_dir"
 python3 collect_clennett2020_m2019.py "$target_dir"
 python3 collect_clennett2020_s2013.py "$target_dir"

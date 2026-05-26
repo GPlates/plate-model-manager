@@ -1,3 +1,5 @@
+# This model is completely superfluous, as its content is entirely integrated into the Z22 model.
+# It needs to be deleted.
 import glob
 import io
 import shutil
