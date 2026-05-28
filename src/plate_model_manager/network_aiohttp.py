@@ -27,15 +27,18 @@ class AiohttpFetcher(FileFetcher):
         etag: Union[str, None] = None,
         auto_unzip: bool = True,
     ):
-        """download a file from "url" and save to "filepath"
-            You can give a new "filename" for the file.
-            If "etag" is given, check if etag has changed. If not changed, do not download again.
+        """Download a single file.
 
-        :param url: the url to download file from
-        :param filepath: location to keep the file
-        :param etag: old etag. if the old etag is the same with the one on server, do not download again.
-        :param auto_unzip: bool flag to indicate if unzip .zip file automatically
+        Args:
+            url: URL to download.
+            filepath: Folder where the file should be saved.
+            filename: Optional override name for the downloaded file.
+            etag: Optional cached ETag used to skip unchanged downloads.
+            auto_unzip: If ``True``, automatically extract downloaded ``.zip``
+                files when possible.
 
+        Returns:
+            The new ETag value returned by the server, if any.
         """
 
         async def f():
@@ -63,7 +66,20 @@ class AiohttpFetcher(FileFetcher):
         etag: Union[str, None] = None,
         auto_unzip: bool = True,
     ):
-        """async "fetch_file" implementation. See the docstring of "fetch_file" """
+        """Async implementation behind :meth:`fetch_file`.
+
+        Args:
+            session: Active ``aiohttp`` client session.
+            url: URL to download.
+            filepath: Folder where the file should be saved.
+            filename: Optional override name for the downloaded file.
+            etag: Optional cached ETag used to skip unchanged downloads.
+            auto_unzip: If ``True``, automatically extract downloaded ``.zip``
+                files when possible.
+
+        Returns:
+            The new ETag value returned by the server, if any.
+        """
 
         if isinstance(etag, str) or isinstance(etag, bytes):
             headers = {"If-None-Match": etag}
@@ -109,11 +125,18 @@ class AiohttpFetcher(FileFetcher):
     async def _fetch_range(
         self, session, url: str, index: int, chunk_size: int, data: List
     ):
-        """async funtion to get patial content of a file from the server
-        Be careful, some server does not support this function.
-        And some firewall sequences these requests to shape network traffic and defeat the purpose
-        of this function completely.
+        """Fetch one byte range for a large file download.
 
+        Args:
+            session: Active ``aiohttp`` client session.
+            url: URL to download.
+            index: Zero-based chunk index.
+            chunk_size: Size of each chunk in bytes.
+            data: List of in-memory buffers receiving each chunk.
+
+        Raises:
+            Exception: If the server does not return HTTP 206 for the range
+                request.
         """
         # print(index)
         # st = time.time()
@@ -135,7 +158,14 @@ class AiohttpFetcher(FileFetcher):
     async def _fetch_large_file(
         self, url: str, file_size: int, data: List, chunk_size=10 * 1000 * 1000
     ):
-        """async implementation of fetch_large_file"""
+        """Download a large file using concurrent range requests.
+
+        Args:
+            url: URL to download.
+            file_size: Total file size in bytes.
+            data: Output buffer list whose first element receives the content.
+            chunk_size: Size of each concurrent range request in bytes.
+        """
         async with aiohttp.ClientSession() as session:
             num_chunks = file_size // chunk_size + 1
             data_array = [io.BytesIO() for i in range(num_chunks)]
@@ -153,7 +183,7 @@ class AiohttpFetcher(FileFetcher):
                 data[0].write(data_array[i].read())
 
     def _run_fetch_large_file(self, loop, url, filesize, data):
-        """run async function"""
+        """Run the large-file coroutine on the given event loop."""
         loop.run_until_complete(self._fetch_large_file(url, filesize, data))
 
     def fetch_files(
@@ -164,13 +194,19 @@ class AiohttpFetcher(FileFetcher):
         etags=[],
         auto_unzip: bool = True,
     ):
-        """fetch multiple files concurrently
+        """Download multiple files concurrently.
 
-        :param urls: the urls to download files from
-        :param filepaths: location(s) to keep the files. This can be one path for all files or one path for each file.
-        :param etags: old etags. if the old etag is the same with the one on server, do not download again.
-        :param auto_unzip: bool flag to indicate if unzip .zip file automatically
+        Args:
+            urls: URLs to download.
+            filepaths: Output location(s). This can be a single folder used for
+                every URL, or a list of per-file destinations matching ``urls``.
+            filenames: Optional override names for the downloaded files.
+            etags: Optional cached ETag values used to skip unchanged files.
+            auto_unzip: If ``True``, automatically extract downloaded ``.zip``
+                files when possible.
 
+        Returns:
+            A list of the new ETag values returned by the server.
         """
 
         async def f():
@@ -193,13 +229,18 @@ class AiohttpFetcher(FileFetcher):
                     else:
                         etag = None
 
+                    if len(filenames) > idx:
+                        filename = filenames[idx]
+                    else:
+                        filename = None
+
                     tasks.append(
                         asyncio.ensure_future(
                             self._fetch_file(
                                 session,
                                 url,
                                 filepath,
-                                None,
+                                filename,
                                 etag=etag,
                                 auto_unzip=auto_unzip,
                             )
@@ -221,7 +262,7 @@ class AiohttpFetcher(FileFetcher):
             new_etags = loop.run_until_complete(f())
         finally:
             loop.close()
-            return new_etags
+        return new_etags
 
 
 def fetch_file(
@@ -242,9 +283,12 @@ def fetch_files(
     filepaths,
     etags=[],
     auto_unzip: bool = True,
+    filenames=[],
 ):
     fetcher = AiohttpFetcher()
-    return fetcher.fetch_files(urls, filepaths, etags=etags, auto_unzip=auto_unzip)
+    return fetcher.fetch_files(
+        urls, filepaths, etags=etags, auto_unzip=auto_unzip, filenames=filenames
+    )
 
 
 def fetch_large_file(

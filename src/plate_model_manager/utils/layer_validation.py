@@ -62,6 +62,22 @@ def list_remote_zip_layers(model_name, base_url, timeout=30):
     return sorted(layers)
 
 
+def _remote_zip_is_nonempty(zip_url, timeout=30):
+    try:
+        with urlopen(zip_url, timeout=timeout) as response:
+            content_length = response.headers.get("Content-Length")
+            if content_length is not None:
+                try:
+                    return int(content_length) > 0
+                except ValueError:
+                    pass
+            return response.read(1) != b""
+    except HTTPError as exc:
+        raise RuntimeError(f"HTTP error for {zip_url}: {exc.code}") from exc
+    except URLError as exc:
+        raise RuntimeError(f"URL error for {zip_url}: {exc.reason}") from exc
+
+
 def validate_layers_config(all_models, base_url=None, timeout=30):
     resolved_base_url = (
         base_url.rstrip("/") if base_url else normalize_svr_base_url(all_models)
@@ -100,6 +116,17 @@ def validate_layers_config(all_models, base_url=None, timeout=30):
             if extra_layers:
                 issue += f", missing_on_server={extra_layers}"
             issues.append(issue)
+
+        for layer_name in remote_layers:
+            zip_url = f"{resolved_base_url}/{model_name}/{layer_name}.zip"
+            try:
+                is_nonempty = _remote_zip_is_nonempty(zip_url, timeout=timeout)
+            except RuntimeError as exc:
+                issues.append(f"{model_name}/{layer_name}: {exc}")
+                continue
+
+            if not is_nonempty:
+                issues.append(f"{model_name}/{layer_name}: zip file is empty")
 
     return checked_models, issues, resolved_base_url
 
