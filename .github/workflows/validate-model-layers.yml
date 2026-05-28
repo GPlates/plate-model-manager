@@ -6,13 +6,11 @@ on:
       - main
     paths:
       - "config/models_raw_data.json"
-      - "helpers/*.py"
   pull_request:
     branches:
       - main
     paths:
       - "config/models_raw_data.json"
-      - "helpers/*.py"
   workflow_dispatch:
 
 permissions:

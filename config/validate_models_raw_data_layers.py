@@ -1,115 +1,46 @@
 #!/usr/bin/env python3
 
-import ast
 import json
+import re
+from html import unescape
 from pathlib import Path
+from urllib.error import HTTPError, URLError
+from urllib.request import urlopen
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 MODELS_RAW_DATA_FILE = REPO_ROOT / "config" / "models_raw_data.json"
-HELPERS_DIR = REPO_ROOT / "helpers"
-
-LAYER_HELPER_FUNCTIONS = {
-    "fetch_coastlines": "Coastlines",
-    "fetch_static_polygons": "StaticPolygons",
-    "fetch_rotations": "Rotations",
-    "fetch_COBs": "COBs",
-    "fetch_continental_polygons": "ContinentalPolygons",
-}
+DEFAULT_SVR_BASE_URL = "https://repo.gplates.org/webdav/pmm"
+ZIP_LINK_RE = re.compile(r'href="([^"]+\.zip)"', re.IGNORECASE)
 
 
-def _str_constant(node):
-    if isinstance(node, ast.Constant) and isinstance(node.value, str):
-        return node.value
-    return None
+def _normalize_svr_base_url(all_models):
+    vars_cfg = all_models.get("vars", {})
+    if isinstance(vars_cfg, dict):
+        base_url = vars_cfg.get("SvrBaseURL")
+        if isinstance(base_url, str) and base_url.strip():
+            return base_url.rstrip("/")
+    return DEFAULT_SVR_BASE_URL
 
 
-def _extract_zip_basename(path_expression):
-    path = _str_constant(path_expression)
+def _list_remote_zip_layers(model_name, base_url, timeout=30):
+    model_url = f"{base_url}/{model_name}/"
+    try:
+        with urlopen(model_url, timeout=timeout) as response:
+            html = response.read().decode("utf-8", errors="replace")
+    except HTTPError as exc:
+        raise RuntimeError(f"HTTP error for {model_url}: {exc.code}") from exc
+    except URLError as exc:
+        raise RuntimeError(f"URL error for {model_url}: {exc.reason}") from exc
 
-    if path is None and isinstance(path_expression, ast.JoinedStr):
-        path = "".join(
-            value.value
-            for value in path_expression.values
-            if isinstance(value, ast.Constant) and isinstance(value.value, str)
-        )
-
-    if not path or not path.endswith(".zip"):
-        return None
-
-    return path.rsplit("/", 1)[-1][:-4]
-
-
-def _get_model_config(model_name, all_models):
-    visited = set()
-    current_name = model_name
-
-    while isinstance(all_models.get(current_name), str):
-        if current_name in visited:
-            return None
-        visited.add(current_name)
-        target = all_models[current_name]
-        current_name = target[1:] if target.startswith("@") else target
-
-    model_cfg = all_models.get(current_name)
-    if isinstance(model_cfg, dict):
-        return model_cfg
-    return None
-
-
-def _collect_layers_from_helper(helper_file):
-    tree = ast.parse(helper_file.read_text(encoding="utf-8"))
     layers = set()
-
-    for node in ast.walk(tree):
-        if isinstance(node, ast.Call):
-            func_name = None
-            if isinstance(node.func, ast.Attribute):
-                func_name = node.func.attr
-            elif isinstance(node.func, ast.Name):
-                func_name = node.func.id
-
-            if func_name in {"zip_files", "zip_folder"}:
-                layer = None
-                if len(node.args) > 2:
-                    layer = _str_constant(node.args[2])
-                if layer is None and len(node.args) > 1:
-                    layer = _extract_zip_basename(node.args[1])
-                if layer:
-                    layers.add(layer)
-            elif func_name == "zip_files_ex":
-                if len(node.args) > 2:
-                    layer = _str_constant(node.args[2])
-                    if layer:
-                        layers.add(layer)
-            elif func_name == "fetch_and_zip_files":
-                if len(node.args) > 2:
-                    layer = _str_constant(node.args[2])
-                    if layer:
-                        layers.add(layer)
-            elif func_name in LAYER_HELPER_FUNCTIONS:
-                layers.add(LAYER_HELPER_FUNCTIONS[func_name])
-        elif isinstance(node, ast.With):
-            for item in node.items:
-                context_expr = item.context_expr
-                if not isinstance(context_expr, ast.Call):
-                    continue
-
-                zipfile_call = context_expr.func
-                if isinstance(zipfile_call, ast.Attribute):
-                    func_name = zipfile_call.attr
-                elif isinstance(zipfile_call, ast.Name):
-                    func_name = zipfile_call.id
-                else:
-                    func_name = None
-
-                if func_name != "ZipFile" or len(context_expr.args) == 0:
-                    continue
-
-                layer = _extract_zip_basename(context_expr.args[0])
-                if layer:
-                    layers.add(layer)
-
-    layers.discard("Rotations")
+    for href in ZIP_LINK_RE.findall(html):
+        name = unescape(href).split("?", 1)[0]
+        if "/" in name:
+            continue
+        if name.endswith(".zip") and ".zip." not in name:
+            layer = name[:-4]
+            if layer != "Rotations":
+                layers.add(layer)
     return sorted(layers)
 
 
@@ -117,42 +48,39 @@ def main():
     with MODELS_RAW_DATA_FILE.open(encoding="utf-8") as f:
         all_models = json.load(f)
 
-    helper_files = sorted(HELPERS_DIR.glob("collect_*.py"))
-    helper_model_names = {
-        helper_file.stem[len("collect_") :] for helper_file in helper_files
-    }
+    base_url = _normalize_svr_base_url(all_models)
 
     issues = []
+    checked_models = 0
 
     for model_name, model_cfg in all_models.items():
-        if not isinstance(model_cfg, dict) or "Layers" not in model_cfg:
-            continue
         if model_name == "vars":
             continue
-        if model_name not in helper_model_names:
-            issues.append(f"{model_name}: missing helper script collect_{model_name}.py")
 
-    for helper_file in helper_files:
-        helper_model_name = helper_file.stem[len("collect_") :]
-        model_cfg = _get_model_config(helper_model_name, all_models)
-
-        if model_cfg is None or "Layers" not in model_cfg:
+        if not isinstance(model_cfg, dict) or "Layers" not in model_cfg:
             continue
 
-        expected_layers = _collect_layers_from_helper(helper_file)
-        actual_layers = sorted(model_cfg["Layers"].keys())
+        if not isinstance(model_cfg["Layers"], dict):
+            issues.append(f"{model_name}: Layers must be a JSON object")
+            continue
 
-        if expected_layers != actual_layers:
-            missing_layers = sorted(set(expected_layers) - set(actual_layers))
-            extra_layers = sorted(set(actual_layers) - set(expected_layers))
-            issue = (
-                f"{helper_model_name}: expected={expected_layers}, "
-                f"actual={actual_layers}"
-            )
+        expected_layers = sorted(model_cfg["Layers"].keys())
+        checked_models += 1
+
+        try:
+            remote_layers = _list_remote_zip_layers(model_name, base_url)
+        except RuntimeError as exc:
+            issues.append(f"{model_name}: {exc}")
+            continue
+
+        if expected_layers != remote_layers:
+            missing_layers = sorted(set(remote_layers) - set(expected_layers))
+            extra_layers = sorted(set(expected_layers) - set(remote_layers))
+            issue = f"{model_name}: remote={remote_layers}, config={expected_layers}"
             if missing_layers:
-                issue += f", missing={missing_layers}"
+                issue += f", missing_in_config={missing_layers}"
             if extra_layers:
-                issue += f", extra={extra_layers}"
+                issue += f", missing_on_server={extra_layers}"
             issues.append(issue)
 
     if issues:
@@ -161,7 +89,7 @@ def main():
             print(f"- {issue}")
         raise SystemExit(1)
 
-    print("Layer validation passed.")
+    print(f"Layer validation passed for {checked_models} models against {base_url}.")
 
 
 if __name__ == "__main__":
