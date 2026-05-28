@@ -5,6 +5,7 @@ import os
 import sys
 
 from plate_model_manager import PlateModelManager, __version__, check_update
+from plate_model_manager.utils.layer_validation import validate_layers_source
 
 logger = logging.getLogger("pmm")
 
@@ -57,6 +58,22 @@ def _run_download_command(args):
 
 def _run_check_update_command(args):
     check_update()
+
+
+def _run_validate_layers_command(args):
+    checked_models, issues, base_url = validate_layers_source(
+        args.config_url,
+        base_url=args.base_url,
+        timeout=args.timeout,
+    )
+
+    if issues:
+        print("Layer validation failed:")
+        for issue in issues:
+            print(f"- {issue}")
+        raise SystemExit(1)
+
+    print(f"Layer validation passed for {checked_models} models against {base_url}.")
 
 
 def main():
@@ -121,6 +138,29 @@ def main():
         help="check if new versions of plate models are available on Zenodo",
     )
     check_update_cmd.set_defaults(func=_run_check_update_command)
+
+    validate_layers_cmd = subparser.add_parser(
+        "validate-layers",
+        description="Validate configured Layers against remote model zip files.",
+        help="validate configured layers against remote model zip files",
+    )
+    validate_layers_cmd.add_argument(
+        "--config-url",
+        default="https://repo.gplates.org/webdav/pmm/config/models_v2.json",
+        help="URL or local path to a models config JSON file. Defaults to pmm config/models_v2.json.",
+    )
+    validate_layers_cmd.add_argument(
+        "--base-url",
+        default="https://repo.gplates.org/webdav/pmm",
+        help="Base URL of remote model folders to validate against.",
+    )
+    validate_layers_cmd.add_argument(
+        "--timeout",
+        type=int,
+        default=30,
+        help="HTTP timeout in seconds for remote requests.",
+    )
+    validate_layers_cmd.set_defaults(func=_run_validate_layers_command)
 
     if len(sys.argv) == 1:
         parser.print_help(sys.stderr)
