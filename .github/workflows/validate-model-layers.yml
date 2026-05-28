@@ -27,7 +27,7 @@ jobs:
           python-version: "3.12"
       - name: Upgrade pip
         run: python3 -m pip install --upgrade pip
-      - name: Install runtime dependencies
-        run: python3 -m pip install -r requirements.txt
+      - name: Install plate-model-manager and dependencies
+        run: python3 -m pip install .
       - name: Validate layers in models_raw_data.json
         run: python3 config/validate_models_raw_data_layers.py
