@@ -376,19 +376,20 @@ Some firewall sequences these requests to shape network traffic and defeat the p
 <dl class="py method">
 <dt class="sig sig-object py" id="plate_model_manager.network_aiohttp.AiohttpFetcher.fetch_file">
 <span class="sig-name descname"><span class="pre">fetch_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">filepath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_unzip</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plate_model_manager/network_aiohttp.html#AiohttpFetcher.fetch_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plate_model_manager.network_aiohttp.AiohttpFetcher.fetch_file" title="Link to this definition"></a></dt>
-<dd><dl class="simple">
-<dt>download a file from “url” and save to “filepath”</dt><dd><p>You can give a new “filename” for the file.
-If “etag” is given, check if etag has changed. If not changed, do not download again.</p>
-</dd>
-</dl>
+<dd><p>Download a single file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>url</strong> – the url to download file from</p></li>
-<li><p><strong>filepath</strong> – location to keep the file</p></li>
-<li><p><strong>etag</strong> – old etag. if the old etag is the same with the one on server, do not download again.</p></li>
-<li><p><strong>auto_unzip</strong> – bool flag to indicate if unzip .zip file automatically</p></li>
+<li><p><strong>url</strong> – URL to download.</p></li>
+<li><p><strong>filepath</strong> – Folder where the file should be saved.</p></li>
+<li><p><strong>filename</strong> – Optional override name for the downloaded file.</p></li>
+<li><p><strong>etag</strong> – Optional cached ETag used to skip unchanged downloads.</p></li>
+<li><p><strong>auto_unzip</strong> – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, automatically extract downloaded <code class="docutils literal notranslate"><span class="pre">.zip</span></code>
+files when possible.</p></li>
 </ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The new ETag value returned by the server, if any.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -396,15 +397,21 @@ If “etag” is given, check if etag has changed. If not changed, do not downlo
 <dl class="py method">
 <dt class="sig sig-object py" id="plate_model_manager.network_aiohttp.AiohttpFetcher.fetch_files">
 <span class="sig-name descname"><span class="pre">fetch_files</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">urls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filepaths</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filenames</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_unzip</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plate_model_manager/network_aiohttp.html#AiohttpFetcher.fetch_files"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plate_model_manager.network_aiohttp.AiohttpFetcher.fetch_files" title="Link to this definition"></a></dt>
-<dd><p>fetch multiple files concurrently</p>
+<dd><p>Download multiple files concurrently.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>urls</strong> – the urls to download files from</p></li>
-<li><p><strong>filepaths</strong> – location(s) to keep the files. This can be one path for all files or one path for each file.</p></li>
-<li><p><strong>etags</strong> – old etags. if the old etag is the same with the one on server, do not download again.</p></li>
-<li><p><strong>auto_unzip</strong> – bool flag to indicate if unzip .zip file automatically</p></li>
+<li><p><strong>urls</strong> – URLs to download.</p></li>
+<li><p><strong>filepaths</strong> – Output location(s). This can be a single folder used for
+every URL, or a list of per-file destinations matching <code class="docutils literal notranslate"><span class="pre">urls</span></code>.</p></li>
+<li><p><strong>filenames</strong> – Optional override names for the downloaded files.</p></li>
+<li><p><strong>etags</strong> – Optional cached ETag values used to skip unchanged files.</p></li>
+<li><p><strong>auto_unzip</strong> – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, automatically extract downloaded <code class="docutils literal notranslate"><span class="pre">.zip</span></code>
+files when possible.</p></li>
 </ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of the new ETag values returned by the server.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -418,7 +425,7 @@ If “etag” is given, check if etag has changed. If not changed, do not downlo
 
 <dl class="py function">
 <dt class="sig sig-object py" id="plate_model_manager.network_aiohttp.fetch_files">
-<span class="sig-prename descclassname"><span class="pre">plate_model_manager.network_aiohttp.</span></span><span class="sig-name descname"><span class="pre">fetch_files</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">urls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filepaths</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_unzip</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plate_model_manager/network_aiohttp.html#fetch_files"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plate_model_manager.network_aiohttp.fetch_files" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">plate_model_manager.network_aiohttp.</span></span><span class="sig-name descname"><span class="pre">fetch_files</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">urls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filepaths</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_unzip</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filenames</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plate_model_manager/network_aiohttp.html#fetch_files"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plate_model_manager.network_aiohttp.fetch_files" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py function">

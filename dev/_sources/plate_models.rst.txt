@@ -40,6 +40,11 @@ Zahirovic2022
 - ContinentalPolygons
 - StaticPolygons
 - Topologies
+- COBs
+
+.. note::
+
+   The COBs layer is the same as the ContinentalPolygons layer. This model does not include explicit COBs files; use the ContinentalPolygons files instead until further notice.
 
 **Time-dependent rasters:**
 
