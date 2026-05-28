@@ -15,6 +15,9 @@ on:
       - "helpers/*.py"
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   validate-model-layers:
     runs-on: ubuntu-latest
