@@ -20,6 +20,14 @@ plate\_model\_manager.utils.enums module
    :show-inheritance:
    :undoc-members:
 
+plate\_model\_manager.utils.layer\_validation module
+----------------------------------------------------
+
+.. automodule:: plate_model_manager.utils.layer_validation
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
 plate\_model\_manager.utils.misc module
 ---------------------------------------
 
