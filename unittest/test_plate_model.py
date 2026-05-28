@@ -26,9 +26,7 @@ logger.info(plate_model_manager.__file__)
 
 class PlateModelTestCase(unittest.TestCase):
     def setUp(self):
-        model_manager = PlateModelManager(
-            f"{os.path.dirname(__file__)}/../config/models.json"
-        )
+        model_manager = PlateModelManager()
 
         # test remote models.json with URL
         # model_manager = plate_model.PlateModelManager(
@@ -118,9 +116,7 @@ class PlateModelTestCase(unittest.TestCase):
     def test_get_rotation_model_for_pmag_reference_frame(self):
         """Test getting rotation files for pmag reference frame."""
         logger.info("test_get_rotation_model_for_pmag_reference_frame ...")
-        model_manager = PlateModelManager(
-            f"{os.path.dirname(__file__)}/../config/models.json"
-        )
+        model_manager = PlateModelManager()
         model = model_manager.get_model("zahirovic2022", data_dir=TEMP_TEST_DIR)
         if model is None:
             raise Exception("Cannot get zahirovic2022 model!")

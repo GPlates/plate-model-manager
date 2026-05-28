@@ -44,9 +44,7 @@ class BasicTestCase(unittest.TestCase):
             logger.info(model.get_rotation_model())
 
         # 2
-        pm_manager = PlateModelManager(
-            model_manifest=f"{os.path.dirname(__file__)}/../config/models.json"
-        )
+        pm_manager = PlateModelManager()
         model = pm_manager.get_model()
         if model is not None:
             logger.info(model.get_rotation_model())

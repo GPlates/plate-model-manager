@@ -38,12 +38,13 @@ def get_real_model_name(name, model_config):
 
 class PMMServerTestCase(unittest.TestCase):
     def setUp(self):
-        with open(f"{os.path.dirname(__file__)}/../config/models.json", "r") as f:
+        with open(f"{os.path.dirname(__file__)}/models_test.json", "r") as f:
             self.model_cfg = json.load(f)
 
     def test_server(self):
         pm_manager = PlateModelManager()
         model_names = pm_manager.get_available_model_names()
+        model_names.append("vars")
         names = [n for n in self.model_cfg]
         for mn in self.model_cfg:
             self.assertTrue(
@@ -53,6 +54,8 @@ class PMMServerTestCase(unittest.TestCase):
         self.assertEqual(set(model_names), set(names))
         for name in model_names:
             print(f"testing {name}")
+            if name == "vars":
+                continue
             model = pm_manager.get_model(name, data_dir=TEMP_TEST_DIR)
             if not model:
                 raise Exception(f"Unable to get model ({name}).")

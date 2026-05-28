@@ -18,9 +18,7 @@ logger = get_test_logger(logger_name)
 
 class PlateModelReadonlyTestCase(unittest.TestCase):
     def setUp(self):
-        model_manager = PlateModelManager(
-            f"{os.path.dirname(__file__)}/../config/models.json"
-        )
+        model_manager = PlateModelManager()
         self.model_name = "Muller2019"
         self.data_dir = TEMP_TEST_DIR
         model = model_manager.get_model(self.model_name)

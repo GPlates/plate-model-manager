@@ -46,7 +46,6 @@ else:
 logger = get_test_logger(logger_name)
 
 _DIR = os.path.dirname(os.path.abspath(__file__))
-_CONFIG_FILE = os.path.join(_DIR, "..", "config", "models.json")
 
 # ---------------------------------------------------------------------------
 # Module-level worker functions
@@ -79,7 +78,7 @@ def _worker_check_files_exist(file_paths):
 
 
 def _make_model_manager():
-    return PlateModelManager(_CONFIG_FILE)
+    return PlateModelManager()
 
 
 def _make_model(model_manager, data_dir=TEMP_TEST_DIR):
@@ -190,9 +189,7 @@ class TestMultiprocessing(unittest.TestCase):
             result = pool.apply(_worker_get_available_models, (self.model_manager,))
 
         self.assertEqual(result, self.model_manager.get_available_model_names())
-        logger.info(
-            "PlateModelManager in worker OK: %d models available", len(result)
-        )
+        logger.info("PlateModelManager in worker OK: %d models available", len(result))
 
     # ------------------------------------------------------------------
     # Best-practice pattern
@@ -290,9 +287,7 @@ class TestJoblib(unittest.TestCase):
 
         for result in results:
             self.assertEqual(result, expected)
-        logger.info(
-            "PlateModelManager with joblib OK: %d models", len(results[0])
-        )
+        logger.info("PlateModelManager with joblib OK: %d models", len(results[0]))
 
     # ------------------------------------------------------------------
     # Best-practice pattern

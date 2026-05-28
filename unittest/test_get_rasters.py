@@ -25,12 +25,10 @@ else:
 logger = get_test_logger(logger_name)
 logger.info(plate_model_manager.__file__)
 
-MODELS_JSON = f"{os.path.dirname(__file__)}/../config/models_v2.json"
-
 
 def _get_model(model_name):
     """Helper: return a PlateModel instance with TEMP_TEST_DIR as data dir."""
-    mm = PlateModelManager(MODELS_JSON)
+    mm = PlateModelManager()
     m = mm.get_model(model_name, data_dir=TEMP_TEST_DIR)
     if m is None:
         raise RuntimeError(f"Model '{model_name}' could not be loaded.")
