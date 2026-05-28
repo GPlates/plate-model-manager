@@ -133,9 +133,7 @@
       "Coastlines": "https://repo.gplates.org/webdav/pmm/clennett2020_m2019/Coastlines.zip",
       "StaticPolygons": "https://repo.gplates.org/webdav/pmm/clennett2020_m2019/StaticPolygons.zip",
       "Topologies": "https://repo.gplates.org/webdav/pmm/clennett2020_m2019/Topologies.zip",
-      "Terranes": "https://repo.gplates.org/webdav/pmm/clennett2020_m2019/Terranes.zip",
-      "ContinentalPolygons": "@<<SvrBaseURL>>@/muller2019/ContinentalPolygons.zip",
-      "COBs": "@<<SvrBaseURL>>@/muller2019/COBs.zip"
+      "Terranes": "https://repo.gplates.org/webdav/pmm/clennett2020_m2019/Terranes.zip"
     },
     "TimeDepRasters": {
       "AgeGrids": "https://repo.gplates.org/webdav/PlateModel_Age_SR_Grids/Clennett_etal_2020_G3/AgeGrids/Clennett_AgeGrids_0.1d_masked/seafloor_age_mask_{:.1f}Ma.nc",
