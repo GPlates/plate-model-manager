@@ -107,5 +107,21 @@ utils.zip_folder(
 
 shutil.rmtree(f"{model_path}/{zip_path}")
 
+# use Muller 2019 COBs and ContinentalPolygons zips for this model
+for zip_name, zip_url in [
+    ("COBs.zip", "https://repo.gplates.org/webdav/pmm/muller2019/COBs.zip"),
+    (
+        "ContinentalPolygons.zip",
+        "https://repo.gplates.org/webdav/pmm/muller2019/ContinentalPolygons.zip",
+    ),
+]:
+    info_fp.write(f"Download {zip_name} from {zip_url}\n")
+    r = requests.get(zip_url, allow_redirects=True, verify=True)
+    if r.status_code in [200]:
+        with open(f"{model_path}/{zip_name}", "wb+") as of:
+            of.write(r.content)
+    else:
+        raise Exception(f"Failed to download {zip_name} from {zip_url}: {r.status_code}")
+
 
 info_fp.close()

@@ -72,7 +72,8 @@
       "Coastlines": "@<<SvrBaseURL>>@/zahirovic2022/Coastlines.zip",
       "StaticPolygons": "@<<SvrBaseURL>>@/zahirovic2022/StaticPolygons.zip",
       "ContinentalPolygons": "@<<SvrBaseURL>>@/zahirovic2022/ContinentalPolygons.zip",
-      "Topologies": "@<<SvrBaseURL>>@/zahirovic2022/Topologies.zip"
+      "Topologies": "@<<SvrBaseURL>>@/zahirovic2022/Topologies.zip",
+      "COBs": "@<<SvrBaseURL>>@/zahirovic2022/COBs.zip"
     },
     "TimeDepRasters": {
       "AgeGridsUsingIsochronsMantleFrame": "https://repo.gplates.org/webdav/PlateModel_Age_SR_Grids/Zahirovic_etal_2022_GDJ/01_AgegridsUsingIsochrons/OptimisedMantleFrame/Zahirovic_etal_2022-v2_OPT_netCDF/Zahirovic_etal_2022-v2_OPT_AgeGrid-{:.0f}.nc",
@@ -130,12 +131,12 @@
     "SmallTime": 0,
     "Rotations": "https://repo.gplates.org/webdav/pmm/clennett2020_m2019/Rotations.zip",
     "Layers": {
+      "COBs": "https://repo.gplates.org/webdav/pmm/clennett2020_m2019/COBs.zip",
       "Coastlines": "https://repo.gplates.org/webdav/pmm/clennett2020_m2019/Coastlines.zip",
+      "ContinentalPolygons": "https://repo.gplates.org/webdav/pmm/clennett2020_m2019/ContinentalPolygons.zip",
       "StaticPolygons": "https://repo.gplates.org/webdav/pmm/clennett2020_m2019/StaticPolygons.zip",
       "Topologies": "https://repo.gplates.org/webdav/pmm/clennett2020_m2019/Topologies.zip",
-      "Terranes": "https://repo.gplates.org/webdav/pmm/clennett2020_m2019/Terranes.zip",
-      "ContinentalPolygons": "@<<SvrBaseURL>>@/muller2019/ContinentalPolygons.zip",
-      "COBs": "@<<SvrBaseURL>>@/muller2019/COBs.zip"
+      "Terranes": "https://repo.gplates.org/webdav/pmm/clennett2020_m2019/Terranes.zip"
     },
     "TimeDepRasters": {
       "AgeGrids": "https://repo.gplates.org/webdav/PlateModel_Age_SR_Grids/Clennett_etal_2020_G3/AgeGrids/Clennett_AgeGrids_0.1d_masked/seafloor_age_mask_{:.1f}Ma.nc",

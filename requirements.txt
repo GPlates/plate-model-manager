@@ -4,37 +4,41 @@
 #
 #    pip-compile pyproject.toml
 #
-aiohttp==3.8.6
+aiohappyeyeballs==2.6.2
+    # via aiohttp
+aiohttp==3.13.5
     # via plate-model-manager (pyproject.toml)
-aiosignal==1.3.1
+aiosignal==1.4.0
     # via aiohttp
-async-timeout==4.0.3
+attrs==26.1.0
     # via aiohttp
-attrs==23.1.0
-    # via aiohttp
-certifi==2023.7.22
+certifi==2026.5.20
     # via requests
-charset-normalizer==3.2.0
-    # via
-    #   aiohttp
-    #   requests
-frozenlist==1.4.0
+charset-normalizer==3.4.7
+    # via requests
+frozenlist==1.8.0
     # via
     #   aiohttp
     #   aiosignal
-idna==3.4
+idna==3.16
     # via
     #   requests
     #   yarl
-multidict==6.0.4
+multidict==6.7.1
     # via
     #   aiohttp
     #   yarl
 nest-asyncio==1.6.0
     # via plate-model-manager (pyproject.toml)
-requests==2.31.0
+propcache==0.5.2
+    # via
+    #   aiohttp
+    #   yarl
+requests==2.34.2
     # via plate-model-manager (pyproject.toml)
-urllib3==2.0.4
+typing-extensions==4.15.0
+    # via aiosignal
+urllib3==2.7.0
     # via requests
-yarl==1.9.2
+yarl==1.24.2
     # via aiohttp
