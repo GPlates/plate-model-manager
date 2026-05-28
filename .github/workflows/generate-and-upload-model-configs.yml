@@ -1,0 +1,50 @@
+name: Generate and upload model config JSON files
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "config/models_raw_data.json"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  generate-and-upload:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Generate models JSON files
+        working-directory: config
+        run: python3 create_models_json_files.py
+
+      - name: Load SSH key
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.GPLATES_APP_SERVER_SSH_KEY }}
+
+      - name: Add server host key
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H 130.56.247.160 >> ~/.ssh/known_hosts
+
+      - name: Upload models.json to two destinations
+        run: |
+          scp config/models.json ubuntu@130.56.247.160:/mnt/2TB-Volume/webdav/pmm/models.json
+          scp config/models.json ubuntu@130.56.247.160:/mnt/2TB-Volume/webdav/pmm/config/models.json
+
+      - name: Upload models_v2*.json to config folder
+        run: |
+          scp config/models_v2.json ubuntu@130.56.247.160:/mnt/2TB-Volume/webdav/pmm/config/
+          scp config/models_v2_eb.json ubuntu@130.56.247.160:/mnt/2TB-Volume/webdav/pmm/config/
+          scp config/models_v2_gp.json ubuntu@130.56.247.160:/mnt/2TB-Volume/webdav/pmm/config/

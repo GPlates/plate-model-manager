@@ -72,7 +72,8 @@
       "Coastlines": "@<<SvrBaseURL>>@/zahirovic2022/Coastlines.zip",
       "StaticPolygons": "@<<SvrBaseURL>>@/zahirovic2022/StaticPolygons.zip",
       "ContinentalPolygons": "@<<SvrBaseURL>>@/zahirovic2022/ContinentalPolygons.zip",
-      "Topologies": "@<<SvrBaseURL>>@/zahirovic2022/Topologies.zip"
+      "Topologies": "@<<SvrBaseURL>>@/zahirovic2022/Topologies.zip",
+      "COBs": "@<<SvrBaseURL>>@/zahirovic2022/COBs.zip"
     },
     "TimeDepRasters": {
       "AgeGridsUsingIsochronsMantleFrame": "https://repo.gplates.org/webdav/PlateModel_Age_SR_Grids/Zahirovic_etal_2022_GDJ/01_AgegridsUsingIsochrons/OptimisedMantleFrame/Zahirovic_etal_2022-v2_OPT_netCDF/Zahirovic_etal_2022-v2_OPT_AgeGrid-{:.0f}.nc",
