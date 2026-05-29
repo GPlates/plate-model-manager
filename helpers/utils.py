@@ -1,5 +1,6 @@
 import glob
 import argparse
+import atexit
 import os, io
 import shlex
 import shutil
@@ -15,11 +16,11 @@ from datetime import datetime
 DEFAULT_UPLOAD_TARGET = "ubuntu@130.56.247.160"
 DEFAULT_IDENTITY_FILE = "~/.ssh/gplates-app-server-key.pem"
 DEFAULT_REMOTE_PATH = "/mnt/2TB-Volume/webdav/pmm"
+_REGISTERED_UPLOAD_PATHS = set()
 
 
-def parse_collector_args(description, model_name):
+def _add_collector_cli_args(parser, model_name):
     default_remote_path = f"{DEFAULT_REMOTE_PATH}/{model_name}"
-    parser = argparse.ArgumentParser(description=description)
     parser.add_argument(
         "target_dir",
         nargs="?",
@@ -52,10 +53,20 @@ def parse_collector_args(description, model_name):
         default=default_remote_path,
         help=f"Remote directory for uploaded files. Default: {default_remote_path}",
     )
-    args = parser.parse_args()
+    return parser
+
+
+def _validate_collector_remote_path(parser, args, model_name):
     remote_path = args.remote_path.rstrip("/") or args.remote_path
     if Path(remote_path).name != model_name:
         parser.error(f"--remote-path must end with '/{model_name}'")
+
+
+def parse_collector_args(description, model_name, argv=None):
+    parser = argparse.ArgumentParser(description=description)
+    _add_collector_cli_args(parser, model_name)
+    args = parser.parse_args(argv)
+    _validate_collector_remote_path(parser, args, model_name)
     return args
 
 
@@ -92,13 +103,39 @@ def download_files_from_zenodo(
 
 
 def get_model_path(argv, name):
-    if len(argv) >= 2:
-        print(argv)
-        model_path = f"{argv[1]}/{name}"
-    else:
-        model_path = name
+    """Resolve and prepare the local model folder path.
+
+    This parses collector CLI arguments from ``argv``, builds the model path as
+    ``<target_dir>/<name>``, and ensures the folder exists.
+
+    If ``--upload`` is enabled, it also registers a one-time ``atexit`` upload
+    callback for this model path so generated files are uploaded when the
+    process exits successfully.
+
+    Args:
+        argv: Raw CLI argument list (typically ``sys.argv``).
+        name: Model name used as the local folder name.
+
+    Returns:
+        The local model folder path as a string.
+    """
+    args = parse_collector_args(
+        f"Collect the {name} model files and optionally upload them via SSH.",
+        name,
+        argv=argv[1:],
+    )
+    model_path = f"{args.target_dir}/{name}"
 
     Path(model_path).mkdir(parents=True, exist_ok=True)
+    if args.upload and model_path not in _REGISTERED_UPLOAD_PATHS:
+        _REGISTERED_UPLOAD_PATHS.add(model_path)
+        atexit.register(
+            upload_model_folder,
+            model_path,
+            args.upload_target,
+            args.identity_file,
+            args.remote_path,
+        )
     return model_path
 
 
