@@ -103,6 +103,22 @@ def download_files_from_zenodo(
 
 
 def get_model_path(argv, name):
+    """Resolve and prepare the local model folder path.
+
+    This parses collector CLI arguments from ``argv``, builds the model path as
+    ``<target_dir>/<name>``, and ensures the folder exists.
+
+    If ``--upload`` is enabled, it also registers a one-time ``atexit`` upload
+    callback for this model path so generated files are uploaded when the
+    process exits successfully.
+
+    Args:
+        argv: Raw CLI argument list (typically ``sys.argv``).
+        name: Model name used as the local folder name.
+
+    Returns:
+        The local model folder path as a string.
+    """
     args = parse_collector_args(
         f"Collect the {name} model files and optionally upload them via SSH.",
         name,

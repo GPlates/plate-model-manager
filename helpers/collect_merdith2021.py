@@ -74,6 +74,15 @@ utils.zip_files(
     log_fp=info_fp,
 )
 
+# zip COBs. this model does not provide COBs, use the continental polygons as COBs
+files = [f"{model_path}/{zip_path}/Continents/shapes_continents.gpml"]
+utils.zip_files(
+    files,
+    f"{model_path}/COBs.zip",
+    "COBs",
+    log_fp=info_fp,
+)
+
 # zip Cratons
 files = [f"{model_path}/{zip_path}/Cratons/shapes_cratons_Merdith_etal.gpml"]
 
