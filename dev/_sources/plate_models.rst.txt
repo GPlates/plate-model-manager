@@ -253,6 +253,11 @@ Merdith2021
 - Cratons
 - StaticPolygons
 - Topologies
+- COBs
+
+.. note::
+
+   The COBs layer is the same as the ContinentalPolygons layer. This model does not include explicit COBs files; use the ContinentalPolygons files instead until further notice.
 
 
 **Description:** This plate model for the last 1000 Ma is based on a paleomagnetic reference frame. In this model the
