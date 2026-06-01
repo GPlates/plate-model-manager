@@ -372,9 +372,14 @@ Scotese_and_wright2018
 **Layers:**
 
 - ContinentalPolygons
+- COBs
 - StaticPolygons
 - Topologies
 
+
+.. note::
+
+   The COBs layer is the same as the ContinentalPolygons layer. This model does not include explicit COBs files; use the ContinentalPolygons files instead until further notice.
 
 **Description:** Scotese and Wright (2018) deep-time plate reconstruction model. See the 'URL' below for more details.
 
@@ -397,9 +402,14 @@ Young2018
 
 - Coastlines
 - ContinentalPolygons
+- COBs
 - StaticPolygons
 - Topologies
 
+
+.. note::
+
+   The COBs layer is the same as the ContinentalPolygons layer. This model does not include explicit COBs files; use the ContinentalPolygons files instead until further notice.
 
 **Description:** Global plate and subduction-zone kinematics since the late Paleozoic. See the 'URL' below for more
 details.
@@ -442,9 +452,14 @@ Matthews2016_mantle_ref
 
 - Coastlines
 - ContinentalPolygons
+- COBs
 - StaticPolygons
 - Topologies
 
+
+.. note::
+
+   The COBs layer is the same as the ContinentalPolygons layer. This model does not include explicit COBs files; use the ContinentalPolygons files instead until further notice.
 
 **Time-dependent rasters:**
 
@@ -482,8 +497,13 @@ Matthews2016_pmag_ref
 
 - Coastlines
 - ContinentalPolygons
+- COBs
 - StaticPolygons
 
+
+.. note::
+
+   The COBs layer is the same as the ContinentalPolygons layer. This model does not include explicit COBs files; use the ContinentalPolygons files instead until further notice.
 
 **Description:** This plate model represents the first continuous late Paleozoic to present-day global plate model
 with evolving plate boundaries, building on and extending two previously published models for the
@@ -575,10 +595,15 @@ Zahirovic2016
 
 - Coastlines
 - ContinentalPolygons
+- COBs
 - Isochrons
 - StaticPolygons
 - Topologies
 
+
+.. note::
+
+   The COBs layer is the same as the ContinentalPolygons layer. This model does not include explicit COBs files; use the ContinentalPolygons files instead until further notice.
 
 **Time-dependent rasters:**
 

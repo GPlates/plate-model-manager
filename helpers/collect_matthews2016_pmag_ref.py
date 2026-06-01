@@ -23,6 +23,15 @@ utils.fetch_and_zip_files(
     "ContinentalPolygons",
 )
 
+# fetch COBs. this model does not provide COBs, use the continental polygons as COBs
+utils.fetch_and_zip_files(
+    [
+        "https://www.earthbyte.org/webdav/ftp/incoming/mchin/plate-models/MATTHEWS2016_pmag_ref/Matthews_etal_2016_ContinentalPolygons.gpmlz",
+    ],
+    model_path,
+    "COBs",
+)
+
 # fetch Coastlines
 utils.fetch_and_zip_files(
     [

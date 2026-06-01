@@ -76,6 +76,12 @@ utils.zip_files(
     files, f"{model_path}/ContinentalPolygons.zip", "ContinentalPolygons", info_fp
 )
 
+# zip COBs. this model does not provide COBs, use the continental polygons as COBs
+files = glob.glob(
+    f"{model_path}/{zip_path}/02_RefinedPlateReconstructions/00_Zahirovic_etal_2016_SEAsia/StaticGeometries/ContinentalPolygons/*"
+)
+utils.zip_files(files, f"{model_path}/COBs.zip", "COBs", info_fp)
+
 # zip Isochrons
 files = glob.glob(
     f"{model_path}/{zip_path}/02_RefinedPlateReconstructions/00_Zahirovic_etal_2016_SEAsia/StaticGeometries/Isochrons/*.*"
