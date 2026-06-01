@@ -37,7 +37,7 @@ jobs:
       run:
         shell: bash -el {0}
 
-    if: !github.event.pull_request.draft
+    if: github.event.pull_request.draft == false
     steps:
       - uses: actions/checkout@v4
       - name: Install PMM and dependencies
