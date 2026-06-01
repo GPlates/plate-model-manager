@@ -131,7 +131,7 @@ class TimeDepRastersTestCase(unittest.TestCase):
 
         raster_dir = (
             f"{TEMP_TEST_DIR}/zahirovic2022/Rasters/"
-            f"Agegrids{GenerationMethod.Isochrons.value}"
+            f"AgeGrids{GenerationMethod.Isochrons.value}"
             f"{ReferenceFrame.MantleReferenceFrame.value}"
         )
         self.assertTrue(os.path.isdir(raster_dir), msg=f"Missing dir: {raster_dir}")
