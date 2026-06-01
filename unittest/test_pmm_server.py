@@ -2,6 +2,7 @@
 
 import json
 import os
+import subprocess
 import sys
 import unittest
 
@@ -48,7 +49,13 @@ def get_real_model_name(name, model_config):
 )
 class PMMServerTestCase(unittest.TestCase):
     def setUp(self):
-        with open(f"{os.path.dirname(__file__)}/models_test.json", "r") as f:
+        repo_root = f"{os.path.dirname(__file__)}/.."
+        subprocess.run(
+            [sys.executable, "create_models_json_files.py"],
+            check=True,
+            cwd=f"{repo_root}/config",
+        )
+        with open(f"{repo_root}/config/models_v2.json", "r") as f:
             self.model_cfg = json.load(f)
 
     def test_server(self):
@@ -78,6 +85,7 @@ class PMMServerTestCase(unittest.TestCase):
             self.assertEqual(
                 layer_names,
                 model.get_avail_layers(),
+                msg=f"Layer list mismatch for model {name}",
             )
             # make sure rotation files
             rm = model.get_rotation_model()

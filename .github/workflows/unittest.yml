@@ -37,7 +37,7 @@ jobs:
       run:
         shell: bash -el {0}
 
-    if: github.event_name != 'pull_request' || github.event.pull_request.draft == false
+    if: !github.event.pull_request.draft
     steps:
       - uses: actions/checkout@v4
       - name: Install PMM and dependencies
@@ -53,7 +53,7 @@ jobs:
 
       - name: Run tests
         env:
-          PMM_TEST_LEVEL: ${{ github.event.inputs.pmm_test_level || '0' }}
+          PMM_TEST_LEVEL: ${{ github.event.inputs.pmm_test_level || '1' }}
         run: |
           source pmm_venv/bin/activate
           ./unittest/run_testcases.sh

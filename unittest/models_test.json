@@ -119,7 +119,8 @@
             "StaticPolygons": "@<<SvrBaseURL>>@/merdith2021/StaticPolygons.zip",
             "ContinentalPolygons": "@<<SvrBaseURL>>@/merdith2021/ContinentalPolygons.zip",
             "Topologies": "@<<SvrBaseURL>>@/merdith2021/Topologies.zip",
-            "Cratons": "@<<SvrBaseURL>>@/merdith2021/Cratons.zip"
+            "Cratons": "@<<SvrBaseURL>>@/merdith2021/Cratons.zip",
+            "COBs": "@<<SvrBaseURL>>@/merdith2021/COBs.zip"
         },
         "Description": "This plate model for the last 1000 Ma is based on a paleomagnetic reference frame. In this model the longitudinal positions of the plates are unconstrained, due to the radial symmetry of the Earth's magnetic field. It is broadly based on a modified combination of MULLER2016 for the last 230 Ma, the MATTHEWS2016_pmag_ref model for 250-410 Ma and a newly constructed model for earlier times. See the 'URL' below for more details.",
         "URL": "https://doi.org/10.5281/zenodo.10346399",
@@ -191,7 +192,8 @@
         "Layers": {
             "StaticPolygons": "@<<SvrBaseURL>>@/scotese_and_wright2018/StaticPolygons.zip",
             "Topologies": "@<<SvrBaseURL>>@/scotese_and_wright2018/Topologies.zip",
-            "ContinentalPolygons": "@<<SvrBaseURL>>@/scotese_and_wright2018/ContinentalPolygons.zip"
+            "ContinentalPolygons": "@<<SvrBaseURL>>@/scotese_and_wright2018/ContinentalPolygons.zip",
+            "COBs": "@<<SvrBaseURL>>@/scotese_and_wright2018/COBs.zip"
         },
         "Description": "Scotese and Wright (2018) deep-time plate reconstruction model. See the 'URL' below for more details.",
         "URL": "https://doi.org/10.5281/zenodo.5348491",
@@ -205,6 +207,7 @@
             "Coastlines": "@<<SvrBaseURL>>@/young2018/Coastlines.zip",
             "StaticPolygons": "@<<SvrBaseURL>>@/young2018/StaticPolygons.zip",
             "ContinentalPolygons": "@<<SvrBaseURL>>@/young2018/ContinentalPolygons.zip",
+            "COBs": "@<<SvrBaseURL>>@/young2018/COBs.zip",
             "Topologies": "@<<SvrBaseURL>>@/young2018/Topologies.zip"
         },
         "TimeDepRasters": {},
@@ -233,7 +236,8 @@
             "Coastlines": "https://repo.gplates.org/webdav/pmm/matthews2016_mantle_ref/Coastlines.zip",
             "StaticPolygons": "https://repo.gplates.org/webdav/pmm/matthews2016_mantle_ref/StaticPolygons.zip",
             "Topologies": "https://repo.gplates.org/webdav/pmm/matthews2016_mantle_ref/Topologies.zip",
-            "ContinentalPolygons": "https://repo.gplates.org/webdav/pmm/matthews2016_mantle_ref/ContinentalPolygons.zip"
+            "ContinentalPolygons": "https://repo.gplates.org/webdav/pmm/matthews2016_mantle_ref/ContinentalPolygons.zip",
+            "COBs": "https://repo.gplates.org/webdav/pmm/matthews2016_mantle_ref/COBs.zip"
         },
         "TimeDepRasters": {
             "AgeGrids": "https://repo.gplates.org/webdav/pmm/matthews2016_mantle_ref/Rasters/agegrids/agegrid-{:.0f}-Ma.png",
@@ -251,7 +255,8 @@
         "Layers": {
             "Coastlines": "@<<SvrBaseURL>>@/matthews2016_pmag_ref/Coastlines.zip",
             "StaticPolygons": "@<<SvrBaseURL>>@/matthews2016_pmag_ref/StaticPolygons.zip",
-            "ContinentalPolygons": "@<<SvrBaseURL>>@/matthews2016_pmag_ref/ContinentalPolygons.zip"
+            "ContinentalPolygons": "@<<SvrBaseURL>>@/matthews2016_pmag_ref/ContinentalPolygons.zip",
+            "COBs": "@<<SvrBaseURL>>@/matthews2016_pmag_ref/COBs.zip"
         },
         "Description": "This plate model represents the first continuous late Paleozoic to present-day global plate model with evolving plate boundaries, building on and extending two previously published models for the late Paleozoic (410-250 Ma) (Domeier and Torsvik, 2014) and the MULLER2016 model Mesozoic-Cenozoic (230-0 Ma). The model was designed for continuity during the 250-230 Ma transition period between the two models, used an updated absolute reference frame of the Mesozoic-Cenozoic model and added a new Paleozoic reconstruction for the Baltica-derived Alexander Terrane, now accreted to western North America. See the 'URL' below for more details.",
         "URL": "https://gwsdoc.gplates.org/models#matthews2016_pmag_ref",
@@ -284,6 +289,7 @@
             "StaticPolygons": "@<<SvrBaseURL>>@/zahirovic2016/StaticPolygons.zip",
             "Topologies": "@<<SvrBaseURL>>@/zahirovic2016/Topologies.zip",
             "ContinentalPolygons": "@<<SvrBaseURL>>@/zahirovic2016/ContinentalPolygons.zip",
+            "COBs": "@<<SvrBaseURL>>@/zahirovic2016/COBs.zip",
             "Isochrons": "@<<SvrBaseURL>>@/zahirovic2016/Isochrons.zip"
         },
         "TimeDepRasters": {

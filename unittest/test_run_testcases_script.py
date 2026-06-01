@@ -17,9 +17,7 @@ class RunTestcasesScriptTestCase(unittest.TestCase):
             temp_dir = Path(tmp_dir)
             capture_path = temp_dir / "captured.txt"
             fake_python = temp_dir / "python3"
-            fake_python.write_text(
-                textwrap.dedent(
-                    f"""\
+            fake_python.write_text(textwrap.dedent(f"""\
                     #!{sys.executable}
                     import os
                     import sys
@@ -28,13 +26,12 @@ class RunTestcasesScriptTestCase(unittest.TestCase):
                         handle.write(f"PMM_TEST_LEVEL={{os.getenv('PMM_TEST_LEVEL')}}\\n")
                         handle.write(f"ARGS={{' '.join(sys.argv[1:])}}\\n")
                         handle.write(f"CWD={{os.getcwd()}}\\n")
-                    """
-                )
-            )
+                    """))
             fake_python.chmod(0o755)
 
             env = os.environ.copy()
             env["PATH"] = f"{temp_dir}{os.pathsep}{env.get('PATH', os.defpath)}"
+            env.pop("PMM_TEST_LEVEL", None)
             if extra_env:
                 env.update(extra_env)
 
