@@ -28,7 +28,13 @@ try:
 except ImportError:
     HAS_JOBLIB = False
 
-from common import TEMP_TEST_DIR, get_test_logger, is_test_installed_module
+from common import (
+    INTEGRATION_TEST_LEVEL,
+    TEMP_TEST_DIR,
+    get_test_logger,
+    is_test_installed_module,
+    skip_unless_test_level,
+)
 
 if not is_test_installed_module():
     sys.path.insert(0, os.path.abspath(f"{os.path.dirname(__file__)}/../src"))
@@ -94,6 +100,10 @@ def _make_model(model_manager, data_dir=TEMP_TEST_DIR):
 # ---------------------------------------------------------------------------
 
 
+@skip_unless_test_level(
+    INTEGRATION_TEST_LEVEL,
+    "set PMM_TEST_LEVEL>=1 to run multiprocessing integration tests",
+)
 class TestPickling(unittest.TestCase):
     """Verify that ``PlateModel`` and ``PlateModelManager`` survive pickle round-trips."""
 
@@ -155,6 +165,10 @@ class TestPickling(unittest.TestCase):
         )
 
 
+@skip_unless_test_level(
+    INTEGRATION_TEST_LEVEL,
+    "set PMM_TEST_LEVEL>=1 to run multiprocessing integration tests",
+)
 class TestMultiprocessing(unittest.TestCase):
     """Verify that ``PlateModel`` and ``PlateModelManager`` work inside ``multiprocessing.Pool`` workers.
 
@@ -245,6 +259,10 @@ class TestMultiprocessing(unittest.TestCase):
 
 
 @unittest.skipUnless(HAS_JOBLIB, "joblib is not installed – skipping joblib tests")
+@skip_unless_test_level(
+    INTEGRATION_TEST_LEVEL,
+    "set PMM_TEST_LEVEL>=1 to run multiprocessing integration tests",
+)
 class TestJoblib(unittest.TestCase):
     """Verify that ``PlateModel`` and ``PlateModelManager`` work with ``joblib.Parallel`` workers.
 

@@ -2,10 +2,17 @@
 
 import json
 import os
+import subprocess
 import sys
 import unittest
 
-from common import TEMP_TEST_DIR, get_test_logger, is_test_installed_module
+from common import (
+    INTEGRATION_TEST_LEVEL,
+    TEMP_TEST_DIR,
+    get_test_logger,
+    is_test_installed_module,
+    skip_unless_test_level,
+)
 
 if not is_test_installed_module():
     sys.path.insert(0, f"{os.path.dirname(__file__)}/../src")
@@ -36,9 +43,19 @@ def get_real_model_name(name, model_config):
             return name
 
 
+@skip_unless_test_level(
+    INTEGRATION_TEST_LEVEL,
+    "set PMM_TEST_LEVEL>=1 to run server integration tests",
+)
 class PMMServerTestCase(unittest.TestCase):
     def setUp(self):
-        with open(f"{os.path.dirname(__file__)}/models_test.json", "r") as f:
+        repo_root = f"{os.path.dirname(__file__)}/.."
+        subprocess.run(
+            [sys.executable, "create_models_json_files.py"],
+            check=True,
+            cwd=f"{repo_root}/config",
+        )
+        with open(f"{repo_root}/config/models_v2.json", "r") as f:
             self.model_cfg = json.load(f)
 
     def test_server(self):
@@ -68,6 +85,7 @@ class PMMServerTestCase(unittest.TestCase):
             self.assertEqual(
                 layer_names,
                 model.get_avail_layers(),
+                msg=f"Layer list mismatch for model {name}",
             )
             # make sure rotation files
             rm = model.get_rotation_model()

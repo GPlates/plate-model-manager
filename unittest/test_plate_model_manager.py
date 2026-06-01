@@ -5,6 +5,7 @@ import sys
 import tempfile
 import unittest
 
+from common import INTEGRATION_TEST_LEVEL, skip_unless_test_level
 from plate_model_manager.utils.enums import ReferenceFrame
 
 sys.path.insert(0, f"{os.path.dirname(__file__)}/../src")
@@ -22,6 +23,10 @@ else:
 logger = get_test_logger(logger_name)
 
 
+@skip_unless_test_level(
+    INTEGRATION_TEST_LEVEL,
+    "set PMM_TEST_LEVEL>=1 to run manager integration tests",
+)
 class PlateModelManagerestCase(unittest.TestCase):
     def setUp(self):
         pass

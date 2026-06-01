@@ -8,7 +8,13 @@ import os
 import sys
 import unittest
 
-from common import TEMP_TEST_DIR, get_test_logger, is_test_installed_module
+from common import (
+    INTEGRATION_TEST_LEVEL,
+    TEMP_TEST_DIR,
+    get_test_logger,
+    is_test_installed_module,
+    skip_unless_test_level,
+)
 from plate_model_manager.utils.enums import GenerationMethod, ReferenceFrame
 
 if not is_test_installed_module():
@@ -38,6 +44,10 @@ def _get_model(model_name):
 # ---------------------------------------------------------------------------
 # get_raster
 # ---------------------------------------------------------------------------
+@skip_unless_test_level(
+    INTEGRATION_TEST_LEVEL,
+    "set PMM_TEST_LEVEL>=1 to run raster integration tests",
+)
 class TestGetRaster(unittest.TestCase):
     """Tests for PlateModel.get_raster()."""
 
@@ -106,6 +116,10 @@ class TestGetRaster(unittest.TestCase):
 # ---------------------------------------------------------------------------
 # get_age_grid / get_age_grids
 # ---------------------------------------------------------------------------
+@skip_unless_test_level(
+    INTEGRATION_TEST_LEVEL,
+    "set PMM_TEST_LEVEL>=1 to run raster integration tests",
+)
 class TestGetAgeGrid(unittest.TestCase):
     """Tests for PlateModel.get_age_grid() and get_age_grids()."""
 
@@ -188,6 +202,10 @@ class TestGetAgeGrid(unittest.TestCase):
 # ---------------------------------------------------------------------------
 # get_spreading_rate_grid / get_spreading_rate_grids
 # ---------------------------------------------------------------------------
+@skip_unless_test_level(
+    INTEGRATION_TEST_LEVEL,
+    "set PMM_TEST_LEVEL>=1 to run raster integration tests",
+)
 class TestGetSpreadingRateGrid(unittest.TestCase):
     """Tests for PlateModel.get_spreading_rate_grid() and get_spreading_rate_grids()."""
 
