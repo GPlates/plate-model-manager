@@ -11,6 +11,17 @@ on:
       - main
     paths:
       - "src/**"
+  workflow_dispatch:
+    inputs:
+      pmm_test_level:
+        description: PMM_TEST_LEVEL to use when running unittest
+        required: false
+        default: "0"
+        type: choice
+        options:
+          - "0"
+          - "1"
+          - "2"
 
 jobs:
   unittest:
@@ -26,7 +37,7 @@ jobs:
       run:
         shell: bash -el {0}
 
-    if: github.event.pull_request.draft == false
+    if: github.event_name != 'pull_request' || github.event.pull_request.draft == false
     steps:
       - uses: actions/checkout@v4
       - name: Install PMM and dependencies
@@ -41,6 +52,8 @@ jobs:
           pip3 install .
 
       - name: Run tests
+        env:
+          PMM_TEST_LEVEL: ${{ github.event.inputs.pmm_test_level || '0' }}
         run: |
           source pmm_venv/bin/activate
           ./unittest/run_testcases.sh
