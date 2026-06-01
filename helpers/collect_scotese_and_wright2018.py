@@ -51,5 +51,12 @@ utils.zip_files(
     files, f"{model_path}/ContinentalPolygons.zip", "ContinentalPolygons", info_fp
 )
 
+# zip COBs. this model does not provide COBs, use the continental polygons as COBs
+files = glob.glob(
+    f"{model_path}/{zip_path}/**/Scotese_Wright_ContinentalPolygons.gpml",
+    recursive=True,
+)
+utils.zip_files(files, f"{model_path}/COBs.zip", "COBs", info_fp)
+
 shutil.rmtree(f"{model_path}/{zip_path}")
 info_fp.close()
