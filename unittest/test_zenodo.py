@@ -4,7 +4,13 @@ import os
 import sys
 import unittest
 
-from common import TEMP_TEST_DIR, get_test_logger, is_test_installed_module
+from common import (
+    INTEGRATION_TEST_LEVEL,
+    TEMP_TEST_DIR,
+    get_test_logger,
+    is_test_installed_module,
+    skip_unless_test_level,
+)
 
 if not is_test_installed_module():
     sys.path.insert(0, f"{os.path.dirname(__file__)}/../src")
@@ -26,6 +32,10 @@ logger = get_test_logger(logger_name)
 logger.info(plate_model_manager.__file__)
 
 
+@skip_unless_test_level(
+    INTEGRATION_TEST_LEVEL,
+    "set PMM_TEST_LEVEL>=1 to run Zenodo integration tests",
+)
 class ZenodoTestCase(unittest.TestCase):
     def setUp(self):
         pass

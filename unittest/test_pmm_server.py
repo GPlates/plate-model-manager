@@ -5,7 +5,13 @@ import os
 import sys
 import unittest
 
-from common import TEMP_TEST_DIR, get_test_logger, is_test_installed_module
+from common import (
+    INTEGRATION_TEST_LEVEL,
+    TEMP_TEST_DIR,
+    get_test_logger,
+    is_test_installed_module,
+    skip_unless_test_level,
+)
 
 if not is_test_installed_module():
     sys.path.insert(0, f"{os.path.dirname(__file__)}/../src")
@@ -36,6 +42,10 @@ def get_real_model_name(name, model_config):
             return name
 
 
+@skip_unless_test_level(
+    INTEGRATION_TEST_LEVEL,
+    "set PMM_TEST_LEVEL>=1 to run server integration tests",
+)
 class PMMServerTestCase(unittest.TestCase):
     def setUp(self):
         with open(f"{os.path.dirname(__file__)}/models_test.json", "r") as f:
