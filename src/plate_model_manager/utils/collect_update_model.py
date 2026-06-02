@@ -2,7 +2,6 @@ import json
 import os
 import shlex
 import subprocess
-import sys
 from pathlib import Path
 
 import requests
@@ -36,6 +35,31 @@ def load_collect_models(source):
     if not models:
         raise ValueError("Collect model config contains no models.")
     return models
+
+
+def _download_file(url, output_path):
+    response = requests.get(url, timeout=120)
+    response.raise_for_status()
+    with open(output_path, "wb") as output_file:
+        output_file.write(response.content)
+
+
+def collect_model_archives(model_name, model_cfg, target_dir):
+    archives = model_cfg.get("archives")
+    if not isinstance(archives, dict) or not archives:
+        raise ValueError(f"Model '{model_name}' must define a non-empty archives object.")
+
+    model_dir = Path(target_dir) / model_name
+    model_dir.mkdir(parents=True, exist_ok=True)
+
+    for archive_name, url in archives.items():
+        if not isinstance(url, str) or not url:
+            raise ValueError(
+                f"Model '{model_name}' archive '{archive_name}' must define a URL string."
+            )
+        _download_file(url, model_dir / archive_name)
+
+    return model_dir
 
 
 def create_hex_hash_sidecar_files(model_path):
@@ -84,15 +108,6 @@ def upload_model_folder(model_path, upload_target, identity_file, remote_path):
     )
 
 
-def _resolve_collect_script(path):
-    script_path = Path(path)
-    if not script_path.is_absolute():
-        script_path = Path(__file__).resolve().parents[3] / script_path
-    if not script_path.is_file():
-        raise ValueError(f"Collect script not found: {script_path}")
-    return script_path
-
-
 def _validate_remote_path(model_name, remote_path):
     if Path(remote_path.rstrip("/") or remote_path).name != model_name:
         raise ValueError(f"--remote-path must end with '/{model_name}'")
@@ -116,16 +131,16 @@ def collect_model_files(
         raise ValueError("--remote-path is only supported for a single model.")
 
     for selected_model in selected_models:
-        script_path = _resolve_collect_script(models[selected_model])
-        subprocess.run(
-            [sys.executable, str(script_path), target_dir],
-            check=True,
+        model_path = collect_model_archives(
+            selected_model,
+            models[selected_model],
+            target_dir,
         )
         if upload:
             model_remote_path = remote_path or f"{DEFAULT_REMOTE_PATH}/{selected_model}"
             _validate_remote_path(selected_model, model_remote_path)
             upload_model_folder(
-                Path(target_dir) / selected_model,
+                model_path,
                 upload_target,
                 identity_file,
                 model_remote_path,

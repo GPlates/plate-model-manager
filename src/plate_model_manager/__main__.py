@@ -197,7 +197,7 @@ def main():
     collect_models_cmd = subparser.add_parser(
         "collect-models",
         description=(
-            "Collect source model files using helper collectors and optionally upload "
+            "Collect source model files from configured metadata and optionally upload "
             "generated archives."
         ),
         help="collect source model files and optionally upload generated archives",
