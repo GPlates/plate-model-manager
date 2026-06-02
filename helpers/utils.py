@@ -126,21 +126,6 @@ def get_model_path(argv, name):
     )
     model_path = f"{args.target_dir}/{name}"
 
-    Path(model_path).mkdir(parents=True, exist_ok=True)
-    if args.upload and model_path not in _REGISTERED_UPLOAD_PATHS:
-        _REGISTERED_UPLOAD_PATHS.add(model_path)
-        atexit.register(
-            upload_model_folder,
-            model_path,
-            args.upload_target,
-            args.identity_file,
-            args.remote_path,
-        )
-    return model_path
-
-
-def prepare_model_dir(target_dir, model_name, script_name):
-    model_path = get_model_path([script_name, target_dir], model_name)
     model_dir = Path(model_path)
     if model_dir.exists() and any(model_dir.iterdir()):
         answer = (
@@ -156,7 +141,23 @@ def prepare_model_dir(target_dir, model_name, script_name):
             raise SystemExit(0)
         shutil.rmtree(model_dir)
         model_dir.mkdir(parents=True, exist_ok=True)
-    return model_dir
+    else:
+        Path(model_path).mkdir(parents=True, exist_ok=True)
+
+    if args.upload and model_path not in _REGISTERED_UPLOAD_PATHS:
+        _REGISTERED_UPLOAD_PATHS.add(model_path)
+        atexit.register(
+            upload_model_folder,
+            model_path,
+            args.upload_target,
+            args.identity_file,
+            args.remote_path,
+        )
+    return model_path
+
+
+def prepare_model_dir(target_dir, model_name, script_name):
+    return Path(get_model_path([script_name, target_dir], model_name))
 
 
 def create_hex_hash_sidecar_files(model_path):
