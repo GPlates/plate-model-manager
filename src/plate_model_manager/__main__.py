@@ -21,6 +21,7 @@ import os
 import sys
 
 from plate_model_manager import PlateModelManager, __version__, check_update
+from plate_model_manager.utils import collect_update_model
 from plate_model_manager.utils.layer_validation import validate_layers_source
 
 logger = logging.getLogger("pmm")
@@ -90,6 +91,21 @@ def _run_validate_layers_command(args):
         raise SystemExit(1)
 
     print(f"Layer validation passed for {checked_models} models against {base_url}.")
+
+
+def _run_collect_models_command(args):
+    try:
+        collect_update_model.collect_model_files(
+            args.model,
+            args.target_dir,
+            args.source,
+            upload=args.upload,
+            upload_target=args.upload_target,
+            identity_file=args.identity_file,
+            remote_path=args.remote_path,
+        )
+    except ValueError as exc:
+        raise SystemExit(str(exc)) from exc
 
 
 def main():
@@ -177,6 +193,56 @@ def main():
         help="HTTP timeout in seconds for remote requests.",
     )
     validate_layers_cmd.set_defaults(func=_run_validate_layers_command)
+
+    collect_models_cmd = subparser.add_parser(
+        "collect-models",
+        description=(
+            "Collect source model files using helper collectors and optionally upload "
+            "generated archives."
+        ),
+        help="collect source model files and optionally upload generated archives",
+    )
+    collect_models_cmd.add_argument(
+        "model",
+        type=str,
+        help="model name to collect, or 'all' to process all configured models.",
+    )
+    collect_models_cmd.add_argument(
+        "target_dir",
+        type=str,
+        nargs="?",
+        default=".",
+        help="base directory where model folders are created.",
+    )
+    collect_models_cmd.add_argument(
+        "--source",
+        default=str(collect_update_model.DEFAULT_COLLECT_MODELS_SOURCE),
+        help="path or URL to model source configuration JSON.",
+    )
+    collect_models_cmd.add_argument(
+        "--upload",
+        action="store_true",
+        help="upload generated model files after collection.",
+    )
+    collect_models_cmd.add_argument(
+        "--upload-target",
+        default=collect_update_model.DEFAULT_UPLOAD_TARGET,
+        help="SSH destination in the form user@host.",
+    )
+    collect_models_cmd.add_argument(
+        "--identity-file",
+        default=collect_update_model.DEFAULT_IDENTITY_FILE,
+        help="SSH private key path for upload.",
+    )
+    collect_models_cmd.add_argument(
+        "--remote-path",
+        default=None,
+        help=(
+            "Remote path for upload. For single model runs, defaults to "
+            "<DEFAULT_REMOTE_PATH>/<model>."
+        ),
+    )
+    collect_models_cmd.set_defaults(func=_run_collect_models_command)
 
     if len(sys.argv) == 1:
         parser.print_help(sys.stderr)

@@ -1,0 +1,30 @@
+{
+  "models": {
+    "alfonso2024": "helpers/collect_alfonso2024.py",
+    "cao2024": "helpers/collect_cao2024.py",
+    "clennett2020_m2019": "helpers/collect_clennett2020_m2019.py",
+    "clennett2020_s2013": "helpers/collect_clennett2020_s2013.py",
+    "domeier2014": "helpers/collect_domeier2014.py",
+    "gibbons2015": "helpers/collect_gibbons2015.py",
+    "golonka": "helpers/collect_golonka.py",
+    "gurnis2012": "helpers/collect_gurnis2012.py",
+    "matthews2016_mantle_ref": "helpers/collect_matthews2016_mantle_ref.py",
+    "matthews2016_pmag_ref": "helpers/collect_matthews2016_pmag_ref.py",
+    "merdith2021": "helpers/collect_merdith2021.py",
+    "muller2008": "helpers/collect_muller2008.py",
+    "muller2016": "helpers/collect_muller2016.py",
+    "muller2019": "helpers/collect_muller2019.py",
+    "muller2022": "helpers/collect_muller2022.py",
+    "paleomap": "helpers/collect_paleomap.py",
+    "rodinia": "helpers/collect_rodinia.py",
+    "scotese_and_wright2018": "helpers/collect_scotese_and_wright2018.py",
+    "seton2012": "helpers/collect_seton2012.py",
+    "shephard2013": "helpers/collect_shephard2013.py",
+    "shirmard2025": "helpers/collect_shirmard2025.py",
+    "torsvikcocks2017": "helpers/collect_torsvikcocks2017.py",
+    "young2018": "helpers/collect_young2018.py",
+    "zahirovic2014": "helpers/collect_zahirovic2014.py",
+    "zahirovic2016": "helpers/collect_zahirovic2016.py",
+    "zahirovic2022": "helpers/collect_zahirovic2022.py"
+  }
+}
