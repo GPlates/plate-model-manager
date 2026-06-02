@@ -177,6 +177,11 @@
 <span class="sd">        :raises Exception: If ``readonly=True`` and the local model directory is</span>
 <span class="sd">            invalid.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">reference_frame</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span>
+            <span class="n">reference_frame</span><span class="p">,</span> <span class="n">ReferenceFrame</span>
+        <span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;reference_frame must be a ReferenceFrame value or None&quot;</span><span class="p">)</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">model_name</span> <span class="o">=</span> <span class="n">model_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">meta_filename</span> <span class="o">=</span> <span class="n">METADATA_FILENAME</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_model</span> <span class="o">=</span> <span class="n">model_cfg</span>
@@ -194,6 +199,16 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">model_dir</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">meta_filename</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">_model</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+        <span class="c1"># validate the model support the reference frame if the reference frame is specified</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_reference_frame</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+            <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+            <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reference_frame</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_supported_reference_frames</span><span class="p">()</span>
+        <span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;reference_frame </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_reference_frame</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2"> is not supported by model &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">model_name</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+            <span class="p">)</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">readonly</span><span class="p">:</span>
             <span class="c1"># async and concurrent things</span>
@@ -251,9 +266,11 @@
 
     <span class="k">def</span> <span class="fm">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Close the event loop when the instance is garbage collected.&quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">readonly</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;readonly&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">):</span>
             <span class="k">try</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">loop</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+                <span class="n">loop</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;loop&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">loop</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">loop</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
             <span class="k">except</span><span class="p">:</span>
                 <span class="k">pass</span>  <span class="c1"># ignore the exception when closing the loop if any</span>
 
@@ -385,17 +402,23 @@
             <span class="n">rotation_folder</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">model_dir</span><span class="si">}</span><span class="s2">/Rotations&quot;</span>
         <span class="n">rotation_files</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">rotation_folder</span><span class="si">}</span><span class="s2">/*.rot&quot;</span><span class="p">)</span>
         <span class="n">rotation_files</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">rotation_folder</span><span class="si">}</span><span class="s2">/*.grot&quot;</span><span class="p">))</span>
-        <span class="c1"># print(rotation_files)</span>
+
+        <span class="c1"># if the reference frame is not specified, use the reference frame of this model,</span>
+        <span class="c1"># which may have been specified when creating this PlateModel instance</span>
         <span class="k">if</span> <span class="n">reference_frame</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">reference_frame</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reference_frame</span>
+
         <span class="k">if</span> <span class="n">reference_frame</span> <span class="o">==</span> <span class="n">ReferenceFrame</span><span class="o">.</span><span class="n">PmagReferenceFrame</span><span class="p">:</span>
             <span class="n">attrs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Attributes&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
             <span class="n">pmag_ref_frame_anchor_pid</span> <span class="o">=</span> <span class="p">(</span>
                 <span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;PmagReferenceFrameAnchorPID&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="k">if</span> <span class="n">attrs</span> <span class="k">else</span> <span class="kc">None</span>
             <span class="p">)</span>
             <span class="k">if</span> <span class="n">pmag_ref_frame_anchor_pid</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reference_frame</span> <span class="o">==</span> <span class="n">ReferenceFrame</span><span class="o">.</span><span class="n">PmagReferenceFrame</span><span class="p">:</span>
-                    <span class="c1"># if the model is already in PMAG reference frame, we can just set the anchor PID to 0</span>
+                <span class="k">if</span> <span class="p">(</span>
+                    <span class="n">ReferenceFrame</span><span class="o">.</span><span class="n">PmagReferenceFrame</span>
+                    <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_supported_reference_frames</span><span class="p">()</span>
+                <span class="p">):</span>
+                    <span class="c1"># this means the model is in PMAG reference frame by default, we can just return the anchor PID 0</span>
                     <span class="n">pmag_ref_frame_anchor_pid</span> <span class="o">=</span> <span class="mi">0</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
@@ -403,7 +426,8 @@
                     <span class="p">)</span>
             <span class="k">return</span> <span class="n">rotation_files</span><span class="p">,</span> <span class="n">pmag_ref_frame_anchor_pid</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="c1"># for mantle reference frame, we don&#39;t need to know the anchor PID</span>
+            <span class="c1"># for mantle reference frame, which is the default, we don&#39;t need to know the anchor PID which is always 0,</span>
+            <span class="c1"># so we just return the rotation files</span>
             <span class="k">return</span> <span class="n">rotation_files</span></div>
 
 
@@ -580,6 +604,8 @@
                 <span class="sa">f</span><span class="s2">&quot;No time-dependent rasters found in this model &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">model_name</span><span class="si">}</span><span class="s2">&#39;.&quot;</span>
             <span class="p">)</span>
 
+        <span class="c1"># if the reference frame is not specified, use the reference frame of this model,</span>
+        <span class="c1"># which may have been specified when creating this PlateModel instance</span>
         <span class="k">if</span> <span class="n">reference_frame</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">reference_frame</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reference_frame</span>
 
@@ -619,6 +645,15 @@
                         <span class="sa">f</span><span class="s2">&quot;Raster &#39;</span><span class="si">{</span><span class="n">resolved_raster_name</span><span class="si">}</span><span class="s2">&#39; not found in this model &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">model_name</span><span class="si">}</span><span class="s2">&#39;, but &#39;</span><span class="si">{</span><span class="n">name_in_config</span><span class="si">}</span><span class="s2">&#39; exists. Will use &#39;</span><span class="si">{</span><span class="n">name_in_config</span><span class="si">}</span><span class="s2">&#39; for now.&quot;</span>
                     <span class="p">)</span>
                     <span class="k">return</span> <span class="n">name_in_config</span>
+
+        <span class="c1"># the last effort to try the base raster name without any suffix,</span>
+        <span class="c1"># in case the model does not strictly follow the naming convention</span>
+        <span class="n">name_in_config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_best_effort_to_get_raster_name_from_config</span><span class="p">(</span><span class="n">raster_name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">name_in_config</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Raster &#39;</span><span class="si">{</span><span class="n">resolved_raster_name</span><span class="si">}</span><span class="s2">&#39; not found in this model &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">model_name</span><span class="si">}</span><span class="s2">&#39;, but &#39;</span><span class="si">{</span><span class="n">name_in_config</span><span class="si">}</span><span class="s2">&#39; exists. Will use &#39;</span><span class="si">{</span><span class="n">name_in_config</span><span class="si">}</span><span class="s2">&#39; for now.&quot;</span>
+            <span class="p">)</span>
+            <span class="k">return</span> <span class="n">name_in_config</span>
 
         <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
             <span class="sa">f</span><span class="s2">&quot;Time-dependent rasters (</span><span class="si">{</span><span class="n">resolved_raster_name</span><span class="si">}</span><span class="s2">) were not found in this model &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">model_name</span><span class="si">}</span><span class="s2">&#39;.</span><span class="se">\n</span><span class="s2">&quot;</span>
@@ -1102,7 +1137,58 @@
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span><span class="w"> </span><span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="k">raise</span> <span class="n">LayerNotFoundInModel</span><span class="p">(</span>
                 <span class="sa">f</span><span class="s2">&quot;The layer(</span><span class="si">{</span><span class="n">layer_name</span><span class="si">}</span><span class="s2">) was not found in model(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">model_name</span><span class="si">}</span><span class="s2">).&quot;</span>
-            <span class="p">)</span></div>
+            <span class="p">)</span>
+
+<div class="viewcode-block" id="PlateModel.get_supported_reference_frames">
+<a class="viewcode-back" href="../../plate_model_manager.html#plate_model_manager.PlateModel.get_supported_reference_frames">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_supported_reference_frames</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">ReferenceFrame</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the reference frames which this model supports.</span>
+
+<span class="sd">        If the model name ends with &quot;pmag_ref&quot;, we will consider it as a PMAG reference frame model.</span>
+<span class="sd">        Otherwise, it is a mantle reference frame model by default.</span>
+
+<span class="sd">        If the model configuration has a `PmagReferenceFrameAnchorPID` attribute,</span>
+<span class="sd">        we will consider this model supports both PMAG and mantle reference frame,</span>
+<span class="sd">        such as Zahirovic2022 model. The same rotation files can be used for both reference frames,</span>
+<span class="sd">        but with different default anchor plate ID. For mantle reference frame, the anchor plate ID is usually 0.</span>
+<span class="sd">        For PMAG reference frame, the anchor plate ID is usually a non-zero integer defined</span>
+<span class="sd">        in the model configuration as `PmagReferenceFrameAnchorPID` attribute.</span>
+
+<span class="sd">        :returns: A list of supported reference frames.</span>
+<span class="sd">        :rtype: list[ReferenceFrame]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_name</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;_pmag_ref&quot;</span><span class="p">):</span>
+            <span class="k">return</span> <span class="p">[</span><span class="n">ReferenceFrame</span><span class="o">.</span><span class="n">PmagReferenceFrame</span><span class="p">]</span>
+
+        <span class="n">attrs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Attributes&quot;</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="k">if</span> <span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;PmagReferenceFrameAnchorPID&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[</span>
+                <span class="n">ReferenceFrame</span><span class="o">.</span><span class="n">MantleReferenceFrame</span><span class="p">,</span>
+                <span class="n">ReferenceFrame</span><span class="o">.</span><span class="n">PmagReferenceFrame</span><span class="p">,</span>
+            <span class="p">]</span>
+
+        <span class="k">return</span> <span class="p">[</span><span class="n">ReferenceFrame</span><span class="o">.</span><span class="n">MantleReferenceFrame</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="PlateModel.get_anchor_id_for_pmag_reference_frame">
+<a class="viewcode-back" href="../../plate_model_manager.html#plate_model_manager.PlateModel.get_anchor_id_for_pmag_reference_frame">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_anchor_id_for_pmag_reference_frame</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the PMAG anchor plate ID when this model supports PMAG.</span>
+
+<span class="sd">        Models that expose PMAG through ``Attributes.PmagReferenceFrameAnchorPID``</span>
+<span class="sd">        return that configured anchor plate ID. Dedicated ``_pmag_ref`` models</span>
+<span class="sd">        use ``0`` as the implicit PMAG anchor plate ID. Mantle-only models</span>
+<span class="sd">        return ``None``.</span>
+
+<span class="sd">        :returns: PMAG anchor plate ID, or ``None`` when PMAG is unsupported.</span>
+<span class="sd">        :rtype: int or None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_name</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;_pmag_ref&quot;</span><span class="p">):</span>
+            <span class="k">return</span> <span class="mi">0</span>
+
+        <span class="n">attrs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Attributes&quot;</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="k">return</span> <span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;PmagReferenceFrameAnchorPID&quot;</span><span class="p">)</span></div>
+</div>
 
 </pre></div>
 

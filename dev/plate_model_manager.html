@@ -583,6 +583,24 @@ missing.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="plate_model_manager.plate_model.PlateModel.get_anchor_id_for_pmag_reference_frame">
+<span class="sig-name descname"><span class="pre">get_anchor_id_for_pmag_reference_frame</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="_modules/plate_model_manager/plate_model.html#PlateModel.get_anchor_id_for_pmag_reference_frame"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plate_model_manager.plate_model.PlateModel.get_anchor_id_for_pmag_reference_frame" title="Link to this definition"></a></dt>
+<dd><p>Return the PMAG anchor plate ID when this model supports PMAG.</p>
+<p>Models that expose PMAG through <code class="docutils literal notranslate"><span class="pre">Attributes.PmagReferenceFrameAnchorPID</span></code>
+return that configured anchor plate ID. Dedicated <code class="docutils literal notranslate"><span class="pre">_pmag_ref</span></code> models
+use <code class="docutils literal notranslate"><span class="pre">0</span></code> as the implicit PMAG anchor plate ID. Mantle-only models
+return <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>PMAG anchor plate ID, or <code class="docutils literal notranslate"><span class="pre">None</span></code> when PMAG is unsupported.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)">int</a> or None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="plate_model_manager.plate_model.PlateModel.get_avail_layers">
 <span class="sig-name descname"><span class="pre">get_avail_layers</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/plate_model_manager/plate_model.html#PlateModel.get_avail_layers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plate_model_manager.plate_model.PlateModel.get_avail_layers" title="Link to this definition"></a></dt>
 <dd><p>Return all available geometry layer names in this model.</p>
@@ -854,6 +872,28 @@ defined.</p>
 <dt class="sig sig-object py" id="plate_model_manager.plate_model.PlateModel.get_static_polygons">
 <span class="sig-name descname"><span class="pre">get_static_polygons</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">return_none_if_not_exist</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.14)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="_modules/plate_model_manager/plate_model.html#PlateModel.get_static_polygons"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plate_model_manager.plate_model.PlateModel.get_static_polygons" title="Link to this definition"></a></dt>
 <dd><p>Return local file paths for the <code class="docutils literal notranslate"><span class="pre">StaticPolygons</span></code> layer.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="plate_model_manager.plate_model.PlateModel.get_supported_reference_frames">
+<span class="sig-name descname"><span class="pre">get_supported_reference_frames</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.14)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="plate_model_manager.utils.html#plate_model_manager.utils.enums.ReferenceFrame" title="plate_model_manager.utils.enums.ReferenceFrame"><span class="pre">ReferenceFrame</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/plate_model_manager/plate_model.html#PlateModel.get_supported_reference_frames"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plate_model_manager.plate_model.PlateModel.get_supported_reference_frames" title="Link to this definition"></a></dt>
+<dd><p>Return the reference frames which this model supports.</p>
+<p>If the model name ends with “pmag_ref”, we will consider it as a PMAG reference frame model.
+Otherwise, it is a mantle reference frame model by default.</p>
+<p>If the model configuration has a <cite>PmagReferenceFrameAnchorPID</cite> attribute,
+we will consider this model supports both PMAG and mantle reference frame,
+such as Zahirovic2022 model. The same rotation files can be used for both reference frames,
+but with different default anchor plate ID. For mantle reference frame, the anchor plate ID is usually 0.
+For PMAG reference frame, the anchor plate ID is usually a non-zero integer defined
+in the model configuration as <cite>PmagReferenceFrameAnchorPID</cite> attribute.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A list of supported reference frames.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)">list</a>[<a class="reference internal" href="plate_model_manager.utils.html#plate_model_manager.utils.enums.ReferenceFrame" title="plate_model_manager.utils.enums.ReferenceFrame">ReferenceFrame</a>]</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -1355,6 +1395,24 @@ missing.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="plate_model_manager.PlateModel.get_anchor_id_for_pmag_reference_frame">
+<span class="sig-name descname"><span class="pre">get_anchor_id_for_pmag_reference_frame</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="_modules/plate_model_manager/plate_model.html#PlateModel.get_anchor_id_for_pmag_reference_frame"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plate_model_manager.PlateModel.get_anchor_id_for_pmag_reference_frame" title="Link to this definition"></a></dt>
+<dd><p>Return the PMAG anchor plate ID when this model supports PMAG.</p>
+<p>Models that expose PMAG through <code class="docutils literal notranslate"><span class="pre">Attributes.PmagReferenceFrameAnchorPID</span></code>
+return that configured anchor plate ID. Dedicated <code class="docutils literal notranslate"><span class="pre">_pmag_ref</span></code> models
+use <code class="docutils literal notranslate"><span class="pre">0</span></code> as the implicit PMAG anchor plate ID. Mantle-only models
+return <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>PMAG anchor plate ID, or <code class="docutils literal notranslate"><span class="pre">None</span></code> when PMAG is unsupported.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)">int</a> or None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="plate_model_manager.PlateModel.get_avail_layers">
 <span class="sig-name descname"><span class="pre">get_avail_layers</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/plate_model_manager/plate_model.html#PlateModel.get_avail_layers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plate_model_manager.PlateModel.get_avail_layers" title="Link to this definition"></a></dt>
 <dd><p>Return all available geometry layer names in this model.</p>
@@ -1626,6 +1684,28 @@ defined.</p>
 <dt class="sig sig-object py" id="plate_model_manager.PlateModel.get_static_polygons">
 <span class="sig-name descname"><span class="pre">get_static_polygons</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">return_none_if_not_exist</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.14)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="_modules/plate_model_manager/plate_model.html#PlateModel.get_static_polygons"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plate_model_manager.PlateModel.get_static_polygons" title="Link to this definition"></a></dt>
 <dd><p>Return local file paths for the <code class="docutils literal notranslate"><span class="pre">StaticPolygons</span></code> layer.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="plate_model_manager.PlateModel.get_supported_reference_frames">
+<span class="sig-name descname"><span class="pre">get_supported_reference_frames</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.14)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="plate_model_manager.utils.html#plate_model_manager.utils.enums.ReferenceFrame" title="plate_model_manager.utils.enums.ReferenceFrame"><span class="pre">ReferenceFrame</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/plate_model_manager/plate_model.html#PlateModel.get_supported_reference_frames"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plate_model_manager.PlateModel.get_supported_reference_frames" title="Link to this definition"></a></dt>
+<dd><p>Return the reference frames which this model supports.</p>
+<p>If the model name ends with “pmag_ref”, we will consider it as a PMAG reference frame model.
+Otherwise, it is a mantle reference frame model by default.</p>
+<p>If the model configuration has a <cite>PmagReferenceFrameAnchorPID</cite> attribute,
+we will consider this model supports both PMAG and mantle reference frame,
+such as Zahirovic2022 model. The same rotation files can be used for both reference frames,
+but with different default anchor plate ID. For mantle reference frame, the anchor plate ID is usually 0.
+For PMAG reference frame, the anchor plate ID is usually a non-zero integer defined
+in the model configuration as <cite>PmagReferenceFrameAnchorPID</cite> attribute.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A list of supported reference frames.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)">list</a>[<a class="reference internal" href="plate_model_manager.utils.html#plate_model_manager.utils.enums.ReferenceFrame" title="plate_model_manager.utils.enums.ReferenceFrame">ReferenceFrame</a>]</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
