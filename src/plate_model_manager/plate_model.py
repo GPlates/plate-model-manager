@@ -93,6 +93,11 @@ class PlateModel:
         :raises Exception: If ``readonly=True`` and the local model directory is
             invalid.
         """
+        if reference_frame is not None and not isinstance(
+            reference_frame, ReferenceFrame
+        ):
+            raise ValueError("reference_frame must be a ReferenceFrame value or None")
+
         self.model_name = model_name.lower()
         self.meta_filename = METADATA_FILENAME
         self._model = model_cfg
@@ -110,6 +115,16 @@ class PlateModel:
             else:
                 with open(f"{self.model_dir}/{self.meta_filename}", "r") as f:
                     self._model = json.load(f)
+
+        # validate the model support the reference frame if the reference frame is specified
+        if (
+            self._reference_frame is not None
+            and self._model is not None
+            and self._reference_frame not in self.get_supported_reference_frames()
+        ):
+            raise ValueError(
+                f"reference_frame {self._reference_frame.value} is not supported by model '{self.model_name}'"
+            )
 
         if not readonly:
             # async and concurrent things
@@ -166,9 +181,11 @@ class PlateModel:
 
     def __del__(self):
         """Close the event loop when the instance is garbage collected."""
-        if not self.readonly:
+        if not getattr(self, "readonly", True):
             try:
-                self.loop.close()
+                loop = getattr(self, "loop", None)
+                if loop is not None:
+                    loop.close()
             except:
                 pass  # ignore the exception when closing the loop if any
 
@@ -277,17 +294,23 @@ class PlateModel:
             rotation_folder = f"{self.model_dir}/Rotations"
         rotation_files = glob.glob(f"{rotation_folder}/*.rot")
         rotation_files.extend(glob.glob(f"{rotation_folder}/*.grot"))
-        # print(rotation_files)
+
+        # if the reference frame is not specified, use the reference frame of this model,
+        # which may have been specified when creating this PlateModel instance
         if reference_frame is None:
             reference_frame = self._reference_frame
+
         if reference_frame == ReferenceFrame.PmagReferenceFrame:
             attrs = self.model.get("Attributes", None)
             pmag_ref_frame_anchor_pid = (
                 attrs.get("PmagReferenceFrameAnchorPID", None) if attrs else None
             )
             if pmag_ref_frame_anchor_pid is None:
-                if self._reference_frame == ReferenceFrame.PmagReferenceFrame:
-                    # if the model is already in PMAG reference frame, we can just set the anchor PID to 0
+                if (
+                    ReferenceFrame.PmagReferenceFrame
+                    in self.get_supported_reference_frames()
+                ):
+                    # this means the model is in PMAG reference frame by default, we can just return the anchor PID 0
                     pmag_ref_frame_anchor_pid = 0
                 else:
                     raise Exception(
@@ -295,7 +318,8 @@ class PlateModel:
                     )
             return rotation_files, pmag_ref_frame_anchor_pid
         else:
-            # for mantle reference frame, we don't need to know the anchor PID
+            # for mantle reference frame, which is the default, we don't need to know the anchor PID which is always 0,
+            # so we just return the rotation files
             return rotation_files
 
     def get_coastlines(
@@ -450,6 +474,8 @@ class PlateModel:
                 f"No time-dependent rasters found in this model '{self.model_name}'."
             )
 
+        # if the reference frame is not specified, use the reference frame of this model,
+        # which may have been specified when creating this PlateModel instance
         if reference_frame is None:
             reference_frame = self._reference_frame
 
@@ -489,6 +515,15 @@ class PlateModel:
                         f"Raster '{resolved_raster_name}' not found in this model '{self.model_name}', but '{name_in_config}' exists. Will use '{name_in_config}' for now."
                     )
                     return name_in_config
+
+        # the last effort to try the base raster name without any suffix,
+        # in case the model does not strictly follow the naming convention
+        name_in_config = self._best_effort_to_get_raster_name_from_config(raster_name)
+        if name_in_config is not None:
+            logger.warning(
+                f"Raster '{resolved_raster_name}' not found in this model '{self.model_name}', but '{name_in_config}' exists. Will use '{name_in_config}' for now."
+            )
+            return name_in_config
 
         raise Exception(
             f"Time-dependent rasters ({resolved_raster_name}) were not found in this model '{self.model_name}'.\n"
@@ -928,3 +963,48 @@ class PlateModel:
             raise LayerNotFoundInModel(
                 f"The layer({layer_name}) was not found in model({self.model_name})."
             )
+
+    def get_supported_reference_frames(self) -> List[ReferenceFrame]:
+        """Return the reference frames which this model supports.
+
+        If the model name ends with "pmag_ref", we will consider it as a PMAG reference frame model.
+        Otherwise, it is a mantle reference frame model by default.
+
+        If the model configuration has a `PmagReferenceFrameAnchorPID` attribute,
+        we will consider this model supports both PMAG and mantle reference frame,
+        such as Zahirovic2022 model. The same rotation files can be used for both reference frames,
+        but with different default anchor plate ID. For mantle reference frame, the anchor plate ID is usually 0.
+        For PMAG reference frame, the anchor plate ID is usually a non-zero integer defined
+        in the model configuration as `PmagReferenceFrameAnchorPID` attribute.
+
+        :returns: A list of supported reference frames.
+        :rtype: list[ReferenceFrame]
+        """
+        if self.model_name.endswith("_pmag_ref"):
+            return [ReferenceFrame.PmagReferenceFrame]
+
+        attrs = self.model.get("Attributes", {})
+        if attrs.get("PmagReferenceFrameAnchorPID") is not None:
+            return [
+                ReferenceFrame.MantleReferenceFrame,
+                ReferenceFrame.PmagReferenceFrame,
+            ]
+
+        return [ReferenceFrame.MantleReferenceFrame]
+
+    def get_anchor_id_for_pmag_reference_frame(self) -> Union[int, None]:
+        """Return the PMAG anchor plate ID when this model supports PMAG.
+
+        Models that expose PMAG through ``Attributes.PmagReferenceFrameAnchorPID``
+        return that configured anchor plate ID. Dedicated ``_pmag_ref`` models
+        use ``0`` as the implicit PMAG anchor plate ID. Mantle-only models
+        return ``None``.
+
+        :returns: PMAG anchor plate ID, or ``None`` when PMAG is unsupported.
+        :rtype: int or None
+        """
+        if self.model_name.endswith("_pmag_ref"):
+            return 0
+
+        attrs = self.model.get("Attributes", {})
+        return attrs.get("PmagReferenceFrameAnchorPID")

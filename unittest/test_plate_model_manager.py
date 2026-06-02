@@ -175,6 +175,72 @@ class ReadmeCreationTestCase(unittest.TestCase):
         self.assertIn("AgeGrids", content)
 
 
+class ReferenceFrameSupportTestCase(unittest.TestCase):
+    def test_init_rejects_invalid_reference_frame(self):
+        with self.assertRaisesRegex(
+            ValueError, "reference_frame must be a ReferenceFrame value or None"
+        ):
+            PlateModel(
+                "muller2025",
+                model_cfg={"BigTime": 100, "SmallTime": 0},
+                reference_frame="PMAG",
+            )
+
+    def test_init_rejects_unsupported_reference_frame(self):
+        with self.assertRaisesRegex(
+            ValueError,
+            "reference_frame PMAG is not supported by model 'muller2025'",
+        ):
+            PlateModel(
+                "muller2025",
+                model_cfg={"BigTime": 100, "SmallTime": 0},
+                reference_frame=ReferenceFrame.PmagReferenceFrame,
+            )
+
+    def test_get_reference_frames_for_pmag_only_model(self):
+        model = PlateModel(
+            "matthews2016_pmag_ref",
+            model_cfg={"BigTime": 100, "SmallTime": 0},
+        )
+
+        self.assertEqual(
+            model.get_supported_reference_frames(),
+            [ReferenceFrame.PmagReferenceFrame],
+        )
+        self.assertEqual(model.get_anchor_id_for_pmag_reference_frame(), 0)
+
+    def test_get_reference_frames_for_dual_frame_model(self):
+        model = PlateModel(
+            "zahirovic2022",
+            model_cfg={
+                "BigTime": 100,
+                "SmallTime": 0,
+                "Attributes": {"PmagReferenceFrameAnchorPID": 701701},
+            },
+        )
+
+        self.assertEqual(
+            model.get_supported_reference_frames(),
+            [
+                ReferenceFrame.MantleReferenceFrame,
+                ReferenceFrame.PmagReferenceFrame,
+            ],
+        )
+        self.assertEqual(model.get_anchor_id_for_pmag_reference_frame(), 701701)
+
+    def test_get_reference_frames_for_mantle_only_model(self):
+        model = PlateModel(
+            "muller2025",
+            model_cfg={"BigTime": 100, "SmallTime": 0},
+        )
+
+        self.assertEqual(
+            model.get_supported_reference_frames(),
+            [ReferenceFrame.MantleReferenceFrame],
+        )
+        self.assertIsNone(model.get_anchor_id_for_pmag_reference_frame())
+
+
 if __name__ == "__main__":
     # use the following code to run a list of tests
     # suite = unittest.TestSuite()
