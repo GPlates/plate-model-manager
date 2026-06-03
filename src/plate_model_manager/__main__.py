@@ -93,16 +93,12 @@ def _run_validate_layers_command(args):
     print(f"Layer validation passed for {checked_models} models against {base_url}.")
 
 
-def _run_collect_models_command(args):
+def _run_collect_model_command(args):
     try:
         collect_update_model.collect_model_files(
             args.model,
             args.target_dir,
             args.source,
-            upload=args.upload,
-            upload_target=args.upload_target,
-            identity_file=args.identity_file,
-            remote_path=args.remote_path,
         )
     except ValueError as exc:
         raise SystemExit(str(exc)) from exc
@@ -194,47 +190,45 @@ def main():
     )
     validate_layers_cmd.set_defaults(func=_run_validate_layers_command)
 
-    collect_models_cmd = subparser.add_parser(
-        "collect-models",
-        description=(
-            "Collect source model files from configured metadata and optionally upload "
-            "generated archives."
-        ),
-        help="collect source model files and optionally upload generated archives",
+    collect_model_cmd = subparser.add_parser(
+        "collect-model",
+        description=("Collect model files from data sources."),
+        help="collect model files from data sources",
     )
-    collect_models_cmd.add_argument(
+    collect_model_cmd.add_argument(
         "model",
         type=str,
-        help="model name to collect, or 'all' to process all configured models.",
+        help="model name to collect.",
     )
-    collect_models_cmd.add_argument(
+    collect_model_cmd.add_argument(
         "target_dir",
         type=str,
         nargs="?",
         default=".",
-        help="base directory where model folders are created.",
+        help="the folder into which to put the model files.",
     )
-    collect_models_cmd.add_argument(
+    collect_model_cmd.add_argument(
         "--source",
         default=str(collect_update_model.DEFAULT_COLLECT_MODELS_SOURCE),
-        help="path or URL to model source configuration JSON.",
+        help="path or URL to the configuration JSON of model data sources.",
     )
-    collect_models_cmd.add_argument(
+    """
+    collect_model_cmd.add_argument(
         "--upload",
         action="store_true",
         help="upload generated model files after collection.",
     )
-    collect_models_cmd.add_argument(
+    collect_model_cmd.add_argument(
         "--upload-target",
         default=collect_update_model.DEFAULT_UPLOAD_TARGET,
         help="SSH destination in the form user@host.",
     )
-    collect_models_cmd.add_argument(
+    collect_model_cmd.add_argument(
         "--identity-file",
         default=collect_update_model.DEFAULT_IDENTITY_FILE,
         help="SSH private key path for upload.",
     )
-    collect_models_cmd.add_argument(
+    collect_model_cmd.add_argument(
         "--remote-path",
         default=None,
         help=(
@@ -242,7 +236,8 @@ def main():
             "<DEFAULT_REMOTE_PATH>/<model>."
         ),
     )
-    collect_models_cmd.set_defaults(func=_run_collect_models_command)
+    """
+    collect_model_cmd.set_defaults(func=_run_collect_model_command)
 
     if len(sys.argv) == 1:
         parser.print_help(sys.stderr)

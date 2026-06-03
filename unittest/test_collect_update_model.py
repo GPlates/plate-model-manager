@@ -42,7 +42,7 @@ class CollectUpdateModelTestCase(unittest.TestCase):
                     }
                 )
             )
-            models = collect_update_model.load_collect_models(str(cfg))
+            models = collect_update_model.load_model_data_sources(str(cfg))
             self.assertEqual(
                 models["demo"]["archives"]["Rotations.zip"],
                 "https://example/Rotations.zip",
@@ -60,7 +60,9 @@ class CollectUpdateModelTestCase(unittest.TestCase):
             "plate_model_manager.utils.collect_update_model.requests.get",
             return_value=response,
         ):
-            models = collect_update_model.load_collect_models("https://example.org/sources.json")
+            models = collect_update_model.load_model_data_sources(
+                "https://example.org/sources.json"
+            )
             self.assertEqual(
                 models["demo"]["archives"]["Rotations.zip"],
                 "https://example/Rotations.zip",
@@ -70,22 +72,26 @@ class CollectUpdateModelTestCase(unittest.TestCase):
         response = mock.Mock()
         response.content = b"archive-bytes"
         response.raise_for_status.return_value = None
-        with mock.patch(
-            "plate_model_manager.utils.collect_update_model.load_collect_models",
-            return_value={
-                "rodinia": {
-                    "archives": {
-                        "Rotations.zip": "https://example/Rotations.zip",
-                        "StaticPolygons.zip": "https://example/StaticPolygons.zip",
+        with (
+            mock.patch(
+                "plate_model_manager.utils.collect_update_model.load_collect_models",
+                return_value={
+                    "rodinia": {
+                        "archives": {
+                            "Rotations.zip": "https://example/Rotations.zip",
+                            "StaticPolygons.zip": "https://example/StaticPolygons.zip",
+                        }
                     }
-                }
-            },
-        ), mock.patch(
-            "plate_model_manager.utils.collect_update_model.requests.get",
-            return_value=response,
-        ) as get_mock, mock.patch(
-            "plate_model_manager.utils.collect_update_model.upload_model_folder"
-        ) as upload_mock:
+                },
+            ),
+            mock.patch(
+                "plate_model_manager.utils.collect_update_model.requests.get",
+                return_value=response,
+            ) as get_mock,
+            mock.patch(
+                "plate_model_manager.utils.collect_update_model.upload_model_folder"
+            ) as upload_mock,
+        ):
             with tempfile.TemporaryDirectory() as tmpdir:
                 collect_update_model.collect_model_files(
                     "rodinia",
@@ -107,7 +113,7 @@ class CollectUpdateModelTestCase(unittest.TestCase):
                 )
 
     def test_default_config_contains_archive_urls(self):
-        models = collect_update_model.load_collect_models(
+        models = collect_update_model.load_model_data_sources(
             str(collect_update_model.DEFAULT_COLLECT_MODELS_SOURCE)
         )
         self.assertIn("zahirovic2022", models)
