@@ -106,6 +106,55 @@
 <section id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
 </section>
+<section id="module-plate_model_manager.utils.collect_update_model">
+<span id="plate-model-manager-utils-collect-update-model-module"></span><h2>plate_model_manager.utils.collect_update_model module<a class="headerlink" href="#module-plate_model_manager.utils.collect_update_model" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="plate_model_manager.utils.collect_update_model.collect_model">
+<span class="sig-prename descclassname"><span class="pre">plate_model_manager.utils.collect_update_model.</span></span><span class="sig-name descname"><span class="pre">collect_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'.'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'https://repo.gplates.org/webdav/pmm/config/model_sources.json'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plate_model_manager/utils/collect_update_model.html#collect_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plate_model_manager.utils.collect_update_model.collect_model" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="plate_model_manager.utils.collect_update_model.create_hex_hash_sidecar_files">
+<span class="sig-prename descclassname"><span class="pre">plate_model_manager.utils.collect_update_model.</span></span><span class="sig-name descname"><span class="pre">create_hex_hash_sidecar_files</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plate_model_manager/utils/collect_update_model.html#create_hex_hash_sidecar_files"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plate_model_manager.utils.collect_update_model.create_hex_hash_sidecar_files" title="Link to this definition"></a></dt>
+<dd><p>Create SHA256 hash sidecar files for all .zip files in the given directory.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="plate_model_manager.utils.collect_update_model.upload_model">
+<span class="sig-prename descclassname"><span class="pre">plate_model_manager.utils.collect_update_model.</span></span><span class="sig-name descname"><span class="pre">upload_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remote_target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">identity_file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plate_model_manager/utils/collect_update_model.html#upload_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plate_model_manager.utils.collect_update_model.upload_model" title="Link to this definition"></a></dt>
+<dd><p>Upload a plate model folder to a remote server via SCP.</p>
+<p>This function uploads all files in the specified model directory to a remote
+server. Before uploading, it creates SHA256 hash sidecar files for all .zip
+files in the directory. Existing files on the remote server are archived with
+a timestamp before the new files are uploaded.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model_path</strong> – Path to the local model directory containing files to upload.</p></li>
+<li><p><strong>remote_target</strong> – Remote destination in the format <a class="reference external" href="mailto:'user&#37;&#52;&#48;host">‘user<span>&#64;</span>host</a>:path’.
+The model name will be appended to the path automatically.</p></li>
+<li><p><strong>identity_file</strong> – Path to the SSH private key file for authentication.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#RuntimeError" title="(in Python v3.14)"><strong>RuntimeError</strong></a> – If no files are found in the model directory or if the
+    SSH connection to the remote host fails.</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#AssertionError" title="(in Python v3.14)"><strong>AssertionError</strong></a> – If the remote_target format is invalid (must contain ‘:’).</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<dl class="simple">
+<dt>upload_model(</dt><dd><p>“models/muller2022”,
+“<a class="reference external" href="mailto:ubuntu&#37;&#52;&#48;example&#46;com">ubuntu<span>&#64;</span>example<span>&#46;</span>com</a>:/data/models”,
+“~/.ssh/id_rsa”</p>
+</dd>
+</dl>
+<p>)</p>
+</dd></dl>
+
+</section>
 <section id="module-plate_model_manager.utils.download">
 <span id="plate-model-manager-utils-download-module"></span><h2>plate_model_manager.utils.download module<a class="headerlink" href="#module-plate_model_manager.utils.download" title="Link to this heading"></a></h2>
 <dl class="py class">

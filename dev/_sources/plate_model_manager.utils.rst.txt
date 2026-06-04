@@ -4,6 +4,14 @@ plate\_model\_manager.utils package
 Submodules
 ----------
 
+plate\_model\_manager.utils.collect\_update\_model module
+---------------------------------------------------------
+
+.. automodule:: plate_model_manager.utils.collect_update_model
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
 plate\_model\_manager.utils.download module
 -------------------------------------------
 
