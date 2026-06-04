@@ -42,7 +42,7 @@ class CollectUpdateModelTestCase(unittest.TestCase):
                     }
                 )
             )
-            models = collect_update_model.load_model_data_sources(str(cfg))
+            models = collect_update_model._load_model_data_sources(str(cfg))
             self.assertEqual(
                 models["demo"]["archives"]["Rotations.zip"],
                 "https://example/Rotations.zip",
@@ -60,7 +60,7 @@ class CollectUpdateModelTestCase(unittest.TestCase):
             "plate_model_manager.utils.collect_update_model.requests.get",
             return_value=response,
         ):
-            models = collect_update_model.load_model_data_sources(
+            models = collect_update_model._load_model_data_sources(
                 "https://example.org/sources.json"
             )
             self.assertEqual(
@@ -93,7 +93,7 @@ class CollectUpdateModelTestCase(unittest.TestCase):
             ) as upload_mock,
         ):
             with tempfile.TemporaryDirectory() as tmpdir:
-                collect_update_model.collect_model_files(
+                collect_update_model.collect_model(
                     "rodinia",
                     tmpdir,
                     "/tmp/sources.json",
@@ -109,11 +109,11 @@ class CollectUpdateModelTestCase(unittest.TestCase):
                     Path(tmpdir, "rodinia"),
                     "u@h",
                     "/tmp/key",
-                    f"{collect_update_model.DEFAULT_REMOTE_PATH}/rodinia",
+                    f"{collect_update_model.DEFAULT_REMOTE_TARGET}/rodinia",
                 )
 
     def test_default_config_contains_archive_urls(self):
-        models = collect_update_model.load_model_data_sources(
+        models = collect_update_model._load_model_data_sources(
             str(collect_update_model.DEFAULT_COLLECT_MODELS_SOURCE)
         )
         self.assertIn("zahirovic2022", models)

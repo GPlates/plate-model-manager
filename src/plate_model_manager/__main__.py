@@ -95,10 +95,21 @@ def _run_validate_layers_command(args):
 
 def _run_collect_model_command(args):
     try:
-        collect_update_model.collect_model_files(
+        collect_update_model.collect_model(
             args.model,
             args.target_dir,
             args.source,
+        )
+    except ValueError as exc:
+        raise SystemExit(str(exc)) from exc
+
+
+def _run_upload_model_command(args):
+    try:
+        collect_update_model.upload_model(
+            args.model_path,
+            args.remote_target,
+            args.ssh_key,
         )
     except ValueError as exc:
         raise SystemExit(str(exc)) from exc
@@ -212,32 +223,34 @@ def main():
         default=str(collect_update_model.DEFAULT_COLLECT_MODELS_SOURCE),
         help="path or URL to the configuration JSON of model data sources.",
     )
-    """
-    collect_model_cmd.add_argument(
-        "--upload",
-        action="store_true",
-        help="upload generated model files after collection.",
+
+    collect_model_cmd.set_defaults(func=_run_collect_model_command)
+
+    upload_model_cmd = subparser.add_parser(
+        "upload-model",
+        description=("Upload model files to a remote destination."),
+        help="upload model files to a remote destination",
     )
-    collect_model_cmd.add_argument(
-        "--upload-target",
-        default=collect_update_model.DEFAULT_UPLOAD_TARGET,
-        help="SSH destination in the form user@host.",
+
+    upload_model_cmd.add_argument(
+        "model_path",
+        type=str,
+        help="path to the model files to upload.",
     )
-    collect_model_cmd.add_argument(
-        "--identity-file",
+
+    upload_model_cmd.add_argument(
+        "--remote-target",
+        default=collect_update_model.DEFAULT_REMOTE_TARGET,
+        help=("Remote target for upload, in the format of user@host:path."),
+    )
+
+    upload_model_cmd.add_argument(
+        "--ssh-key",
         default=collect_update_model.DEFAULT_IDENTITY_FILE,
         help="SSH private key path for upload.",
     )
-    collect_model_cmd.add_argument(
-        "--remote-path",
-        default=None,
-        help=(
-            "Remote path for upload. For single model runs, defaults to "
-            "<DEFAULT_REMOTE_PATH>/<model>."
-        ),
-    )
-    """
-    collect_model_cmd.set_defaults(func=_run_collect_model_command)
+
+    upload_model_cmd.set_defaults(func=_run_upload_model_command)
 
     if len(sys.argv) == 1:
         parser.print_help(sys.stderr)

@@ -177,8 +177,10 @@ class FileFetcher(metaclass=abc.ABCMeta):
     def _save_file(self, filepath, filename, data):
         """helper function to save file to hard drive"""
 
-        Path(filepath).mkdir(parents=True, exist_ok=True)
-        if os.path.isfile(f"{filepath}/{filename}"):
+        output_dir = Path(filepath)
+        output_dir.mkdir(parents=True, exist_ok=True)
+        output_file = output_dir / filename
+        if output_file.is_file():
             print(f"Warning: overwriting {filename}")
-        with open(f"{filepath}/{filename}", "wb+") as of:
+        with open(output_file, "wb+") as of:
             of.write(data)

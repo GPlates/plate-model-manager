@@ -3,17 +3,17 @@
     "SvrBaseURL": "https://repo.gplates.org/webdav/pmm"
   },
   "default": "@zahirovic2022",
-  "muller2025": "@shirmard2025",
-  "shirmard2025": {
+  "shirmard2025": "@muller2025",
+  "muller2025": {
     "BigTime": 1800,
     "SmallTime": 0,
-    "Rotations": "@<<SvrBaseURL>>@/shirmard2025/Rotations.zip",
+    "Rotations": "@<<SvrBaseURL>>@/muller2025/Rotations.zip",
     "Layers": {
-      "StaticPolygons": "@<<SvrBaseURL>>@/shirmard2025/StaticPolygons.zip",
-      "Coastlines": "@<<SvrBaseURL>>@/shirmard2025/Coastlines.zip",
-      "ContinentalPolygons": "@<<SvrBaseURL>>@/shirmard2025/ContinentalPolygons.zip",
-      "Topologies": "@<<SvrBaseURL>>@/shirmard2025/Topologies.zip",
-      "COBs": "@<<SvrBaseURL>>@/shirmard2025/COBs.zip"
+      "StaticPolygons": "@<<SvrBaseURL>>@/muller2025/StaticPolygons.zip",
+      "Coastlines": "@<<SvrBaseURL>>@/muller2025/Coastlines.zip",
+      "ContinentalPolygons": "@<<SvrBaseURL>>@/muller2025/ContinentalPolygons.zip",
+      "Topologies": "@<<SvrBaseURL>>@/muller2025/Topologies.zip",
+      "COBs": "@<<SvrBaseURL>>@/muller2025/COBs.zip"
     },
     "TimeDepRasters": {
       "AgeGrids": "https://repo.gplates.org/webdav/PlateModel_Age_SR_Grids/Muller_etal_2025/SeafloorAge/SEAFLOOR_AGE_grid_{:.2f}Ma.nc",
@@ -100,7 +100,8 @@
       "ContinentalPolygons": "@<<SvrBaseURL>>@/muller2022/ContinentalPolygons.zip",
       "Topologies": "@<<SvrBaseURL>>@/muller2022/Topologies.zip",
       "COBs": "@<<SvrBaseURL>>@/muller2022/COBs.zip",
-      "Cratons": "@<<SvrBaseURL>>@/muller2022/Cratons.zip"
+      "Cratons": "@<<SvrBaseURL>>@/muller2022/Cratons.zip",
+      "PaleomagneticData": "@<<SvrBaseURL>>@/muller2022/PaleomagneticData.zip"
     },
     "TimeDepRasters": {
       "AgeGrids": "https://repo.gplates.org/webdav/PlateModel_Age_SR_Grids/Muller_etal_2022_SE/v1.2.1/Muller_etal_2022_SE_mantle-ref-frame-oceanic-crustal-agegrids_v1.2.1/Muller2022_SEAFLOOR_AGE_grid_{:.1f}Ma.nc",
