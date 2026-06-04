@@ -244,9 +244,7 @@ class FileDownloader:
             "etag": self.new_etag,
             "sha256": self.new_sha256,
         }
-        Path("/".join(self.meta_filepath.split("/")[:-1])).mkdir(
-            parents=True, exist_ok=True
-        )
+        Path(self.meta_filepath).parent.mkdir(parents=True, exist_ok=True)
         with open(self.meta_filepath, "w+") as f:
             json.dump(metadata, f)
 

@@ -1,0 +1,675 @@
+{
+  "alfonso2024": {
+    "ZenodoID": "11392268",
+    "ZenodoFiles": [
+      "alfonso2024.zip"
+    ],
+    "Rotations": [
+      "**/Rotations/*.rot",
+      "**/DeformingMeshes/*.rot"
+    ],
+    "Layers": {
+      "COBs": [
+        "**/COBs/*"
+      ],
+      "Coastlines": [
+        "**/Coastlines/*"
+      ],
+      "ContinentalPolygons": [
+        "**/ContinentalPolygons/*"
+      ],
+      "Isochrons": [
+        "**/Isochrons/*"
+      ],
+      "StaticPolygons": [
+        "**/StaticPolygons/*.gpml"
+      ],
+      "Terranes": [
+        "**/Terranes/**"
+      ],
+      "Topologies": [
+        "**/Topologies/*.gpml"
+      ]
+    }
+  },
+  "cao2024": {
+    "ZenodoID": "11536686",
+    "ZenodoFiles": [
+      "1.8Ga_model_GSF.zip"
+    ],
+    "Rotations": [
+      "**/*.rot"
+    ],
+    "Layers": {
+      "COBs": [
+        "**/COBfile_1800_0.gpml"
+      ],
+      "Coastlines": [
+        "**/shapes_coasts.gpmlz"
+      ],
+      "ContinentalPolygons": [
+        "**/shapes_continents.gpmlz"
+      ],
+      "StaticPolygons": [
+        "**/static_polygons.gpmlz"
+      ],
+      "Topologies": [
+        "**/1000-410_plate_boundaries.gpml",
+        "**/1800-1000_plate_boundaries.gpml",
+        "**/250-0_plate_boundaries.gpml",
+        "**/410-250_plate_boundaries.gpml",
+        "**/TopologyBuildingBlocks.gpml"
+      ]
+    }
+  },
+  "clennett2020_m2019": {
+    "ZenodoID": "10348270",
+    "ZenodoFiles": [
+      "Clennett_etal_2020_M2019.zip"
+    ],
+    "Rotations": [
+      "**/Rotations/*.rot",
+      "**/DeformingMeshes/*.rot"
+    ],
+    "Layers": {
+      "COBs": [
+        "**/COBs/"
+      ],
+      "Coastlines": [
+        "**/Coastlines/Clennett_etal_2020_Coastlines.gpml"
+      ],
+      "ContinentalPolygons": [
+        "**/ContinentalPolygons/"
+      ],
+      "StaticPolygons": [
+        "**/StaticPolygons/Clennett_2020_StaticPolygons.gpml"
+      ],
+      "Terranes": [
+        "**/Terranes/"
+      ],
+      "Topologies": [
+        "**/DeformingMeshes/*.gpml",
+        "**/PlateBoundaries/*.gpml"
+      ]
+    }
+  },
+  "clennett2020_s2013": {
+    "ZenodoID": "10348270",
+    "ZenodoFiles": [
+      "Clennett_etal_2020_S2013.zip"
+    ],
+    "Rotations": [
+      "**/Rotations/*.rot"
+    ],
+    "Layers": {
+      "Coastlines": [
+        "**/Coastlines/Clennett_etal_2020_Coastlines.gpml"
+      ],
+      "StaticPolygons": [
+        "**/StaticPolygons/Clennett_2020_StaticPolygons.gpml"
+      ],
+      "Terranes": [
+        "**/Terranes/"
+      ],
+      "Topologies": [
+        "**/PlateBoundaries/*.gpml"
+      ]
+    }
+  },
+  "domeier2014": {
+    "URLs": [
+      "https://www.earthbyte.org/webdav/ftp/incoming/mchin/plate-models/DOMEIER2014/LP_TPW.rot",
+      "https://www.earthbyte.org/webdav/ftp/incoming/mchin/plate-models/DOMEIER2014/LP_land.shp",
+      "https://www.earthbyte.org/webdav/ftp/incoming/mchin/plate-models/DOMEIER2014/LP_land.dbf",
+      "https://www.earthbyte.org/webdav/ftp/incoming/mchin/plate-models/DOMEIER2014/LP_land.prj",
+      "https://www.earthbyte.org/webdav/ftp/incoming/mchin/plate-models/DOMEIER2014/LP_land.shx",
+      "https://www.earthbyte.org/webdav/ftp/incoming/mchin/plate-models/DOMEIER2014/LP_land.shp.gplates.xml",
+      "https://www.earthbyte.org/webdav/ftp/incoming/mchin/plate-models/DOMEIER2014/LP_topos.gpml",
+      "https://www.earthbyte.org/webdav/ftp/incoming/mchin/plate-models/DOMEIER2014/LP_transform.gpml",
+      "https://www.earthbyte.org/webdav/ftp/incoming/mchin/plate-models/DOMEIER2014/LP_ridge.gpml",
+      "https://www.earthbyte.org/webdav/ftp/incoming/mchin/plate-models/DOMEIER2014/LP_subduction.gpml"
+    ],
+    "Rotations": [
+      "**/LP_TPW.rot"
+    ],
+    "Layers": {
+      "Coastlines": [
+        "**/LP_land.*"
+      ],
+      "StaticPolygons": [
+        "**/LP_land.*"
+      ],
+      "Topologies": [
+        "**/LP_topos.gpml",
+        "**/LP_transform.gpml",
+        "**/LP_ridge.gpml",
+        "**/LP_subduction.gpml"
+      ]
+    }
+  },
+  "gibbons2015": {
+    "ZenodoID": "10595658",
+    "ZenodoFiles": [
+      "Gibbons_etal_2015_GR_PlateModel.zip"
+    ],
+    "Rotations": [
+      "**/Rotations/*.rot"
+    ],
+    "Layers": {
+      "Coastlines": [
+        "**/Coastlines/*"
+      ],
+      "StaticPolygons": [
+        "**/StaticPolygons/*.gpmlz"
+      ],
+      "Topologies": [
+        "**/Topologies/*"
+      ]
+    }
+  },
+  "golonka": {
+    "URLs": [
+      "https://www.earthbyte.org/webdav/ftp/incoming/mchin/plate-models/GOLONKA/Phanerozoic_EarthByte.rot",
+      "https://www.earthbyte.org/webdav/ftp/incoming/mchin/plate-models/GOLONKA/Phanerozoic_EarthByte_Coastlines.gpmlz",
+      "https://www.earthbyte.org/webdav/ftp/incoming/mchin/plate-models/GOLONKA/Phanerozoic_EarthByte_ContinentalRegions.gpmlz"
+    ],
+    "Rotations": [
+      "**/Phanerozoic_EarthByte.rot"
+    ],
+    "Layers": {
+      "Coastlines": [
+        "**/Phanerozoic_EarthByte_Coastlines.gpmlz"
+      ],
+      "StaticPolygons": [
+        "**/Phanerozoic_EarthByte_ContinentalRegions.gpmlz"
+      ]
+    }
+  },
+  "gurnis2012": {
+    "ZenodoID": "10596349",
+    "ZenodoFiles": [
+      "Gurnis_etal_2012_CompGeosci.zip"
+    ],
+    "Rotations": [
+      "**/Rotations/*.rot"
+    ],
+    "Layers": {
+      "Coastlines": [
+        "**/Coastlines/*"
+      ],
+      "StaticPolygons": [
+        "**/StaticPolygons/*"
+      ],
+      "Topologies": [
+        "**/Topologies/*"
+      ]
+    }
+  },
+  "matthews2016_mantle_ref": {
+    "ZenodoID": "10526156",
+    "ZenodoFiles": [
+      "Matthews_etal_2016_GPC.zip"
+    ],
+    "Rotations": [
+      "**/CorrectedModel/Rotations/*.rot"
+    ],
+    "Layers": {
+      "COBs": [
+        "**/CorrectedModel/StaticGeometries/ContinentalPolygons/*.*"
+      ],
+      "Coastlines": [
+        "**/CorrectedModel/StaticGeometries/Coastlines/*.*"
+      ],
+      "ContinentalPolygons": [
+        "**/CorrectedModel/StaticGeometries/ContinentalPolygons/*.*"
+      ],
+      "StaticPolygons": [
+        "**/CorrectedModel/StaticGeometries/StaticPolygons/*.*"
+      ],
+      "Topologies": [
+        "**/CorrectedModel/Topologies/*.gpml"
+      ]
+    }
+  },
+  "matthews2016_pmag_ref": {
+    "URLs": [
+      "https://www.earthbyte.org/webdav/ftp/incoming/mchin/plate-models/MATTHEWS2016_pmag_ref/Matthews_etal_PMAG_PacificCorrected_fixed_crossovers.rot",
+      "https://www.earthbyte.org/webdav/ftp/incoming/mchin/plate-models/MATTHEWS2016_pmag_ref/Matthews_etal_2016_ContinentalPolygons.gpmlz",
+      "https://www.earthbyte.org/webdav/ftp/incoming/mchin/plate-models/MATTHEWS2016_pmag_ref/Matthews_etal_2016_CoastlineBlocks.gpmlz",
+      "https://www.earthbyte.org/webdav/ftp/incoming/mchin/plate-models/MATTHEWS2016_pmag_ref/Matthews_etal_2016_StaticPolygons.gpmlz"
+    ],
+    "Rotations": [
+      "**/Matthews_etal_PMAG_PacificCorrected_fixed_crossovers.rot"
+    ],
+    "Layers": {
+      "COBs": [
+        "**/Matthews_etal_2016_ContinentalPolygons.gpmlz"
+      ],
+      "Coastlines": [
+        "**/Matthews_etal_2016_CoastlineBlocks.gpmlz"
+      ],
+      "ContinentalPolygons": [
+        "**/Matthews_etal_2016_ContinentalPolygons.gpmlz"
+      ],
+      "StaticPolygons": [
+        "**/Matthews_etal_2016_StaticPolygons.gpmlz"
+      ]
+    },
+    "Notes": "this model does not provide COBs, use the continental polygons as COBs."
+  },
+  "merdith2021": {
+    "ZenodoID": "10346399",
+    "ZenodoFiles": [
+      "Merdith_etal_2021_ESR_v1.2.4.zip"
+    ],
+    "Rotations": [
+      "**/Rotations/1000_0_rotfile_Merdith_etal.rot"
+    ],
+    "Layers": {
+      "COBs": [
+        "**/Continents/shapes_continents.gpml"
+      ],
+      "Coastlines": [
+        "**/Coastlines/shapes_coastlines_Merdith_et_al_v2.gpmlz"
+      ],
+      "ContinentalPolygons": [
+        "**/Continents/shapes_continents.gpml"
+      ],
+      "StaticPolygons": [
+        "**/StaticPolygons/shapes_static_polygons_Merdith_etal.gpml"
+      ],
+      "Topologies": [
+        "**/Topologies/*.gpml"
+      ],
+      "Cratons": [
+        "**/Cratons/shapes_cratons_Merdith_etal.gpml"
+      ]
+    },
+    "Notes": "this model does not provide COBs, use the continental polygons as COBs."
+  },
+  "muller2008": {
+    "URLs": [
+      "https://earthbyte.org/webdav/ftp/incoming/mchin/plate-models/MULLER2008/Global_Model_Rigid_Internal_Release_2010/Global_EarthByte_GPlates_Rotation_20100927.rot",
+      "https://earthbyte.org/webdav/ftp/incoming/mchin/plate-models/MULLER2008/Global_Model_Rigid_Internal_Release_2010/Global_EarthByte_GPlates_PresentDay_StaticPlatePolygons_20100927.gpml"
+    ],
+    "Rotations": [
+      "**/Global_EarthByte_GPlates_Rotation_20100927.rot"
+    ],
+    "Layers": {
+      "StaticPolygons": [
+        "**/Global_EarthByte_GPlates_PresentDay_StaticPlatePolygons_20100927.gpml"
+      ]
+    }
+  },
+  "muller2016": {
+    "ZenodoID": "10565444",
+    "ZenodoFiles": [
+      "Muller_etal_2016_AREPS_Supp_v1.17.zip"
+    ],
+    "Rotations": [
+      "**/Rotations/*.rot"
+    ],
+    "Layers": {
+      "COBs": [
+        "**/COB_Terranes/*.*"
+      ],
+      "Coastlines": [
+        "**/Shapefiles/Coastlines/*.*"
+      ],
+      "StaticPolygons": [
+        "**/Shapefiles/StaticPolygons/*.*"
+      ],
+      "Topologies": [
+        "**/Topologies/*.*"
+      ]
+    }
+  },
+  "muller2019": {
+    "ZenodoID": "10525286",
+    "ZenodoFiles": [
+      "Muller_etal_2019_Tectonics_PlateMotionModel_v3.0.zip"
+    ],
+    "URLs": [
+      "https://www.earthbyte.org/webdav/ftp/earthbyte/GPlates/GPlates2.3_GeoData/Individual/IgneousProvinces.zip",
+      "https://www.earthbyte.org/webdav/ftp/earthbyte/GPlates/GPlates2.3_GeoData/Individual/Hotspots.zip",
+      "https://www.earthbyte.org/webdav/ftp/earthbyte/GPlates/GPlates2.3_GeoData/Individual/SeafloorFabric.zip"
+    ],
+    "Rotations": [
+      "**/SimplifiedFiles/*.rot"
+    ],
+    "Layers": {
+      "COBs": [
+        "**/StaticGeometries/COBLineSegments/Global_COBLineSegments_2019_v1.gpmlz"
+      ],
+      "Coastlines": [
+        "**/SimplifiedFiles/Muller_etal_2019_Global_Coastlines.gpmlz"
+      ],
+      "ContinentalPolygons": [
+        "**/StaticGeometries/ContinentalPolygons/*"
+      ],
+      "StaticPolygons": [
+        "**/SimplifiedFiles/Muller_etal_2019_Global_StaticPlatePolygons.gpmlz"
+      ],
+      "Topologies": [
+        "**/SimplifiedFiles/Muller_etal_2019_PlateBoundaries_DeformingNetworks.gpmlz"
+      ],
+      "Whittaker2015LIPs": [
+        "**/IgneousProvinces/Whittaker_2015/Whittaker_etal_2015_LIPs.gpmlz"
+      ],
+      "Johansson2018LIPs": [
+        "**/IgneousProvinces/Johansson_2018/Johansson_etal_2018_VolcanicProvinces_v2.gpmlz"
+      ],
+      "Hotspots": [
+        "**/Hotspots/Hotspots_Compilation_Whittaker_etal.gpmlz"
+      ],
+      "SeafloorFabric": [
+        "**/SeafloorFabric/*.gpmlz"
+      ]
+    }
+  },
+  "muller2022": {
+    "ZenodoID": "10297173",
+    "ZenodoFiles": [
+      "Muller_etal_2022_SE_v1.2.4.zip"
+    ],
+    "Rotations": [
+      "**/optimisation/1000_0_rotfile_Merdith_etal_opt.rot"
+    ],
+    "Layers": {
+      "COBs": [
+        "**/COB_Coasts/COB_polygons_and_coastlines_combined_1000_0_Merdith_etal.gpml"
+      ],
+      "Coastlines": [
+        "**/Coastlines/shapes_coastlines_Merdith_etal.gpmlz"
+      ],
+      "ContinentalPolygons": [
+        "**/Continents/shapes_continents.gpml"
+      ],
+      "StaticPolygons": [
+        "**/StaticPolygons/shapes_static_polygons_Merdith_etal.gpml"
+      ],
+      "Topologies": [
+        "**/Topologies/1000-410-Convergence.gpml",
+        "**/Topologies/1000-410-Divergence.gpml",
+        "**/Topologies/1000-410-Topologies.gpml",
+        "**/Topologies/250-0_plate_bounds.gpml",
+        "**/Topologies/410-250_plate_bounds.gpml",
+        "**/Topologies/TopologyBuildingBlocks.gpml",
+        "**/Topologies/1000-410-Transforms.gpml"
+      ],
+      "Cratons": [
+        "**/Cratons/shapes_cratons_Merdith_etal.gpml"
+      ],
+      "PaleomagneticData": [
+        "**/PaleomagneticData/*.gpml"
+      ]
+    }
+  },
+  "paleomap": {
+    "ZenodoID": "10596609",
+    "ZenodoFiles": [
+      "Scotese_PaleoAtlas_2016_v3.zip"
+    ],
+    "URLs": [
+      "https://www.earthbyte.org/webdav/ftp/incoming/mchin/plate-models/PALEOMAP/PALEOMAP_coastlines.gpmlz"
+    ],
+    "Rotations": [
+      "**/PALEOMAP Global Plate Model/*.rot"
+    ],
+    "Layers": {
+      "Coastlines": [
+        "**/PALEOMAP_coastlines.gpmlz"
+      ],
+      "StaticPolygons": [
+        "**/PALEOMAP Global Plate Model/PALEOMAP_PlatePolygons.gpml"
+      ]
+    }
+  },
+  "rodinia": {
+    "URLs": [
+      "https://www.earthbyte.org/webdav/ftp/incoming/mchin/plate-models/RODINIA2013/Li_Rodinia_v2013.rot",
+      "https://www.earthbyte.org/webdav/ftp/incoming/mchin/plate-models/RODINIA2013/Li_Rodinia_v2013_Coastlines.gpmlz",
+      "https://www.earthbyte.org/webdav/ftp/incoming/mchin/plate-models/RODINIA2013/Li_Rodinia_v2013_StaticPolygons.gpmlz"
+    ],
+    "Rotations": [
+      "**/Li_Rodinia_v2013.rot"
+    ],
+    "Layers": {
+      "Coastlines": [
+        "**/Li_Rodinia_v2013_Coastlines.gpmlz"
+      ],
+      "StaticPolygons": [
+        "**/Li_Rodinia_v2013_StaticPolygons.gpmlz"
+      ]
+    }
+  },
+  "scotese_and_wright2018": {
+    "URLs": [
+      "https://earthbyte.org/webdav/ftp/incoming/mchin/plate-models/ScoteseAndWright2018/Scotese_Wright_plate_model_2018.zip"
+    ],
+    "Rotations": [
+      "**/Scotese_Wright_PlateModel.rot"
+    ],
+    "Layers": {
+      "COBs": [
+        "**/Scotese_Wright_ContinentalPolygons.gpml"
+      ],
+      "ContinentalPolygons": [
+        "**/Scotese_Wright_ContinentalPolygons.gpml"
+      ],
+      "StaticPolygons": [
+        "**/Scotese_Wright_ContinentalPolygons.gpml"
+      ],
+      "Topologies": [
+        "**/Scotese_Wright_PlateBoundaries.gpml"
+      ]
+    },
+    "Notes": "this model does not provide COBs, use the continental polygons as COBs."
+  },
+  "seton2012": {
+    "ZenodoID": "10596049",
+    "ZenodoFiles": [
+      "Seton_etal_2012_ESR.zip"
+    ],
+    "URLs": [
+      "https://www.earthbyte.org/webdav/ftp/incoming/mchin/plate-models/SETON2012/Seton_etal_ESR2012_Coastlines_2012.1_Polygon.gpmlz"
+    ],
+    "Rotations": [
+      "**/Rotations/*.rot"
+    ],
+    "Layers": {
+      "COBs": [
+        "**/COBs/Seton_etal_ESR2012_COB.1.gpml"
+      ],
+      "Coastlines": [
+        "**/Seton_etal_ESR2012_Coastlines_2012.1_Polygon.gpmlz"
+      ],
+      "ContinentalPolygons": [
+        "**/Topologies/*ContinentalPolygons.gpmlz"
+      ],
+      "StaticPolygons": [
+        "**/StaticPolygons/Seton_etal_ESR2012_StaticPolygons.1.gpmlz"
+      ],
+      "Topologies": [
+        "**/Topologies/Seton_etal_ESR2012_PP_2012.1.gpml"
+      ]
+    }
+  },
+  "shephard2013": {
+    "ZenodoID": "10595888",
+    "ZenodoFiles": [
+      "Shephard_etal_2013_ESR.zip"
+    ],
+    "Rotations": [
+      "**/Rotations/*.rot"
+    ],
+    "Layers": {
+      "Coastlines": [
+        "**/Coastlines/Shephard_etal_ESR2013_Coastlines.gpml"
+      ],
+      "StaticPolygons": [
+        "**/StaticPolygons/Shephard_etal_ESR2013_staticpolygons.gpml"
+      ],
+      "Topologies": [
+        "**/PlateBoundaries/Shephard_etal_ESR2013_platebounds.gpml"
+      ]
+    }
+  },
+  "muller2025": {
+    "ZenodoID": "15233548",
+    "ZenodoFiles": [
+      "Cao_etal_2024_1.8_Ga_mantle_ref_frame.zip"
+    ],
+    "Rotations": [
+      "**/optimisation/1800_1000_rotfile_20240725.rot",
+      "**/optimisation/1000_0_rotfile_20240725.rot"
+    ],
+    "Layers": {
+      "COBs": [
+        "**/COBfile_1800_0.gpml"
+      ],
+      "Coastlines": [
+        "**/shapes_coasts.gpmlz"
+      ],
+      "ContinentalPolygons": [
+        "**/shapes_continents.gpmlz"
+      ],
+      "StaticPolygons": [
+        "**/static_polygons.gpmlz"
+      ],
+      "Topologies": [
+        "**/1000-410-plate-boundaries.gpml",
+        "**/1800-1000_plate_boundaries.gpml",
+        "**/250-0_plate_boundaries.gpml",
+        "**/410-250_plate_boundaries.gpml",
+        "**/TopologyBuildingBlocks.gpml",
+        "**/1000-410-Convergence.gpml",
+        "**/1000-410-Divergence.gpml",
+        "**/1000-410-Transforms.gpml"
+      ]
+    }
+  },
+  "torsvikcocks2017": {
+    "URLs": [
+      "https://www.earthdynamics.org/earthhistory/bookdata/CEED6.zip"
+    ],
+    "Rotations": [
+      "**/*.rot"
+    ],
+    "Layers": {
+      "Coastlines": [
+        "**/CEED6_LAND.*",
+        "**/CEED6_MICROCONTINENTS.*"
+      ],
+      "StaticPolygons": [
+        "**/CEED6_LAND.*",
+        "**/CEED6_MICROCONTINENTS.*"
+      ]
+    }
+  },
+  "young2018": {
+    "ZenodoID": "10525369",
+    "ZenodoFiles": [
+      "Young_etal_2018_GeosciFrontiers.zip"
+    ],
+    "Rotations": [
+      "**/Rotations/*.rot"
+    ],
+    "Layers": {
+      "COBs": [
+        "**/ContinentalPolygons/*"
+      ],
+      "Coastlines": [
+        "**/Coastlines/*"
+      ],
+      "ContinentalPolygons": [
+        "**/ContinentalPolygons/*"
+      ],
+      "StaticPolygons": [
+        "**/StaticPolygons/*"
+      ],
+      "Topologies": [
+        "**/Topologies/*.gpml"
+      ]
+    },
+    "Notes": "this model does not provide COBs, use the continental polygons as COBs."
+  },
+  "zahirovic2014": {
+    "ZenodoID": "10595658",
+    "ZenodoFiles": [
+      "Zahirovic_etal_2014_SE.zip"
+    ],
+    "Rotations": [
+      "**/Tectonic_Reconstruction_Model/*.rot"
+    ],
+    "Layers": {
+      "Coastlines": [
+        "**/Tectonic_Reconstruction_Model/Coastlines/*.gpmlz"
+      ],
+      "StaticPolygons": [
+        "**/Tectonic_Reconstruction_Model/StaticPolygons/*.gpmlz"
+      ]
+    }
+  },
+  "zahirovic2016": {
+    "ZenodoID": "10531296",
+    "ZenodoFiles": [
+      "Zahirovic_etal_2016_ESR.zip"
+    ],
+    "Rotations": [
+      "**/02_RefinedPlateReconstructions/Rotations/*.rot",
+      "**/02_RefinedPlateReconstructions/00_Zahirovic_etal_2016_SEAsia/*.rot"
+    ],
+    "Layers": {
+      "COBs": [
+        "**/02_RefinedPlateReconstructions/00_Zahirovic_etal_2016_SEAsia/StaticGeometries/ContinentalPolygons/*"
+      ],
+      "Coastlines": [
+        "**/02_RefinedPlateReconstructions/Coastlines/*.*"
+      ],
+      "ContinentalPolygons": [
+        "**/02_RefinedPlateReconstructions/00_Zahirovic_etal_2016_SEAsia/StaticGeometries/ContinentalPolygons/*"
+      ],
+      "Isochrons": [
+        "**/02_RefinedPlateReconstructions/00_Zahirovic_etal_2016_SEAsia/StaticGeometries/Isochrons/*.*"
+      ],
+      "StaticPolygons": [
+        "**/02_RefinedPlateReconstructions/StaticPolygons/*.*"
+      ],
+      "Topologies": [
+        "**/02_RefinedPlateReconstructions/00_Zahirovic_etal_2016_SEAsia/*.gpml"
+      ]
+    },
+    "Notes": "this model does not provide COBs, use the continental polygons as COBs."
+  },
+  "zahirovic2022": {
+    "ZenodoID": "4729045",
+    "ZenodoFiles": [
+      "PlateMotionModel_and_GeometryFiles.zip"
+    ],
+    "Rotations": [
+      "**/CombinedRotations.rot"
+    ],
+    "Layers": {
+      "COBs": [
+        "**/StaticGeometries/ContinentalPolygons/*"
+      ],
+      "Coastlines": [
+        "**/StaticGeometries/Coastlines/*"
+      ],
+      "ContinentalPolygons": [
+        "**/StaticGeometries/ContinentalPolygons/*"
+      ],
+      "StaticPolygons": [
+        "**/StaticGeometries/StaticPolygons/*"
+      ],
+      "Topologies": [
+        "**/Plate_Boundaries.gpml",
+        "**/Feature_Geometries.gpml",
+        "**/Deforming_Networks_Inactive.gpml",
+        "**/Deforming_Networks_Active.gpml"
+      ]
+    },
+    "Notes": "this model does not provide COBs, use the continental polygons as COBs."
+  }
+}

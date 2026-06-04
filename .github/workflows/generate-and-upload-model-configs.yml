@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - "config/models_raw_data.json"
+      - "config/model_sources.json"
   workflow_dispatch:
 
 permissions:
@@ -48,6 +49,7 @@ jobs:
           scp config/models_v2.json ubuntu@130.56.247.160:/mnt/2TB-Volume/webdav/pmm/config/
           scp config/models_v2_eb.json ubuntu@130.56.247.160:/mnt/2TB-Volume/webdav/pmm/config/
           scp config/models_v2_gp.json ubuntu@130.56.247.160:/mnt/2TB-Volume/webdav/pmm/config/
+          scp config/model_sources.json ubuntu@130.56.247.160:/mnt/2TB-Volume/webdav/pmm/config/
 
       - name: Install plate-model-manager CLI
         run: python3 -m pip install .
