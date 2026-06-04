@@ -36,8 +36,9 @@ DEFAULT_IDENTITY_FILE = os.environ.get(
 DEFAULT_REMOTE_TARGET = os.environ.get(
     "DEFAULT_REMOTE_TARGET", "ubuntu@130.56.247.160:/mnt/2TB-Volume/webdav/pmm"
 )
-DEFAULT_COLLECT_MODELS_SOURCE = (
-    "https://repo.gplates.org/webdav/pmm/config/model_sources.json"
+DEFAULT_COLLECT_MODELS_SOURCE = os.environ.get(
+    "DEFAULT_COLLECT_MODELS_SOURCE",
+    "https://repo.gplates.org/webdav/pmm/config/model_sources.json",
 )
 
 logger = logging.getLogger("pmm")

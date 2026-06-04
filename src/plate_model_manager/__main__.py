@@ -20,9 +20,9 @@ import logging
 import os
 import sys
 
-from plate_model_manager import PlateModelManager, __version__, check_update
-from plate_model_manager.utils import collect_update_model
-from plate_model_manager.utils.layer_validation import validate_layers_source
+from . import PlateModelManager, __version__, check_update
+from .utils import collect_update_model
+from .utils.layer_validation import validate_layers_source
 
 logger = logging.getLogger("pmm")
 
