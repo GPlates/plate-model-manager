@@ -72,14 +72,8 @@
       "**/DeformingMeshes/*.rot"
     ],
     "Layers": {
-      "COBs": [
-        "**/COBs/"
-      ],
       "Coastlines": [
         "**/Coastlines/Clennett_etal_2020_Coastlines.gpml"
-      ],
-      "ContinentalPolygons": [
-        "**/ContinentalPolygons/"
       ],
       "StaticPolygons": [
         "**/StaticPolygons/Clennett_2020_StaticPolygons.gpml"

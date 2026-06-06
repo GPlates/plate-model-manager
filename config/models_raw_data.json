@@ -133,9 +133,7 @@
     "SmallTime": 0,
     "Rotations": "https://repo.gplates.org/webdav/pmm/clennett2020_m2019/Rotations.zip",
     "Layers": {
-      "COBs": "https://repo.gplates.org/webdav/pmm/clennett2020_m2019/COBs.zip",
       "Coastlines": "https://repo.gplates.org/webdav/pmm/clennett2020_m2019/Coastlines.zip",
-      "ContinentalPolygons": "https://repo.gplates.org/webdav/pmm/clennett2020_m2019/ContinentalPolygons.zip",
       "StaticPolygons": "https://repo.gplates.org/webdav/pmm/clennett2020_m2019/StaticPolygons.zip",
       "Topologies": "https://repo.gplates.org/webdav/pmm/clennett2020_m2019/Topologies.zip",
       "Terranes": "https://repo.gplates.org/webdav/pmm/clennett2020_m2019/Terranes.zip"
