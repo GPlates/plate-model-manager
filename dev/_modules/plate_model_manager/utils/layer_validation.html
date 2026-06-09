@@ -183,9 +183,10 @@
         <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;URL error for </span><span class="si">{</span><span class="n">zip_url</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">exc</span><span class="o">.</span><span class="n">reason</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">exc</span>
 
 
-<div class="viewcode-block" id="validate_layers_config">
-<a class="viewcode-back" href="../../../plate_model_manager.utils.html#plate_model_manager.utils.layer_validation.validate_layers_config">[docs]</a>
-<span class="k">def</span> <span class="nf">validate_layers_config</span><span class="p">(</span><span class="n">all_models</span><span class="p">,</span> <span class="n">base_url</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">30</span><span class="p">):</span>
+<div class="viewcode-block" id="validate_layers">
+<a class="viewcode-back" href="../../../plate_model_manager.utils.html#plate_model_manager.utils.layer_validation.validate_layers">[docs]</a>
+<span class="k">def</span> <span class="nf">validate_layers</span><span class="p">(</span><span class="n">model_config</span><span class="p">,</span> <span class="n">base_url</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">30</span><span class="p">):</span>
+    <span class="n">all_models</span> <span class="o">=</span> <span class="n">load_models_config</span><span class="p">(</span><span class="n">model_config</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">)</span>
     <span class="n">resolved_base_url</span> <span class="o">=</span> <span class="p">(</span>
         <span class="n">base_url</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">base_url</span> <span class="k">else</span> <span class="n">normalize_svr_base_url</span><span class="p">(</span><span class="n">all_models</span><span class="p">)</span>
     <span class="p">)</span>
@@ -217,11 +218,11 @@
         <span class="k">if</span> <span class="n">expected_layers</span> <span class="o">!=</span> <span class="n">remote_layers</span><span class="p">:</span>
             <span class="n">missing_layers</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">remote_layers</span><span class="p">)</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">expected_layers</span><span class="p">))</span>
             <span class="n">extra_layers</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">expected_layers</span><span class="p">)</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">remote_layers</span><span class="p">))</span>
-            <span class="n">issue</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">model_name</span><span class="si">}</span><span class="s2">: remote=</span><span class="si">{</span><span class="n">remote_layers</span><span class="si">}</span><span class="s2">, config=</span><span class="si">{</span><span class="n">expected_layers</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="n">issue</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">model_name</span><span class="si">}</span><span class="s2">: zip_files_on_server=</span><span class="si">{</span><span class="n">remote_layers</span><span class="si">}</span><span class="s2">, config=</span><span class="si">{</span><span class="n">expected_layers</span><span class="si">}</span><span class="s2">&quot;</span>
             <span class="k">if</span> <span class="n">missing_layers</span><span class="p">:</span>
                 <span class="n">issue</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;, missing_in_config=</span><span class="si">{</span><span class="n">missing_layers</span><span class="si">}</span><span class="s2">&quot;</span>
             <span class="k">if</span> <span class="n">extra_layers</span><span class="p">:</span>
-                <span class="n">issue</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;, missing_on_server=</span><span class="si">{</span><span class="n">extra_layers</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="n">issue</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;, missing_zip_files_on_server=</span><span class="si">{</span><span class="n">extra_layers</span><span class="si">}</span><span class="s2">&quot;</span>
             <span class="n">issues</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">issue</span><span class="p">)</span>
 
         <span class="k">for</span> <span class="n">layer_name</span> <span class="ow">in</span> <span class="n">remote_layers</span><span class="p">:</span>
@@ -236,14 +237,6 @@
                 <span class="n">issues</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">model_name</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">layer_name</span><span class="si">}</span><span class="s2">: zip file is empty&quot;</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">checked_models</span><span class="p">,</span> <span class="n">issues</span><span class="p">,</span> <span class="n">resolved_base_url</span></div>
-
-
-
-<div class="viewcode-block" id="validate_layers_source">
-<a class="viewcode-back" href="../../../plate_model_manager.utils.html#plate_model_manager.utils.layer_validation.validate_layers_source">[docs]</a>
-<span class="k">def</span> <span class="nf">validate_layers_source</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">base_url</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">30</span><span class="p">):</span>
-    <span class="n">all_models</span> <span class="o">=</span> <span class="n">load_models_config</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">validate_layers_config</span><span class="p">(</span><span class="n">all_models</span><span class="p">,</span> <span class="n">base_url</span><span class="o">=</span><span class="n">base_url</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">)</span></div>
 
 </pre></div>
 
