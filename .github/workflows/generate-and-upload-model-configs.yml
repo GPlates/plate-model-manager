@@ -54,5 +54,8 @@ jobs:
       - name: Install plate-model-manager CLI
         run: python3 -m pip install .
 
-      - name: Validate uploaded Layers with pmm
+      - name: Validate PMM remote configuration against the .zip files of layers
         run: pmm validate-layers
+
+      - name: Validate PMM local configuration against the .zip files of layers
+        run: pmm validate-layers --config-url config/models_raw_data.json

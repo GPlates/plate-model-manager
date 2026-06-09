@@ -280,8 +280,6 @@ Clennett2020_m2019
 **Layers:**
 
 - Coastlines
-- COBs
-- ContinentalPolygons
 - StaticPolygons
 - Terranes
 - Topologies

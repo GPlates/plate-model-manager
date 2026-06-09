@@ -94,7 +94,8 @@ def _remote_zip_is_nonempty(zip_url, timeout=30):
         raise RuntimeError(f"URL error for {zip_url}: {exc.reason}") from exc
 
 
-def validate_layers_config(all_models, base_url=None, timeout=30):
+def validate_layers(model_config, base_url=None, timeout=30):
+    all_models = load_models_config(model_config, timeout=timeout)
     resolved_base_url = (
         base_url.rstrip("/") if base_url else normalize_svr_base_url(all_models)
     )
@@ -126,11 +127,11 @@ def validate_layers_config(all_models, base_url=None, timeout=30):
         if expected_layers != remote_layers:
             missing_layers = sorted(set(remote_layers) - set(expected_layers))
             extra_layers = sorted(set(expected_layers) - set(remote_layers))
-            issue = f"{model_name}: remote={remote_layers}, config={expected_layers}"
+            issue = f"{model_name}: zip_files_on_server={remote_layers}, config={expected_layers}"
             if missing_layers:
                 issue += f", missing_in_config={missing_layers}"
             if extra_layers:
-                issue += f", missing_on_server={extra_layers}"
+                issue += f", missing_zip_files_on_server={extra_layers}"
             issues.append(issue)
 
         for layer_name in remote_layers:
@@ -145,8 +146,3 @@ def validate_layers_config(all_models, base_url=None, timeout=30):
                 issues.append(f"{model_name}/{layer_name}: zip file is empty")
 
     return checked_models, issues, resolved_base_url
-
-
-def validate_layers_source(source, base_url=None, timeout=30):
-    all_models = load_models_config(source, timeout=timeout)
-    return validate_layers_config(all_models, base_url=base_url, timeout=timeout)

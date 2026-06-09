@@ -22,7 +22,7 @@ import sys
 
 from . import PlateModelManager, __version__, check_update
 from .utils import collect_update_model
-from .utils.layer_validation import validate_layers_source
+from .utils.layer_validation import validate_layers
 
 logger = logging.getLogger("pmm")
 
@@ -78,7 +78,7 @@ def _run_check_update_command(args):
 
 
 def _run_validate_layers_command(args):
-    checked_models, issues, base_url = validate_layers_source(
+    checked_models, issues, base_url = validate_layers(
         args.config_url,
         base_url=args.base_url,
         timeout=args.timeout,
@@ -186,18 +186,18 @@ def main():
     validate_layers_cmd.add_argument(
         "--config-url",
         default="https://repo.gplates.org/webdav/pmm/config/models_v2.json",
-        help="URL or local path to a models config JSON file. Defaults to pmm config/models_v2.json.",
+        help="URL or local path to a PMM configuration JSON file. Defaults to https://repo.gplates.org/webdav/pmm/config/models_v2.json.",
     )
     validate_layers_cmd.add_argument(
         "--base-url",
         default="https://repo.gplates.org/webdav/pmm",
-        help="Base URL of remote model folders to validate against.",
+        help="Base URL of remote model folders to validate against. Defaults to https://repo.gplates.org/webdav/pmm.",
     )
     validate_layers_cmd.add_argument(
         "--timeout",
         type=int,
         default=30,
-        help="HTTP timeout in seconds for remote requests.",
+        help="HTTP timeout in seconds for remote requests. Default is 30 seconds.",
     )
     validate_layers_cmd.set_defaults(func=_run_validate_layers_command)
 
