@@ -367,8 +367,8 @@ class PlateModel:
 
         This is an alias for :meth:`get_layer` to access vector data layers such
         as Coastlines, Topologies, StaticPolygons, etc. The purpose of this function is to provide
-        a more intuitive API for users who may not be familiar with the term "layer".
-        You can use this function to get file paths for any vector data in this model by specifying its name.
+        a more intuitive API for users who may wonder whether the term "layer" means vector layer or raster layer.
+        You can use this function to get file paths for vector data available in this model by specifying its name.
 
         Call :meth:`get_avail_layers` to get a list of available names for vector data.
 
