@@ -360,10 +360,31 @@ class PlateModel:
         """Return local file paths for the ``COBs`` layer."""
         return self.get_layer("COBs", return_none_if_not_exist=return_none_if_not_exist)
 
+    def get_vector_data(
+        self, name: str, return_none_if_not_exist: bool = False
+    ) -> Union[List[str], None]:
+        """Return local file paths for the vector data in this model.
+
+        This is an alias for :meth:`get_layer` to access vector data layers such
+        as Coastlines, Topologies, StaticPolygons, etc. The purpose of this function is to provide
+        a more intuitive API for users who may not be familiar with the term "layer".
+        You can use this function to get file paths for any vector data in this model by specifying its name.
+
+        Call :meth:`get_avail_layers` to get a list of available names for vector data.
+
+        :param name: The vector data name which is the same with the `layer_name` in :meth:`get_layer`.
+            Call :meth:`get_avail_layers` to get a list of available vector layer names.
+        :param return_none_if_not_exist: If ``True``, return ``None`` instead
+            of raising exception when the vector data doesn't exist.
+        :returns: List of vector data file paths, or ``None`` when
+            ``return_none_if_not_exist=True`` and the vector data doesn't exist."""
+
+        return self.get_layer(name, return_none_if_not_exist=return_none_if_not_exist)
+
     def get_layer(
         self, layer_name: str, return_none_if_not_exist: bool = False
     ) -> Union[List[str], None]:
-        """Return local file paths for a geometry layer.
+        """Return local file paths for a geometry layer in this model.
 
         In writable mode, this function will check if the layer files exist on the local computer.
         If the files don't exist or need to be updated, they are downloaded or updated before paths are returned.
@@ -379,9 +400,9 @@ class PlateModel:
         :param layer_name: Layer name.
             Call :meth:`get_avail_layers` to get a list of available layer names.
         :param return_none_if_not_exist: If ``True``, return ``None`` instead
-            of raising when the layer is missing.
+            of raising exception when the layer does not exist.
         :returns: List of matching layer file paths, or ``None`` when
-            ``return_none_if_not_exist=True`` and the layer is missing.
+            ``return_none_if_not_exist=True`` and the layer does not exist.
         :raises LayerNotFoundInModel: If the layer does not exist and
             ``return_none_if_not_exist`` is ``False``.
         """
