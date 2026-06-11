@@ -365,12 +365,19 @@ class PlateModel:
     ) -> Union[List[str], None]:
         """Return local file paths for a geometry layer.
 
-        In writable mode, layer data are downloaded or updated before paths are
-        returned. In readonly mode, paths are resolved from the local model
-        folder.
+        In writable mode, this function will check if the layer files exist on the local computer.
+        If the files don't exist or need to be updated, they are downloaded or updated before paths are returned.
 
-        :param layer_name: Layer name. Call :meth:`get_avail_layers` to list
-            valid names.
+        In readonly mode, paths are resolved from the local model folder without checking for updates.
+
+        .. note::
+
+            This function is for accessing geometry layers(vector data), such as Coastlines, Topologies, StaticPolygons, etc.
+            Call :meth:`get_avail_layers` to get a list of available layer names.
+            For accessing time-dependent rasters, use :meth:`get_raster` or :meth:`get_rasters`.
+
+        :param layer_name: Layer name.
+            Call :meth:`get_avail_layers` to get a list of available layer names.
         :param return_none_if_not_exist: If ``True``, return ``None`` instead
             of raising when the layer is missing.
         :returns: List of matching layer file paths, or ``None`` when
