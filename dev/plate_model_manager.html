@@ -687,14 +687,20 @@ the model defines none.</p>
 <dt class="sig sig-object py" id="plate_model_manager.plate_model.PlateModel.get_layer">
 <span class="sig-name descname"><span class="pre">get_layer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">layer_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_none_if_not_exist</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.14)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="_modules/plate_model_manager/plate_model.html#PlateModel.get_layer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plate_model_manager.plate_model.PlateModel.get_layer" title="Link to this definition"></a></dt>
 <dd><p>Return local file paths for a geometry layer.</p>
-<p>In writable mode, layer data are downloaded or updated before paths are
-returned. In readonly mode, paths are resolved from the local model
-folder.</p>
+<p>In writable mode, this function will check if the layer files exist on the local computer.
+If the files don’t exist or need to be updated, they are downloaded or updated before paths are returned.</p>
+<p>In readonly mode, paths are resolved from the local model folder without checking for updates.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This function is for accessing geometry layers(vector data), such as Coastlines, Topologies, StaticPolygons, etc.
+Call <a class="reference internal" href="#plate_model_manager.plate_model.PlateModel.get_avail_layers" title="plate_model_manager.plate_model.PlateModel.get_avail_layers"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_avail_layers()</span></code></a> to get a list of available layer names.
+For accessing time-dependent rasters, use <a class="reference internal" href="#plate_model_manager.plate_model.PlateModel.get_raster" title="plate_model_manager.plate_model.PlateModel.get_raster"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_raster()</span></code></a> or <a class="reference internal" href="#plate_model_manager.plate_model.PlateModel.get_rasters" title="plate_model_manager.plate_model.PlateModel.get_rasters"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_rasters()</span></code></a>.</p>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>layer_name</strong> – Layer name. Call <a class="reference internal" href="#plate_model_manager.plate_model.PlateModel.get_avail_layers" title="plate_model_manager.plate_model.PlateModel.get_avail_layers"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_avail_layers()</span></code></a> to list
-valid names.</p></li>
+<li><p><strong>layer_name</strong> – Layer name.
+Call <a class="reference internal" href="#plate_model_manager.plate_model.PlateModel.get_avail_layers" title="plate_model_manager.plate_model.PlateModel.get_avail_layers"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_avail_layers()</span></code></a> to get a list of available layer names.</p></li>
 <li><p><strong>return_none_if_not_exist</strong> – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, return <code class="docutils literal notranslate"><span class="pre">None</span></code> instead
 of raising when the layer is missing.</p></li>
 </ul>
@@ -1499,14 +1505,20 @@ the model defines none.</p>
 <dt class="sig sig-object py" id="plate_model_manager.PlateModel.get_layer">
 <span class="sig-name descname"><span class="pre">get_layer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">layer_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_none_if_not_exist</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.14)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="_modules/plate_model_manager/plate_model.html#PlateModel.get_layer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plate_model_manager.PlateModel.get_layer" title="Link to this definition"></a></dt>
 <dd><p>Return local file paths for a geometry layer.</p>
-<p>In writable mode, layer data are downloaded or updated before paths are
-returned. In readonly mode, paths are resolved from the local model
-folder.</p>
+<p>In writable mode, this function will check if the layer files exist on the local computer.
+If the files don’t exist or need to be updated, they are downloaded or updated before paths are returned.</p>
+<p>In readonly mode, paths are resolved from the local model folder without checking for updates.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This function is for accessing geometry layers(vector data), such as Coastlines, Topologies, StaticPolygons, etc.
+Call <a class="reference internal" href="#plate_model_manager.PlateModel.get_avail_layers" title="plate_model_manager.PlateModel.get_avail_layers"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_avail_layers()</span></code></a> to get a list of available layer names.
+For accessing time-dependent rasters, use <a class="reference internal" href="#plate_model_manager.PlateModel.get_raster" title="plate_model_manager.PlateModel.get_raster"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_raster()</span></code></a> or <a class="reference internal" href="#plate_model_manager.PlateModel.get_rasters" title="plate_model_manager.PlateModel.get_rasters"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_rasters()</span></code></a>.</p>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>layer_name</strong> – Layer name. Call <a class="reference internal" href="#plate_model_manager.PlateModel.get_avail_layers" title="plate_model_manager.PlateModel.get_avail_layers"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_avail_layers()</span></code></a> to list
-valid names.</p></li>
+<li><p><strong>layer_name</strong> – Layer name.
+Call <a class="reference internal" href="#plate_model_manager.PlateModel.get_avail_layers" title="plate_model_manager.PlateModel.get_avail_layers"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_avail_layers()</span></code></a> to get a list of available layer names.</p></li>
 <li><p><strong>return_none_if_not_exist</strong> – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, return <code class="docutils literal notranslate"><span class="pre">None</span></code> instead
 of raising when the layer is missing.</p></li>
 </ul>
