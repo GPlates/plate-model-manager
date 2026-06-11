@@ -484,12 +484,36 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_layer</span><span class="p">(</span><span class="s2">&quot;COBs&quot;</span><span class="p">,</span> <span class="n">return_none_if_not_exist</span><span class="o">=</span><span class="n">return_none_if_not_exist</span><span class="p">)</span></div>
 
 
+<div class="viewcode-block" id="PlateModel.get_vector_data">
+<a class="viewcode-back" href="../../plate_model_manager.html#plate_model_manager.PlateModel.get_vector_data">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_vector_data</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">return_none_if_not_exist</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="kc">None</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return local file paths for the vector data in this model.</span>
+
+<span class="sd">        This is an alias for :meth:`get_layer` to access vector data layers such</span>
+<span class="sd">        as Coastlines, Topologies, StaticPolygons, etc. The purpose of this function is to provide</span>
+<span class="sd">        a more intuitive API for users who may not be familiar with the term &quot;layer&quot;.</span>
+<span class="sd">        You can use this function to get file paths for any vector data in this model by specifying its name.</span>
+
+<span class="sd">        Call :meth:`get_avail_layers` to get a list of available names for vector data.</span>
+
+<span class="sd">        :param name: The vector data name which is the same with the `layer_name` in :meth:`get_layer`.</span>
+<span class="sd">            Call :meth:`get_avail_layers` to get a list of available vector layer names.</span>
+<span class="sd">        :param return_none_if_not_exist: If ``True``, return ``None`` instead</span>
+<span class="sd">            of raising exception when the vector data doesn&#39;t exist.</span>
+<span class="sd">        :returns: List of vector data file paths, or ``None`` when</span>
+<span class="sd">            ``return_none_if_not_exist=True`` and the vector data doesn&#39;t exist.&quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_layer</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">return_none_if_not_exist</span><span class="o">=</span><span class="n">return_none_if_not_exist</span><span class="p">)</span></div>
+
+
 <div class="viewcode-block" id="PlateModel.get_layer">
 <a class="viewcode-back" href="../../plate_model_manager.html#plate_model_manager.PlateModel.get_layer">[docs]</a>
     <span class="k">def</span> <span class="nf">get_layer</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">layer_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">return_none_if_not_exist</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="kc">None</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return local file paths for a geometry layer.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return local file paths for a geometry layer in this model.</span>
 
 <span class="sd">        In writable mode, this function will check if the layer files exist on the local computer.</span>
 <span class="sd">        If the files don&#39;t exist or need to be updated, they are downloaded or updated before paths are returned.</span>
@@ -505,9 +529,9 @@
 <span class="sd">        :param layer_name: Layer name.</span>
 <span class="sd">            Call :meth:`get_avail_layers` to get a list of available layer names.</span>
 <span class="sd">        :param return_none_if_not_exist: If ``True``, return ``None`` instead</span>
-<span class="sd">            of raising when the layer is missing.</span>
+<span class="sd">            of raising exception when the layer does not exist.</span>
 <span class="sd">        :returns: List of matching layer file paths, or ``None`` when</span>
-<span class="sd">            ``return_none_if_not_exist=True`` and the layer is missing.</span>
+<span class="sd">            ``return_none_if_not_exist=True`` and the layer does not exist.</span>
 <span class="sd">        :raises LayerNotFoundInModel: If the layer does not exist and</span>
 <span class="sd">            ``return_none_if_not_exist`` is ``False``.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
