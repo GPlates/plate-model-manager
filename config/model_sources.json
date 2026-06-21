@@ -2,7 +2,7 @@
   "alfonso2024": {
     "ZenodoID": "11392268",
     "ZenodoFiles": [
-      "alfonso2024.zip"
+      "Alfonso_etal_2024_modClennettMuller.zip"
     ],
     "Rotations": [
       "**/Rotations/*.rot",
@@ -10,7 +10,7 @@
     ],
     "Layers": {
       "COBs": [
-        "**/COBs/*"
+        "**/ContinentalPolygons/*"
       ],
       "Coastlines": [
         "**/Coastlines/*"
@@ -25,10 +25,11 @@
         "**/StaticPolygons/*.gpml"
       ],
       "Terranes": [
-        "**/Terranes/**"
+        "**/Terranes/*"
       ],
       "Topologies": [
-        "**/Topologies/*.gpml"
+        "**/PlateBoundaries/*.gpml",
+        "**/DeformingMeshes/*.gpml"
       ]
     }
   },

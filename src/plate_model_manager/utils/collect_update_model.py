@@ -90,14 +90,29 @@ def _add_folder_to_zip(folder, zip_filepath, log_fp=None):
         compression=zipfile.ZIP_DEFLATED,
         compresslevel=9,
     ) as f_zip:
-        if log_fp is not None:
-            log_fp.write(f"Add {folder} to {zip_filepath}:\n")
-        for root, dirs, files in os.walk(folder):
+        logger.debug(f"Add {folder} to {zip_filepath}:\n")
+        # Keep existing zip layout by reusing its top-level folder, then append
+        # paths relative to the folder being added.
+        existing_entries = [
+            name.strip("/") for name in f_zip.namelist() if name.strip("/")
+        ]
+        zip_root = (
+            existing_entries[0].split("/", 1)[0]
+            if existing_entries
+            else os.path.basename(os.path.normpath(folder))
+        )
+
+        folder_parent = os.path.dirname(os.path.normpath(folder))
+
+        for root, _dirs, files in os.walk(folder):
             for file in files:
                 full_path = os.path.join(root, file)
-                f_zip.write(full_path)  # preserves full relative path
+                # Keep the added folder itself in the zip path.
+                rel_path = os.path.relpath(full_path, folder_parent)
+                arcname = os.path.join(zip_root, rel_path).replace(os.sep, "/")
+                f_zip.write(full_path, arcname)
                 if log_fp is not None:
-                    log_fp.write(f"\t{full_path}\n")
+                    log_fp.write(f"\t{full_path} -> {arcname}\n")
 
 
 def _load_model_data_sources(source):
@@ -277,7 +292,7 @@ def collect_model(
         zenodo_files = model_data_source["ZenodoFiles"]
         record = ZenodoRecord(zenodo_id)
         latest_id = record.get_latest_version_id()
-        logger.debug(f"The latest version ID is: {latest_id}.")
+        info_fp.write(f"The latest version ID is: {latest_id}.\n")
         file_names = record.get_filenames(latest_id)
         logger.debug(f"The file names in the latest version: {file_names}")
         file_links = record.get_file_links(latest_id)
@@ -324,6 +339,8 @@ def collect_model(
             f"No files found for pattern '{pattern}' in the downloaded data for model '{model_name}'."
         )
     # logger.debug(matched_files)
+    if Path(f"{model_dir}/Rotations.zip").exists():
+        os.remove(f"{model_dir}/Rotations.zip")
     _zip_files(matched_files, f"{model_dir}/Rotations.zip", "Rotations", info_fp)
 
     if "Layers" not in model_data_source:
@@ -344,6 +361,9 @@ def collect_model(
             raise ValueError(
                 f"No files or folders found for patterns '{patterns}' in the downloaded data for model '{model_name}' layer '{layer_name}'."
             )
+
+        if Path(f"{model_dir}/{layer_name}.zip").exists():
+            os.remove(f"{model_dir}/{layer_name}.zip")
 
         # logger.debug(matched_files)
         if matched_files:
