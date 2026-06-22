@@ -1,0 +1,286 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FileDownloader &mdash; plate-model-manager 1.4.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=9172181d"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="ZenodoRecord" href="plate_model_manager.ZenodoRecord.html" />
+    <link rel="prev" title="PresentDayRasterManager" href="plate_model_manager.PresentDayRasterManager.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            plate-model-manager
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../basic_usages.html">Basic Usages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../command_line_interface.html">Command Line Interface (CLI)</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../api.html#main-classes">Main Classes</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../api.html#others">Others</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">FileDownloader</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#plate_model_manager.FileDownloader"><code class="docutils literal notranslate"><span class="pre">FileDownloader</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="plate_model_manager.ZenodoRecord.html">ZenodoRecord</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plate_model_manager.auxiliary.html">plate_model_manager.auxiliary</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../plate_models.html">Plate Models</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">plate-model-manager</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../api.html">API Reference</a></li>
+      <li class="breadcrumb-item active">FileDownloader</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/generated/plate_model_manager.FileDownloader.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="filedownloader">
+<h1>FileDownloader<a class="headerlink" href="#filedownloader" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="plate_model_manager.FileDownloader">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">FileDownloader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">meta_filepath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">dst_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_unzip</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expire_hours</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">12</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expiry_time_format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'%Y/%m/%d,</span> <span class="pre">%H:%M:%S'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">large_file_hint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(None,</span> <span class="pre">None)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">http_client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../plate_model_manager.utils.html#plate_model_manager.utils.download.HttpClient" title="plate_model_manager.utils.download.HttpClient"><span class="pre">HttpClient</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">HttpClient.REQUESTS</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plate_model_manager/utils/download.html#FileDownloader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plate_model_manager.FileDownloader" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Class for managing single file download</p>
+<p class="rubric">Methods</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#plate_model_manager.FileDownloader.__init__" title="plate_model_manager.FileDownloader.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a></p></td>
+<td><p>Initialize a downloader for one remote file and its metadata.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.FileDownloader.check_if_expire_date_need_update" title="plate_model_manager.FileDownloader.check_if_expire_date_need_update"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_if_expire_date_need_update</span></code></a></p></td>
+<td><p>Return whether only the metadata expiry timestamp should be refreshed.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.FileDownloader.check_if_file_need_update" title="plate_model_manager.FileDownloader.check_if_file_need_update"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_if_file_need_update</span></code></a></p></td>
+<td><p>Decide whether the target file should be downloaded again.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.FileDownloader.download_file_and_update_metadata" title="plate_model_manager.FileDownloader.download_file_and_update_metadata"><code class="xref py py-obj docutils literal notranslate"><span class="pre">download_file_and_update_metadata</span></code></a></p></td>
+<td><p>Download the target file and refresh its metadata cache.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.FileDownloader.update_metadata" title="plate_model_manager.FileDownloader.update_metadata"><code class="xref py py-obj docutils literal notranslate"><span class="pre">update_metadata</span></code></a></p></td>
+<td><p>Write or refresh the JSON metadata file for the current download.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="plate_model_manager.FileDownloader.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">meta_filepath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">dst_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_unzip</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expire_hours</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">12</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expiry_time_format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'%Y/%m/%d,</span> <span class="pre">%H:%M:%S'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">large_file_hint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(None,</span> <span class="pre">None)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">http_client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../plate_model_manager.utils.html#plate_model_manager.utils.download.HttpClient" title="plate_model_manager.utils.download.HttpClient"><span class="pre">HttpClient</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">HttpClient.REQUESTS</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/plate_model_manager/utils/download.html#FileDownloader.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plate_model_manager.FileDownloader.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initialize a downloader for one remote file and its metadata.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>file_url</strong> – Source URL for the target file.</p></li>
+<li><p><strong>meta_filepath</strong> – Path to the JSON metadata file used to store cache fields such as
+URL, expiry, ETag, and SHA-256.</p></li>
+<li><p><strong>dst_dir</strong> – Local destination directory where the downloaded file is stored.</p></li>
+<li><p><strong>filename</strong> – Optional output filename. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, the client chooses a name
+(typically derived from the URL).</p></li>
+<li><p><strong>auto_unzip</strong> – If <code class="docutils literal notranslate"><span class="pre">True</span></code> (default), unzip compressed downloads when supported by
+the active HTTP client.</p></li>
+<li><p><strong>expire_hours</strong> – Number of hours to add to <code class="docutils literal notranslate"><span class="pre">datetime.now()</span></code> when writing metadata
+<code class="docutils literal notranslate"><span class="pre">expiry</span></code>.</p></li>
+<li><p><strong>expiry_time_format</strong> – <code class="docutils literal notranslate"><span class="pre">datetime.strftime</span></code>/<code class="docutils literal notranslate"><span class="pre">strptime</span></code> format used for metadata
+<code class="docutils literal notranslate"><span class="pre">expiry</span></code> values.</p></li>
+<li><p><strong>large_file_hint</strong> – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, fetch headers early to estimate file size and prefer
+large-file transfer logic for big downloads.</p></li>
+<li><p><strong>timeout</strong> – Network timeout tuple passed to helper requests. Conventionally
+<code class="docutils literal notranslate"><span class="pre">(connect_timeout,</span> <span class="pre">read_timeout)</span></code>.</p></li>
+<li><p><strong>http_client</strong> – HTTP backend selection, either <code class="docutils literal notranslate"><span class="pre">HttpClient.REQUESTS</span></code> or
+<code class="docutils literal notranslate"><span class="pre">HttpClient.AIOHTTP</span></code>.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="plate_model_manager.FileDownloader.check_if_expire_date_need_update">
+<span class="sig-name descname"><span class="pre">check_if_expire_date_need_update</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plate_model_manager/utils/download.html#FileDownloader.check_if_expire_date_need_update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plate_model_manager.FileDownloader.check_if_expire_date_need_update" title="Link to this definition"></a></dt>
+<dd><p>Return whether only the metadata expiry timestamp should be refreshed.</p>
+<p>This helper is typically called after <a class="reference internal" href="../plate_model_manager.html#plate_model_manager.FileDownloader.check_if_file_need_update" title="plate_model_manager.FileDownloader.check_if_file_need_update"><code class="xref py py-meth docutils literal notranslate"><span class="pre">check_if_file_need_update()</span></code></a>
+has fetched remote state. It returns <code class="docutils literal notranslate"><span class="pre">True</span></code> when remote content is
+unchanged and therefore the local file can be kept while extending the
+metadata <code class="docutils literal notranslate"><span class="pre">expiry</span></code> value.</p>
+<p>Match conditions (either is sufficient):</p>
+<ul class="simple">
+<li><p>SHA-256 path: <code class="docutils literal notranslate"><span class="pre">self.new_sha256</span></code> is available and equals
+<code class="docutils literal notranslate"><span class="pre">self.meta_sha256</span></code>.</p></li>
+<li><p>ETag fallback path: <code class="docutils literal notranslate"><span class="pre">self.new_etag</span></code> is available and equals
+<code class="docutils literal notranslate"><span class="pre">self.meta_etag</span></code>.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">True</span></code> if content identity is unchanged and expiry metadata
+should be updated, otherwise <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="plate_model_manager.FileDownloader.check_if_file_need_update">
+<span class="sig-name descname"><span class="pre">check_if_file_need_update</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plate_model_manager/utils/download.html#FileDownloader.check_if_file_need_update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plate_model_manager.FileDownloader.check_if_file_need_update" title="Link to this definition"></a></dt>
+<dd><p>Decide whether the target file should be downloaded again.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">True</span></code> when the file should be downloaded/re-downloaded,
+<code class="docutils literal notranslate"><span class="pre">False</span></code> when the existing local file can be reused.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)">bool</a></p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Decision flow:</dt><dd><ol class="arabic simple">
+<li><p>If the metadata file is missing, return <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p></li>
+<li><p>If the stored <code class="docutils literal notranslate"><span class="pre">url</span></code> differs from <code class="docutils literal notranslate"><span class="pre">self.file_url</span></code> (or is
+missing), return <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p></li>
+<li><p>If the metadata <code class="docutils literal notranslate"><span class="pre">expiry</span></code> is still valid, return <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p></li>
+<li><p>If expired (or expiry is invalid/missing), compare remote
+content state:
+- Prefer SHA-256 comparison when available.
+- Fall back to ETag comparison if SHA-256 cannot be obtained.
+- If neither reliable value is available, return <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p></li>
+</ol>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="plate_model_manager.FileDownloader.download_file_and_update_metadata">
+<span class="sig-name descname"><span class="pre">download_file_and_update_metadata</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plate_model_manager/utils/download.html#FileDownloader.download_file_and_update_metadata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plate_model_manager.FileDownloader.download_file_and_update_metadata" title="Link to this definition"></a></dt>
+<dd><p>Download the target file and refresh its metadata cache.</p>
+<p>The method selects an HTTP backend from <code class="docutils literal notranslate"><span class="pre">self.http_client</span></code> and then
+chooses download strategy based on size:</p>
+<ul class="simple">
+<li><p>If <code class="docutils literal notranslate"><span class="pre">self.large_file_hint</span></code> is <code class="docutils literal notranslate"><span class="pre">True</span></code>, it first retrieves response
+headers and stores <code class="docutils literal notranslate"><span class="pre">self.file_size</span></code>.</p></li>
+<li><p>If <code class="docutils literal notranslate"><span class="pre">self.file_size</span></code> is known and greater than 20 MB, it uses
+<code class="docutils literal notranslate"><span class="pre">fetch_large_file</span></code>.</p></li>
+<li><p>Otherwise, it uses <code class="docutils literal notranslate"><span class="pre">fetch_file</span></code>.</p></li>
+</ul>
+<p>After a successful download call, <code class="docutils literal notranslate"><span class="pre">self.new_etag</span></code> is updated from the
+client response and <a class="reference internal" href="../plate_model_manager.html#plate_model_manager.FileDownloader.update_metadata" title="plate_model_manager.FileDownloader.update_metadata"><code class="xref py py-meth docutils literal notranslate"><span class="pre">update_metadata()</span></code></a> is called to write metadata
+fields (URL, expiry, ETag, SHA-256) to <code class="docutils literal notranslate"><span class="pre">self.meta_filepath</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#Exception" title="(in Python v3.14)"><strong>Exception</strong></a> – Propagates exceptions raised by network/header retrieval, download
+client calls, or metadata writing.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="plate_model_manager.FileDownloader.update_metadata">
+<span class="sig-name descname"><span class="pre">update_metadata</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plate_model_manager/utils/download.html#FileDownloader.update_metadata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plate_model_manager.FileDownloader.update_metadata" title="Link to this definition"></a></dt>
+<dd><p>Write or refresh the JSON metadata file for the current download.</p>
+<p>The metadata file at <code class="docutils literal notranslate"><span class="pre">self.meta_filepath</span></code> is created (including
+parent directories) and overwritten with these fields:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">url</span></code>: <code class="docutils literal notranslate"><span class="pre">self.file_url</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">expiry</span></code>: current time plus <code class="docutils literal notranslate"><span class="pre">self.expire_hours</span></code> formatted with
+<code class="docutils literal notranslate"><span class="pre">self.expiry_time_format</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">etag</span></code>: <code class="docutils literal notranslate"><span class="pre">self.new_etag</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sha256</span></code>: <code class="docutils literal notranslate"><span class="pre">self.new_sha256</span></code></p></li>
+</ul>
+<p>If <code class="docutils literal notranslate"><span class="pre">self.new_sha256</span></code> is not already populated, SHA-256 is retrieved
+from the remote resource before writing metadata.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#Exception" title="(in Python v3.14)"><strong>Exception</strong></a> – Propagates exceptions raised while fetching SHA-256, creating
+directories, or writing the metadata file.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="plate_model_manager.PresentDayRasterManager.html" class="btn btn-neutral float-left" title="PresentDayRasterManager" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="plate_model_manager.ZenodoRecord.html" class="btn btn-neutral float-right" title="ZenodoRecord" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023-2026, The University of Sydney.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,242 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ZenodoRecord &mdash; plate-model-manager 1.4.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=9172181d"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="plate_model_manager.auxiliary" href="plate_model_manager.auxiliary.html" />
+    <link rel="prev" title="FileDownloader" href="plate_model_manager.FileDownloader.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            plate-model-manager
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../basic_usages.html">Basic Usages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../command_line_interface.html">Command Line Interface (CLI)</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../api.html#main-classes">Main Classes</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../api.html#others">Others</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="plate_model_manager.FileDownloader.html">FileDownloader</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">ZenodoRecord</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#plate_model_manager.ZenodoRecord"><code class="docutils literal notranslate"><span class="pre">ZenodoRecord</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="plate_model_manager.auxiliary.html">plate_model_manager.auxiliary</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../plate_models.html">Plate Models</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">plate-model-manager</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../api.html">API Reference</a></li>
+      <li class="breadcrumb-item active">ZenodoRecord</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/generated/plate_model_manager.ZenodoRecord.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="zenodorecord">
+<h1>ZenodoRecord<a class="headerlink" href="#zenodorecord" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="plate_model_manager.ZenodoRecord">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">ZenodoRecord</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">conceptrecid</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plate_model_manager/zenodo.html#ZenodoRecord"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plate_model_manager.ZenodoRecord" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Helper for querying all versions of a Zenodo concept record.</p>
+<p>The class fetches all versions for a given <code class="docutils literal notranslate"><span class="pre">conceptrecid</span></code> from the Zenodo
+records API and exposes convenience methods for version lookup and file
+metadata extraction.</p>
+<p class="rubric">Methods</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#plate_model_manager.ZenodoRecord.__init__" title="plate_model_manager.ZenodoRecord.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a></p></td>
+<td><p>Initialize a record client for a Zenodo concept record id.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#plate_model_manager.ZenodoRecord.get_all_version_ids" title="plate_model_manager.ZenodoRecord.get_all_version_ids"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_all_version_ids</span></code></a></p></td>
+<td><p>Return the list of record ids for all available versions.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#plate_model_manager.ZenodoRecord.get_all_versions" title="plate_model_manager.ZenodoRecord.get_all_versions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_all_versions</span></code></a></p></td>
+<td><p>Return all version records returned by the Zenodo API query.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#plate_model_manager.ZenodoRecord.get_file_links" title="plate_model_manager.ZenodoRecord.get_file_links"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_file_links</span></code></a></p></td>
+<td><p>Return download links for all files in a version.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#plate_model_manager.ZenodoRecord.get_filenames" title="plate_model_manager.ZenodoRecord.get_filenames"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_filenames</span></code></a></p></td>
+<td><p>Return file names for all files in a version.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#plate_model_manager.ZenodoRecord.get_latest_version" title="plate_model_manager.ZenodoRecord.get_latest_version"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_latest_version</span></code></a></p></td>
+<td><p>Return the record marked as the latest version.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#plate_model_manager.ZenodoRecord.get_latest_version_id" title="plate_model_manager.ZenodoRecord.get_latest_version_id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_latest_version_id</span></code></a></p></td>
+<td><p>Return the Zenodo record id of the latest version.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#plate_model_manager.ZenodoRecord.get_version" title="plate_model_manager.ZenodoRecord.get_version"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_version</span></code></a></p></td>
+<td><p>Return a specific version record by its record id.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="plate_model_manager.ZenodoRecord.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">conceptrecid</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plate_model_manager/zenodo.html#ZenodoRecord.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plate_model_manager.ZenodoRecord.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initialize a record client for a Zenodo concept record id.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>conceptrecid</strong> – Zenodo concept record id shared by all versions of the record.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="plate_model_manager.ZenodoRecord.get_all_version_ids">
+<span class="sig-name descname"><span class="pre">get_all_version_ids</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.14)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/plate_model_manager/zenodo.html#ZenodoRecord.get_all_version_ids"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plate_model_manager.ZenodoRecord.get_all_version_ids" title="Link to this definition"></a></dt>
+<dd><p>Return the list of record ids for all available versions.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="plate_model_manager.ZenodoRecord.get_all_versions">
+<span class="sig-name descname"><span class="pre">get_all_versions</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.14)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><span class="pre">Dict</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/plate_model_manager/zenodo.html#ZenodoRecord.get_all_versions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plate_model_manager.ZenodoRecord.get_all_versions" title="Link to this definition"></a></dt>
+<dd><p>Return all version records returned by the Zenodo API query.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="plate_model_manager.ZenodoRecord.get_file_links">
+<span class="sig-name descname"><span class="pre">get_file_links</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.14)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/plate_model_manager/zenodo.html#ZenodoRecord.get_file_links"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plate_model_manager.ZenodoRecord.get_file_links" title="Link to this definition"></a></dt>
+<dd><p>Return download links for all files in a version.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>id</strong> – Zenodo record id of the target version.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="plate_model_manager.ZenodoRecord.get_filenames">
+<span class="sig-name descname"><span class="pre">get_filenames</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.14)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/plate_model_manager/zenodo.html#ZenodoRecord.get_filenames"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plate_model_manager.ZenodoRecord.get_filenames" title="Link to this definition"></a></dt>
+<dd><p>Return file names for all files in a version.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>id</strong> – Zenodo record id of the target version.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="plate_model_manager.ZenodoRecord.get_latest_version">
+<span class="sig-name descname"><span class="pre">get_latest_version</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><span class="pre">Dict</span></a></span></span><a class="reference internal" href="../_modules/plate_model_manager/zenodo.html#ZenodoRecord.get_latest_version"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plate_model_manager.ZenodoRecord.get_latest_version" title="Link to this definition"></a></dt>
+<dd><p>Return the record marked as the latest version.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#Exception" title="(in Python v3.14)"><strong>Exception</strong></a> – If no record is marked as latest in the API response.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="plate_model_manager.ZenodoRecord.get_latest_version_id">
+<span class="sig-name descname"><span class="pre">get_latest_version_id</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></span><a class="reference internal" href="../_modules/plate_model_manager/zenodo.html#ZenodoRecord.get_latest_version_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plate_model_manager.ZenodoRecord.get_latest_version_id" title="Link to this definition"></a></dt>
+<dd><p>Return the Zenodo record id of the latest version.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="plate_model_manager.ZenodoRecord.get_version">
+<span class="sig-name descname"><span class="pre">get_version</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><span class="pre">Dict</span></a></span></span><a class="reference internal" href="../_modules/plate_model_manager/zenodo.html#ZenodoRecord.get_version"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plate_model_manager.ZenodoRecord.get_version" title="Link to this definition"></a></dt>
+<dd><p>Return a specific version record by its record id.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>id</strong> – Zenodo record id of the target version.</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#Exception" title="(in Python v3.14)"><strong>Exception</strong></a> – If no record with the given id is found.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="plate_model_manager.FileDownloader.html" class="btn btn-neutral float-left" title="FileDownloader" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="plate_model_manager.auxiliary.html" class="btn btn-neutral float-right" title="plate_model_manager.auxiliary" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023-2026, The University of Sydney.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

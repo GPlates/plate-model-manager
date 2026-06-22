@@ -23,15 +23,6 @@ If the answer is yes, you probably want to check out this ``plate-model-manager`
    api
    plate_models
 
-.. Hidden TOCs
-
-.. toctree::
-   :caption: everything under the hood 
-   :maxdepth: 2
-   :hidden:
-
-   modules
-
 Indices and tables
 ==================
 

@@ -48,10 +48,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../../api.html">API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../plate_models.html">Plate Models</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">everything under the hood</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../modules.html">plate_model_manager</a></li>
-</ul>
 
         </div>
       </div>
@@ -100,29 +96,53 @@
 
 
 <div class="viewcode-block" id="ZenodoRecord">
-<a class="viewcode-back" href="../../plate_model_manager.html#plate_model_manager.zenodo.ZenodoRecord">[docs]</a>
+<a class="viewcode-back" href="../../plate_model_manager.html#plate_model_manager.ZenodoRecord">[docs]</a>
 <span class="k">class</span> <span class="nc">ZenodoRecord</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Helper for querying all versions of a Zenodo concept record.</span>
+
+<span class="sd">    The class fetches all versions for a given ``conceptrecid`` from the Zenodo</span>
+<span class="sd">    records API and exposes convenience methods for version lookup and file</span>
+<span class="sd">    metadata extraction.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="ZenodoRecord.__init__">
+<a class="viewcode-back" href="../../generated/plate_model_manager.ZenodoRecord.html#plate_model_manager.ZenodoRecord.__init__">[docs]</a>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">conceptrecid</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize a record client for a Zenodo concept record id.</span>
+
+<span class="sd">        :param conceptrecid:</span>
+<span class="sd">            Zenodo concept record id shared by all versions of the record.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">conceptrecid</span> <span class="o">=</span> <span class="n">conceptrecid</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_record_url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;https://zenodo.org/api/records?q=conceptrecid:</span><span class="si">{</span><span class="n">conceptrecid</span><span class="si">}</span><span class="s2">&amp;all_versions=true&quot;</span>
         <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_record_url</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">sub_records</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s2">&quot;hits&quot;</span><span class="p">][</span><span class="s2">&quot;hits&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sub_records</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s2">&quot;hits&quot;</span><span class="p">][</span><span class="s2">&quot;hits&quot;</span><span class="p">]</span></div>
+
 
 <div class="viewcode-block" id="ZenodoRecord.get_all_versions">
-<a class="viewcode-back" href="../../plate_model_manager.html#plate_model_manager.zenodo.ZenodoRecord.get_all_versions">[docs]</a>
+<a class="viewcode-back" href="../../plate_model_manager.html#plate_model_manager.ZenodoRecord.get_all_versions">[docs]</a>
     <span class="k">def</span> <span class="nf">get_all_versions</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return all version records returned by the Zenodo API query.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">sub_records</span></div>
 
 
 <div class="viewcode-block" id="ZenodoRecord.get_all_version_ids">
-<a class="viewcode-back" href="../../plate_model_manager.html#plate_model_manager.zenodo.ZenodoRecord.get_all_version_ids">[docs]</a>
+<a class="viewcode-back" href="../../plate_model_manager.html#plate_model_manager.ZenodoRecord.get_all_version_ids">[docs]</a>
     <span class="k">def</span> <span class="nf">get_all_version_ids</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the list of record ids for all available versions.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">record</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_all_versions</span><span class="p">()]</span></div>
 
 
 <div class="viewcode-block" id="ZenodoRecord.get_version">
-<a class="viewcode-back" href="../../plate_model_manager.html#plate_model_manager.zenodo.ZenodoRecord.get_version">[docs]</a>
+<a class="viewcode-back" href="../../plate_model_manager.html#plate_model_manager.ZenodoRecord.get_version">[docs]</a>
     <span class="k">def</span> <span class="nf">get_version</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a specific version record by its record id.</span>
+
+<span class="sd">        :param id:</span>
+<span class="sd">            Zenodo record id of the target version.</span>
+<span class="sd">        :raises Exception:</span>
+<span class="sd">            If no record with the given id is found.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_all_versions</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">record</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="nb">id</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">record</span>
@@ -133,8 +153,13 @@
 
 
 <div class="viewcode-block" id="ZenodoRecord.get_latest_version">
-<a class="viewcode-back" href="../../plate_model_manager.html#plate_model_manager.zenodo.ZenodoRecord.get_latest_version">[docs]</a>
+<a class="viewcode-back" href="../../plate_model_manager.html#plate_model_manager.ZenodoRecord.get_latest_version">[docs]</a>
     <span class="k">def</span> <span class="nf">get_latest_version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the record marked as the latest version.</span>
+
+<span class="sd">        :raises Exception:</span>
+<span class="sd">            If no record is marked as latest in the API response.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sub_records</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">record</span><span class="p">[</span><span class="s2">&quot;metadata&quot;</span><span class="p">][</span><span class="s2">&quot;relations&quot;</span><span class="p">][</span><span class="s2">&quot;version&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;is_last&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">record</span>
@@ -145,21 +170,32 @@
 
 
 <div class="viewcode-block" id="ZenodoRecord.get_latest_version_id">
-<a class="viewcode-back" href="../../plate_model_manager.html#plate_model_manager.zenodo.ZenodoRecord.get_latest_version_id">[docs]</a>
+<a class="viewcode-back" href="../../plate_model_manager.html#plate_model_manager.ZenodoRecord.get_latest_version_id">[docs]</a>
     <span class="k">def</span> <span class="nf">get_latest_version_id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the Zenodo record id of the latest version.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_latest_version</span><span class="p">()[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span></div>
 
 
 <div class="viewcode-block" id="ZenodoRecord.get_file_links">
-<a class="viewcode-back" href="../../plate_model_manager.html#plate_model_manager.zenodo.ZenodoRecord.get_file_links">[docs]</a>
+<a class="viewcode-back" href="../../plate_model_manager.html#plate_model_manager.ZenodoRecord.get_file_links">[docs]</a>
     <span class="k">def</span> <span class="nf">get_file_links</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return download links for all files in a version.</span>
+
+<span class="sd">        :param id:</span>
+<span class="sd">            Zenodo record id of the target version.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">record</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_version</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">file</span><span class="p">[</span><span class="s2">&quot;links&quot;</span><span class="p">][</span><span class="s2">&quot;self&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">record</span><span class="p">[</span><span class="s2">&quot;files&quot;</span><span class="p">]]</span></div>
 
 
 <div class="viewcode-block" id="ZenodoRecord.get_filenames">
-<a class="viewcode-back" href="../../plate_model_manager.html#plate_model_manager.zenodo.ZenodoRecord.get_filenames">[docs]</a>
+<a class="viewcode-back" href="../../plate_model_manager.html#plate_model_manager.ZenodoRecord.get_filenames">[docs]</a>
     <span class="k">def</span> <span class="nf">get_filenames</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return file names for all files in a version.</span>
+
+<span class="sd">        :param id:</span>
+<span class="sd">            Zenodo record id of the target version.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">record</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_version</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">file</span><span class="p">[</span><span class="s2">&quot;key&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">record</span><span class="p">[</span><span class="s2">&quot;files&quot;</span><span class="p">]]</span></div>
 </div>

@@ -48,10 +48,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../plate_models.html">Plate Models</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">everything under the hood</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">plate_model_manager</a></li>
-</ul>
 
         </div>
       </div>
@@ -126,8 +122,10 @@
 <div class="viewcode-block" id="FileDownloader">
 <a class="viewcode-back" href="../../../plate_model_manager.utils.html#plate_model_manager.FileDownloader">[docs]</a>
 <span class="k">class</span> <span class="nc">FileDownloader</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;class for managing single file download&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Class for managing single file download&quot;&quot;&quot;</span>
 
+<div class="viewcode-block" id="FileDownloader.__init__">
+<a class="viewcode-back" href="../../../generated/plate_model_manager.FileDownloader.html#plate_model_manager.FileDownloader.__init__">[docs]</a>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">file_url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -141,11 +139,36 @@
         <span class="n">timeout</span><span class="o">=</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
         <span class="n">http_client</span><span class="p">:</span> <span class="n">HttpClient</span> <span class="o">=</span> <span class="n">HttpClient</span><span class="o">.</span><span class="n">REQUESTS</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;FileDownloader constructor</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize a downloader for one remote file and its metadata.</span>
 
-<span class="sd">        :param file_url: the url to the file</span>
-<span class="sd">        :param metadata_file: the path to the metadata file</span>
-<span class="sd">        :param dst_dir: the destination to save the file</span>
+<span class="sd">        :param file_url:</span>
+<span class="sd">            Source URL for the target file.</span>
+<span class="sd">        :param meta_filepath:</span>
+<span class="sd">            Path to the JSON metadata file used to store cache fields such as</span>
+<span class="sd">            URL, expiry, ETag, and SHA-256.</span>
+<span class="sd">        :param dst_dir:</span>
+<span class="sd">            Local destination directory where the downloaded file is stored.</span>
+<span class="sd">        :param filename:</span>
+<span class="sd">            Optional output filename. If ``None``, the client chooses a name</span>
+<span class="sd">            (typically derived from the URL).</span>
+<span class="sd">        :param auto_unzip:</span>
+<span class="sd">            If ``True`` (default), unzip compressed downloads when supported by</span>
+<span class="sd">            the active HTTP client.</span>
+<span class="sd">        :param expire_hours:</span>
+<span class="sd">            Number of hours to add to ``datetime.now()`` when writing metadata</span>
+<span class="sd">            ``expiry``.</span>
+<span class="sd">        :param expiry_time_format:</span>
+<span class="sd">            ``datetime.strftime``/``strptime`` format used for metadata</span>
+<span class="sd">            ``expiry`` values.</span>
+<span class="sd">        :param large_file_hint:</span>
+<span class="sd">            If ``True``, fetch headers early to estimate file size and prefer</span>
+<span class="sd">            large-file transfer logic for big downloads.</span>
+<span class="sd">        :param timeout:</span>
+<span class="sd">            Network timeout tuple passed to helper requests. Conventionally</span>
+<span class="sd">            ``(connect_timeout, read_timeout)``.</span>
+<span class="sd">        :param http_client:</span>
+<span class="sd">            HTTP backend selection, either ``HttpClient.REQUESTS`` or</span>
+<span class="sd">            ``HttpClient.AIOHTTP``.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">file_url</span> <span class="o">=</span> <span class="n">file_url</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">meta_filepath</span> <span class="o">=</span> <span class="n">meta_filepath</span>
@@ -161,7 +184,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">large_file_hint</span> <span class="o">=</span> <span class="n">large_file_hint</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">timeout</span> <span class="o">=</span> <span class="n">timeout</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">auto_unzip</span> <span class="o">=</span> <span class="n">auto_unzip</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">http_client</span> <span class="o">=</span> <span class="n">http_client</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">http_client</span> <span class="o">=</span> <span class="n">http_client</span></div>
+
 
 <div class="viewcode-block" id="FileDownloader.check_if_file_need_update">
 <a class="viewcode-back" href="../../../plate_model_manager.utils.html#plate_model_manager.FileDownloader.check_if_file_need_update">[docs]</a>
@@ -283,12 +307,24 @@
 <div class="viewcode-block" id="FileDownloader.download_file_and_update_metadata">
 <a class="viewcode-back" href="../../../plate_model_manager.utils.html#plate_model_manager.FileDownloader.download_file_and_update_metadata">[docs]</a>
     <span class="k">def</span> <span class="nf">download_file_and_update_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;download a file from &quot;file_url&quot;, save the file in &quot;dst_dir&quot; and update the metadata file</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Download the target file and refresh its metadata cache.</span>
 
-<span class="sd">        :param file_url: the url to the file</span>
-<span class="sd">        :param metadata_file: the path to the metadata file</span>
-<span class="sd">        :param dst_dir: the destination to save the file</span>
+<span class="sd">        The method selects an HTTP backend from ``self.http_client`` and then</span>
+<span class="sd">        chooses download strategy based on size:</span>
 
+<span class="sd">        - If ``self.large_file_hint`` is ``True``, it first retrieves response</span>
+<span class="sd">          headers and stores ``self.file_size``.</span>
+<span class="sd">        - If ``self.file_size`` is known and greater than 20 MB, it uses</span>
+<span class="sd">          ``fetch_large_file``.</span>
+<span class="sd">        - Otherwise, it uses ``fetch_file``.</span>
+
+<span class="sd">        After a successful download call, ``self.new_etag`` is updated from the</span>
+<span class="sd">        client response and :meth:`update_metadata` is called to write metadata</span>
+<span class="sd">        fields (URL, expiry, ETag, SHA-256) to ``self.meta_filepath``.</span>
+
+<span class="sd">        :raises Exception:</span>
+<span class="sd">            Propagates exceptions raised by network/header retrieval, download</span>
+<span class="sd">            client calls, or metadata writing.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">large_file_hint</span><span class="p">:</span>
             <span class="n">headers</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_headers</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">file_url</span><span class="p">)</span>
@@ -326,7 +362,24 @@
 <div class="viewcode-block" id="FileDownloader.update_metadata">
 <a class="viewcode-back" href="../../../plate_model_manager.utils.html#plate_model_manager.FileDownloader.update_metadata">[docs]</a>
     <span class="k">def</span> <span class="nf">update_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;update metadata file&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Write or refresh the JSON metadata file for the current download.</span>
+
+<span class="sd">        The metadata file at ``self.meta_filepath`` is created (including</span>
+<span class="sd">        parent directories) and overwritten with these fields:</span>
+
+<span class="sd">        - ``url``: ``self.file_url``</span>
+<span class="sd">        - ``expiry``: current time plus ``self.expire_hours`` formatted with</span>
+<span class="sd">          ``self.expiry_time_format``</span>
+<span class="sd">        - ``etag``: ``self.new_etag``</span>
+<span class="sd">        - ``sha256``: ``self.new_sha256``</span>
+
+<span class="sd">        If ``self.new_sha256`` is not already populated, SHA-256 is retrieved</span>
+<span class="sd">        from the remote resource before writing metadata.</span>
+
+<span class="sd">        :raises Exception:</span>
+<span class="sd">            Propagates exceptions raised while fetching SHA-256, creating</span>
+<span class="sd">            directories, or writing the metadata file.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">new_sha256</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">new_sha256</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">get_sha256</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">file_url</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">timeout</span><span class="p">)</span>
         <span class="n">metadata</span> <span class="o">=</span> <span class="p">{</span>
@@ -345,6 +398,25 @@
 <div class="viewcode-block" id="FileDownloader.check_if_expire_date_need_update">
 <a class="viewcode-back" href="../../../plate_model_manager.utils.html#plate_model_manager.FileDownloader.check_if_expire_date_need_update">[docs]</a>
     <span class="k">def</span> <span class="nf">check_if_expire_date_need_update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return whether only the metadata expiry timestamp should be refreshed.</span>
+
+<span class="sd">        This helper is typically called after :meth:`check_if_file_need_update`</span>
+<span class="sd">        has fetched remote state. It returns ``True`` when remote content is</span>
+<span class="sd">        unchanged and therefore the local file can be kept while extending the</span>
+<span class="sd">        metadata ``expiry`` value.</span>
+
+<span class="sd">        Match conditions (either is sufficient):</span>
+
+<span class="sd">        - SHA-256 path: ``self.new_sha256`` is available and equals</span>
+<span class="sd">          ``self.meta_sha256``.</span>
+<span class="sd">        - ETag fallback path: ``self.new_etag`` is available and equals</span>
+<span class="sd">          ``self.meta_etag``.</span>
+
+<span class="sd">        :return:</span>
+<span class="sd">            ``True`` if content identity is unchanged and expiry metadata</span>
+<span class="sd">            should be updated, otherwise ``False``.</span>
+<span class="sd">        :rtype: bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># if we have checked the etag and it is the same as before</span>
         <span class="c1"># we need to update the expiry date</span>
         <span class="k">return</span> <span class="p">(</span>

@@ -48,10 +48,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../../api.html">API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../plate_models.html">Plate Models</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">everything under the hood</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../modules.html">plate_model_manager</a></li>
-</ul>
 
         </div>
       </div>
@@ -118,13 +114,21 @@
 <span class="sd">    Model manifests can be loaded from a local file or an HTTP(S) endpoint.</span>
 <span class="sd">    Retrieved model configurations are used to construct :class:`PlateModel`</span>
 <span class="sd">    instances.</span>
+
+<span class="sd">    .. note::</span>
+
+<span class="sd">        You can use this class to do the things listed below.</span>
+
+<span class="sd">        - Get a list of available model names.</span>
+<span class="sd">        - Get a :py:class:`plate_model_manager.PlateModel` object for a specific model name.</span>
+<span class="sd">        - Download all models into a folder.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># Load a models.json file and manage plate models.</span>
     <span class="c1"># See an example models.json file at PlateModelManager.get_default_repo_url().</span>
 
 <div class="viewcode-block" id="PlateModelManager.__init__">
-<a class="viewcode-back" href="../../api.html#plate_model_manager.PlateModelManager.__init__">[docs]</a>
+<a class="viewcode-back" href="../../generated/plate_model_manager.PlateModelManager.html#plate_model_manager.PlateModelManager.__init__">[docs]</a>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_manifest</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a :class:`PlateModelManager` instance.</span>
 

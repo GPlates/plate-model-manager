@@ -48,10 +48,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../../api.html">API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../plate_models.html">Plate Models</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">everything under the hood</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../modules.html">plate_model_manager</a></li>
-</ul>
 
         </div>
       </div>
@@ -108,7 +104,7 @@
 
 
 <div class="viewcode-block" id="get_plate_model">
-<a class="viewcode-back" href="../../plate_model_manager.html#plate_model_manager.get_plate_model">[docs]</a>
+<a class="viewcode-back" href="../../plate_model_manager.html#plate_model_manager.auxiliary.get_plate_model">[docs]</a>
 <span class="k">def</span> <span class="nf">get_plate_model</span><span class="p">(</span>
     <span class="n">model_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data_dir</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">PathLike</span><span class="p">]</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">PlateModel</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
@@ -149,7 +145,7 @@
 
 
 <div class="viewcode-block" id="check_update">
-<a class="viewcode-back" href="../../plate_model_manager.html#plate_model_manager.check_update">[docs]</a>
+<a class="viewcode-back" href="../../plate_model_manager.html#plate_model_manager.auxiliary.check_update">[docs]</a>
 <span class="k">def</span> <span class="nf">check_update</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Check whether configured models have newer versions on Zenodo.</span>
 
