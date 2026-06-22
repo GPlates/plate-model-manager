@@ -36,6 +36,14 @@ class PlateModelManager:
     Model manifests can be loaded from a local file or an HTTP(S) endpoint.
     Retrieved model configurations are used to construct :class:`PlateModel`
     instances.
+
+    .. note::
+
+        You can use this class to do the things listed below.
+
+        - Get a list of available model names.
+        - Get a :py:class:`plate_model_manager.PlateModel` object for a specific model name.
+        - Download all models into a folder.
     """
 
     # Load a models.json file and manage plate models.

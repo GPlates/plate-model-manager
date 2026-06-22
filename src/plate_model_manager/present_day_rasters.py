@@ -25,6 +25,7 @@ import requests
 
 from .network_requests import fetch_file
 from .utils import download, misc
+from .exceptions import RasterNameNotFound
 
 DEFAULT_PRESENT_DAY_RASTERS_MANIFEST = (
     "https://repo.gplates.org/webdav/pmm/present_day_rasters.json"
@@ -32,14 +33,16 @@ DEFAULT_PRESENT_DAY_RASTERS_MANIFEST = (
 logger = logging.getLogger("pmm")
 
 
-class RasterNameNotFound(Exception):
-    """Raised when a requested raster name is not present in the manifest."""
-
-    pass
-
-
 class PresentDayRasterManager:
-    """Manage present-day raster metadata retrieval and local raster access."""
+    """Manage present-day raster metadata retrieval and local raster access.
+
+    .. note::
+
+        You can use this class to do the things listed below.
+
+        - Get a list of available present-day raster names.
+        - Download a specific present-day raster.
+    """
 
     def __init__(self, data_dir="present-day-rasters", raster_manifest=None):
         """Create a :class:`PresentDayRasterManager` instance.

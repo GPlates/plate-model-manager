@@ -28,3 +28,9 @@ class LayerNotFoundInModel(Exception):
 
 class FailedToDownloadFile(Exception):
     pass
+
+
+class RasterNameNotFound(Exception):
+    """Raised when a requested raster name is not present in the manifest."""
+
+    pass

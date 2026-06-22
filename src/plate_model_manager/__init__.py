@@ -33,6 +33,7 @@ from .utils.misc import (
 )
 from .utils.enums import ReferenceFrame, GenerationMethod
 from .utils.download import FileDownloader
+from .zenodo import ZenodoRecord
 
 setup_logging()
 

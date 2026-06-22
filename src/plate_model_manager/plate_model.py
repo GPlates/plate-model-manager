@@ -60,6 +60,16 @@ class PlateModel:
     advanced or offline use (for example, ``readonly=True`` with pre-downloaded
     local files).
 
+    .. note::
+
+        You can use this class to do the things listed below.
+
+        - Get a list of available layers in a plate model.
+        - Download the rotation file(s).
+        - Download the layer file(s) for a specific layer.
+        - Download time-dependent raster files.
+        - Download all files in a plate model.
+
     .. seealso::
 
         `Use PlateModel class in readonly mode. <examples.html#use-without-internet>`__

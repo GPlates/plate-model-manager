@@ -41,7 +41,7 @@ class HttpClient(Enum):
 
 
 class FileDownloader:
-    """class for managing single file download"""
+    """Class for managing single file download"""
 
     def __init__(
         self,
@@ -56,11 +56,36 @@ class FileDownloader:
         timeout=(None, None),
         http_client: HttpClient = HttpClient.REQUESTS,
     ) -> None:
-        """FileDownloader constructor
+        """Initialize a downloader for one remote file and its metadata.
 
-        :param file_url: the url to the file
-        :param metadata_file: the path to the metadata file
-        :param dst_dir: the destination to save the file
+        :param file_url:
+            Source URL for the target file.
+        :param meta_filepath:
+            Path to the JSON metadata file used to store cache fields such as
+            URL, expiry, ETag, and SHA-256.
+        :param dst_dir:
+            Local destination directory where the downloaded file is stored.
+        :param filename:
+            Optional output filename. If ``None``, the client chooses a name
+            (typically derived from the URL).
+        :param auto_unzip:
+            If ``True`` (default), unzip compressed downloads when supported by
+            the active HTTP client.
+        :param expire_hours:
+            Number of hours to add to ``datetime.now()`` when writing metadata
+            ``expiry``.
+        :param expiry_time_format:
+            ``datetime.strftime``/``strptime`` format used for metadata
+            ``expiry`` values.
+        :param large_file_hint:
+            If ``True``, fetch headers early to estimate file size and prefer
+            large-file transfer logic for big downloads.
+        :param timeout:
+            Network timeout tuple passed to helper requests. Conventionally
+            ``(connect_timeout, read_timeout)``.
+        :param http_client:
+            HTTP backend selection, either ``HttpClient.REQUESTS`` or
+            ``HttpClient.AIOHTTP``.
         """
         self.file_url = file_url
         self.meta_filepath = meta_filepath
@@ -193,12 +218,24 @@ class FileDownloader:
             return True
 
     def download_file_and_update_metadata(self):
-        """download a file from "file_url", save the file in "dst_dir" and update the metadata file
+        """Download the target file and refresh its metadata cache.
 
-        :param file_url: the url to the file
-        :param metadata_file: the path to the metadata file
-        :param dst_dir: the destination to save the file
+        The method selects an HTTP backend from ``self.http_client`` and then
+        chooses download strategy based on size:
 
+        - If ``self.large_file_hint`` is ``True``, it first retrieves response
+          headers and stores ``self.file_size``.
+        - If ``self.file_size`` is known and greater than 20 MB, it uses
+          ``fetch_large_file``.
+        - Otherwise, it uses ``fetch_file``.
+
+        After a successful download call, ``self.new_etag`` is updated from the
+        client response and :meth:`update_metadata` is called to write metadata
+        fields (URL, expiry, ETag, SHA-256) to ``self.meta_filepath``.
+
+        :raises Exception:
+            Propagates exceptions raised by network/header retrieval, download
+            client calls, or metadata writing.
         """
         if self.large_file_hint:
             headers = network.get_headers(self.file_url)
@@ -233,7 +270,24 @@ class FileDownloader:
         self.update_metadata()
 
     def update_metadata(self):
-        """update metadata file"""
+        """Write or refresh the JSON metadata file for the current download.
+
+        The metadata file at ``self.meta_filepath`` is created (including
+        parent directories) and overwritten with these fields:
+
+        - ``url``: ``self.file_url``
+        - ``expiry``: current time plus ``self.expire_hours`` formatted with
+          ``self.expiry_time_format``
+        - ``etag``: ``self.new_etag``
+        - ``sha256``: ``self.new_sha256``
+
+        If ``self.new_sha256`` is not already populated, SHA-256 is retrieved
+        from the remote resource before writing metadata.
+
+        :raises Exception:
+            Propagates exceptions raised while fetching SHA-256, creating
+            directories, or writing the metadata file.
+        """
         if self.new_sha256 is None:
             self.new_sha256 = network.get_sha256(self.file_url, timeout=self.timeout)
         metadata = {
@@ -249,6 +303,25 @@ class FileDownloader:
             json.dump(metadata, f)
 
     def check_if_expire_date_need_update(self):
+        """Return whether only the metadata expiry timestamp should be refreshed.
+
+        This helper is typically called after :meth:`check_if_file_need_update`
+        has fetched remote state. It returns ``True`` when remote content is
+        unchanged and therefore the local file can be kept while extending the
+        metadata ``expiry`` value.
+
+        Match conditions (either is sufficient):
+
+        - SHA-256 path: ``self.new_sha256`` is available and equals
+          ``self.meta_sha256``.
+        - ETag fallback path: ``self.new_etag`` is available and equals
+          ``self.meta_etag``.
+
+        :return:
+            ``True`` if content identity is unchanged and expiry metadata
+            should be updated, otherwise ``False``.
+        :rtype: bool
+        """
         # if we have checked the etag and it is the same as before
         # we need to update the expiry date
         return (

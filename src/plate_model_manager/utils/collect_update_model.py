@@ -152,23 +152,27 @@ def upload_model(model_path, remote_target, identity_file):
     files in the directory. Existing files on the remote server are archived with
     a timestamp before the new files are uploaded.
 
-    Args:
-        model_path: Path to the local model directory containing files to upload.
-        remote_target: Remote destination in the format 'user@host:path'.
-                      The model name will be appended to the path automatically.
-        identity_file: Path to the SSH private key file for authentication.
+    :param model_path:
+        Path to the local model directory containing files to upload.
+    :param remote_target:
+        Remote destination in the format ``user@host:path``. The model name is
+        appended to the path automatically.
+    :param identity_file:
+        Path to the SSH private key file for authentication.
+    :raises RuntimeError:
+        If no files are found in the model directory or if the SSH connection to
+        the remote host fails.
+    :raises AssertionError:
+        If ``remote_target`` is invalid and does not contain ``:``.
 
-    Raises:
-        RuntimeError: If no files are found in the model directory or if the
-                     SSH connection to the remote host fails.
-        AssertionError: If the remote_target format is invalid (must contain ':').
+    Example::
 
-    Example:
         upload_model(
             "models/muller2022",
             "ubuntu@example.com:/data/models",
-            "~/.ssh/id_rsa"
+            "~/.ssh/id_rsa",
         )
+
     """
     create_hex_hash_sidecar_files(model_path)
     model_name = Path(model_path).name
