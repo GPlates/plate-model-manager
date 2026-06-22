@@ -37,14 +37,7 @@ logger.info(plate_model_manager.__file__)
 )
 class TimeDepRastersTestCase(unittest.TestCase):
     def setUp(self):
-        self.model_manager = PlateModelManager(
-            f"{os.path.dirname(__file__)}/models_test.json"
-        )
-
-        # test remote models.json with URL
-        # self.model_manager = plate_model.PlateModelManager(
-        #    "https://www.earthbyte.org/webdav/ftp/gplately/models.json"
-        # )
+        self.model_manager = PlateModelManager()
         self.model_name = "matthews2016_mantle_ref"
         self.model = self.model_manager.get_model(self.model_name)
         if self.model is not None:
