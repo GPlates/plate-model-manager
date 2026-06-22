@@ -104,6 +104,8 @@
 
 <span class="kn">import</span> <span class="nn">requests</span>
 
+<span class="kn">from</span> <span class="nn">plate_model_manager.exceptions</span> <span class="kn">import</span> <span class="n">FailedToDownloadFile</span>
+
 <span class="kn">from</span> <span class="nn">.file_fetcher</span> <span class="kn">import</span> <span class="n">FileFetcher</span>
 <span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">unzip</span>
 
@@ -139,13 +141,6 @@
 <span class="sd">        :param auto_unzip: bool flag to indicate if unzip .zip file automatically</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># print(f&quot;url: {url}&quot;)</span>
-        <span class="c1"># print(f&quot;filepath: {filepath}&quot;)</span>
-        <span class="c1"># print(f&quot;filename: {filename}&quot;)</span>
-        <span class="c1"># print(f&quot;etag: {etag}&quot;)</span>
-        <span class="c1"># print(f&quot;auto_unzip: {auto_unzip}&quot;)</span>
-        <span class="c1"># print(f&quot;timeout: {timeout}&quot;)</span>
-
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">etag</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">etag</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">):</span>
             <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;If-None-Match&quot;</span><span class="p">:</span> <span class="n">etag</span><span class="p">}</span>
         <span class="k">else</span><span class="p">:</span>
@@ -177,7 +172,9 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_save_file</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">r</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;HTTP request failed with code </span><span class="si">{</span><span class="n">r</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">. </span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">FailedToDownloadFile</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;HTTP request failed with code </span><span class="si">{</span><span class="n">r</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">. </span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
         <span class="n">new_etag</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;ETag&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">new_etag</span><span class="p">:</span>
             <span class="c1"># remove the content-encoding awareness thing</span>
@@ -206,7 +203,9 @@
         <span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">206</span><span class="p">:</span>
             <span class="n">data</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Failed to fetch range from </span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s2"> at index </span><span class="si">{</span><span class="n">index</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">FailedToDownloadFile</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Failed to fetch range from </span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s2"> at index </span><span class="si">{</span><span class="n">index</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
         <span class="c1"># et = time.time()</span>
         <span class="c1"># print(f&quot;{index} -- time: {et - st}&quot;)</span>
 
