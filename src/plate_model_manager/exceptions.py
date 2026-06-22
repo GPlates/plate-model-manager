@@ -24,3 +24,7 @@ class InvalidConfigFile(Exception):
 
 class LayerNotFoundInModel(Exception):
     pass
+
+
+class FailedToDownloadFile(Exception):
+    pass

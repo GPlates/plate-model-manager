@@ -2,6 +2,22 @@
     "vars": {
         "SvrBaseURL": "https://repo.gplates.org/webdav/pmm"
     },
+    "test-model": {
+        "BigTime": 1000,
+        "SmallTime": 0,
+        "Rotations": "@<<SvrBaseURL>>@/test-model/Rotations.zip",
+        "Layers": {
+            "Coastlines": "@<<SvrBaseURL>>@/test-model/Coastlines.zip",
+            "StaticPolygons": "@<<SvrBaseURL>>@/test-model/StaticPolygons.zip",
+            "ContinentalPolygons": "@<<SvrBaseURL>>@/test-model/ContinentalPolygons.zip",
+            "Topologies": "@<<SvrBaseURL>>@/test-model/Topologies.zip",
+            "COBs": "@<<SvrBaseURL>>@/test-model/COBs.zip"
+        },
+        "TimeDepRasters": {},
+        "Description": "Test model for unit testing.",
+        "URL": "https://repo.gplates.org/webdav/pmm/test-model/",
+        "Version": "2024-07-23"
+    },
     "default": "@zahirovic2022",
     "muller2025": "@shirmard2025",
     "shirmard2025": {

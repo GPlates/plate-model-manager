@@ -19,7 +19,11 @@ else:
 
 import plate_model_manager
 from plate_model_manager import PlateModelManager
-from plate_model_manager.exceptions import InvalidConfigFile
+from plate_model_manager.exceptions import (
+    FailedToDownloadFile,
+    InvalidConfigFile,
+    LayerNotFoundInModel,
+)
 
 # plate_model_manager.disable_stdout_logging()
 
@@ -50,23 +54,31 @@ class BasicTestCase(unittest.TestCase):
         # 1
         pm_manager = PlateModelManager(timeout=(5, 5))
         model = pm_manager.get_model("Muller2019", data_dir=TEMP_TEST_DIR)
-        if model is not None:
-            logger.info(model.get_rotation_model())
+        self.assertIsNotNone(model)
+        self.assertTrue(model.get_rotation_model())
 
         # 2
         pm_manager = PlateModelManager()
         model = pm_manager.get_model()
-        if model is not None:
-            logger.info(model.get_rotation_model())
-            model.get_layer("xx", return_none_if_not_exist=True)
+        self.assertIsNotNone(model)
+        self.assertTrue(model.get_rotation_model())
+        self.assertIsNone(model.get_layer("xx", return_none_if_not_exist=True))
+        model = pm_manager.get_model("alfonso2024", data_dir=TEMP_TEST_DIR)
+        self.assertIsNotNone(model)
+        self.assertTrue(len(model.get_layer("Terranes")) == 10)
 
         # 3
         pm_manager = PlateModelManager(
             model_manifest=f"{os.path.dirname(__file__)}/models_test.json"
         )
         model = pm_manager.get_model("test-model", data_dir=TEMP_TEST_DIR)
-        if model is not None:
-            logger.info(model.get_rotation_model())
+        self.assertIsNotNone(model)
+        self.assertTrue(model.get_rotation_model())
+        with self.assertRaises(LayerNotFoundInModel):
+            model.get_layer("xxx")
+        with self.assertRaises(FailedToDownloadFile):
+            # COBs layer pointing to a file that does not exist, so it should raise FailedToDownloadFile
+            model.get_layer("COBs")
 
 
 if __name__ == "__main__":

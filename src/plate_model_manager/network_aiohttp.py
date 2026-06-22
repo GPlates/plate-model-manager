@@ -22,6 +22,8 @@ from typing import List, Union
 
 import aiohttp
 
+from plate_model_manager.exceptions import FailedToDownloadFile
+
 from .file_fetcher import FileFetcher
 from .utils import unzip
 
@@ -130,7 +132,9 @@ class AiohttpFetcher(FileFetcher):
                 else:
                     self._save_file(filepath, filename, content)
             else:
-                raise Exception(f"HTTP request failed with code {r.status_code}.")
+                raise FailedToDownloadFile(
+                    f"HTTP request failed with code {r.status_code}."
+                )
             new_etag = r.headers.get("ETag")
             if new_etag:
                 # remove the content-encoding awareness thing
@@ -167,7 +171,9 @@ class AiohttpFetcher(FileFetcher):
                 c = await r.content.read()
                 data[index].write(c)
             else:
-                raise Exception(f"Failed to fetch range from {url} at index {index}")
+                raise FailedToDownloadFile(
+                    f"Failed to fetch range from {url} at index {index}"
+                )
         # et = time.time()
         # print(f"{index} -- time: {et - st}")
 

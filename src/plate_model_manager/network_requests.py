@@ -24,6 +24,8 @@ from typing import List, Union
 
 import requests
 
+from plate_model_manager.exceptions import FailedToDownloadFile
+
 from .file_fetcher import FileFetcher
 from .utils import unzip
 
@@ -55,13 +57,6 @@ class RequestsFetcher(FileFetcher):
         :param auto_unzip: bool flag to indicate if unzip .zip file automatically
 
         """
-        # print(f"url: {url}")
-        # print(f"filepath: {filepath}")
-        # print(f"filename: {filename}")
-        # print(f"etag: {etag}")
-        # print(f"auto_unzip: {auto_unzip}")
-        # print(f"timeout: {timeout}")
-
         if isinstance(etag, str) or isinstance(etag, bytes):
             headers = {"If-None-Match": etag}
         else:
@@ -93,7 +88,9 @@ class RequestsFetcher(FileFetcher):
             else:
                 self._save_file(filepath, filename, r.content)
         else:
-            raise Exception(f"HTTP request failed with code {r.status_code}. {url}")
+            raise FailedToDownloadFile(
+                f"HTTP request failed with code {r.status_code}. {url}"
+            )
         new_etag = r.headers.get("ETag")
         if new_etag:
             # remove the content-encoding awareness thing
@@ -121,7 +118,9 @@ class RequestsFetcher(FileFetcher):
         if r.status_code == 206:
             data[index].write(r.content)
         else:
-            raise Exception(f"Failed to fetch range from {url} at index {index}")
+            raise FailedToDownloadFile(
+                f"Failed to fetch range from {url} at index {index}"
+            )
         # et = time.time()
         # print(f"{index} -- time: {et - st}")
 

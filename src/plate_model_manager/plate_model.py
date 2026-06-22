@@ -413,7 +413,7 @@ class PlateModel:
                 layer_folder = f"{self.model_dir}/{layer_name}"
             files = []
             for ext in FILE_EXT:
-                files.extend(glob.glob(f"{layer_folder}/*.{ext}"))
+                files.extend(glob.glob(f"{layer_folder}/**/*.{ext}", recursive=True))
 
             return files
         except LayerNotFoundInModel as e:
