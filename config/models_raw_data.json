@@ -37,8 +37,8 @@
       "COBs": "@<<SvrBaseURL>>@/alfonso2024/COBs.zip"
     },
     "TimeDepRasters": {
-      "AgeGrids": "https://repo.gplates.org/webdav/PlateModel_Age_SR_Grids/Alfonso_etal_2024_modClennettMuller/SeafloorAge/SEAFLOOR_AGE_grid_{:.2f}Ma.nc",
-      "SpreadingRate": "https://repo.gplates.org/webdav/PlateModel_Age_SR_Grids/Alfonso_etal_2024_modClennettMuller/SpreadingRate/SPREADING_RATE_grid_{:.2f}Ma.nc"
+      "AgeGrids": "https://repo.gplates.org/webdav/PlateModel_Age_SR_Grids/Alfonso_etal_2024_modClennettMuller/SeafloorAge/Alfonso2024_SEAFLOOR_AGE_grid_{:.2f}Ma.nc",
+      "SpreadingRate": "https://repo.gplates.org/webdav/PlateModel_Age_SR_Grids/Alfonso_etal_2024_modClennettMuller/SpreadingRate/Alfonso2024_SPREADING_RATE_grid_{:.2f}Ma.nc"
     },
     "Description": "Modified global model focused on Western North America and the eastern Pacific tomotectonic reconstruction. Set the anchor plate ID to 701701 to use PMAG reference frame. See the 'URL' below for more details.",
     "URL": "https://doi.org/10.5281/zenodo.11392268",
