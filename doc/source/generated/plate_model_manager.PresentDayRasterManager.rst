@@ -10,27 +10,28 @@
    :special-members: __init__
    :exclude-members: models, model, rasters
 
-   
-   
-   .. rubric:: Methods
 
-   .. autosummary::
-      :nosignatures:
-   
-      ~PresentDayRasterManager.__init__
-      ~PresentDayRasterManager.get_raster
-      ~PresentDayRasterManager.is_wms
-      ~PresentDayRasterManager.list_present_day_rasters
-      ~PresentDayRasterManager.set_data_dir
-   
-   
 
-   
-   
-   .. rubric:: Attributes
+Methods
+-------
 
-   .. autosummary::
-   
-      ~PresentDayRasterManager.rasters
-   
-   
+.. autosummary::
+   :nosignatures:
+
+   ~PresentDayRasterManager.__init__
+   ~PresentDayRasterManager.get_raster
+   ~PresentDayRasterManager.is_wms
+   ~PresentDayRasterManager.list_present_day_rasters
+   ~PresentDayRasterManager.set_data_dir
+
+
+
+
+
+Attributes
+----------
+
+.. autosummary::
+
+   ~PresentDayRasterManager.rasters
+
