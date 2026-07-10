@@ -1,5 +1,5 @@
 /* Hide only the duplicated class-signature anchor in the local sidebar TOC,
-   for example "#plate_model_manager.PlateModel". Keep Methods/Attributes. */
+   for example "#plate_model_manager.PlateModel", etc. Keep Methods/Attributes. */
 .wy-menu-vertical
   li.toctree-l3.current
   > ul
