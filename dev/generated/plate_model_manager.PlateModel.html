@@ -9,6 +9,7 @@
   <title>PlateModel &mdash; plate-model-manager 1.4.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/sidebar_tweaks.css?v=695f7a7b" />
 
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
@@ -53,6 +54,8 @@
 <li class="toctree-l3"><a class="reference internal" href="plate_model_manager.PlateModelManager.html">PlateModelManager</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">PlateModel</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#plate_model_manager.PlateModel"><code class="docutils literal notranslate"><span class="pre">PlateModel</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#methods">Methods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#attributes">Attributes</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="plate_model_manager.PresentDayRasterManager.html">PresentDayRasterManager</a></li>
@@ -116,124 +119,6 @@ local files).</p>
 <p class="admonition-title">See also</p>
 <p><a class="reference external" href="examples.html#use-without-internet">Use PlateModel class in readonly mode.</a></p>
 </div>
-<p class="rubric">Methods</p>
-<table class="autosummary longtable docutils align-default">
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#plate_model_manager.PlateModel.__init__" title="plate_model_manager.PlateModel.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a></p></td>
-<td><p>Create a <a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModel" title="plate_model_manager.PlateModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">PlateModel</span></code></a> instance.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModel.create_model_dir" title="plate_model_manager.PlateModel.create_model_dir"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_model_dir</span></code></a></p></td>
-<td><p>Ensure the model folder exists and refresh local metadata files.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModel.download_all" title="plate_model_manager.PlateModel.download_all"><code class="xref py py-obj docutils literal notranslate"><span class="pre">download_all</span></code></a></p></td>
-<td><p>Download all layers and all configured time-dependent rasters.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModel.download_all_layers" title="plate_model_manager.PlateModel.download_all_layers"><code class="xref py py-obj docutils literal notranslate"><span class="pre">download_all_layers</span></code></a></p></td>
-<td><p>Download all configured layers for this model.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModel.download_time_dependent_rasters" title="plate_model_manager.PlateModel.download_time_dependent_rasters"><code class="xref py py-obj docutils literal notranslate"><span class="pre">download_time_dependent_rasters</span></code></a></p></td>
-<td><p>Download and cache a time series of rasters for <code class="docutils literal notranslate"><span class="pre">raster_name</span></code>.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModel.get_COBs" title="plate_model_manager.PlateModel.get_COBs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_COBs</span></code></a></p></td>
-<td><p>Return local file paths for the <code class="docutils literal notranslate"><span class="pre">COBs</span></code> layer.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModel.get_age_grid" title="plate_model_manager.PlateModel.get_age_grid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_age_grid</span></code></a></p></td>
-<td><p>Return a local path for an <code class="docutils literal notranslate"><span class="pre">AgeGrids</span></code> raster at <code class="docutils literal notranslate"><span class="pre">time</span></code> Ma.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModel.get_age_grids" title="plate_model_manager.PlateModel.get_age_grids"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_age_grids</span></code></a></p></td>
-<td><p>Return local paths for <code class="docutils literal notranslate"><span class="pre">AgeGrids</span></code> rasters at multiple times.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModel.get_anchor_id_for_pmag_reference_frame" title="plate_model_manager.PlateModel.get_anchor_id_for_pmag_reference_frame"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_anchor_id_for_pmag_reference_frame</span></code></a></p></td>
-<td><p>Return the PMAG anchor plate ID when this model supports PMAG.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModel.get_avail_layers" title="plate_model_manager.PlateModel.get_avail_layers"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_avail_layers</span></code></a></p></td>
-<td><p>Return all available geometry layer names in this model.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModel.get_avail_time_dependent_raster_names" title="plate_model_manager.PlateModel.get_avail_time_dependent_raster_names"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_avail_time_dependent_raster_names</span></code></a></p></td>
-<td><p>Return configured names of time-dependent rasters.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModel.get_big_time" title="plate_model_manager.PlateModel.get_big_time"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_big_time</span></code></a></p></td>
-<td><p>Return the maximum reconstruction time in Ma.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModel.get_cfg" title="plate_model_manager.PlateModel.get_cfg"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_cfg</span></code></a></p></td>
-<td><p>Return the model configuration dictionary.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModel.get_coastlines" title="plate_model_manager.PlateModel.get_coastlines"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_coastlines</span></code></a></p></td>
-<td><p>Return local file paths for the <code class="docutils literal notranslate"><span class="pre">Coastlines</span></code> layer.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModel.get_continental_polygons" title="plate_model_manager.PlateModel.get_continental_polygons"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_continental_polygons</span></code></a></p></td>
-<td><p>Return local file paths for the <code class="docutils literal notranslate"><span class="pre">ContinentalPolygons</span></code> layer.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModel.get_data_dir" title="plate_model_manager.PlateModel.get_data_dir"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_data_dir</span></code></a></p></td>
-<td><p>Return the parent directory containing downloaded models.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModel.get_layer" title="plate_model_manager.PlateModel.get_layer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_layer</span></code></a></p></td>
-<td><p>Return local file paths for a geometry layer in this model.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModel.get_layer_metadata" title="plate_model_manager.PlateModel.get_layer_metadata"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_layer_metadata</span></code></a></p></td>
-<td><p>Return metadata for a layer as a dictionary.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModel.get_model_dir" title="plate_model_manager.PlateModel.get_model_dir"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_model_dir</span></code></a></p></td>
-<td><p>Return the local directory path for this model.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModel.get_raster" title="plate_model_manager.PlateModel.get_raster"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_raster</span></code></a></p></td>
-<td><p>Return a local path for a single time-dependent raster.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModel.get_rasters" title="plate_model_manager.PlateModel.get_rasters"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_rasters</span></code></a></p></td>
-<td><p>Return local paths for a sequence of time-dependent rasters.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModel.get_rotation_model" title="plate_model_manager.PlateModel.get_rotation_model"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_rotation_model</span></code></a></p></td>
-<td><p>Return rotation files, and optionally a PMAG anchor plate ID.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModel.get_small_time" title="plate_model_manager.PlateModel.get_small_time"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_small_time</span></code></a></p></td>
-<td><p>Return the minimum reconstruction time in Ma.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModel.get_spreading_rate_grid" title="plate_model_manager.PlateModel.get_spreading_rate_grid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_spreading_rate_grid</span></code></a></p></td>
-<td><p>Return a local path for a <code class="docutils literal notranslate"><span class="pre">SpreadingRate</span></code> raster at <code class="docutils literal notranslate"><span class="pre">time</span></code> Ma.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModel.get_spreading_rate_grids" title="plate_model_manager.PlateModel.get_spreading_rate_grids"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_spreading_rate_grids</span></code></a></p></td>
-<td><p>Return local paths for <code class="docutils literal notranslate"><span class="pre">SpreadingRate</span></code> rasters at multiple times.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModel.get_static_polygons" title="plate_model_manager.PlateModel.get_static_polygons"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_static_polygons</span></code></a></p></td>
-<td><p>Return local file paths for the <code class="docutils literal notranslate"><span class="pre">StaticPolygons</span></code> layer.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModel.get_supported_reference_frames" title="plate_model_manager.PlateModel.get_supported_reference_frames"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_supported_reference_frames</span></code></a></p></td>
-<td><p>Return the reference frames which this model supports.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModel.get_topologies" title="plate_model_manager.PlateModel.get_topologies"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_topologies</span></code></a></p></td>
-<td><p>Return local file paths for the <code class="docutils literal notranslate"><span class="pre">Topologies</span></code> layer.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModel.get_vector_data" title="plate_model_manager.PlateModel.get_vector_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_vector_data</span></code></a></p></td>
-<td><p>Return local file paths for the vector data in this model.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModel.is_model_dir" title="plate_model_manager.PlateModel.is_model_dir"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_model_dir</span></code></a></p></td>
-<td><p>Return whether <code class="docutils literal notranslate"><span class="pre">folder_path</span></code> looks like a local model directory.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModel.purge" title="plate_model_manager.PlateModel.purge"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purge</span></code></a></p></td>
-<td><p>Delete the model directory and all files under it, if present.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModel.purge_layer" title="plate_model_manager.PlateModel.purge_layer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purge_layer</span></code></a></p></td>
-<td><p>Delete a local layer directory for <code class="docutils literal notranslate"><span class="pre">layer_name</span></code>, if present.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModel.purge_time_dependent_rasters" title="plate_model_manager.PlateModel.purge_time_dependent_rasters"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purge_time_dependent_rasters</span></code></a></p></td>
-<td><p>Delete local cached rasters for <code class="docutils literal notranslate"><span class="pre">raster_name</span></code>, if present.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModel.set_data_dir" title="plate_model_manager.PlateModel.set_data_dir"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_data_dir</span></code></a></p></td>
-<td><p>Set a new parent directory for this model.</p></td>
-</tr>
-</tbody>
-</table>
-<p class="rubric">Attributes</p>
-<table class="autosummary longtable docutils align-default">
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModel.model" title="plate_model_manager.PlateModel.model"><code class="xref py py-obj docutils literal notranslate"><span class="pre">model</span></code></a></p></td>
-<td><p>Return model metadata for this instance.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModel.model_dir" title="plate_model_manager.PlateModel.model_dir"><code class="xref py py-obj docutils literal notranslate"><span class="pre">model_dir</span></code></a></p></td>
-<td><p>Return the model folder path under <code class="docutils literal notranslate"><span class="pre">data_dir</span></code>.</p></td>
-</tr>
-</tbody>
-</table>
 <dl class="py method">
 <dt class="sig sig-object py" id="plate_model_manager.PlateModel.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_cfg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'.'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reference_frame</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../plate_model_manager.utils.html#plate_model_manager.utils.enums.ReferenceFrame" title="plate_model_manager.utils.enums.ReferenceFrame"><span class="pre">ReferenceFrame</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">readonly</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(None,</span> <span class="pre">None)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plate_model_manager/plate_model.html#PlateModel.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plate_model_manager.PlateModel.__init__" title="Link to this definition"></a></dt>
@@ -726,6 +611,128 @@ of raising exception when the vector data doesn’t exist.</p></li>
 
 </dd></dl>
 
+<section id="methods">
+<h2>Methods<a class="headerlink" href="#methods" title="Link to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#plate_model_manager.PlateModel.__init__" title="plate_model_manager.PlateModel.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a></p></td>
+<td><p>Create a <a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModel" title="plate_model_manager.PlateModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">PlateModel</span></code></a> instance.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModel.create_model_dir" title="plate_model_manager.PlateModel.create_model_dir"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_model_dir</span></code></a></p></td>
+<td><p>Ensure the model folder exists and refresh local metadata files.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModel.download_all" title="plate_model_manager.PlateModel.download_all"><code class="xref py py-obj docutils literal notranslate"><span class="pre">download_all</span></code></a></p></td>
+<td><p>Download all layers and all configured time-dependent rasters.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModel.download_all_layers" title="plate_model_manager.PlateModel.download_all_layers"><code class="xref py py-obj docutils literal notranslate"><span class="pre">download_all_layers</span></code></a></p></td>
+<td><p>Download all configured layers for this model.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModel.download_time_dependent_rasters" title="plate_model_manager.PlateModel.download_time_dependent_rasters"><code class="xref py py-obj docutils literal notranslate"><span class="pre">download_time_dependent_rasters</span></code></a></p></td>
+<td><p>Download and cache a time series of rasters for <code class="docutils literal notranslate"><span class="pre">raster_name</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModel.get_COBs" title="plate_model_manager.PlateModel.get_COBs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_COBs</span></code></a></p></td>
+<td><p>Return local file paths for the <code class="docutils literal notranslate"><span class="pre">COBs</span></code> layer.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModel.get_age_grid" title="plate_model_manager.PlateModel.get_age_grid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_age_grid</span></code></a></p></td>
+<td><p>Return a local path for an <code class="docutils literal notranslate"><span class="pre">AgeGrids</span></code> raster at <code class="docutils literal notranslate"><span class="pre">time</span></code> Ma.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModel.get_age_grids" title="plate_model_manager.PlateModel.get_age_grids"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_age_grids</span></code></a></p></td>
+<td><p>Return local paths for <code class="docutils literal notranslate"><span class="pre">AgeGrids</span></code> rasters at multiple times.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModel.get_anchor_id_for_pmag_reference_frame" title="plate_model_manager.PlateModel.get_anchor_id_for_pmag_reference_frame"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_anchor_id_for_pmag_reference_frame</span></code></a></p></td>
+<td><p>Return the PMAG anchor plate ID when this model supports PMAG.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModel.get_avail_layers" title="plate_model_manager.PlateModel.get_avail_layers"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_avail_layers</span></code></a></p></td>
+<td><p>Return all available geometry layer names in this model.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModel.get_avail_time_dependent_raster_names" title="plate_model_manager.PlateModel.get_avail_time_dependent_raster_names"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_avail_time_dependent_raster_names</span></code></a></p></td>
+<td><p>Return configured names of time-dependent rasters.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModel.get_big_time" title="plate_model_manager.PlateModel.get_big_time"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_big_time</span></code></a></p></td>
+<td><p>Return the maximum reconstruction time in Ma.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModel.get_cfg" title="plate_model_manager.PlateModel.get_cfg"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_cfg</span></code></a></p></td>
+<td><p>Return the model configuration dictionary.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModel.get_coastlines" title="plate_model_manager.PlateModel.get_coastlines"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_coastlines</span></code></a></p></td>
+<td><p>Return local file paths for the <code class="docutils literal notranslate"><span class="pre">Coastlines</span></code> layer.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModel.get_continental_polygons" title="plate_model_manager.PlateModel.get_continental_polygons"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_continental_polygons</span></code></a></p></td>
+<td><p>Return local file paths for the <code class="docutils literal notranslate"><span class="pre">ContinentalPolygons</span></code> layer.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModel.get_data_dir" title="plate_model_manager.PlateModel.get_data_dir"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_data_dir</span></code></a></p></td>
+<td><p>Return the parent directory containing downloaded models.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModel.get_layer" title="plate_model_manager.PlateModel.get_layer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_layer</span></code></a></p></td>
+<td><p>Return local file paths for a geometry layer in this model.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModel.get_layer_metadata" title="plate_model_manager.PlateModel.get_layer_metadata"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_layer_metadata</span></code></a></p></td>
+<td><p>Return metadata for a layer as a dictionary.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModel.get_model_dir" title="plate_model_manager.PlateModel.get_model_dir"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_model_dir</span></code></a></p></td>
+<td><p>Return the local directory path for this model.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModel.get_raster" title="plate_model_manager.PlateModel.get_raster"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_raster</span></code></a></p></td>
+<td><p>Return a local path for a single time-dependent raster.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModel.get_rasters" title="plate_model_manager.PlateModel.get_rasters"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_rasters</span></code></a></p></td>
+<td><p>Return local paths for a sequence of time-dependent rasters.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModel.get_rotation_model" title="plate_model_manager.PlateModel.get_rotation_model"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_rotation_model</span></code></a></p></td>
+<td><p>Return rotation files, and optionally a PMAG anchor plate ID.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModel.get_small_time" title="plate_model_manager.PlateModel.get_small_time"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_small_time</span></code></a></p></td>
+<td><p>Return the minimum reconstruction time in Ma.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModel.get_spreading_rate_grid" title="plate_model_manager.PlateModel.get_spreading_rate_grid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_spreading_rate_grid</span></code></a></p></td>
+<td><p>Return a local path for a <code class="docutils literal notranslate"><span class="pre">SpreadingRate</span></code> raster at <code class="docutils literal notranslate"><span class="pre">time</span></code> Ma.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModel.get_spreading_rate_grids" title="plate_model_manager.PlateModel.get_spreading_rate_grids"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_spreading_rate_grids</span></code></a></p></td>
+<td><p>Return local paths for <code class="docutils literal notranslate"><span class="pre">SpreadingRate</span></code> rasters at multiple times.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModel.get_static_polygons" title="plate_model_manager.PlateModel.get_static_polygons"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_static_polygons</span></code></a></p></td>
+<td><p>Return local file paths for the <code class="docutils literal notranslate"><span class="pre">StaticPolygons</span></code> layer.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModel.get_supported_reference_frames" title="plate_model_manager.PlateModel.get_supported_reference_frames"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_supported_reference_frames</span></code></a></p></td>
+<td><p>Return the reference frames which this model supports.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModel.get_topologies" title="plate_model_manager.PlateModel.get_topologies"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_topologies</span></code></a></p></td>
+<td><p>Return local file paths for the <code class="docutils literal notranslate"><span class="pre">Topologies</span></code> layer.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModel.get_vector_data" title="plate_model_manager.PlateModel.get_vector_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_vector_data</span></code></a></p></td>
+<td><p>Return local file paths for the vector data in this model.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModel.is_model_dir" title="plate_model_manager.PlateModel.is_model_dir"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_model_dir</span></code></a></p></td>
+<td><p>Return whether <code class="docutils literal notranslate"><span class="pre">folder_path</span></code> looks like a local model directory.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModel.purge" title="plate_model_manager.PlateModel.purge"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purge</span></code></a></p></td>
+<td><p>Delete the model directory and all files under it, if present.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModel.purge_layer" title="plate_model_manager.PlateModel.purge_layer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purge_layer</span></code></a></p></td>
+<td><p>Delete a local layer directory for <code class="docutils literal notranslate"><span class="pre">layer_name</span></code>, if present.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModel.purge_time_dependent_rasters" title="plate_model_manager.PlateModel.purge_time_dependent_rasters"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purge_time_dependent_rasters</span></code></a></p></td>
+<td><p>Delete local cached rasters for <code class="docutils literal notranslate"><span class="pre">raster_name</span></code>, if present.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModel.set_data_dir" title="plate_model_manager.PlateModel.set_data_dir"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_data_dir</span></code></a></p></td>
+<td><p>Set a new parent directory for this model.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="attributes">
+<h2>Attributes<a class="headerlink" href="#attributes" title="Link to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModel.model" title="plate_model_manager.PlateModel.model"><code class="xref py py-obj docutils literal notranslate"><span class="pre">model</span></code></a></p></td>
+<td><p>Return model metadata for this instance.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModel.model_dir" title="plate_model_manager.PlateModel.model_dir"><code class="xref py py-obj docutils literal notranslate"><span class="pre">model_dir</span></code></a></p></td>
+<td><p>Return the model folder path under <code class="docutils literal notranslate"><span class="pre">data_dir</span></code>.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
 </section>
 
 

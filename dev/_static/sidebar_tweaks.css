@@ -1,0 +1,37 @@
+/* Hide only the duplicated class-signature anchor in the local sidebar TOC,
+   for example "#plate_model_manager.PlateModel", etc. Keep Methods/Attributes. */
+.wy-menu-vertical
+  li.toctree-l3.current
+  > ul
+  > li.toctree-l4
+  > a.reference.internal[href^="#plate_model_manager.FileDownloader"] {
+  display: none;
+}
+.wy-menu-vertical
+  li.toctree-l3.current
+  > ul
+  > li.toctree-l4
+  > a.reference.internal[href^="#plate_model_manager.Zenodo"] {
+  display: none;
+}
+.wy-menu-vertical
+  li.toctree-l3.current
+  > ul
+  > li.toctree-l4
+  > a.reference.internal[href^="#plate_model_manager.PlateModel"] {
+  display: none;
+}
+.wy-menu-vertical
+  li.toctree-l3.current
+  > ul
+  > li.toctree-l4
+  > a.reference.internal[href^="#plate_model_manager.PlateModelManager"] {
+  display: none;
+}
+.wy-menu-vertical
+  li.toctree-l3.current
+  > ul
+  > li.toctree-l4
+  > a.reference.internal[href^="#plate_model_manager.PresentDayRasterManager"] {
+  display: none;
+}

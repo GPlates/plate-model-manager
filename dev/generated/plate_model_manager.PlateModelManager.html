@@ -9,6 +9,7 @@
   <title>PlateModelManager &mdash; plate-model-manager 1.4.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/sidebar_tweaks.css?v=695f7a7b" />
 
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
@@ -52,6 +53,8 @@
 <li class="toctree-l2 current"><a class="reference internal" href="../api.html#main-classes">Main Classes</a><ul class="current">
 <li class="toctree-l3 current"><a class="current reference internal" href="#">PlateModelManager</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#plate_model_manager.PlateModelManager"><code class="docutils literal notranslate"><span class="pre">PlateModelManager</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#methods">Methods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#attributes">Attributes</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="plate_model_manager.PlateModel.html">PlateModel</a></li>
@@ -108,37 +111,6 @@ instances.</p>
 <li><p>Download all models into a folder.</p></li>
 </ul>
 </div>
-<p class="rubric">Methods</p>
-<table class="autosummary longtable docutils align-default">
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#plate_model_manager.PlateModelManager.__init__" title="plate_model_manager.PlateModelManager.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a></p></td>
-<td><p>Create a <a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModelManager" title="plate_model_manager.PlateModelManager"><code class="xref py py-class docutils literal notranslate"><span class="pre">PlateModelManager</span></code></a> instance.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModelManager.download_all_models" title="plate_model_manager.PlateModelManager.download_all_models"><code class="xref py py-obj docutils literal notranslate"><span class="pre">download_all_models</span></code></a></p></td>
-<td><p>Download layer data for all available models into <code class="docutils literal notranslate"><span class="pre">data_dir</span></code>.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModelManager.get_available_model_names" title="plate_model_manager.PlateModelManager.get_available_model_names"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_available_model_names</span></code></a></p></td>
-<td><p>Return all model keys from the loaded manifest.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModelManager.get_default_repo_url" title="plate_model_manager.PlateModelManager.get_default_repo_url"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_default_repo_url</span></code></a></p></td>
-<td><p>Return the first reachable default model-manifest URL.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModelManager.get_local_available_model_names" title="plate_model_manager.PlateModelManager.get_local_available_model_names"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_local_available_model_names</span></code></a></p></td>
-<td><p>Return locally available model names from <code class="docutils literal notranslate"><span class="pre">local_dir</span></code>.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModelManager.get_model" title="plate_model_manager.PlateModelManager.get_model"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_model</span></code></a></p></td>
-<td><p>Return a <a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModel" title="plate_model_manager.PlateModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">PlateModel</span></code></a> for <code class="docutils literal notranslate"><span class="pre">model_name</span></code>.</p></td>
-</tr>
-</tbody>
-</table>
-<p class="rubric">Attributes</p>
-<table class="autosummary longtable docutils align-default">
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModelManager.models" title="plate_model_manager.PlateModelManager.models"><code class="xref py py-obj docutils literal notranslate"><span class="pre">models</span></code></a></p></td>
-<td><p>Return metadata for all configured models.</p></td>
-</tr>
-</tbody>
-</table>
 <dl class="py method">
 <dt class="sig sig-object py" id="plate_model_manager.PlateModelManager.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_manifest</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(None,</span> <span class="pre">None)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plate_model_manager/plate_model_manager.html#PlateModelManager.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plate_model_manager.PlateModelManager.__init__" title="Link to this definition"></a></dt>
@@ -255,6 +227,41 @@ chain.</p>
 
 </dd></dl>
 
+<section id="methods">
+<h2>Methods<a class="headerlink" href="#methods" title="Link to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#plate_model_manager.PlateModelManager.__init__" title="plate_model_manager.PlateModelManager.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a></p></td>
+<td><p>Create a <a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModelManager" title="plate_model_manager.PlateModelManager"><code class="xref py py-class docutils literal notranslate"><span class="pre">PlateModelManager</span></code></a> instance.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModelManager.download_all_models" title="plate_model_manager.PlateModelManager.download_all_models"><code class="xref py py-obj docutils literal notranslate"><span class="pre">download_all_models</span></code></a></p></td>
+<td><p>Download layer data for all available models into <code class="docutils literal notranslate"><span class="pre">data_dir</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModelManager.get_available_model_names" title="plate_model_manager.PlateModelManager.get_available_model_names"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_available_model_names</span></code></a></p></td>
+<td><p>Return all model keys from the loaded manifest.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModelManager.get_default_repo_url" title="plate_model_manager.PlateModelManager.get_default_repo_url"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_default_repo_url</span></code></a></p></td>
+<td><p>Return the first reachable default model-manifest URL.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModelManager.get_local_available_model_names" title="plate_model_manager.PlateModelManager.get_local_available_model_names"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_local_available_model_names</span></code></a></p></td>
+<td><p>Return locally available model names from <code class="docutils literal notranslate"><span class="pre">local_dir</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModelManager.get_model" title="plate_model_manager.PlateModelManager.get_model"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_model</span></code></a></p></td>
+<td><p>Return a <a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModel" title="plate_model_manager.PlateModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">PlateModel</span></code></a> for <code class="docutils literal notranslate"><span class="pre">model_name</span></code>.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="attributes">
+<h2>Attributes<a class="headerlink" href="#attributes" title="Link to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PlateModelManager.models" title="plate_model_manager.PlateModelManager.models"><code class="xref py py-obj docutils literal notranslate"><span class="pre">models</span></code></a></p></td>
+<td><p>Return metadata for all configured models.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
 </section>
 
 

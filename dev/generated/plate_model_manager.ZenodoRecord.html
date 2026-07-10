@@ -9,6 +9,7 @@
   <title>ZenodoRecord &mdash; plate-model-manager 1.4.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/sidebar_tweaks.css?v=695f7a7b" />
 
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
@@ -54,6 +55,7 @@
 <li class="toctree-l3"><a class="reference internal" href="plate_model_manager.FileDownloader.html">FileDownloader</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">ZenodoRecord</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#plate_model_manager.ZenodoRecord"><code class="docutils literal notranslate"><span class="pre">ZenodoRecord</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#methods">Methods</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="plate_model_manager.auxiliary.html">plate_model_manager.auxiliary</a></li>
@@ -99,35 +101,6 @@
 <p>The class fetches all versions for a given <code class="docutils literal notranslate"><span class="pre">conceptrecid</span></code> from the Zenodo
 records API and exposes convenience methods for version lookup and file
 metadata extraction.</p>
-<p class="rubric">Methods</p>
-<table class="autosummary longtable docutils align-default">
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#plate_model_manager.ZenodoRecord.__init__" title="plate_model_manager.ZenodoRecord.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a></p></td>
-<td><p>Initialize a record client for a Zenodo concept record id.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#plate_model_manager.ZenodoRecord.get_all_version_ids" title="plate_model_manager.ZenodoRecord.get_all_version_ids"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_all_version_ids</span></code></a></p></td>
-<td><p>Return the list of record ids for all available versions.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#plate_model_manager.ZenodoRecord.get_all_versions" title="plate_model_manager.ZenodoRecord.get_all_versions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_all_versions</span></code></a></p></td>
-<td><p>Return all version records returned by the Zenodo API query.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#plate_model_manager.ZenodoRecord.get_file_links" title="plate_model_manager.ZenodoRecord.get_file_links"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_file_links</span></code></a></p></td>
-<td><p>Return download links for all files in a version.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#plate_model_manager.ZenodoRecord.get_filenames" title="plate_model_manager.ZenodoRecord.get_filenames"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_filenames</span></code></a></p></td>
-<td><p>Return file names for all files in a version.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#plate_model_manager.ZenodoRecord.get_latest_version" title="plate_model_manager.ZenodoRecord.get_latest_version"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_latest_version</span></code></a></p></td>
-<td><p>Return the record marked as the latest version.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#plate_model_manager.ZenodoRecord.get_latest_version_id" title="plate_model_manager.ZenodoRecord.get_latest_version_id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_latest_version_id</span></code></a></p></td>
-<td><p>Return the Zenodo record id of the latest version.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#plate_model_manager.ZenodoRecord.get_version" title="plate_model_manager.ZenodoRecord.get_version"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_version</span></code></a></p></td>
-<td><p>Return a specific version record by its record id.</p></td>
-</tr>
-</tbody>
-</table>
 <dl class="py method">
 <dt class="sig sig-object py" id="plate_model_manager.ZenodoRecord.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">conceptrecid</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plate_model_manager/zenodo.html#ZenodoRecord.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plate_model_manager.ZenodoRecord.__init__" title="Link to this definition"></a></dt>
@@ -206,6 +179,37 @@ metadata extraction.</p>
 
 </dd></dl>
 
+<section id="methods">
+<h2>Methods<a class="headerlink" href="#methods" title="Link to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#plate_model_manager.ZenodoRecord.__init__" title="plate_model_manager.ZenodoRecord.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a></p></td>
+<td><p>Initialize a record client for a Zenodo concept record id.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#plate_model_manager.ZenodoRecord.get_all_version_ids" title="plate_model_manager.ZenodoRecord.get_all_version_ids"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_all_version_ids</span></code></a></p></td>
+<td><p>Return the list of record ids for all available versions.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#plate_model_manager.ZenodoRecord.get_all_versions" title="plate_model_manager.ZenodoRecord.get_all_versions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_all_versions</span></code></a></p></td>
+<td><p>Return all version records returned by the Zenodo API query.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#plate_model_manager.ZenodoRecord.get_file_links" title="plate_model_manager.ZenodoRecord.get_file_links"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_file_links</span></code></a></p></td>
+<td><p>Return download links for all files in a version.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#plate_model_manager.ZenodoRecord.get_filenames" title="plate_model_manager.ZenodoRecord.get_filenames"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_filenames</span></code></a></p></td>
+<td><p>Return file names for all files in a version.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#plate_model_manager.ZenodoRecord.get_latest_version" title="plate_model_manager.ZenodoRecord.get_latest_version"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_latest_version</span></code></a></p></td>
+<td><p>Return the record marked as the latest version.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#plate_model_manager.ZenodoRecord.get_latest_version_id" title="plate_model_manager.ZenodoRecord.get_latest_version_id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_latest_version_id</span></code></a></p></td>
+<td><p>Return the Zenodo record id of the latest version.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#plate_model_manager.ZenodoRecord.get_version" title="plate_model_manager.ZenodoRecord.get_version"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_version</span></code></a></p></td>
+<td><p>Return a specific version record by its record id.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
 </section>
 
 

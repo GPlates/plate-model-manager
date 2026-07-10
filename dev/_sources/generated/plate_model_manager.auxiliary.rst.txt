@@ -1,4 +1,4 @@
-plate\_model\_manager.auxiliary
+﻿plate\_model\_manager.auxiliary
 ===============================
 
 .. automodule:: plate_model_manager.auxiliary

@@ -9,6 +9,7 @@
   <title>PresentDayRasterManager &mdash; plate-model-manager 1.4.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/sidebar_tweaks.css?v=695f7a7b" />
 
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
@@ -54,6 +55,8 @@
 <li class="toctree-l3"><a class="reference internal" href="plate_model_manager.PlateModel.html">PlateModel</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">PresentDayRasterManager</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#plate_model_manager.PresentDayRasterManager"><code class="docutils literal notranslate"><span class="pre">PresentDayRasterManager</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#methods">Methods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#attributes">Attributes</a></li>
 </ul>
 </li>
 </ul>
@@ -104,34 +107,6 @@
 <li><p>Download a specific present-day raster.</p></li>
 </ul>
 </div>
-<p class="rubric">Methods</p>
-<table class="autosummary longtable docutils align-default">
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#plate_model_manager.PresentDayRasterManager.__init__" title="plate_model_manager.PresentDayRasterManager.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a></p></td>
-<td><p>Create a <a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PresentDayRasterManager" title="plate_model_manager.PresentDayRasterManager"><code class="xref py py-class docutils literal notranslate"><span class="pre">PresentDayRasterManager</span></code></a> instance.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PresentDayRasterManager.get_raster" title="plate_model_manager.PresentDayRasterManager.get_raster"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_raster</span></code></a></p></td>
-<td><p>Download or fetch a raster and return its local file path.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PresentDayRasterManager.is_wms" title="plate_model_manager.PresentDayRasterManager.is_wms"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_wms</span></code></a></p></td>
-<td><p>Return whether a raster is served through WMS metadata.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PresentDayRasterManager.list_present_day_rasters" title="plate_model_manager.PresentDayRasterManager.list_present_day_rasters"><code class="xref py py-obj docutils literal notranslate"><span class="pre">list_present_day_rasters</span></code></a></p></td>
-<td><p>Return the list of available present-day raster names.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PresentDayRasterManager.set_data_dir" title="plate_model_manager.PresentDayRasterManager.set_data_dir"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_data_dir</span></code></a></p></td>
-<td><p>Set the directory used to store downloaded raster files.</p></td>
-</tr>
-</tbody>
-</table>
-<p class="rubric">Attributes</p>
-<table class="autosummary longtable docutils align-default">
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PresentDayRasterManager.rasters" title="plate_model_manager.PresentDayRasterManager.rasters"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rasters</span></code></a></p></td>
-<td><p>Return raster metadata loaded from the configured manifest.</p></td>
-</tr>
-</tbody>
-</table>
 <dl class="py method">
 <dt class="sig sig-object py" id="plate_model_manager.PresentDayRasterManager.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'present-day-rasters'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">raster_manifest</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plate_model_manager/present_day_rasters.html#PresentDayRasterManager.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plate_model_manager.PresentDayRasterManager.__init__" title="Link to this definition"></a></dt>
@@ -237,6 +212,38 @@ otherwise <code class="docutils literal notranslate"><span class="pre">False</sp
 
 </dd></dl>
 
+<section id="methods">
+<h2>Methods<a class="headerlink" href="#methods" title="Link to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#plate_model_manager.PresentDayRasterManager.__init__" title="plate_model_manager.PresentDayRasterManager.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a></p></td>
+<td><p>Create a <a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PresentDayRasterManager" title="plate_model_manager.PresentDayRasterManager"><code class="xref py py-class docutils literal notranslate"><span class="pre">PresentDayRasterManager</span></code></a> instance.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PresentDayRasterManager.get_raster" title="plate_model_manager.PresentDayRasterManager.get_raster"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_raster</span></code></a></p></td>
+<td><p>Download or fetch a raster and return its local file path.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PresentDayRasterManager.is_wms" title="plate_model_manager.PresentDayRasterManager.is_wms"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_wms</span></code></a></p></td>
+<td><p>Return whether a raster is served through WMS metadata.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PresentDayRasterManager.list_present_day_rasters" title="plate_model_manager.PresentDayRasterManager.list_present_day_rasters"><code class="xref py py-obj docutils literal notranslate"><span class="pre">list_present_day_rasters</span></code></a></p></td>
+<td><p>Return the list of available present-day raster names.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PresentDayRasterManager.set_data_dir" title="plate_model_manager.PresentDayRasterManager.set_data_dir"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_data_dir</span></code></a></p></td>
+<td><p>Set the directory used to store downloaded raster files.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="attributes">
+<h2>Attributes<a class="headerlink" href="#attributes" title="Link to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../plate_model_manager.html#plate_model_manager.PresentDayRasterManager.rasters" title="plate_model_manager.PresentDayRasterManager.rasters"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rasters</span></code></a></p></td>
+<td><p>Return raster metadata loaded from the configured manifest.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
 </section>
 
 
