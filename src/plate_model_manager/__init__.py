@@ -20,6 +20,7 @@ from .utils.misc import get_distribution_version
 __version__ = get_distribution_version()
 del get_distribution_version
 
+from . import auxiliary
 from .auxiliary import check_update, get_plate_model
 from .plate_model import PlateModel
 from .plate_model_manager import PlateModelManager
@@ -44,4 +45,5 @@ __all__ = [
     "PlateModel",
     "get_plate_model",
     "FileDownloader",
+    "auxiliary",
 ]
