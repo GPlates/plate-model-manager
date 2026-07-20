@@ -42,7 +42,7 @@
     },
     "Description": "Modified global model focused on Western North America and the eastern Pacific tomotectonic reconstruction. Set the anchor plate ID to 701701 to use PMAG reference frame. See the 'URL' below for more details.",
     "URL": "https://doi.org/10.5281/zenodo.11392268",
-    "Version": "10.5281/zenodo.20781983",
+    "Version": "10.5281/zenodo.21446885",
     "Attributes": {
       "PmagReferenceFrameAnchorPID": 701701
     }
