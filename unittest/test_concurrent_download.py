@@ -49,7 +49,7 @@ test_urls = [
     "https://repo.gplates.org/webdav/pmm/seton2012/StaticPolygons.zip",
     "https://repo.gplates.org/webdav/pmm/seton2012/Rotations.zip",
     "https://repo.gplates.org/webdav/pmm/models.json",
-    "https://repo.gplates.org/webdav/pmm/present_day_rasters.json",
+    "https://repo.gplates.org/webdav/pmm/config/present_day_rasters.json",
 ]
 test_urls += [
     f"https://www.earthbyte.org/webdav/ftp/Data_Collections/Zahirovic_etal_2016_ESR_AgeGrid/jpegs/EarthByte_Zahirovic_etal_2016_ESR_r888_AgeGrid-{i}.jpg"

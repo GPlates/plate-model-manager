@@ -28,7 +28,7 @@ from .utils import download, misc
 from .exceptions import RasterNameNotFound
 
 DEFAULT_PRESENT_DAY_RASTERS_MANIFEST = (
-    "https://repo.gplates.org/webdav/pmm/present_day_rasters.json"
+    "https://repo.gplates.org/webdav/pmm/config/present_day_rasters.json"
 )
 logger = logging.getLogger("pmm")
 
