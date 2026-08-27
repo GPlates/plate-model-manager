@@ -8,9 +8,19 @@
 ![platforms](https://anaconda.org/conda-forge/plate-model-manager/badges/platforms.svg)
 ![downloads](https://anaconda.org/conda-forge/plate-model-manager/badges/downloads.svg)
 
+<p align="center">
+<img
+  src="https://gplates.github.io/new-gplates-website/animated-gplates-logo.svg"
+  alt="Animated GPlates logo"
+  width="77"
+/>
+</p>
+
 Originally the `plate-model-manager` was designed for [GPlately](https://github.com/GPlates/gplately). Later, it was found also useful in other scenarios and contexts. The `plate-model-manager` downloads and manages the plate reconstruction model files. It is a dataset manager for plate tectonic reconstruction models, similar to [NPM](https://www.npmjs.com/) or [Conda](https://anaconda.org/anaconda/conda) for software packages.
 
 Have you ever wondered where to get the plate tectonic reconstruction models for your research? Are you tired of downloading files from Internet manually and specify file paths when calling [PyGPlates](https://www.gplates.org/docs/pygplates/) functions? If the answer is yes, you probably want to check out this `plate-model-manager` Python module.
+
+
 
 ### How to install
 
