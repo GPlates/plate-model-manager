@@ -8,7 +8,7 @@ import os
 import shutil
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Union
+from typing import Dict, List, Union, overload, Literal, Tuple
 
 from plate_model_manager.utils.enums import GenerationMethod, ReferenceFrame
 
@@ -186,6 +186,16 @@ class PlateModel:
             raise Exception("Fatal: No model configuration found!")
         return list(self.model["Layers"].keys())
 
+    @overload
+    def get_rotation_model(
+        self, reference_frame: Literal[ReferenceFrame.PmagReferenceFrame]
+    ) -> Tuple[List[str], int]: ...
+
+    @overload
+    def get_rotation_model(
+        self, reference_frame: Union[ReferenceFrame, None] = None
+    ) -> Union[List[str], Tuple[List[str], int]]: ...
+
     def get_rotation_model(
         self,
         reference_frame: Union[ReferenceFrame, None] = None,
@@ -222,7 +232,6 @@ class PlateModel:
             rotation_folder = f"{self.model_dir}/Rotations"
         rotation_files = glob.glob(f"{rotation_folder}/*.rot")
         rotation_files.extend(glob.glob(f"{rotation_folder}/*.grot"))
-        # print(rotation_files)
         if reference_frame is None:
             reference_frame = self.reference_frame
         if reference_frame == ReferenceFrame.PmagReferenceFrame:
