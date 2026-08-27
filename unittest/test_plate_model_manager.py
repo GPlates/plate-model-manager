@@ -5,6 +5,7 @@ import sys
 import tempfile
 import unittest
 
+from common import INTEGRATION_TEST_LEVEL, skip_unless_test_level
 from plate_model_manager.utils.enums import ReferenceFrame
 
 sys.path.insert(0, f"{os.path.dirname(__file__)}/../src")
@@ -22,14 +23,16 @@ else:
 logger = get_test_logger(logger_name)
 
 
+@skip_unless_test_level(
+    INTEGRATION_TEST_LEVEL,
+    "set PMM_TEST_LEVEL>=1 to run manager integration tests",
+)
 class PlateModelManagerestCase(unittest.TestCase):
     def setUp(self):
         pass
 
     def test_plate_model_manager(self):
-        model_manager = PlateModelManager(
-            f"{os.path.dirname(__file__)}/../config/models_v2.json"
-        )
+        model_manager = PlateModelManager()
         model_names = model_manager.get_available_model_names()
         self.assertTrue(len(model_names) > 0)
         logger.info(model_names)
@@ -52,10 +55,6 @@ class PlateModelManagerestCase(unittest.TestCase):
         self.assertIsInstance(model, PlateModel)
         no_good = model_manager.get_model("no-good-model")
         self.assertIsNone(no_good)
-
-        model_manager = PlateModelManager(
-            f"{os.path.dirname(__file__)}/../config/models_v2.json"
-        )
 
         model = model_manager.get_model(
             "matthews2016", reference_frame=ReferenceFrame.PmagReferenceFrame
@@ -101,6 +100,11 @@ class PlateModelManagerestCase(unittest.TestCase):
             "Muller2025", reference_frame=ReferenceFrame.PmagReferenceFrame
         )
         self.assertIsNone(model)
+
+    def test_scotese_and_wright2018_present_in_local_config(self):
+        model_manager = PlateModelManager()
+        model_names = model_manager.get_available_model_names()
+        self.assertIn("scotese_and_wright2018", model_names)
 
     def test_plate_model_manager_timeout(self):
         with self.assertRaises(InvalidConfigFile):
@@ -169,6 +173,72 @@ class ReadmeCreationTestCase(unittest.TestCase):
         self.assertIn("250", content)
         self.assertIn("Coastlines", content)
         self.assertIn("AgeGrids", content)
+
+
+class ReferenceFrameSupportTestCase(unittest.TestCase):
+    def test_init_rejects_invalid_reference_frame(self):
+        with self.assertRaisesRegex(
+            ValueError, "reference_frame must be a ReferenceFrame value or None"
+        ):
+            PlateModel(
+                "muller2025",
+                model_cfg={"BigTime": 100, "SmallTime": 0},
+                reference_frame="PMAG",
+            )
+
+    def test_init_rejects_unsupported_reference_frame(self):
+        with self.assertRaisesRegex(
+            ValueError,
+            "reference_frame PMAG is not supported by model 'muller2025'",
+        ):
+            PlateModel(
+                "muller2025",
+                model_cfg={"BigTime": 100, "SmallTime": 0},
+                reference_frame=ReferenceFrame.PmagReferenceFrame,
+            )
+
+    def test_get_reference_frames_for_pmag_only_model(self):
+        model = PlateModel(
+            "matthews2016_pmag_ref",
+            model_cfg={"BigTime": 100, "SmallTime": 0},
+        )
+
+        self.assertEqual(
+            model.get_supported_reference_frames(),
+            [ReferenceFrame.PmagReferenceFrame],
+        )
+        self.assertEqual(model.get_anchor_id_for_pmag_reference_frame(), 0)
+
+    def test_get_reference_frames_for_dual_frame_model(self):
+        model = PlateModel(
+            "zahirovic2022",
+            model_cfg={
+                "BigTime": 100,
+                "SmallTime": 0,
+                "Attributes": {"PmagReferenceFrameAnchorPID": 701701},
+            },
+        )
+
+        self.assertEqual(
+            model.get_supported_reference_frames(),
+            [
+                ReferenceFrame.MantleReferenceFrame,
+                ReferenceFrame.PmagReferenceFrame,
+            ],
+        )
+        self.assertEqual(model.get_anchor_id_for_pmag_reference_frame(), 701701)
+
+    def test_get_reference_frames_for_mantle_only_model(self):
+        model = PlateModel(
+            "muller2025",
+            model_cfg={"BigTime": 100, "SmallTime": 0},
+        )
+
+        self.assertEqual(
+            model.get_supported_reference_frames(),
+            [ReferenceFrame.MantleReferenceFrame],
+        )
+        self.assertIsNone(model.get_anchor_id_for_pmag_reference_frame())
 
 
 if __name__ == "__main__":

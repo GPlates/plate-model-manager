@@ -1,3 +1,19 @@
+#
+#    Copyright (C) 2024-2026 The University of Sydney, Australia
+#
+#    This program is free software; you can redistribute it and/or modify it under
+#    the terms of the GNU General Public License, version 2, as published by
+#    the Free Software Foundation.
+#
+#    This program is distributed in the hope that it will be useful, but WITHOUT
+#    ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+#    FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+#    for more details.
+#
+#    You should have received a copy of the GNU General Public License along
+#    with this program; if not, write to Free Software Foundation, Inc.,
+#    51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
 import abc
 import asyncio
 import io
@@ -161,8 +177,10 @@ class FileFetcher(metaclass=abc.ABCMeta):
     def _save_file(self, filepath, filename, data):
         """helper function to save file to hard drive"""
 
-        Path(filepath).mkdir(parents=True, exist_ok=True)
-        if os.path.isfile(f"{filepath}/{filename}"):
+        output_dir = Path(filepath)
+        output_dir.mkdir(parents=True, exist_ok=True)
+        output_file = output_dir / filename
+        if output_file.is_file():
             print(f"Warning: overwriting {filename}")
-        with open(f"{filepath}/{filename}", "wb+") as of:
+        with open(output_file, "wb+") as of:
             of.write(data)

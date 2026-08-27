@@ -1,16 +1,6 @@
 import glob
-import io
-import os
 import shutil
-import sys
-import zipfile
-from datetime import datetime
-from pathlib import Path
-
-import requests
 import utils
-
-from plate_model_manager.zenodo import ZenodoRecord
 
 # https://zenodo.org/doi/10.5281/zenodo.10596349
 files_path = "z-files"

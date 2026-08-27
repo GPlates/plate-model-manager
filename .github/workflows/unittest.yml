@@ -4,9 +4,24 @@ on:
   push:
     branches:
       - main
+    paths:
+      - "src/**"
   pull_request:
     branches:
       - main
+    paths:
+      - "src/**"
+  workflow_dispatch:
+    inputs:
+      pmm_test_level:
+        description: PMM_TEST_LEVEL to use when running unittest
+        required: false
+        default: "0"
+        type: choice
+        options:
+          - "0"
+          - "1"
+          - "2"
 
 jobs:
   unittest:
@@ -16,7 +31,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest]
-        python-version: ["3.8", "3.9", "3.10", "3.11", "3.12"]
+        python-version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
 
     defaults:
       run:
@@ -33,9 +48,12 @@ jobs:
           python3 -m pip install requests
           python3 -m pip install aiohttp
           python3 -m pip install nest_asyncio
+          python3 -m pip install joblib
           pip3 install .
 
       - name: Run tests
+        env:
+          PMM_TEST_LEVEL: ${{ github.event.inputs.pmm_test_level || '1' }}
         run: |
           source pmm_venv/bin/activate
           ./unittest/run_testcases.sh

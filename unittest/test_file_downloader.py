@@ -6,7 +6,14 @@ import sys
 import time
 import unittest
 
-from common import TEMP_TEST_DIR, get_test_logger, is_test_installed_module
+from common import (
+    INTEGRATION_TEST_LEVEL,
+    LARGE_DATA_TEST_LEVEL,
+    TEMP_TEST_DIR,
+    get_test_logger,
+    is_test_installed_module,
+    skip_unless_test_level,
+)
 
 if not is_test_installed_module():
     sys.path.insert(0, f"{os.path.dirname(__file__)}/../src")
@@ -26,6 +33,10 @@ logger = get_test_logger(logger_name)
 logger.info(plate_model_manager.__file__)
 
 
+@skip_unless_test_level(
+    INTEGRATION_TEST_LEVEL,
+    "set PMM_TEST_LEVEL>=1 to run downloader integration tests",
+)
 class DownloadFileTestCase(unittest.TestCase):
     def setUp(self):
         pass
@@ -198,9 +209,9 @@ class DownloadFileTestCase(unittest.TestCase):
             self.assertTrue(os.path.isfile(output_filename))
             self.assertTrue(os.path.isfile(metafile))
 
-    @unittest.skipIf(
-        int(os.getenv("PMM_TEST_LEVEL", 0)) < 1,
-        "this will download a large volume of data",
+    @skip_unless_test_level(
+        LARGE_DATA_TEST_LEVEL,
+        "set PMM_TEST_LEVEL>=2 to run large download tests",
     )
     def test_download_large_file(self):
         """download a large file, use the file name in the url and unzip automatically"""
@@ -230,9 +241,9 @@ class DownloadFileTestCase(unittest.TestCase):
             self.assertTrue(os.path.isfile(output_filename))
             self.assertTrue(os.path.isfile(metafile))
 
-    @unittest.skipIf(
-        int(os.getenv("PMM_TEST_LEVEL", 0)) < 1,
-        "this will download a large volume of data",
+    @skip_unless_test_level(
+        LARGE_DATA_TEST_LEVEL,
+        "set PMM_TEST_LEVEL>=2 to run large download tests",
     )
     def test_download_large_file_rename(self):
         """download a large file and save with a caller specified file name"""

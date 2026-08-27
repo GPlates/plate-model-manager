@@ -4,7 +4,14 @@ import os
 import sys
 import unittest
 
-from common import TEMP_TEST_DIR, get_test_logger, is_test_installed_module
+from common import (
+    INTEGRATION_TEST_LEVEL,
+    LARGE_DATA_TEST_LEVEL,
+    TEMP_TEST_DIR,
+    get_test_logger,
+    is_test_installed_module,
+    skip_unless_test_level,
+)
 from plate_model_manager.utils.enums import ReferenceFrame
 
 if not is_test_installed_module():
@@ -24,11 +31,13 @@ logger = get_test_logger(logger_name)
 logger.info(plate_model_manager.__file__)
 
 
+@skip_unless_test_level(
+    INTEGRATION_TEST_LEVEL,
+    "set PMM_TEST_LEVEL>=1 to run plate model integration tests",
+)
 class PlateModelTestCase(unittest.TestCase):
     def setUp(self):
-        model_manager = PlateModelManager(
-            f"{os.path.dirname(__file__)}/../config/models.json"
-        )
+        model_manager = PlateModelManager()
 
         # test remote models.json with URL
         # model_manager = plate_model.PlateModelManager(
@@ -106,9 +115,9 @@ class PlateModelTestCase(unittest.TestCase):
 
         self.model.download_time_dependent_rasters("AgeGrids", times=[1, 2])
 
-    @unittest.skipIf(
-        int(os.getenv("PMM_TEST_LEVEL", 0)) < 1,
-        "this will download a large volume of data",
+    @skip_unless_test_level(
+        LARGE_DATA_TEST_LEVEL,
+        "set PMM_TEST_LEVEL>=2 to run large download tests",
     )
     def test_download_all(self):
         if self.model is None:
@@ -118,9 +127,7 @@ class PlateModelTestCase(unittest.TestCase):
     def test_get_rotation_model_for_pmag_reference_frame(self):
         """Test getting rotation files for pmag reference frame."""
         logger.info("test_get_rotation_model_for_pmag_reference_frame ...")
-        model_manager = PlateModelManager(
-            f"{os.path.dirname(__file__)}/../config/models.json"
-        )
+        model_manager = PlateModelManager()
         model = model_manager.get_model("zahirovic2022", data_dir=TEMP_TEST_DIR)
         if model is None:
             raise Exception("Cannot get zahirovic2022 model!")

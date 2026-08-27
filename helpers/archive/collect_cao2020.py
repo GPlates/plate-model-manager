@@ -1,3 +1,5 @@
+# This model is completely superfluous, as its content is entirely integrated into the Z22 model.
+# It needs to be deleted.
 import glob
 import io
 import shutil
@@ -11,7 +13,7 @@ import utils
 
 from plate_model_manager.zenodo import ZenodoRecord
 
-# hhttps://zenodo.org/doi/10.5281/zenodo.3854459
+# https://zenodo.org/doi/10.5281/zenodo.3854459
 record = ZenodoRecord(3854459)
 latest_id = record.get_latest_version_id()
 print(f"The latest version ID is: {latest_id}.")

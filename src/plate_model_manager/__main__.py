@@ -1,10 +1,28 @@
+#
+#    Copyright (C) 2024-2026 The University of Sydney, Australia
+#
+#    This program is free software; you can redistribute it and/or modify it under
+#    the terms of the GNU General Public License, version 2, as published by
+#    the Free Software Foundation.
+#
+#    This program is distributed in the hope that it will be useful, but WITHOUT
+#    ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+#    FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+#    for more details.
+#
+#    You should have received a copy of the GNU General Public License along
+#    with this program; if not, write to Free Software Foundation, Inc.,
+#    51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
 import argparse
 import json
 import logging
 import os
 import sys
 
-from plate_model_manager import PlateModelManager, __version__, check_update
+from . import PlateModelManager, __version__, check_update
+from .utils import collect_update_model
+from .utils.layer_validation import validate_layers
 
 logger = logging.getLogger("pmm")
 
@@ -42,7 +60,7 @@ def _run_download_command(args):
 
     if args.model.lower() == "all":
         pm_manager.download_all_models(args.path)
-        logger.info(f"All models have been downloaded and saved in {args.path}")
+        logger.info(f"All models have been saved in {args.path}.")
     else:
         model = pm_manager.get_model(args.model)
         if model is not None:
@@ -52,13 +70,49 @@ def _run_download_command(args):
                 model.download_all()
             else:
                 model.download_all_layers()
-            logger.info(
-                f"Model({args.model}) has been downloaded and saved in {args.path}"
-            )
+            logger.info(f"Model({args.model}) has been saved in {model.model_dir}.")
 
 
 def _run_check_update_command(args):
     check_update()
+
+
+def _run_validate_layers_command(args):
+    checked_models, issues, base_url = validate_layers(
+        args.config_url,
+        base_url=args.base_url,
+        timeout=args.timeout,
+    )
+
+    if issues:
+        print("Layer validation failed:")
+        for issue in issues:
+            print(f"- {issue}")
+        raise SystemExit(1)
+
+    print(f"Layer validation passed for {checked_models} models against {base_url}.")
+
+
+def _run_collect_model_command(args):
+    try:
+        collect_update_model.collect_model(
+            args.model,
+            args.target_dir,
+            args.source,
+        )
+    except ValueError as exc:
+        raise SystemExit(str(exc)) from exc
+
+
+def _run_upload_model_command(args):
+    try:
+        collect_update_model.upload_model(
+            args.model_path,
+            args.remote_target,
+            args.ssh_key,
+        )
+    except ValueError as exc:
+        raise SystemExit(str(exc)) from exc
 
 
 def main():
@@ -123,6 +177,80 @@ def main():
         help="check if new versions of plate models are available on Zenodo",
     )
     check_update_cmd.set_defaults(func=_run_check_update_command)
+
+    validate_layers_cmd = subparser.add_parser(
+        "validate-layers",
+        description="Validate configured Layers against remote model zip files.",
+        help="validate configured layers against remote model zip files",
+    )
+    validate_layers_cmd.add_argument(
+        "--config-url",
+        default="https://repo.gplates.org/webdav/pmm/config/models_v2.json",
+        help="URL or local path to a PMM configuration JSON file. Defaults to https://repo.gplates.org/webdav/pmm/config/models_v2.json.",
+    )
+    validate_layers_cmd.add_argument(
+        "--base-url",
+        default="https://repo.gplates.org/webdav/pmm",
+        help="Base URL of remote model folders to validate against. Defaults to https://repo.gplates.org/webdav/pmm.",
+    )
+    validate_layers_cmd.add_argument(
+        "--timeout",
+        type=int,
+        default=30,
+        help="HTTP timeout in seconds for remote requests. Default is 30 seconds.",
+    )
+    validate_layers_cmd.set_defaults(func=_run_validate_layers_command)
+
+    collect_model_cmd = subparser.add_parser(
+        "collect-model",
+        description=("Collect model files from data sources."),
+        help="collect model files from data sources",
+    )
+    collect_model_cmd.add_argument(
+        "model",
+        type=str,
+        help="model name to collect.",
+    )
+    collect_model_cmd.add_argument(
+        "target_dir",
+        type=str,
+        nargs="?",
+        default=".",
+        help="the folder into which to put the model files.",
+    )
+    collect_model_cmd.add_argument(
+        "--source",
+        default=str(collect_update_model.DEFAULT_COLLECT_MODELS_SOURCE),
+        help="path or URL to the configuration JSON of model data sources.",
+    )
+
+    collect_model_cmd.set_defaults(func=_run_collect_model_command)
+
+    upload_model_cmd = subparser.add_parser(
+        "upload-model",
+        description=("Upload model files to a remote destination."),
+        help="upload model files to a remote destination",
+    )
+
+    upload_model_cmd.add_argument(
+        "model_path",
+        type=str,
+        help="path to the model files to upload.",
+    )
+
+    upload_model_cmd.add_argument(
+        "--remote-target",
+        default=collect_update_model.DEFAULT_REMOTE_TARGET,
+        help=("Remote target for upload, in the format of user@host:path."),
+    )
+
+    upload_model_cmd.add_argument(
+        "--ssh-key",
+        default=collect_update_model.DEFAULT_IDENTITY_FILE,
+        help="SSH private key path for upload.",
+    )
+
+    upload_model_cmd.set_defaults(func=_run_upload_model_command)
 
     if len(sys.argv) == 1:
         parser.print_help(sys.stderr)

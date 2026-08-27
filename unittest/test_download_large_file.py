@@ -6,7 +6,12 @@ import time
 import unittest
 
 sys.path.insert(0, f"{os.path.dirname(__file__)}/../src")
-from common import TEMP_TEST_DIR, get_test_logger
+from common import (
+    LARGE_DATA_TEST_LEVEL,
+    TEMP_TEST_DIR,
+    get_test_logger,
+    skip_unless_test_level,
+)
 
 from plate_model_manager import network_aiohttp, network_requests
 
@@ -24,8 +29,9 @@ auto_unzip = True
 # the performance improvement depends on the server/network's configuration
 
 
-@unittest.skipIf(
-    int(os.getenv("PMM_TEST_LEVEL", 0)) < 1, "this will download a large volume of data"
+@skip_unless_test_level(
+    LARGE_DATA_TEST_LEVEL,
+    "set PMM_TEST_LEVEL>=2 to run large download tests",
 )
 class DownloadLargeFileTestCase(unittest.TestCase):
     def setUp(self):

@@ -1,3 +1,19 @@
+#
+#    Copyright (C) 2024-2026 The University of Sydney, Australia
+#
+#    This program is free software; you can redistribute it and/or modify it under
+#    the terms of the GNU General Public License, version 2, as published by
+#    the Free Software Foundation.
+#
+#    This program is distributed in the hope that it will be useful, but WITHOUT
+#    ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+#    FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+#    for more details.
+#
+#    You should have received a copy of the GNU General Public License along
+#    with this program; if not, write to Free Software Foundation, Inc.,
+#    51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
 import asyncio
 import concurrent.futures
 import functools
@@ -36,14 +52,23 @@ logger = logging.getLogger("pmm")
 
 
 class PlateModel:
-    """Download and manage files required for a plate reconstruction model.
+    """Download and manage files for a plate reconstruction model.
 
-    👀👇 **LOOK HERE!!!** 👀👇
+    In most workflows, create instances through
+    :py:meth:`PlateModelManager.get_model` so model configuration and metadata
+    are resolved automatically. Direct instantiation is primarily intended for
+    advanced or offline use (for example, ``readonly=True`` with pre-downloaded
+    local files).
 
-    Normally you should always use :py:meth:`PlateModelManager.get_model()` to get a :class:`PlateModel` object.
-    Create a :class:`PlateModel` object directly only when you don't have Internet connection and would like
-    to use the local model files in ``readonly`` mode.
-    Do not create a :class:`PlateModel` object directly if you have no idea what's going on.
+    .. note::
+
+        You can use this class to do the things listed below.
+
+        - Get a list of available layers in a plate model.
+        - Download the rotation file(s).
+        - Download the layer file(s) for a specific layer.
+        - Download time-dependent raster files.
+        - Download all files in a plate model.
 
     .. seealso::
 
@@ -59,32 +84,38 @@ class PlateModel:
         readonly=False,
         timeout=(None, None),
     ):
-        """Constructor. Create a :class:`PlateModel` instance.
+        """Create a :class:`PlateModel` instance.
 
-        :param model_name: The model name of interest.
+        :param model_name: Model name to load.
         :type model_name: str
-        :param model_cfg: The model configuration in JSON format.
-                          The configuration is either downloaded from the server or
-                          loaded from a local file ``.metadata.json``. If you are confused by this parameter,
-                          use :py:meth:`PlateModelManager.get_model()` to get a :class:`PlateModel` object instead.
-        :param data_dir: The folder path to save the model data.
+        :param model_cfg: Model configuration dictionary. This is typically
+            provided by :py:meth:`PlateModelManager.get_model`, or loaded from
+            local metadata in readonly mode.
+        :param data_dir: Parent directory used to store model files.
         :type data_dir: str, default="."
-        :param readonly: If this flag is set to ``True``, The :class:`PlateModel` object will use
-                         the files in the local folder and will not attempt to
-                         download/update the files from the server.
+        :param reference_frame: Default reference frame associated with this
+            instance.
+        :type reference_frame: ReferenceFrame or None
+        :param readonly: If ``True``, use only local files and do not perform
+            downloads or updates.
         :type readonly: bool, default=False
-        :param timeout: Network connection `timeout parameter <https://requests.readthedocs.io/en/latest/user/advanced/#timeouts>`__.
+        :param timeout: Network timeout tuple passed to file downloads.
+        :raises Exception: If ``readonly=True`` and the local model directory is
+            invalid.
         """
+        if reference_frame is not None and not isinstance(
+            reference_frame, ReferenceFrame
+        ):
+            raise ValueError("reference_frame must be a ReferenceFrame value or None")
+
         self.model_name = model_name.lower()
         self.meta_filename = METADATA_FILENAME
         self._model = model_cfg
-        self.reference_frame = reference_frame
+        self._reference_frame = reference_frame
         self.readonly = readonly
         self.timeout = timeout
 
         self.data_dir = data_dir
-
-        self.model_dir = f"{self.data_dir}/{self.model_name}"
 
         if readonly:
             if not PlateModel.is_model_dir(self.model_dir):
@@ -94,6 +125,16 @@ class PlateModel:
             else:
                 with open(f"{self.model_dir}/{self.meta_filename}", "r") as f:
                     self._model = json.load(f)
+
+        # validate the model support the reference frame if the reference frame is specified
+        if (
+            self._reference_frame is not None
+            and self._model is not None
+            and self._reference_frame not in self.get_supported_reference_frames()
+        ):
+            raise ValueError(
+                f"reference_frame {self._reference_frame.value} is not supported by model '{self.model_name}'"
+            )
 
         if not readonly:
             # async and concurrent things
@@ -109,7 +150,12 @@ class PlateModel:
 
     @property
     def model(self) -> Dict:
-        """The model metadata."""
+        """Return model metadata for this instance.
+
+        :returns: Model configuration dictionary.
+        :rtype: Dict
+        :raises Exception: If model configuration is unexpectedly unavailable.
+        """
         if self._model is not None:
             return self._model
         else:
@@ -126,6 +172,7 @@ class PlateModel:
         self._model = var
 
     def __getstate__(self):
+        """Return picklable instance state without executor or event loop."""
         attributes = self.__dict__.copy()
         attributes.pop("executor", None)
         attributes.pop("loop", None)
@@ -133,6 +180,7 @@ class PlateModel:
         return attributes
 
     def __setstate__(self, state):
+        """Restore instance state and recreate async helpers when writable."""
         self.__dict__ = state
         if not self.readonly:
             # async and concurrent things
@@ -142,46 +190,77 @@ class PlateModel:
             asyncio.set_event_loop(self.loop)
 
     def __del__(self):
-        if not self.readonly:
+        """Close the event loop when the instance is garbage collected."""
+        if not getattr(self, "readonly", True):
             try:
-                self.loop.close()
+                loop = getattr(self, "loop", None)
+                if loop is not None:
+                    loop.close()
             except:
                 pass  # ignore the exception when closing the loop if any
 
     def get_cfg(self):
-        """Return the model configuration."""
+        """Return the model configuration dictionary.
+
+        :returns: Model metadata dictionary.
+        :rtype: Dict
+        """
         return self.model
 
     def get_model_dir(self):
-        """Return the path to a folder containing the model files."""
-        if PlateModel.is_model_dir(self.model_dir):
-            return self.model_dir
+        """Return the local directory path for this model.
+
+        In writable mode, the model directory is created when missing.
+
+        :returns: Absolute or relative path to this model folder.
+        :rtype: str
+        :raises Exception: If the folder is missing in readonly mode.
+        """
+        _model_dir = f"{self.data_dir}/{self.model_name}"
+        if PlateModel.is_model_dir(_model_dir):
+            return _model_dir
         elif not self.readonly:
             return self.create_model_dir()
         else:
             raise Exception(
-                f"The model dir {self.model_dir} is invalid and could not create it (in readonly mode)."
+                f"The model dir {_model_dir} is invalid and could not create it (in readonly mode)."
             )
 
     def get_data_dir(self):
-        """Return the path to a folder (parent folder of the ``model dir``) containing a set of downloaded models."""
+        """Return the parent directory containing downloaded models.
+
+        :returns: Data directory path.
+        :rtype: str
+        """
         return self.data_dir
 
+    @property
+    def model_dir(self):
+        """Return the model folder path under ``data_dir``."""
+        return self.get_model_dir()
+
     def set_data_dir(self, new_dir):
-        """Change the folder (parent folder of the ``model dir``) in which you would like to save your model."""
+        """Set a new parent directory for this model.
+
+        :param new_dir: New data directory path.
+        """
         self.data_dir = new_dir
-        self.model_dir = f"{self.data_dir}/{self.model_name}/"
 
     def get_big_time(self):
-        """The max (big number in Ma) reconstruction time in the model."""
+        """Return the maximum reconstruction time in Ma."""
         return self.model["BigTime"]
 
     def get_small_time(self):
-        """The min (small number in Ma) reconstruction time in the model."""
+        """Return the minimum reconstruction time in Ma."""
         return self.model["SmallTime"]
 
     def get_avail_layers(self):
-        """Get all available layers in this plate model."""
+        """Return all available geometry layer names in this model.
+
+        :returns: Layer names.
+        :rtype: list[str]
+        :raises Exception: If model configuration is missing.
+        """
         if not self.model:
             raise Exception("Fatal: No model configuration found!")
         return list(self.model["Layers"].keys())
@@ -229,19 +308,29 @@ class PlateModel:
         if not self.readonly:
             rotation_folder = self._download_layer_files("Rotations")
         else:
+            logger.debug(
+                f"Getting rotation files from local folder {self.model_dir}/Rotations since we are in readonly mode."
+            )
             rotation_folder = f"{self.model_dir}/Rotations"
         rotation_files = glob.glob(f"{rotation_folder}/*.rot")
         rotation_files.extend(glob.glob(f"{rotation_folder}/*.grot"))
+
+        # if the reference frame is not specified, use the reference frame of this model,
+        # which may have been specified when creating this PlateModel instance
         if reference_frame is None:
-            reference_frame = self.reference_frame
+            reference_frame = self._reference_frame
+
         if reference_frame == ReferenceFrame.PmagReferenceFrame:
             attrs = self.model.get("Attributes", None)
             pmag_ref_frame_anchor_pid = (
                 attrs.get("PmagReferenceFrameAnchorPID", None) if attrs else None
             )
             if pmag_ref_frame_anchor_pid is None:
-                if self.reference_frame == ReferenceFrame.PmagReferenceFrame:
-                    # if the model is already in PMAG reference frame, we can just set the anchor PID to 0
+                if (
+                    ReferenceFrame.PmagReferenceFrame
+                    in self.get_supported_reference_frames()
+                ):
+                    # this means the model is in PMAG reference frame by default, we can just return the anchor PID 0
                     pmag_ref_frame_anchor_pid = 0
                 else:
                     raise Exception(
@@ -249,13 +338,14 @@ class PlateModel:
                     )
             return rotation_files, pmag_ref_frame_anchor_pid
         else:
-            # for mantle reference frame, we don't need to know the anchor PID
+            # for mantle reference frame, which is the default, we don't need to know the anchor PID which is always 0,
+            # so we just return the rotation files
             return rotation_files
 
     def get_coastlines(
         self, return_none_if_not_exist: bool = False
     ) -> Union[List[str], None]:
-        """Return a list of ``coastlines`` files."""
+        """Return local file paths for the ``Coastlines`` layer."""
         return self.get_layer(
             "Coastlines", return_none_if_not_exist=return_none_if_not_exist
         )
@@ -263,7 +353,7 @@ class PlateModel:
     def get_static_polygons(
         self, return_none_if_not_exist: bool = False
     ) -> Union[List[str], None]:
-        """Return a list of ``static polygons`` files."""
+        """Return local file paths for the ``StaticPolygons`` layer."""
         return self.get_layer(
             "StaticPolygons", return_none_if_not_exist=return_none_if_not_exist
         )
@@ -271,7 +361,7 @@ class PlateModel:
     def get_continental_polygons(
         self, return_none_if_not_exist: bool = False
     ) -> Union[List[str], None]:
-        """Return a list of ``continental polygons`` files."""
+        """Return local file paths for the ``ContinentalPolygons`` layer."""
         return self.get_layer(
             "ContinentalPolygons", return_none_if_not_exist=return_none_if_not_exist
         )
@@ -279,7 +369,7 @@ class PlateModel:
     def get_topologies(
         self, return_none_if_not_exist: bool = False
     ) -> Union[List[str], None]:
-        """Return a list of ``topologies`` files."""
+        """Return local file paths for the ``Topologies`` layer."""
         return self.get_layer(
             "Topologies", return_none_if_not_exist=return_none_if_not_exist
         )
@@ -287,24 +377,54 @@ class PlateModel:
     def get_COBs(
         self, return_none_if_not_exist: bool = False
     ) -> Union[List[str], None]:
-        """Return a list of ``Continent-Ocean Boundaries`` files."""
+        """Return local file paths for the ``COBs`` layer."""
         return self.get_layer("COBs", return_none_if_not_exist=return_none_if_not_exist)
+
+    def get_vector_data(
+        self, name: str, return_none_if_not_exist: bool = False
+    ) -> Union[List[str], None]:
+        """Return local file paths for the vector data in this model.
+
+        This is an alias for :meth:`get_layer` to access vector data layers such
+        as Coastlines, Topologies, StaticPolygons, etc. The purpose of this function is to provide
+        a more intuitive API for users who may wonder whether the term "layer" means vector layer or raster layer.
+        You can use this function to get file paths for vector data available in this model by specifying its name.
+
+        Call :meth:`get_avail_layers` to get a list of available names for vector data.
+
+        :param name: The vector data name which is the same with the `layer_name` in :meth:`get_layer`.
+            Call :meth:`get_avail_layers` to get a list of available vector layer names.
+        :param return_none_if_not_exist: If ``True``, return ``None`` instead
+            of raising exception when the vector data doesn't exist.
+        :returns: List of vector data file paths, or ``None`` when
+            ``return_none_if_not_exist=True`` and the vector data doesn't exist."""
+
+        return self.get_layer(name, return_none_if_not_exist=return_none_if_not_exist)
 
     def get_layer(
         self, layer_name: str, return_none_if_not_exist: bool = False
     ) -> Union[List[str], None]:
-        """Get a list of layer files by a layer name. Call :meth:`get_avail_layers` to get all the available layer names.
+        """Return local file paths for a geometry layer in this model.
 
-        Raise :class:`LayerNotFoundInModel` exception to get user's attention by default.
-        Set ``return_none_if_not_exist`` to ``True`` if you don't want to see the :class:`LayerNotFoundInModel` exception.
+        In writable mode, this function will check if the layer files exist on the local computer.
+        If the files don't exist or need to be updated, they are downloaded or updated before paths are returned.
 
-        :param layer_name: The layer name of interest.
-        :param return_none_if_not_exist: If set to ``True``, return ``None`` when the layer does not exist in the model.
+        In readonly mode, paths are resolved from the local model folder without checking for updates.
 
-        :returns: A list of file names or ``None`` if ``return_none_if_not_exist`` is set to ``True``.
+        .. note::
 
-        :raises :class:`LayerNotFoundInModel`: Raise this exception if the layer name does not exist in this model.
+            This function is for accessing geometry layers(vector data), such as Coastlines, Topologies, StaticPolygons, etc.
+            Call :meth:`get_avail_layers` to get a list of available layer names.
+            For accessing time-dependent rasters, use :meth:`get_raster` or :meth:`get_rasters`.
 
+        :param layer_name: Layer name.
+            Call :meth:`get_avail_layers` to get a list of available layer names.
+        :param return_none_if_not_exist: If ``True``, return ``None`` instead
+            of raising exception when the layer does not exist.
+        :returns: List of matching layer file paths, or ``None`` when
+            ``return_none_if_not_exist=True`` and the layer does not exist.
+        :raises LayerNotFoundInModel: If the layer does not exist and
+            ``return_none_if_not_exist`` is ``False``.
         """
         try:
             if not self.readonly:
@@ -313,7 +433,7 @@ class PlateModel:
                 layer_folder = f"{self.model_dir}/{layer_name}"
             files = []
             for ext in FILE_EXT:
-                files.extend(glob.glob(f"{layer_folder}/*.{ext}"))
+                files.extend(glob.glob(f"{layer_folder}/**/*.{ext}", recursive=True))
 
             return files
         except LayerNotFoundInModel as e:
@@ -326,32 +446,138 @@ class PlateModel:
             else:
                 raise e
 
+    def get_layer_metadata(
+        self, layer_name: str, return_none_if_not_exist: bool = False
+    ) -> Union[Dict, None]:
+        """Return metadata for a layer as a dictionary.
+
+        In writable mode, this method ensures the layer is downloaded/updated
+        before reading metadata. In readonly mode, it reads from the local
+        layer folder directly.
+
+        :param layer_name: The layer name of interest.
+
+        :param return_none_if_not_exist: If set to ``True``, return ``None``
+                                         when the layer does not exist in the
+                                         model.
+
+        :returns: Layer metadata dictionary, or ``None`` if
+                  ``return_none_if_not_exist`` is set to ``True`` and the layer
+                  is not found.
+
+        :raises LayerNotFoundInModel: Raise this exception if the layer name
+                          does not exist in this model.
+        :raises Exception: If the layer metadata file is missing.
+
+        """
+        try:
+            if not self.readonly:
+                layer_folder = self._download_layer_files(layer_name)
+            else:
+                layer_folder = f"{self.model_dir}/{layer_name}"
+
+            metadata_file = f"{layer_folder}/{self.meta_filename}"
+            if not os.path.isfile(metadata_file):
+                raise Exception(
+                    f"Layer metadata file not found for layer({layer_name}) in model({self.model_name}): {metadata_file}"
+                )
+
+            with open(metadata_file, "r") as f:
+                return json.load(f)
+        except LayerNotFoundInModel as e:
+            logger.warning(e)
+            if return_none_if_not_exist:
+                logger.warning(
+                    f"The layer({layer_name}) does not exist in model({self.model_name})."
+                )
+                return None
+            else:
+                raise e
+
+    def _best_effort_to_get_raster_name_from_config(self, raster_name):
+        if raster_name in self.model.get("TimeDepRasters", {}):
+            return raster_name
+        else:
+            for name in self.model.get("TimeDepRasters", {}):
+                if name.lower() == raster_name.lower():
+                    logger.warning(
+                        f"Raster '{raster_name}' not found in this model '{self.model_name}', but '{name}' exists. Will use '{name}' for now."
+                    )
+                    return name
+        return None
+
     def _resolve_raster_name(self, raster_name, reference_frame, generated_from):
-        resolved_raster_name = raster_name
-        if reference_frame is None:
-            reference_frame = self.reference_frame
-        if generated_from is not None:
-            resolved_raster_name = f"{raster_name}{generated_from.value}"
-        name_without_reference_frame = resolved_raster_name
-        if reference_frame is not None:
-            resolved_raster_name = f"{resolved_raster_name}{reference_frame.value}"
+        """Resolve a canonical time-dependent raster key from optional suffixes.
+
+        :param raster_name: Base raster name.
+        :param reference_frame: Optional reference frame suffix.
+        :param generated_from: Optional generation method suffix.
+        :returns: Raster key present in ``model["TimeDepRasters"]``.
+        :rtype: str
+        :raises Exception: If the model has no time-dependent rasters or the
+            resolved name cannot be matched.
+        """
         if not "TimeDepRasters" in self.model:
             raise Exception(
                 f"No time-dependent rasters found in this model '{self.model_name}'."
             )
-        if not resolved_raster_name in self.model["TimeDepRasters"]:
-            if name_without_reference_frame in self.model["TimeDepRasters"]:
-                logger.warning(
-                    f"Raster '{resolved_raster_name}' not found in this model '{self.model_name}', but '{name_without_reference_frame}' exists. This may be because the model does not have different reference frame versions of this raster. Will use '{name_without_reference_frame}' for now."
-                )
-                return name_without_reference_frame
+
+        # if the reference frame is not specified, use the reference frame of this model,
+        # which may have been specified when creating this PlateModel instance
+        if reference_frame is None:
+            reference_frame = self._reference_frame
+
+        if reference_frame is None and generated_from is None:
+            name_in_config = self._best_effort_to_get_raster_name_from_config(
+                raster_name
+            )
+            if name_in_config is not None:
+                return name_in_config
             else:
-                raise Exception(
-                    f"Time-dependent rasters ({resolved_raster_name}) not found in this model '{self.model_name}'. "
-                    + f"The raster name is constructed as: {raster_name}+{generated_from.value}+{reference_frame.value}."
-                    + f"Available: {self.model['TimeDepRasters']}"
+                # try the best to deduce the raster name
+                guessed_name = f"{raster_name}{GenerationMethod.Isochrons.value}{ReferenceFrame.MantleReferenceFrame.value}"
+                name_in_config = self._best_effort_to_get_raster_name_from_config(
+                    guessed_name
                 )
-        return resolved_raster_name
+                if name_in_config is not None:
+                    return name_in_config
+        else:
+            resolved_raster_name = raster_name
+            if generated_from is not None:
+                resolved_raster_name = f"{raster_name}{generated_from.value}"
+            name_without_reference_frame = resolved_raster_name
+            if reference_frame is not None:
+                resolved_raster_name = f"{resolved_raster_name}{reference_frame.value}"
+
+            name_in_config = self._best_effort_to_get_raster_name_from_config(
+                resolved_raster_name
+            )
+            if name_in_config is not None:
+                return name_in_config
+            else:
+                name_in_config = self._best_effort_to_get_raster_name_from_config(
+                    name_without_reference_frame
+                )
+                if name_in_config is not None:
+                    logger.warning(
+                        f"Raster '{resolved_raster_name}' not found in this model '{self.model_name}', but '{name_in_config}' exists. Will use '{name_in_config}' for now."
+                    )
+                    return name_in_config
+
+        # the last effort to try the base raster name without any suffix,
+        # in case the model does not strictly follow the naming convention
+        name_in_config = self._best_effort_to_get_raster_name_from_config(raster_name)
+        if name_in_config is not None:
+            logger.warning(
+                f"Raster '{resolved_raster_name}' not found in this model '{self.model_name}', but '{name_in_config}' exists. Will use '{name_in_config}' for now."
+            )
+            return name_in_config
+
+        raise Exception(
+            f"Time-dependent rasters ({resolved_raster_name}) were not found in this model '{self.model_name}'.\n"
+            + f"Available time-dependent rasters in '{self.model_name}':\n"
+            + "\n".join(self.model.get("TimeDepRasters", {}).keys())
+        )
 
     def get_raster(
         self,
@@ -455,7 +681,7 @@ class PlateModel:
         reference_frame: Union[ReferenceFrame, None] = None,
         generated_from: Union[GenerationMethod, None] = None,
     ) -> str:
-        """Return a local path for the age grid raster file at a given time."""
+        """Return a local path for an ``AgeGrids`` raster at ``time`` Ma."""
         return self.get_raster("AgeGrids", time, reference_frame, generated_from)
 
     def get_age_grids(
@@ -464,7 +690,7 @@ class PlateModel:
         reference_frame: Union[ReferenceFrame, None] = None,
         generated_from: Union[GenerationMethod, None] = None,
     ) -> List[str]:
-        """Return local paths for the age grid raster files at given times."""
+        """Return local paths for ``AgeGrids`` rasters at multiple times."""
         return self.get_rasters("AgeGrids", times, reference_frame, generated_from)
 
     def get_spreading_rate_grid(
@@ -473,7 +699,7 @@ class PlateModel:
         reference_frame: Union[ReferenceFrame, None] = None,
         generated_from: Union[GenerationMethod, None] = None,
     ) -> str:
-        """Return a local path for the spreading rate grid raster file at a given time."""
+        """Return a local path for a ``SpreadingRate`` raster at ``time`` Ma."""
         return self.get_raster("SpreadingRate", time, reference_frame, generated_from)
 
     def get_spreading_rate_grids(
@@ -482,7 +708,7 @@ class PlateModel:
         reference_frame: Union[ReferenceFrame, None] = None,
         generated_from: Union[GenerationMethod, None] = None,
     ) -> List[str]:
-        """Return local paths for the spreading rate grid raster files at given times."""
+        """Return local paths for ``SpreadingRate`` rasters at multiple times."""
         return self.get_rasters("SpreadingRate", times, reference_frame, generated_from)
 
     def _create_readme_content(self) -> str:
@@ -534,12 +760,12 @@ class PlateModel:
         :raises Exception: If running in readonly mode, if ``self.model_dir`` is
                            invalid/empty, or if the model path exists as a file.
         """
+        model_path = f"{self.data_dir}/{self.model_name}"
         if self.readonly:
             raise Exception("Unable to create model folder in readonly mode.")
-        if not self.model_dir:
-            raise Exception(f"Error: Invalid model folder {self.model_dir}")
+        if not model_path:
+            raise Exception(f"Error: Invalid model folder {model_path}")
 
-        model_path = self.model_dir
         if os.path.isfile(model_path):
             raise Exception(
                 f"Fatal: The model folder {model_path} already exists and is a file!! Remove the file or use another folder to download the model."
@@ -559,38 +785,41 @@ class PlateModel:
 
     @staticmethod
     def is_model_dir(folder_path: str):
-        """Return ``True`` if the folder contains files of a plate model, otherwise ``False``."""
+        """Return whether ``folder_path`` looks like a local model directory."""
         return os.path.isdir(folder_path) and os.path.isfile(
             f"{folder_path}/.metadata.json"
         )
 
     def purge(self):
-        """Remove the model folder and everything inside the folder."""
+        """Delete the model directory and all files under it, if present."""
         if os.path.isdir(self.model_dir):
             shutil.rmtree(self.model_dir)
 
     def purge_layer(self, layer_name):
-        """Remove the layer folder of the given layer name."""
+        """Delete a local layer directory for ``layer_name``, if present."""
         layer_path = f"{self.model_dir}/{layer_name}"
         if os.path.isdir(layer_path):
             shutil.rmtree(layer_path)
 
     def purge_time_dependent_rasters(self, raster_name):
-        """Remove the raster folder of the given raster name."""
+        """Delete local cached rasters for ``raster_name``, if present."""
         raster_path = f"{self.model_dir}/{raster_name}"
         if os.path.isdir(raster_path):
             shutil.rmtree(raster_path)
 
     def _download_layer_files(self, layer_name):
-        """Download layer files for a given layer name. You should use :meth:`get_layer`, instead of this one, whenever possible.
+        """Download and cache files for one layer, then return its folder path.
 
-        The layer files are in a ".zip" file. This function will download and unzip it.
+        Prefer :meth:`get_layer` for normal usage. This lower-level helper is
+        used internally and handles update checks and historical backups of
+        replaced layer folders.
 
-        :param layer_name: the layer name, such as "Rotations","Coastlines", "StaticPolygons", "ContinentalPolygons", "Topologies", etc.
-                           Call :meth:`get_avail_layers` to get all the available layer names.
-
-        :returns: the folder path which contains the layer files
-
+        :param layer_name: Layer name such as ``Rotations`` or ``Coastlines``.
+        :returns: Path to the local layer folder.
+        :rtype: str
+        :raises Exception: If called in readonly mode.
+        :raises LayerNotFoundInModel: If the layer is not configured in this
+            model.
         """
         if self.readonly:
             raise Exception("Unable to download layer files in readonly mode.")
@@ -617,16 +846,23 @@ class PlateModel:
         else:
             if downloader.check_if_expire_date_need_update():
                 # update the expiry date
+                logger.debug(
+                    f"The local files in {layer_folder} are still good but the expiry date needs to be updated. Will update the expiry date in metadata."
+                )
                 downloader.update_metadata()
-
-            logger.debug(
-                f"The local files in {layer_folder} are still good. Will not download again at this moment."
-            )
+            else:
+                logger.debug(
+                    f"The local files in {layer_folder} are still good. Will not download again at this moment."
+                )
 
         return layer_folder
 
     def download_all_layers(self):
-        """Download all layers. This function calls :meth:`download_layer_files()` on every available layer."""
+        """Download all configured layers for this model.
+
+        This includes ``Rotations`` when available, plus every entry under
+        ``model["Layers"]``.
+        """
         if self.readonly:
             raise Exception("Unable to download all layers in readonly mode.")
 
@@ -650,19 +886,25 @@ class PlateModel:
             self.loop.run_until_complete(f())
 
     def get_avail_time_dependent_raster_names(self):
-        """Return all time-dependent raster names in this plate model."""
+        """Return configured names of time-dependent rasters.
+
+        :returns: Raster names from ``TimeDepRasters``, or an empty list when
+            the model defines none.
+        :rtype: list[str]
+        """
         if not "TimeDepRasters" in self.model:
             return []
         else:
             return [name for name in self.model["TimeDepRasters"]]
 
     def download_time_dependent_rasters(self, raster_name, times=None):
-        """Download time-dependent rasters for a given raster name.
+        """Download and cache a time series of rasters for ``raster_name``.
 
-        Call :meth:`get_avail_time_dependent_raster_names()` to see all the available raster names in this model.
-
-        :param raster_name: the raster name of interest
-        :param times: if not given, download from begin to end with 1My interval
+        :param raster_name: Raster key in ``model["TimeDepRasters"]``.
+        :param times: Iterable of reconstruction times (Ma). If omitted, download
+            every integer time from ``SmallTime`` to ``BigTime`` inclusive.
+        :raises Exception: If called in readonly mode or raster configuration is
+            missing.
         """
         if self.readonly:
             raise Exception(
@@ -707,13 +949,14 @@ class PlateModel:
             )
 
     def _download_raster(self, url, dst_path):
-        """Download a single raster file from ``url`` and save the file in ``dst_path``.
+        """Download one raster file to ``dst_path`` with metadata tracking.
 
-        A metadata file will also be created for the raster file in folder ``f"{dst_path}/metadata"``
+        A per-file metadata JSON is stored under ``{dst_path}/.metadata`` and
+        used to decide whether updates are required on subsequent calls.
 
-        :param url: the url to the raster file
-        :param dst_path: the folder path to save the raster file
-
+        :param url: Source URL of the raster file.
+        :param dst_path: Destination folder path for the downloaded file.
+        :raises Exception: If called in readonly mode.
         """
         if self.readonly:
             raise Exception("Unable to download raster in readonly mode.")
@@ -737,7 +980,7 @@ class PlateModel:
             )
 
     def download_all(self):
-        """Download everything in this plate model."""
+        """Download all layers and all configured time-dependent rasters."""
         if self.readonly:
             raise Exception("Unable to download all in readonly mode.")
         self.download_all_layers()
@@ -746,6 +989,16 @@ class PlateModel:
                 self.download_time_dependent_rasters(raster)
 
     def _get_layer_file_url(self, layer_name: str):
+        """Return the download URL for a configured layer.
+
+        ``Rotations`` is stored as a top-level model entry, while geometry
+        layers are stored under ``model["Layers"]``.
+
+        :param layer_name: Layer name to resolve.
+        :returns: Layer archive URL.
+        :rtype: str
+        :raises LayerNotFoundInModel: If ``layer_name`` is not configured.
+        """
         # find the layer file url. two parts. one is the rotation, the other is all other geometry layers
         if layer_name == "Rotations":
             # for Rotations
@@ -758,3 +1011,48 @@ class PlateModel:
             raise LayerNotFoundInModel(
                 f"The layer({layer_name}) was not found in model({self.model_name})."
             )
+
+    def get_supported_reference_frames(self) -> List[ReferenceFrame]:
+        """Return the reference frames which this model supports.
+
+        If the model name ends with "pmag_ref", we will consider it as a PMAG reference frame model.
+        Otherwise, it is a mantle reference frame model by default.
+
+        If the model configuration has a `PmagReferenceFrameAnchorPID` attribute,
+        we will consider this model supports both PMAG and mantle reference frame,
+        such as Zahirovic2022 model. The same rotation files can be used for both reference frames,
+        but with different default anchor plate ID. For mantle reference frame, the anchor plate ID is usually 0.
+        For PMAG reference frame, the anchor plate ID is usually a non-zero integer defined
+        in the model configuration as `PmagReferenceFrameAnchorPID` attribute.
+
+        :returns: A list of supported reference frames.
+        :rtype: list[ReferenceFrame]
+        """
+        if self.model_name.endswith("_pmag_ref"):
+            return [ReferenceFrame.PmagReferenceFrame]
+
+        attrs = self.model.get("Attributes", {})
+        if attrs.get("PmagReferenceFrameAnchorPID") is not None:
+            return [
+                ReferenceFrame.MantleReferenceFrame,
+                ReferenceFrame.PmagReferenceFrame,
+            ]
+
+        return [ReferenceFrame.MantleReferenceFrame]
+
+    def get_anchor_id_for_pmag_reference_frame(self) -> Union[int, None]:
+        """Return the PMAG anchor plate ID when this model supports PMAG.
+
+        Models that expose PMAG through ``Attributes.PmagReferenceFrameAnchorPID``
+        return that configured anchor plate ID. Dedicated ``_pmag_ref`` models
+        use ``0`` as the implicit PMAG anchor plate ID. Mantle-only models
+        return ``None``.
+
+        :returns: PMAG anchor plate ID, or ``None`` when PMAG is unsupported.
+        :rtype: int or None
+        """
+        if self.model_name.endswith("_pmag_ref"):
+            return 0
+
+        attrs = self.model.get("Attributes", {})
+        return attrs.get("PmagReferenceFrameAnchorPID")

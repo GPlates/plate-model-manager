@@ -3,17 +3,17 @@
     "SvrBaseURL": "https://repo.gplates.org/webdav/pmm"
   },
   "default": "@zahirovic2022",
-  "muller2025": "@shirmard2025",
-  "shirmard2025": {
-    "BigTime": 18000,
+  "shirmard2025": "@muller2025",
+  "muller2025": {
+    "BigTime": 1800,
     "SmallTime": 0,
-    "Rotations": "@<<SvrBaseURL>>@/shirmard2025/Rotations.zip",
+    "Rotations": "@<<SvrBaseURL>>@/muller2025/Rotations.zip",
     "Layers": {
-      "StaticPolygons": "@<<SvrBaseURL>>@/shirmard2025/StaticPolygons.zip",
-      "Coastlines": "@<<SvrBaseURL>>@/shirmard2025/Coastlines.zip",
-      "ContinentalPolygons": "@<<SvrBaseURL>>@/shirmard2025/ContinentalPolygons.zip",
-      "Topologies": "@<<SvrBaseURL>>@/shirmard2025/Topologies.zip",
-      "COBs": "@<<SvrBaseURL>>@/shirmard2025/COBs.zip"
+      "StaticPolygons": "@<<SvrBaseURL>>@/muller2025/StaticPolygons.zip",
+      "Coastlines": "@<<SvrBaseURL>>@/muller2025/Coastlines.zip",
+      "ContinentalPolygons": "@<<SvrBaseURL>>@/muller2025/ContinentalPolygons.zip",
+      "Topologies": "@<<SvrBaseURL>>@/muller2025/Topologies.zip",
+      "COBs": "@<<SvrBaseURL>>@/muller2025/COBs.zip"
     },
     "TimeDepRasters": {
       "AgeGrids": "https://repo.gplates.org/webdav/PlateModel_Age_SR_Grids/Muller_etal_2025/SeafloorAge/SEAFLOOR_AGE_grid_{:.2f}Ma.nc",
@@ -42,13 +42,13 @@
     },
     "Description": "Modified global model focused on Western North America and the eastern Pacific tomotectonic reconstruction. Set the anchor plate ID to 701701 to use PMAG reference frame. See the 'URL' below for more details.",
     "URL": "https://doi.org/10.5281/zenodo.11392268",
-    "Version": "10.5281/zenodo.19872554",
+    "Version": "10.5281/zenodo.21446885",
     "Attributes": {
       "PmagReferenceFrameAnchorPID": 701701
     }
   },
   "cao2024": {
-    "BigTime": 18000,
+    "BigTime": 1800,
     "SmallTime": 0,
     "Rotations": "@<<SvrBaseURL>>@/cao2024/Rotations.zip",
     "Layers": {
@@ -72,15 +72,16 @@
       "Coastlines": "@<<SvrBaseURL>>@/zahirovic2022/Coastlines.zip",
       "StaticPolygons": "@<<SvrBaseURL>>@/zahirovic2022/StaticPolygons.zip",
       "ContinentalPolygons": "@<<SvrBaseURL>>@/zahirovic2022/ContinentalPolygons.zip",
-      "Topologies": "@<<SvrBaseURL>>@/zahirovic2022/Topologies.zip"
+      "Topologies": "@<<SvrBaseURL>>@/zahirovic2022/Topologies.zip",
+      "COBs": "@<<SvrBaseURL>>@/zahirovic2022/COBs.zip"
     },
     "TimeDepRasters": {
-      "AgegridsUsingIsochronsMantleFrame": "https://repo.gplates.org/webdav/PlateModel_Age_SR_Grids/Zahirovic_etal_2022_GDJ/01_AgegridsUsingIsochrons/OptimisedMantleFrame/Zahirovic_etal_2022-v2_OPT_netCDF/Zahirovic_etal_2022-v2_OPT_AgeGrid-{:.0f}.nc",
-      "AgegridsUsingIsochronsPMAG": "https://repo.gplates.org/webdav/PlateModel_Age_SR_Grids/Zahirovic_etal_2022_GDJ/01_AgegridsUsingIsochrons/PaleomagneticFrame/Zahirovic_etal_2022_PaleomagneticFrame_netCDF/Zahirovic_etal_2022_PaleomagneticFrame_AgeGrid-{:.0f}.nc",
-      "AgegridsUsingTopologiesMantleFrame": "https://repo.gplates.org/webdav/PlateModel_Age_SR_Grids/Zahirovic_etal_2022_GDJ/02_AgegridsUsingTopologies/OptimisedMantleFrame/Agegrids/Zahirovic_etal_2022-v2_OPT_SEAFLOOR_AGE_grid_{:.1f}Ma.nc",
-      "AgegridsUsingTopologiesPMAG": "https://repo.gplates.org/webdav/PlateModel_Age_SR_Grids/Zahirovic_etal_2022_GDJ/02_AgegridsUsingTopologies/PaleomagneticFrame/Agegrids/Zahirovic_etal_2022-v2_PMAG_SEAFLOOR_AGE_grid_{:.1f}Ma.nc",
-      "SpreadingRateUsingTopologiesMantleFrame": "https://repo.gplates.org/webdav/PlateModel_Age_SR_Grids/Zahirovic_etal_2022_GDJ/02_AgegridsUsingTopologies/OptimisedMantleFrame/SeafloorSpreadingRateGrids/Zahirovic_etal_2022-v2_OPT_SPREADING_RATE_grid_{:.1f}Ma.nc",
-      "SpreadingRateUsingTopologiesPMAG": "https://repo.gplates.org/webdav/PlateModel_Age_SR_Grids/Zahirovic_etal_2022_GDJ/02_AgegridsUsingTopologies/PaleomagneticFrame/SeafloorSpreadingRateGrids/Zahirovic_etal_2022-v2_PMAG_SPREADING_RATE_grid_{:.1f}Ma.nc"
+      "AgeGridsUsingIsochronsMantleFrame": "https://repo.gplates.org/webdav/PlateModel_Age_SR_Grids/Zahirovic_etal_2022_GDJ/01_AgegridsUsingIsochrons/OptimisedMantleFrame/Zahirovic_etal_2022-v2_OPT_netCDF/Zahirovic_etal_2022-v2_OPT_AgeGrid-{:.0f}.nc",
+      "AgeGridsUsingIsochronsPMAG": "https://repo.gplates.org/webdav/PlateModel_Age_SR_Grids/Zahirovic_etal_2022_GDJ/01_AgegridsUsingIsochrons/PaleomagneticFrame/Zahirovic_etal_2022_PaleomagneticFrame_netCDF/Zahirovic_etal_2022_PaleomagneticFrame_AgeGrid-{:.0f}.nc",
+      "AgeGridsUsingTopologiesMantleFrame": "https://repo.gplates.org/webdav/PlateModel_Age_SR_Grids/Zahirovic_etal_2022_GDJ/02_AgegridsUsingTopologies/OptimisedMantleFrame/Agegrids/zahirovic2022_SEAFLOOR_AGE_grid_{:.2f}Ma.nc",
+      "AgeGridsUsingTopologiesPMAG": "https://repo.gplates.org/webdav/PlateModel_Age_SR_Grids/Zahirovic_etal_2022_GDJ/02_AgegridsUsingTopologies/PaleomagneticFrame/Agegrids/zahirovic2022_SEAFLOOR_AGE_grid_{:.2f}Ma.nc",
+      "SpreadingRateUsingTopologiesMantleFrame": "https://repo.gplates.org/webdav/PlateModel_Age_SR_Grids/Zahirovic_etal_2022_GDJ/02_AgegridsUsingTopologies/OptimisedMantleFrame/SeafloorSpreadingRateGrids/zahirovic2022_SPREADING_RATE_grid_{:.2f}Ma.nc",
+      "SpreadingRateUsingTopologiesPMAG": "https://repo.gplates.org/webdav/PlateModel_Age_SR_Grids/Zahirovic_etal_2022_GDJ/02_AgegridsUsingTopologies/PaleomagneticFrame/SeafloorSpreadingRateGrids/zahirovic2022_SPREADING_RATE_grid_{:.2f}Ma.nc"
     },
     "Description": "Model for subduction kinematics and carbonate platform interactions. Set the anchor plate ID to 701701 to use PMAG reference frame. See the 'URL' below for more details.",
     "URL": "https://doi.org/10.5281/zenodo.4729045",
@@ -99,7 +100,8 @@
       "ContinentalPolygons": "@<<SvrBaseURL>>@/muller2022/ContinentalPolygons.zip",
       "Topologies": "@<<SvrBaseURL>>@/muller2022/Topologies.zip",
       "COBs": "@<<SvrBaseURL>>@/muller2022/COBs.zip",
-      "Cratons": "@<<SvrBaseURL>>@/muller2022/Cratons.zip"
+      "Cratons": "@<<SvrBaseURL>>@/muller2022/Cratons.zip",
+      "PaleomagneticData": "@<<SvrBaseURL>>@/muller2022/PaleomagneticData.zip"
     },
     "TimeDepRasters": {
       "AgeGrids": "https://repo.gplates.org/webdav/PlateModel_Age_SR_Grids/Muller_etal_2022_SE/v1.2.1/Muller_etal_2022_SE_mantle-ref-frame-oceanic-crustal-agegrids_v1.2.1/Muller2022_SEAFLOOR_AGE_grid_{:.1f}Ma.nc",
@@ -118,7 +120,8 @@
       "StaticPolygons": "@<<SvrBaseURL>>@/merdith2021/StaticPolygons.zip",
       "ContinentalPolygons": "@<<SvrBaseURL>>@/merdith2021/ContinentalPolygons.zip",
       "Topologies": "@<<SvrBaseURL>>@/merdith2021/Topologies.zip",
-      "Cratons": "@<<SvrBaseURL>>@/merdith2021/Cratons.zip"
+      "Cratons": "@<<SvrBaseURL>>@/merdith2021/Cratons.zip",
+      "COBs": "@<<SvrBaseURL>>@/merdith2021/COBs.zip"
     },
     "Description": "This plate model for the last 1000 Ma is based on a paleomagnetic reference frame. In this model the longitudinal positions of the plates are unconstrained, due to the radial symmetry of the Earth's magnetic field. It is broadly based on a modified combination of MULLER2016 for the last 230 Ma, the MATTHEWS2016_pmag_ref model for 250-410 Ma and a newly constructed model for earlier times. See the 'URL' below for more details.",
     "URL": "https://doi.org/10.5281/zenodo.10346399",
@@ -133,9 +136,7 @@
       "Coastlines": "https://repo.gplates.org/webdav/pmm/clennett2020_m2019/Coastlines.zip",
       "StaticPolygons": "https://repo.gplates.org/webdav/pmm/clennett2020_m2019/StaticPolygons.zip",
       "Topologies": "https://repo.gplates.org/webdav/pmm/clennett2020_m2019/Topologies.zip",
-      "Terranes": "https://repo.gplates.org/webdav/pmm/clennett2020_m2019/Terranes.zip",
-      "ContinentalPolygons": "@<<SvrBaseURL>>@/muller2019/ContinentalPolygons.zip",
-      "COBs": "@<<SvrBaseURL>>@/muller2019/COBs.zip"
+      "Terranes": "https://repo.gplates.org/webdav/pmm/clennett2020_m2019/Terranes.zip"
     },
     "TimeDepRasters": {
       "AgeGrids": "https://repo.gplates.org/webdav/PlateModel_Age_SR_Grids/Clennett_etal_2020_G3/AgeGrids/Clennett_AgeGrids_0.1d_masked/seafloor_age_mask_{:.1f}Ma.nc",
@@ -144,7 +145,7 @@
     },
     "Description": "Quantitative tomotectonic reconstruction of western North America and the eastern Pacific basin. See the 'URL' below for more details.",
     "URL": "https://doi.org/10.5281/zenodo.10348270",
-    "Version": "10.5281/zenodo.10348271"
+    "Version": "10.5281/zenodo.20569021"
   },
   "clennett2020_s2013": {
     "BigTime": 170,
@@ -158,7 +159,7 @@
     },
     "Description": "Quantitative tomotectonic reconstruction of western North America and the eastern Pacific basin. See the 'URL' below for more details.",
     "URL": "https://doi.org/10.5281/zenodo.10348270",
-    "Version": "10.5281/zenodo.10348271"
+    "Version": "10.5281/zenodo.20569021"
   },
   "muller2019": {
     "BigTime": 250,
@@ -191,6 +192,7 @@
       "Coastlines": "@<<SvrBaseURL>>@/young2018/Coastlines.zip",
       "StaticPolygons": "@<<SvrBaseURL>>@/young2018/StaticPolygons.zip",
       "ContinentalPolygons": "@<<SvrBaseURL>>@/young2018/ContinentalPolygons.zip",
+      "COBs": "@<<SvrBaseURL>>@/young2018/COBs.zip",
       "Topologies": "@<<SvrBaseURL>>@/young2018/Topologies.zip"
     },
     "TimeDepRasters": {},
@@ -236,7 +238,8 @@
       "Coastlines": "https://repo.gplates.org/webdav/pmm/matthews2016_mantle_ref/Coastlines.zip",
       "StaticPolygons": "https://repo.gplates.org/webdav/pmm/matthews2016_mantle_ref/StaticPolygons.zip",
       "Topologies": "https://repo.gplates.org/webdav/pmm/matthews2016_mantle_ref/Topologies.zip",
-      "ContinentalPolygons": "https://repo.gplates.org/webdav/pmm/matthews2016_mantle_ref/ContinentalPolygons.zip"
+      "ContinentalPolygons": "https://repo.gplates.org/webdav/pmm/matthews2016_mantle_ref/ContinentalPolygons.zip",
+      "COBs": "https://repo.gplates.org/webdav/pmm/matthews2016_mantle_ref/COBs.zip"
     },
     "TimeDepRasters": {
       "AgeGrids": "https://repo.gplates.org/webdav/pmm/matthews2016_mantle_ref/Rasters/agegrids/agegrid-{:.0f}-Ma.png",
@@ -254,7 +257,8 @@
     "Layers": {
       "Coastlines": "@<<SvrBaseURL>>@/matthews2016_pmag_ref/Coastlines.zip",
       "StaticPolygons": "@<<SvrBaseURL>>@/matthews2016_pmag_ref/StaticPolygons.zip",
-      "ContinentalPolygons": "@<<SvrBaseURL>>@/matthews2016_pmag_ref/ContinentalPolygons.zip"
+      "ContinentalPolygons": "@<<SvrBaseURL>>@/matthews2016_pmag_ref/ContinentalPolygons.zip",
+      "COBs": "@<<SvrBaseURL>>@/matthews2016_pmag_ref/COBs.zip"
     },
     "Description": "This plate model represents the first continuous late Paleozoic to present-day global plate model with evolving plate boundaries, building on and extending two previously published models for the late Paleozoic (410-250 Ma) (Domeier and Torsvik, 2014) and the MULLER2016 model Mesozoic-Cenozoic (230-0 Ma). The model was designed for continuity during the 250-230 Ma transition period between the two models, used an updated absolute reference frame of the Mesozoic-Cenozoic model and added a new Paleozoic reconstruction for the Baltica-derived Alexander Terrane, now accreted to western North America. See the 'URL' below for more details.",
     "URL": "https://gwsdoc.gplates.org/models#matthews2016_pmag_ref",
@@ -352,6 +356,7 @@
       "StaticPolygons": "@<<SvrBaseURL>>@/zahirovic2016/StaticPolygons.zip",
       "Topologies": "@<<SvrBaseURL>>@/zahirovic2016/Topologies.zip",
       "ContinentalPolygons": "@<<SvrBaseURL>>@/zahirovic2016/ContinentalPolygons.zip",
+      "COBs": "@<<SvrBaseURL>>@/zahirovic2016/COBs.zip",
       "Isochrons": "@<<SvrBaseURL>>@/zahirovic2016/Isochrons.zip"
     },
     "TimeDepRasters": {
@@ -409,5 +414,19 @@
     "Description": "Model reconciling India-Eurasia and intra-oceanic arc collisions in the central-eastern Tethys. See the 'URL' below for more details.",
     "URL": "https://doi.org/10.5281/zenodo.10595658",
     "Version": "10.5281/zenodo.10595659"
+  },
+  "scotese_and_wright2018": {
+    "BigTime": 540,
+    "SmallTime": 0,
+    "Rotations": "@<<SvrBaseURL>>@/scotese_and_wright2018/Rotations.zip",
+    "Layers": {
+      "StaticPolygons": "@<<SvrBaseURL>>@/scotese_and_wright2018/StaticPolygons.zip",
+      "Topologies": "@<<SvrBaseURL>>@/scotese_and_wright2018/Topologies.zip",
+      "ContinentalPolygons": "@<<SvrBaseURL>>@/scotese_and_wright2018/ContinentalPolygons.zip",
+      "COBs": "@<<SvrBaseURL>>@/scotese_and_wright2018/COBs.zip"
+    },
+    "Description": "Scotese and Wright (2018) deep-time plate reconstruction model. See the 'URL' below for more details.",
+    "URL": "https://doi.org/10.5281/zenodo.5348491",
+    "Version": "10.5281/zenodo.5460860"
   }
 }

@@ -1,3 +1,19 @@
+#
+#    Copyright (C) 2024-2026 The University of Sydney, Australia
+#
+#    This program is free software; you can redistribute it and/or modify it under
+#    the terms of the GNU General Public License, version 2, as published by
+#    the Free Software Foundation.
+#
+#    This program is distributed in the hope that it will be useful, but WITHOUT
+#    ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+#    FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+#    for more details.
+#
+#    You should have received a copy of the GNU General Public License along
+#    with this program; if not, write to Free Software Foundation, Inc.,
+#    51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
 import logging
 import os
 import sys
@@ -63,6 +79,10 @@ def print_error(msg):
 
 
 def is_debug_mode():
+    """Check if the debug mode is enabled by checking the environment variable "PMM_DEBUG".
+
+    export PMM_DEBUG=true to enable the debug mode.
+    """
     return "PMM_DEBUG" in os.environ and os.environ["PMM_DEBUG"].lower() == "true"
 
 

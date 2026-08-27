@@ -6,7 +6,12 @@ import time
 import unittest
 
 sys.path.insert(0, f"{os.path.dirname(__file__)}/../src")
-from common import TEMP_TEST_DIR, get_test_logger
+from common import (
+    LARGE_DATA_TEST_LEVEL,
+    TEMP_TEST_DIR,
+    get_test_logger,
+    skip_unless_test_level,
+)
 
 from plate_model_manager import network_aiohttp, network_requests
 
@@ -44,7 +49,7 @@ test_urls = [
     "https://repo.gplates.org/webdav/pmm/seton2012/StaticPolygons.zip",
     "https://repo.gplates.org/webdav/pmm/seton2012/Rotations.zip",
     "https://repo.gplates.org/webdav/pmm/models.json",
-    "https://repo.gplates.org/webdav/pmm/present_day_rasters.json",
+    "https://repo.gplates.org/webdav/pmm/config/present_day_rasters.json",
 ]
 test_urls += [
     f"https://www.earthbyte.org/webdav/ftp/Data_Collections/Zahirovic_etal_2016_ESR_AgeGrid/jpegs/EarthByte_Zahirovic_etal_2016_ESR_r888_AgeGrid-{i}.jpg"
@@ -54,8 +59,9 @@ test_urls += [
 auto_unzip = True
 
 
-@unittest.skipIf(
-    int(os.getenv("PMM_TEST_LEVEL", 0)) < 1, "this will download a large volume of data"
+@skip_unless_test_level(
+    LARGE_DATA_TEST_LEVEL,
+    "set PMM_TEST_LEVEL>=2 to run large download stress tests",
 )
 class ConcurrentDownloadTestCase(unittest.TestCase):
     def setUp(self):

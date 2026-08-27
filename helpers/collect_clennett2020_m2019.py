@@ -25,7 +25,6 @@ for i in range(len(filenames)):
 file_links = record.get_file_links(latest_id)
 print(f"The file links in the latest version: {file_links}")
 
-
 model_path = utils.get_model_path(sys.argv, "clennett2020_m2019")
 zip_path = "Clennett_etal_2020_M2019"
 
@@ -105,7 +104,22 @@ utils.zip_folder(
     log_fp=info_fp,
 )
 
-shutil.rmtree(f"{model_path}/{zip_path}")
+# zip COBs
+utils.zip_folder(
+    f"{model_path}/{zip_path}/COBs",
+    f"{model_path}/COBs.zip",
+    "COBs",
+    log_fp=info_fp,
+)
 
+# zip ContinentalPolygons
+utils.zip_folder(
+    f"{model_path}/{zip_path}/ContinentalPolygons",
+    f"{model_path}/ContinentalPolygons.zip",
+    "ContinentalPolygons",
+    log_fp=info_fp,
+)
+
+shutil.rmtree(f"{model_path}/{zip_path}")
 
 info_fp.close()

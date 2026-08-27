@@ -1,6 +1,10 @@
 import glob
+import argparse
+import atexit
 import os, io
+import shlex
 import shutil
+import subprocess
 import tempfile
 import zipfile, sys
 from pathlib import Path
@@ -8,6 +12,62 @@ from pathlib import Path
 import requests
 from plate_model_manager.zenodo import ZenodoRecord
 from datetime import datetime
+
+DEFAULT_UPLOAD_TARGET = "ubuntu@130.56.247.160"
+DEFAULT_IDENTITY_FILE = "~/.ssh/gplates-app-server-key.pem"
+DEFAULT_REMOTE_PATH = "/mnt/2TB-Volume/webdav/pmm"
+_REGISTERED_UPLOAD_PATHS = set()
+
+
+def _add_collector_cli_args(parser, model_name):
+    default_remote_path = f"{DEFAULT_REMOTE_PATH}/{model_name}"
+    parser.add_argument(
+        "target_dir",
+        nargs="?",
+        default=".",
+        help=f"Base directory where the {model_name} model folder will be created.",
+    )
+    parser.add_argument(
+        "--upload",
+        action="store_true",
+        help=(
+            "Upload files from the generated model folder to the remote server "
+            "after archiving any existing remote contents into a timestamped subfolder."
+        ),
+    )
+    parser.add_argument(
+        "--upload-target",
+        default=DEFAULT_UPLOAD_TARGET,
+        help=(
+            "SSH destination in the form user@host. "
+            f"Default: {DEFAULT_UPLOAD_TARGET}"
+        ),
+    )
+    parser.add_argument(
+        "--identity-file",
+        default=DEFAULT_IDENTITY_FILE,
+        help=f"SSH private key to use for upload. Default: {DEFAULT_IDENTITY_FILE}",
+    )
+    parser.add_argument(
+        "--remote-path",
+        default=default_remote_path,
+        help=f"Remote directory for uploaded files. Default: {default_remote_path}",
+    )
+    return parser
+
+
+def _validate_collector_remote_path(parser, args, model_name):
+    remote_path = args.remote_path.rstrip("/") or args.remote_path
+    if Path(remote_path).name != model_name:
+        parser.error(f"--remote-path must end with '/{model_name}'")
+
+
+def parse_collector_args(description, model_name, argv=None):
+    parser = argparse.ArgumentParser(description=description)
+    _add_collector_cli_args(parser, model_name)
+    args = parser.parse_args(argv)
+    _validate_collector_remote_path(parser, args, model_name)
+    return args
 
 
 def download_files_from_zenodo(
@@ -43,14 +103,111 @@ def download_files_from_zenodo(
 
 
 def get_model_path(argv, name):
-    if len(argv) >= 2:
-        print(argv)
-        model_path = f"{argv[1]}/{name}"
-    else:
-        model_path = name
+    """Resolve and prepare the local model folder path.
 
-    Path(model_path).mkdir(parents=True, exist_ok=True)
+    This parses collector CLI arguments from ``argv``, builds the model path as
+    ``<target_dir>/<name>``, and ensures the folder exists.
+
+    If ``--upload`` is enabled, it also registers a one-time ``atexit`` upload
+    callback for this model path so generated files are uploaded when the
+    process exits successfully.
+
+    Args:
+        argv: Raw CLI argument list (typically ``sys.argv``).
+        name: Model name used as the local folder name.
+
+    Returns:
+        The local model folder path as a string.
+    """
+    args = parse_collector_args(
+        f"Collect the {name} model files and optionally upload them via SSH.",
+        name,
+        argv=argv[1:],
+    )
+    model_path = f"{args.target_dir}/{name}"
+
+    model_dir = Path(model_path)
+    if model_dir.exists() and any(model_dir.iterdir()):
+        answer = (
+            input(
+                f"Local folder '{model_dir}' already exists and is not empty. "
+                "Delete it and re-fetch? [y/N] "
+            )
+            .strip()
+            .lower()
+        )
+        if answer != "y":
+            print("Aborted.")
+            raise SystemExit(0)
+        shutil.rmtree(model_dir)
+        model_dir.mkdir(parents=True, exist_ok=True)
+    else:
+        Path(model_path).mkdir(parents=True, exist_ok=True)
+
+    if args.upload and model_path not in _REGISTERED_UPLOAD_PATHS:
+        _REGISTERED_UPLOAD_PATHS.add(model_path)
+        atexit.register(
+            upload_model_folder,
+            model_path,
+            args.upload_target,
+            args.identity_file,
+            args.remote_path,
+        )
     return model_path
+
+
+def prepare_model_dir(target_dir, model_name, script_name):
+    return Path(get_model_path([script_name, target_dir], model_name))
+
+
+def create_hex_hash_sidecar_files(model_path):
+    script_path = (
+        Path(__file__).resolve().parents[1] / "scripts" / "create-hex-hash-file.sh"
+    )
+    subprocess.run(
+        ["bash", str(script_path), str(model_path)],
+        check=True,
+    )
+
+
+def upload_model_folder(model_path, upload_target, identity_file, remote_path):
+    create_hex_hash_sidecar_files(model_path)
+    files_to_upload = sorted(
+        path for path in Path(model_path).iterdir() if path.is_file()
+    )
+    if not files_to_upload:
+        raise RuntimeError(f"No files found in {model_path} to upload.")
+
+    identity_path = str(Path(identity_file).expanduser())
+    ssh_base_command = [
+        "ssh",
+        "-i",
+        identity_path,
+        upload_target,
+    ]
+    quoted_remote_path = shlex.quote(remote_path)
+    remote_command = (
+        f"remote_path={quoted_remote_path}; "
+        "timestamp=$(date +%Y%m%d-%H%M%S); "
+        'archive_path="$remote_path/$timestamp"; '
+        'mkdir -p "$remote_path" "$archive_path"; '
+        'find "$remote_path" -mindepth 1 -maxdepth 1 -type f '
+        '-exec mv {} "$archive_path"/ \\;'
+    )
+    subprocess.run(
+        [*ssh_base_command, remote_command],
+        check=True,
+    )
+    subprocess.run(
+        [
+            "scp",
+            "-i",
+            identity_path,
+            *[str(path) for path in files_to_upload],
+            f"{upload_target}:{remote_path}/",
+        ],
+        check=True,
+    )
 
 
 def fetch_coastlines(url, model_path, file_name):

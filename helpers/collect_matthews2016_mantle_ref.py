@@ -64,6 +64,12 @@ utils.zip_files(
     files, f"{model_path}/ContinentalPolygons.zip", "ContinentalPolygons", info_fp
 )
 
+# zip COBs. this model does not provide COBs, use the continental polygons as COBs
+files = glob.glob(
+    f"{model_path}/{zip_path}/CorrectedModel/StaticGeometries/ContinentalPolygons/*.*"
+)
+utils.zip_files(files, f"{model_path}/COBs.zip", "COBs", info_fp)
+
 # zip Topologies
 files = glob.glob(f"{model_path}/{zip_path}/CorrectedModel/Topologies/*.gpml")
 utils.zip_files(files, f"{model_path}/Topologies.zip", "Topologies", info_fp)

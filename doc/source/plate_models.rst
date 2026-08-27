@@ -19,30 +19,88 @@ Each model entry lists:
 .. note::
 
    Use the model name (case-insensitive) when calling the ``plate-model-manager`` API or CLI.
-   For example: ``pmm download Cao2024 ./my-models``
+   For example: ``pmm download Muller2025 ./my-models``
 
-----
-
-.. _model-default:
-
-Default
--------
-
-**Aliases:** :ref:`Zahirovic2022 <model-zahirovic2022>`
+Default Model 
+-------------
 
 .. note::
-   The current **default** plate model is :ref:`Zahirovic2022 <model-zahirovic2022>`. This may change in the future as new models are added or updated. Always check the documentation for the most up-to-date information on the default model.
+   The current **default** plate model is :ref:`Zahirovic2022 <model-zahirovic2022>`. If user calls :meth:`plate_model_manager.PlateModelManager.get_model` without specifying a model name, this will be the one used. This may change in the future as new models are added or updated. Always check the documentation for the most up-to-date information on the default model.
+
+.. _model-zahirovic2022:
+
+Zahirovic2022
+~~~~~~~~~~~~~
+
+**Time range:** 410 - 0 Ma
+
+**Layers:**
+
+- Coastlines
+- ContinentalPolygons
+- StaticPolygons
+- Topologies
+- COBs
+
+.. note::
+
+   The COBs layer is the same as the ContinentalPolygons layer. This model does not include explicit COBs files; use the ContinentalPolygons files instead until further notice.
+
+**Time-dependent rasters:**
+
+- AgeGridsUsingIsochronsMantleFrame
+- AgeGridsUsingIsochronsPMAG
+- AgeGridsUsingTopologiesMantleFrame
+- AgeGridsUsingTopologiesPMAG
+- SpreadingRateUsingTopologiesMantleFrame
+- SpreadingRateUsingTopologiesPMAG
+
+
+**Description:** Model for subduction kinematics and carbonate platform interactions. Set the anchor plate ID to 701701 to use PMAG reference frame. See the 'URL' below for more
+details.
+
+**DOI / URL:** https://doi.org/10.5281/zenodo.4729045
+
+.. note::
+
+   This model provides both mantle and PMAG reference frame options.
+
+   **PMAG Reference Frame**
+
+   To access the PMAG rotation model with its anchor plate ID:
+
+   .. code-block:: python
+
+      model = PlateModelManager().get_model("zahirovic2022")
+      rotation_files, anchor_pid = model.get_rotation_model(
+          reference_frame=ReferenceFrame.PmagReferenceFrame
+      )
+      rotation_model = pygplates.RotationModel(
+          rotation_files,
+          default_anchor_plate_id=anchor_pid
+      )
+
+   **Mantle Reference Frame**
+
+   For the default mantle reference frame (no anchor plate ID specification needed):
+
+   .. code-block:: python
+
+      model = PlateModelManager().get_model("zahirovic2022")
+      rotation_files = model.get_rotation_model()
+      rotation_model = pygplates.RotationModel(rotation_files)
 
 ----
+
+Recommended Alternative Models
+------------------------------
 
 .. _model-muller2025:
 
 Muller2025
-----------
+~~~~~~~~~~
 
-**Aliases:** :ref:`Shirmard2025 <model-shirmard2025>`
-
-**Time range:** 18000 - 0 Ma
+**Time range:** 1800 - 0 Ma
 
 **Layers:**
 
@@ -64,41 +122,10 @@ Muller2025
 
 ----
 
-.. _model-shirmard2025:
-
-Shirmard2025
-------------
-
-**Aliases:** :ref:`Muller2025 <model-muller2025>`
-
-**Time range:** 18000 - 0 Ma
-
-**Layers:**
-
-- Coastlines
-- ContinentalPolygons
-- COBs
-- StaticPolygons
-- Topologies
-
-
-**Time-dependent rasters:**
-
-- AgeGrids
-- SpreadingRate
-
-
-**Description:** Mantle-reference plate model based on Cao et al. (2024), covering deep-time reconstructions. See the
-'URL' below for more details.
-
-**DOI / URL:** https://doi.org/10.5281/zenodo.15233548
-
-----
-
 .. _model-alfonso2024:
 
 Alfonso2024
------------
+~~~~~~~~~~~
 
 **Time range:** 170 - 0 Ma
 
@@ -119,21 +146,47 @@ Alfonso2024
 - SpreadingRate
 
 
-**Description:** Modified global model focused on Western North America and the eastern Pacific tomotectonic
-reconstruction. Set the anchor plate ID to 701701 to use PMAG reference frame. See the 'URL' below for more details.
+**Description:** Modified global model focused on Western North America and the eastern Pacific tomotectonic reconstruction. Set the anchor plate ID to 701701 to use PMAG reference frame. See the 'URL' below for more details.
 
 **DOI / URL:** https://doi.org/10.5281/zenodo.11392268
+
+.. note::
+
+   This model provides both mantle and PMAG reference frame options.
+
+   **PMAG Reference Frame**
+
+   To access the PMAG rotation model with its anchor plate ID:
+
+   .. code-block:: python
+
+      model = PlateModelManager().get_model("Alfonso2024")
+      rotation_files, anchor_pid = model.get_rotation_model(
+          reference_frame=ReferenceFrame.PmagReferenceFrame
+      )
+      rotation_model = pygplates.RotationModel(
+          rotation_files,
+          default_anchor_plate_id=anchor_pid
+      )
+
+   **Mantle Reference Frame**
+
+   For the default mantle reference frame (no anchor plate ID specification needed):
+
+   .. code-block:: python
+
+      model = PlateModelManager().get_model("Alfonso2024")
+      rotation_files = model.get_rotation_model()
+      rotation_model = pygplates.RotationModel(rotation_files)
 
 ----
 
 .. _model-cao2024:
 
 Cao2024
--------
+~~~~~~~
 
-**Aliases:** :ref:`Cao2023 <model-cao2023>`
-
-**Time range:** 18000 - 0 Ma
+**Time range:** 1800 - 0 Ma
 
 **Layers:**
 
@@ -149,37 +202,13 @@ for more details.
 
 **DOI / URL:** https://doi.org/10.5281/zenodo.11536686
 
-----
-
-.. _model-cao2023:
-
-Cao2023
--------
-
-**Aliases:** :ref:`Cao2024 <model-cao2024>`
-
-**Time range:** 18000 - 0 Ma
-
-**Layers:**
-
-- Coastlines
-- ContinentalPolygons
-- COBs
-- StaticPolygons
-- Topologies
-
-
-**Description:** Global tectonic and plate-boundary reconstruction spanning ~1.8 billion years. See the 'URL' below
-for more details.
-
-**DOI / URL:** https://doi.org/10.5281/zenodo.11536686
 
 ----
 
 .. _model-muller2022:
 
 Muller2022
-----------
+~~~~~~~~~~
 
 **Time range:** 1000 - 0 Ma
 
@@ -204,50 +233,16 @@ orients the plates relative to the mantle using a set of geodynamic rules to exc
 unreasonable plate motions. The difference between the paleomagnetic and mantle reference frames
 grows cumulatively back in time - hence the two reconstructions (MERDITH2021 versus MULLER2022)
 diverge progressively in the Paleozoic and Proterozoic both in terms of paleolatitude and
-paleolongitude.See the 'URL' below for more details.
+paleolongitude. See the 'URL' below for more details.
 
 **DOI / URL:** https://doi.org/10.5281/zenodo.10297173
-
-----
-
-.. _model-zahirovic2022:
-
-Zahirovic2022
--------------
-
-.. note::
-   This is the **default** plate model.
-
-**Time range:** 410 - 0 Ma
-
-**Layers:**
-
-- Coastlines
-- ContinentalPolygons
-- StaticPolygons
-- Topologies
-
-**Time-dependent rasters:**
-
-- AgegridsUsingIsochronsMantleFrame
-- AgegridsUsingIsochronsPMAG
-- AgegridsUsingTopologiesMantleFrame
-- AgegridsUsingTopologiesPMAG
-- SpreadingRateUsingTopologiesMantleFrame
-- SpreadingRateUsingTopologiesPMAG
-
-
-**Description:** Model for subduction kinematics and carbonate platform interactions. Set the anchor plate ID to 701701 to use PMAG reference frame. See the 'URL' below for more
-details.
-
-**DOI / URL:** https://doi.org/10.5281/zenodo.4729045
 
 ----
 
 .. _model-merdith2021:
 
 Merdith2021
------------
+~~~~~~~~~~~
 
 **Time range:** 1000 - 0 Ma
 
@@ -258,6 +253,11 @@ Merdith2021
 - Cratons
 - StaticPolygons
 - Topologies
+- COBs
+
+.. note::
+
+   The COBs layer is the same as the ContinentalPolygons layer. This model does not include explicit COBs files; use the ContinentalPolygons files instead until further notice.
 
 
 **Description:** This plate model for the last 1000 Ma is based on a paleomagnetic reference frame. In this model the
@@ -270,52 +270,16 @@ MATTHEWS2016_pmag_ref model for 250-410 Ma and a newly constructed model for ear
 
 ----
 
-.. _model-clennett2020:
-
-Clennett2020
-------------
-
-**Aliases:** :ref:`Clennett2020_m2019 <model-clennett2020-m2019>`
-
-**Time range:** 170 - 0 Ma
-
-**Layers:**
-
-- Coastlines
-- COBs
-- ContinentalPolygons
-- StaticPolygons
-- Terranes
-- Topologies
-
-
-**Time-dependent rasters:**
-
-- AgeGrids
-- SpreadingRate
-
-
-**Description:** Quantitative tomotectonic reconstruction of western North America and the eastern Pacific basin. See
-the 'URL' below for more details.
-
-**DOI / URL:** https://doi.org/10.5281/zenodo.10348270
-
-----
-
 .. _model-clennett2020-m2019:
 
 Clennett2020_m2019
-------------------
-
-**Aliases:** :ref:`Clennett2020 <model-clennett2020>`
+~~~~~~~~~~~~~~~~~~
 
 **Time range:** 170 - 0 Ma
 
 **Layers:**
 
 - Coastlines
-- COBs
-- ContinentalPolygons
 - StaticPolygons
 - Terranes
 - Topologies
@@ -331,13 +295,17 @@ Clennett2020_m2019
 the 'URL' below for more details.
 
 **DOI / URL:** https://doi.org/10.5281/zenodo.10348270
+
+.. note::
+
+   This model can also be accessed using the alias ``Clennett2020``. The two models are identical.
 
 ----
 
 .. _model-clennett2020-s2013:
 
 Clennett2020_s2013
-------------------
+~~~~~~~~~~~~~~~~~~   
 
 **Time range:** 170 - 0 Ma
 
@@ -359,7 +327,7 @@ the 'URL' below for more details.
 .. _model-muller2019:
 
 Muller2019
-----------
+~~~~~~~~~~
 
 **Time range:** 250 - 0 Ma
 
@@ -392,10 +360,39 @@ continental deformation both along major rift systems and collisional plate boun
 
 ----
 
+.. _model-scotese-and-wright2018:
+
+Scotese_and_wright2018
+~~~~~~~~~~~~~~~~~~~~~~
+
+**Time range:** 540 - 0 Ma
+
+**Layers:**
+
+- ContinentalPolygons
+- COBs
+- StaticPolygons
+- Topologies
+
+
+.. note::
+
+   The COBs layer is the same as the ContinentalPolygons layer. This model does not include explicit COBs files; use the ContinentalPolygons files instead until further notice.
+
+**Description:** Scotese and Wright (2018) deep-time plate reconstruction model. See the 'URL' below for more details.
+
+**DOI / URL:** https://doi.org/10.5281/zenodo.5348491
+
+.. note::
+
+    The model has plate topologies only for the last 100 Ma. And only locations on land can be reconstructed with this model.
+
+----
+
 .. _model-young2018:
 
 Young2018
----------
+~~~~~~~~~
 
 **Time range:** 410 - 0 Ma
 
@@ -403,9 +400,14 @@ Young2018
 
 - Coastlines
 - ContinentalPolygons
+- COBs
 - StaticPolygons
 - Topologies
 
+
+.. note::
+
+   The COBs layer is the same as the ContinentalPolygons layer. This model does not include explicit COBs files; use the ContinentalPolygons files instead until further notice.
 
 **Description:** Global plate and subduction-zone kinematics since the late Paleozoic. See the 'URL' below for more
 details.
@@ -417,7 +419,7 @@ details.
 .. _model-torsvikcocks2017:
 
 Torsvikcocks2017
-----------------
+~~~~~~~~~~~~~~~~
 
 **Time range:** 540 - 0 Ma
 
@@ -437,44 +439,10 @@ Torsvikcocks2017
 
 ----
 
-.. _model-matthews2016:
-
-Matthews2016
-------------
-
-**Aliases:** :ref:`Matthews2016_mantle_ref <model-matthews2016-mantle-ref>`
-
-**Time range:** 410 - 0 Ma
-
-**Layers:**
-
-- Coastlines
-- ContinentalPolygons
-- StaticPolygons
-- Topologies
-
-
-**Time-dependent rasters:**
-
-- AgeGrids
-- Coastlines
-- Topologies
-
-
-**Description:** This model is identical to MATTHEWS2016_pmag_ref in terms of relative plate models but uses a true
-polar wander corrected paleomagnetic model, viewed as a proxy for a mantle reference frame model.
-See the 'URL' below for more details.
-
-**DOI / URL:** https://doi.org/10.5281/zenodo.10526156
-
-----
-
 .. _model-matthews2016-mantle-ref:
 
 Matthews2016_mantle_ref
------------------------
-
-**Aliases:** :ref:`Matthews2016 <model-matthews2016>`
+~~~~~~~~~~~~~~~~~~~~~~~
 
 **Time range:** 410 - 0 Ma
 
@@ -482,9 +450,14 @@ Matthews2016_mantle_ref
 
 - Coastlines
 - ContinentalPolygons
+- COBs
 - StaticPolygons
 - Topologies
 
+
+.. note::
+
+   The COBs layer is the same as the ContinentalPolygons layer. This model does not include explicit COBs files; use the ContinentalPolygons files instead until further notice.
 
 **Time-dependent rasters:**
 
@@ -494,17 +467,27 @@ Matthews2016_mantle_ref
 
 
 **Description:** This model is identical to MATTHEWS2016_pmag_ref in terms of relative plate models but uses a true
-polar wander corrected paleomagnetic model, viewed as a proxy for a mantle reference frame model.
-See the 'URL' below for more details.
+polar wander corrected paleomagnetic model, viewed as a proxy for a mantle reference frame model. See the 'URL' below for more details.
 
 **DOI / URL:** https://doi.org/10.5281/zenodo.10526156
+
+.. note::
+
+   This model can also be accessed using the alias ``matthews2016`` or using the following Python code.
+
+   .. code-block:: python
+
+     model = model_manager.get_model(
+        "matthews2016",
+        reference_frame=ReferenceFrame.MantleReferenceFrame,
+     )
 
 ----
 
 .. _model-matthews2016-pmag-ref:
 
 Matthews2016_pmag_ref
----------------------
+~~~~~~~~~~~~~~~~~~~~~
 
 **Time range:** 410 - 0 Ma
 
@@ -512,8 +495,13 @@ Matthews2016_pmag_ref
 
 - Coastlines
 - ContinentalPolygons
+- COBs
 - StaticPolygons
 
+
+.. note::
+
+   The COBs layer is the same as the ContinentalPolygons layer. This model does not include explicit COBs files; use the ContinentalPolygons files instead until further notice.
 
 **Description:** This plate model represents the first continuous late Paleozoic to present-day global plate model
 with evolving plate boundaries, building on and extending two previously published models for the
@@ -525,12 +513,23 @@ North America. See the 'URL' below for more details.
 
 **URL:** https://gwsdoc.gplates.org/models#matthews2016_pmag_ref
 
+.. note::
+
+   This model can also be accessed using the following Python code.
+
+   .. code-block:: python
+
+     model = model_manager.get_model(
+        "matthews2016",
+        reference_frame=ReferenceFrame.PmagReferenceFrame,
+     )
+
 ----
 
 .. _model-muller2016:
 
 Muller2016
-----------
+~~~~~~~~~~
 
 **Time range:** 230 - 0 Ma
 
@@ -556,16 +555,12 @@ frame. See the 'URL' below for more details.
 
 **DOI / URL:** https://doi.org/10.5281/zenodo.10565444
 
-
-
 ----
 
 .. _model-scotese2016:
 
 Scotese2016
------------
-
-**Aliases:** :ref:`Paleomap <model-paleomap>`
+~~~~~~~~~~~
 
 **Time range:** 750 - 0 Ma
 
@@ -579,12 +574,18 @@ Scotese2016
 
 **DOI / URL:** https://doi.org/10.5281/zenodo.10596609
 
+.. note::
+
+   This model is also known as ``Paleomap``. The two model names can be used interchangeably to refer to the same model.
+
 ----
+
+
 
 .. _model-zahirovic2016:
 
 Zahirovic2016
--------------
+~~~~~~~~~~~~~
 
 **Time range:** 230 - 0 Ma
 
@@ -592,10 +593,15 @@ Zahirovic2016
 
 - Coastlines
 - ContinentalPolygons
+- COBs
 - Isochrons
 - StaticPolygons
 - Topologies
 
+
+.. note::
+
+   The COBs layer is the same as the ContinentalPolygons layer. This model does not include explicit COBs files; use the ContinentalPolygons files instead until further notice.
 
 **Time-dependent rasters:**
 
@@ -612,7 +618,7 @@ Jurassic. See the 'URL' below for more details.
 .. _model-gibbons2015:
 
 Gibbons2015
------------
+~~~~~~~~~~~
 
 **Time range:** 300 - 0 Ma
 
@@ -628,30 +634,14 @@ the 'URL' below for more details.
 
 **DOI / URL:** https://doi.org/10.5281/zenodo.10595658
 
-----
 
-.. _model-domeier2014:
-
-Domeier2014
------------
-
-**Time range:** 410 - 250 Ma
-
-**Layers:**
-
-- Coastlines
-- StaticPolygons
-- Topologies
-
-
-**Description:** unknown
 
 ----
 
 .. _model-zahirovic2014:
 
 Zahirovic2014
--------------
+~~~~~~~~~~~~~
 
 **Time range:** 300 - 0 Ma
 
@@ -671,7 +661,7 @@ the 'URL' below for more details.
 .. _model-shephard2013:
 
 Shephard2013
-------------
+~~~~~~~~~~~~
 
 **Time range:** 200 - 0 Ma
 
@@ -692,7 +682,7 @@ context. See the 'URL' below for more details.
 .. _model-gurnis2012:
 
 Gurnis2012
-----------
+~~~~~~~~~~
 
 **Time range:** 140 - 0 Ma
 
@@ -713,7 +703,7 @@ Gurnis2012
 .. _model-seton2012:
 
 Seton2012
----------
+~~~~~~~~~
 
 **Time range:** 200 - 0 Ma
 
@@ -744,7 +734,7 @@ details.
 .. _model-muller2008:
 
 Muller2008
-----------
+~~~~~~~~~~
 
 **Time range:** 140 - 0 Ma
 
@@ -753,14 +743,16 @@ Muller2008
 - StaticPolygons
 
 
-**Description:** MULLER2008 model data archive index. See the 'URL' below for available files and more details.
+**Description:** MULLER2008 model data archive.
+
+**URL:** https://earthbyte.org/webdav/ftp/incoming/mchin/plate-models/MULLER2008,
 
 ----
 
 .. _model-golonka:
 
 Golonka
--------
+~~~~~~~
 
 **Time range:** 540 - 0 Ma
 
@@ -777,35 +769,10 @@ Golonka
 
 ----
 
-.. _model-paleomap:
-
-Paleomap
---------
-
-**Aliases:** :ref:`Scotese2016 <model-scotese2016>`
-
-**Time range:** 750 - 0 Ma
-
-**Layers:**
-
-- Coastlines
-- StaticPolygons
-
-
-**Description:** PALEOMAP PaleoAtlas reconstruction dataset for GPlates (Scotese framework). See the 'URL' below for
-more details.
-
-**DOI / URL:** https://doi.org/10.5281/zenodo.10596609
-
-
-----
-
 .. _model-rodinia:
 
 Rodinia
--------
-
-**Aliases:** :ref:`Li2008 <model-rodinia>`
+~~~~~~~
 
 **Time range:** 1100 - 530 Ma
 
@@ -819,3 +786,85 @@ Rodinia
 for more details.
 
 **URL:** https://gwsdoc.gplates.org/models#rodinia
+
+----
+
+.. _model-aliases:
+
+Model Aliases
+-------------
+
+Some models have aliases, which are alternative names that can be used to refer to the same model. For example, the model "Muller2025" can also be referred to as "Shirmard2025". 
+
+
+Default 
+~~~~~~~
+
+The "Default" model is an alias for :ref:`Zahirovic2022 <model-zahirovic2022>`. The two models are identical.
+
+----
+
+Shirmard2025
+~~~~~~~~~~~~
+
+The "Shirmard2025" model is an alias for :ref:`Muller2025 <model-muller2025>`. The two models are identical.
+
+----
+
+Cao2023
+~~~~~~~
+
+The "Cao2023" model is an alias for :ref:`Cao2024 <model-cao2024>`. The two models are identical.
+
+----
+
+Matthews2016
+~~~~~~~~~~~~
+
+The "Matthews2016" model is an alias for :ref:`Matthews2016_mantle_ref <model-matthews2016-mantle-ref>`. The two models are identical.
+
+----
+
+Clennett2020
+~~~~~~~~~~~~
+
+The "Clennett2020" model is an alias for :ref:`Clennett2020_m2019 <model-clennett2020-m2019>`. The two models are identical.
+
+----
+
+Paleomap
+~~~~~~~~
+
+The "Paleomap" model is an alias for :ref:`Scotese2016 <model-scotese2016>`. The two models are identical.
+
+----
+
+Li2008
+~~~~~~
+
+The "Li2008" model is an alias for :ref:`Rodinia <model-rodinia>`. The two models are identical.
+
+----
+
+.. _archived-models:
+
+Archived Models
+---------------
+
+The following models are archived and no longer actively maintained. They are retained for historical reference.
+
+.. _model-domeier2014:
+
+Domeier2014
+~~~~~~~~~~~
+
+**Time range:** 410 - 250 Ma
+
+**Layers:**
+
+- Coastlines
+- StaticPolygons
+- Topologies
+
+**Description:** unknown
+

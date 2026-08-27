@@ -5,7 +5,13 @@ import shutil
 import sys
 import unittest
 
-from common import TEMP_TEST_DIR, get_test_logger, is_test_installed_module
+from common import (
+    INTEGRATION_TEST_LEVEL,
+    TEMP_TEST_DIR,
+    get_test_logger,
+    is_test_installed_module,
+    skip_unless_test_level,
+)
 from plate_model_manager.utils.enums import GenerationMethod, ReferenceFrame
 
 if not is_test_installed_module():
@@ -25,16 +31,13 @@ logger = get_test_logger(logger_name)
 logger.info(plate_model_manager.__file__)
 
 
+@skip_unless_test_level(
+    INTEGRATION_TEST_LEVEL,
+    "set PMM_TEST_LEVEL>=1 to run time-dependent raster integration tests",
+)
 class TimeDepRastersTestCase(unittest.TestCase):
     def setUp(self):
-        self.model_manager = PlateModelManager(
-            f"{os.path.dirname(__file__)}/models_test.json"
-        )
-
-        # test remote models.json with URL
-        # self.model_manager = plate_model.PlateModelManager(
-        #    "https://www.earthbyte.org/webdav/ftp/gplately/models.json"
-        # )
+        self.model_manager = PlateModelManager()
         self.model_name = "matthews2016_mantle_ref"
         self.model = self.model_manager.get_model(self.model_name)
         if self.model is not None:
@@ -121,7 +124,7 @@ class TimeDepRastersTestCase(unittest.TestCase):
 
         raster_dir = (
             f"{TEMP_TEST_DIR}/zahirovic2022/Rasters/"
-            f"Agegrids{GenerationMethod.Isochrons.value}"
+            f"AgeGrids{GenerationMethod.Isochrons.value}"
             f"{ReferenceFrame.MantleReferenceFrame.value}"
         )
         self.assertTrue(os.path.isdir(raster_dir), msg=f"Missing dir: {raster_dir}")
