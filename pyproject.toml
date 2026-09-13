@@ -28,6 +28,7 @@ dependencies = [
     "aiohttp",
     "requests",
     "nest_asyncio",
+    "tomli; python_version < '3.11'",
 ]
 
 #[tool.setuptools.dynamic]

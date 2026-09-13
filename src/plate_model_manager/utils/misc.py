@@ -15,9 +15,11 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 import logging
-import os
 import sys
 import warnings
+from pathlib import Path
+
+from . import settings
 
 pmm_logger = logging.getLogger("pmm")
 stdout_handler = logging.StreamHandler(sys.stdout)
@@ -37,8 +39,12 @@ def setup_logging():
     if is_debug_mode():
         turn_on_debug_logging()
 
+    if settings.enable_log_to_file:
+        add_logging_file(settings.log_file)
+
 
 def add_logging_file(filename: str = "pmm.log", level=logging.INFO):
+    Path(filename).parent.mkdir(parents=True, exist_ok=True)
     fh = logging.FileHandler(filename)
     fh.setLevel(level)
     fh.setFormatter(formatter)
@@ -79,11 +85,11 @@ def print_error(msg):
 
 
 def is_debug_mode():
-    """Check if the debug mode is enabled by checking the environment variable "PMM_DEBUG".
+    """Check if the debug mode is enabled via settings.debug.
 
-    export PMM_DEBUG=true to enable the debug mode.
+    export PMM_DEBUG=true, or set debug = true in a settings.toml file, to enable the debug mode.
     """
-    return "PMM_DEBUG" in os.environ and os.environ["PMM_DEBUG"].lower() == "true"
+    return settings.debug
 
 
 from importlib.metadata import PackageNotFoundError, version
