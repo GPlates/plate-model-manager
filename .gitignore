@@ -3,6 +3,7 @@ pmm-venv/
 plate-model-manager-venv/
 .DS_Store
 gh-pages.git/
+doc/source/generated/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

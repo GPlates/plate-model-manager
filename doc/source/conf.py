@@ -6,10 +6,14 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
+import plate_model_manager
+
+version = plate_model_manager.__version__
+release = ".".join(version.split(".")[:3])  # major.minor.patch
+
 project = "plate-model-manager"
 copyright = "2023-2026, The University of Sydney"
 author = "Michael Chin"
-release = "1.4.0"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
