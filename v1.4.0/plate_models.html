@@ -1,0 +1,806 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Plate Models &mdash; plate-model-manager 1.4.0rc0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/sidebar_tweaks.css?v=695f7a7b" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=c32019de"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="plate_model_manager.auxiliary" href="generated/plate_model_manager.auxiliary.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            plate-model-manager
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="basic_usages.html">Basic Usages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="command_line_interface.html">Command Line Interface (CLI)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Plate Models</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#default-model">Default Model</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#zahirovic2022">Zahirovic2022</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#recommended-alternative-models">Recommended Alternative Models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#muller2025">Muller2025</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#alfonso2024">Alfonso2024</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cao2024">Cao2024</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#muller2022">Muller2022</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#merdith2021">Merdith2021</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#clennett2020-m2019">Clennett2020_m2019</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#clennett2020-s2013">Clennett2020_s2013</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#muller2019">Muller2019</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#scotese-and-wright2018">Scotese_and_wright2018</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#young2018">Young2018</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#torsvikcocks2017">Torsvikcocks2017</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#matthews2016-mantle-ref">Matthews2016_mantle_ref</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#matthews2016-pmag-ref">Matthews2016_pmag_ref</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#muller2016">Muller2016</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#scotese2016">Scotese2016</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#zahirovic2016">Zahirovic2016</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gibbons2015">Gibbons2015</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#zahirovic2014">Zahirovic2014</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#shephard2013">Shephard2013</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gurnis2012">Gurnis2012</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#seton2012">Seton2012</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#muller2008">Muller2008</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#golonka">Golonka</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#rodinia">Rodinia</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#model-aliases">Model Aliases</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#default">Default</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#shirmard2025">Shirmard2025</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cao2023">Cao2023</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#matthews2016">Matthews2016</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#clennett2020">Clennett2020</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#paleomap">Paleomap</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#li2008">Li2008</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#archived-models">Archived Models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#domeier2014">Domeier2014</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">plate-model-manager</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Plate Models</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/plate_models.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="plate-models">
+<h1>Plate Models<a class="headerlink" href="#plate-models" title="Link to this heading"></a></h1>
+<nav class="contents local" id="contents">
+<ul class="simple">
+<li><p><a class="reference internal" href="#default-model" id="id3">Default Model</a></p></li>
+<li><p><a class="reference internal" href="#recommended-alternative-models" id="id4">Recommended Alternative Models</a></p></li>
+<li><p><a class="reference internal" href="#model-aliases" id="id5">Model Aliases</a></p></li>
+<li><p><a class="reference internal" href="#archived-models" id="id6">Archived Models</a></p></li>
+</ul>
+</nav>
+<p>This chapter describes all plate tectonic reconstruction models available in the
+<code class="docutils literal notranslate"><span class="pre">plate-model-manager</span></code>.</p>
+<p>Each model entry lists:</p>
+<ul class="simple">
+<li><p><strong>Time range</strong> - begin time and end time of this model in Ma.</p></li>
+<li><p><strong>Layers</strong> - the available data layers (e.g. Coastlines, Topologies).</p></li>
+<li><p><strong>Time-dependent rasters</strong> - time-dependent raster files.</p></li>
+<li><p><strong>Description</strong> - a brief description of the model.</p></li>
+<li><p><strong>DOI / URL</strong> - a link to the original publication or data repository.</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Use the model name (case-insensitive) when calling the <code class="docutils literal notranslate"><span class="pre">plate-model-manager</span></code> API or CLI.
+For example: <code class="docutils literal notranslate"><span class="pre">pmm</span> <span class="pre">download</span> <span class="pre">Muller2025</span> <span class="pre">./my-models</span></code></p>
+</div>
+<section id="default-model">
+<h2><a class="toc-backref" href="#id3" role="doc-backlink">Default Model</a><a class="headerlink" href="#default-model" title="Link to this heading"></a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The current <strong>default</strong> plate model is <a class="reference internal" href="#model-zahirovic2022"><span class="std std-ref">Zahirovic2022</span></a>. If user calls <a class="reference internal" href="plate_model_manager.html#plate_model_manager.PlateModelManager.get_model" title="plate_model_manager.PlateModelManager.get_model"><code class="xref py py-meth docutils literal notranslate"><span class="pre">plate_model_manager.PlateModelManager.get_model()</span></code></a> without specifying a model name, this will be the one used. This may change in the future as new models are added or updated. Always check the documentation for the most up-to-date information on the default model.</p>
+</div>
+<section id="zahirovic2022">
+<span id="model-zahirovic2022"></span><h3>Zahirovic2022<a class="headerlink" href="#zahirovic2022" title="Link to this heading"></a></h3>
+<p><strong>Time range:</strong> 410 - 0 Ma</p>
+<p><strong>Layers:</strong></p>
+<ul class="simple">
+<li><p>Coastlines</p></li>
+<li><p>ContinentalPolygons</p></li>
+<li><p>StaticPolygons</p></li>
+<li><p>Topologies</p></li>
+<li><p>COBs</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The COBs layer is the same as the ContinentalPolygons layer. This model does not include explicit COBs files; use the ContinentalPolygons files instead until further notice.</p>
+</div>
+<p><strong>Time-dependent rasters:</strong></p>
+<ul class="simple">
+<li><p>AgeGridsUsingIsochronsMantleFrame</p></li>
+<li><p>AgeGridsUsingIsochronsPMAG</p></li>
+<li><p>AgeGridsUsingTopologiesMantleFrame</p></li>
+<li><p>AgeGridsUsingTopologiesPMAG</p></li>
+<li><p>SpreadingRateUsingTopologiesMantleFrame</p></li>
+<li><p>SpreadingRateUsingTopologiesPMAG</p></li>
+</ul>
+<p><strong>Description:</strong> Model for subduction kinematics and carbonate platform interactions. Set the anchor plate ID to 701701 to use PMAG reference frame. See the ‘URL’ below for more
+details.</p>
+<p><strong>DOI / URL:</strong> <a class="reference external" href="https://doi.org/10.5281/zenodo.4729045">https://doi.org/10.5281/zenodo.4729045</a></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This model provides both mantle and PMAG reference frame options.</p>
+<p><strong>PMAG Reference Frame</strong></p>
+<p>To access the PMAG rotation model with its anchor plate ID:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">PlateModelManager</span><span class="p">()</span><span class="o">.</span><span class="n">get_model</span><span class="p">(</span><span class="s2">&quot;zahirovic2022&quot;</span><span class="p">)</span>
+<span class="n">rotation_files</span><span class="p">,</span> <span class="n">anchor_pid</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">get_rotation_model</span><span class="p">(</span>
+    <span class="n">reference_frame</span><span class="o">=</span><span class="n">ReferenceFrame</span><span class="o">.</span><span class="n">PmagReferenceFrame</span>
+<span class="p">)</span>
+<span class="n">rotation_model</span> <span class="o">=</span> <span class="n">pygplates</span><span class="o">.</span><span class="n">RotationModel</span><span class="p">(</span>
+    <span class="n">rotation_files</span><span class="p">,</span>
+    <span class="n">default_anchor_plate_id</span><span class="o">=</span><span class="n">anchor_pid</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Mantle Reference Frame</strong></p>
+<p>For the default mantle reference frame (no anchor plate ID specification needed):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">PlateModelManager</span><span class="p">()</span><span class="o">.</span><span class="n">get_model</span><span class="p">(</span><span class="s2">&quot;zahirovic2022&quot;</span><span class="p">)</span>
+<span class="n">rotation_files</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">get_rotation_model</span><span class="p">()</span>
+<span class="n">rotation_model</span> <span class="o">=</span> <span class="n">pygplates</span><span class="o">.</span><span class="n">RotationModel</span><span class="p">(</span><span class="n">rotation_files</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="recommended-alternative-models">
+<h2><a class="toc-backref" href="#id4" role="doc-backlink">Recommended Alternative Models</a><a class="headerlink" href="#recommended-alternative-models" title="Link to this heading"></a></h2>
+<section id="muller2025">
+<span id="model-muller2025"></span><h3>Muller2025<a class="headerlink" href="#muller2025" title="Link to this heading"></a></h3>
+<p><strong>Time range:</strong> 1800 - 0 Ma</p>
+<p><strong>Layers:</strong></p>
+<ul class="simple">
+<li><p>Coastlines</p></li>
+<li><p>ContinentalPolygons</p></li>
+<li><p>COBs</p></li>
+<li><p>StaticPolygons</p></li>
+<li><p>Topologies</p></li>
+</ul>
+<p><strong>Time-dependent rasters:</strong></p>
+<ul class="simple">
+<li><p>AgeGrids</p></li>
+<li><p>SpreadingRate</p></li>
+</ul>
+<p><strong>Description:</strong> Mantle-reference plate model based on Cao et al. (2024), covering deep-time reconstructions. See the
+‘URL’ below for more details.</p>
+<p><strong>DOI / URL:</strong> <a class="reference external" href="https://doi.org/10.5281/zenodo.15233548">https://doi.org/10.5281/zenodo.15233548</a></p>
+<hr class="docutils" />
+</section>
+<section id="alfonso2024">
+<span id="model-alfonso2024"></span><h3>Alfonso2024<a class="headerlink" href="#alfonso2024" title="Link to this heading"></a></h3>
+<p><strong>Time range:</strong> 170 - 0 Ma</p>
+<p><strong>Layers:</strong></p>
+<ul class="simple">
+<li><p>Coastlines</p></li>
+<li><p>ContinentalPolygons</p></li>
+<li><p>COBs</p></li>
+<li><p>Isochrons</p></li>
+<li><p>StaticPolygons</p></li>
+<li><p>Terranes</p></li>
+<li><p>Topologies</p></li>
+</ul>
+<p><strong>Time-dependent rasters:</strong></p>
+<ul class="simple">
+<li><p>AgeGrids</p></li>
+<li><p>SpreadingRate</p></li>
+</ul>
+<p><strong>Description:</strong> Modified global model focused on Western North America and the eastern Pacific tomotectonic reconstruction. Set the anchor plate ID to 701701 to use PMAG reference frame. See the ‘URL’ below for more details.</p>
+<p><strong>DOI / URL:</strong> <a class="reference external" href="https://doi.org/10.5281/zenodo.11392268">https://doi.org/10.5281/zenodo.11392268</a></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This model provides both mantle and PMAG reference frame options.</p>
+<p><strong>PMAG Reference Frame</strong></p>
+<p>To access the PMAG rotation model with its anchor plate ID:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">PlateModelManager</span><span class="p">()</span><span class="o">.</span><span class="n">get_model</span><span class="p">(</span><span class="s2">&quot;Alfonso2024&quot;</span><span class="p">)</span>
+<span class="n">rotation_files</span><span class="p">,</span> <span class="n">anchor_pid</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">get_rotation_model</span><span class="p">(</span>
+    <span class="n">reference_frame</span><span class="o">=</span><span class="n">ReferenceFrame</span><span class="o">.</span><span class="n">PmagReferenceFrame</span>
+<span class="p">)</span>
+<span class="n">rotation_model</span> <span class="o">=</span> <span class="n">pygplates</span><span class="o">.</span><span class="n">RotationModel</span><span class="p">(</span>
+    <span class="n">rotation_files</span><span class="p">,</span>
+    <span class="n">default_anchor_plate_id</span><span class="o">=</span><span class="n">anchor_pid</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Mantle Reference Frame</strong></p>
+<p>For the default mantle reference frame (no anchor plate ID specification needed):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">PlateModelManager</span><span class="p">()</span><span class="o">.</span><span class="n">get_model</span><span class="p">(</span><span class="s2">&quot;Alfonso2024&quot;</span><span class="p">)</span>
+<span class="n">rotation_files</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">get_rotation_model</span><span class="p">()</span>
+<span class="n">rotation_model</span> <span class="o">=</span> <span class="n">pygplates</span><span class="o">.</span><span class="n">RotationModel</span><span class="p">(</span><span class="n">rotation_files</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<hr class="docutils" />
+</section>
+<section id="cao2024">
+<span id="model-cao2024"></span><h3>Cao2024<a class="headerlink" href="#cao2024" title="Link to this heading"></a></h3>
+<p><strong>Time range:</strong> 1800 - 0 Ma</p>
+<p><strong>Layers:</strong></p>
+<ul class="simple">
+<li><p>Coastlines</p></li>
+<li><p>ContinentalPolygons</p></li>
+<li><p>COBs</p></li>
+<li><p>StaticPolygons</p></li>
+<li><p>Topologies</p></li>
+</ul>
+<p><strong>Description:</strong> Global tectonic and plate-boundary reconstruction spanning ~1.8 billion years. See the ‘URL’ below
+for more details.</p>
+<p><strong>DOI / URL:</strong> <a class="reference external" href="https://doi.org/10.5281/zenodo.11536686">https://doi.org/10.5281/zenodo.11536686</a></p>
+<hr class="docutils" />
+</section>
+<section id="muller2022">
+<span id="model-muller2022"></span><h3>Muller2022<a class="headerlink" href="#muller2022" title="Link to this heading"></a></h3>
+<p><strong>Time range:</strong> 1000 - 0 Ma</p>
+<p><strong>Layers:</strong></p>
+<ul class="simple">
+<li><p>Coastlines</p></li>
+<li><p>COBs</p></li>
+<li><p>ContinentalPolygons</p></li>
+<li><p>Cratons</p></li>
+<li><p>StaticPolygons</p></li>
+<li><p>Topologies</p></li>
+</ul>
+<p><strong>Time-dependent rasters:</strong></p>
+<ul class="simple">
+<li><p>AgeGrids</p></li>
+<li><p>AgeGridsPMAG</p></li>
+</ul>
+<p><strong>Description:</strong> This model is based on MERDITH2021 for relative plate motions but uses a mantle reference frame that
+orients the plates relative to the mantle using a set of geodynamic rules to exclude geodynamically
+unreasonable plate motions. The difference between the paleomagnetic and mantle reference frames
+grows cumulatively back in time - hence the two reconstructions (MERDITH2021 versus MULLER2022)
+diverge progressively in the Paleozoic and Proterozoic both in terms of paleolatitude and
+paleolongitude. See the ‘URL’ below for more details.</p>
+<p><strong>DOI / URL:</strong> <a class="reference external" href="https://doi.org/10.5281/zenodo.10297173">https://doi.org/10.5281/zenodo.10297173</a></p>
+<hr class="docutils" />
+</section>
+<section id="merdith2021">
+<span id="model-merdith2021"></span><h3>Merdith2021<a class="headerlink" href="#merdith2021" title="Link to this heading"></a></h3>
+<p><strong>Time range:</strong> 1000 - 0 Ma</p>
+<p><strong>Layers:</strong></p>
+<ul class="simple">
+<li><p>Coastlines</p></li>
+<li><p>ContinentalPolygons</p></li>
+<li><p>Cratons</p></li>
+<li><p>StaticPolygons</p></li>
+<li><p>Topologies</p></li>
+<li><p>COBs</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The COBs layer is the same as the ContinentalPolygons layer. This model does not include explicit COBs files; use the ContinentalPolygons files instead until further notice.</p>
+</div>
+<p><strong>Description:</strong> This plate model for the last 1000 Ma is based on a paleomagnetic reference frame. In this model the
+longitudinal positions of the plates are unconstrained, due to the radial symmetry of the Earth’s
+magnetic field. It is broadly based on a modified combination of MULLER2016 for the last 230 Ma, the
+MATTHEWS2016_pmag_ref model for 250-410 Ma and a newly constructed model for earlier times. See the
+‘URL’ below for more details.</p>
+<p><strong>DOI / URL:</strong> <a class="reference external" href="https://doi.org/10.5281/zenodo.10346399">https://doi.org/10.5281/zenodo.10346399</a></p>
+<hr class="docutils" />
+</section>
+<section id="clennett2020-m2019">
+<span id="model-clennett2020-m2019"></span><h3>Clennett2020_m2019<a class="headerlink" href="#clennett2020-m2019" title="Link to this heading"></a></h3>
+<p><strong>Time range:</strong> 170 - 0 Ma</p>
+<p><strong>Layers:</strong></p>
+<ul class="simple">
+<li><p>Coastlines</p></li>
+<li><p>StaticPolygons</p></li>
+<li><p>Terranes</p></li>
+<li><p>Topologies</p></li>
+</ul>
+<p><strong>Time-dependent rasters:</strong></p>
+<ul class="simple">
+<li><p>AgeGrids</p></li>
+<li><p>SpreadingRate</p></li>
+</ul>
+<p><strong>Description:</strong> Quantitative tomotectonic reconstruction of western North America and the eastern Pacific basin. See
+the ‘URL’ below for more details.</p>
+<p><strong>DOI / URL:</strong> <a class="reference external" href="https://doi.org/10.5281/zenodo.10348270">https://doi.org/10.5281/zenodo.10348270</a></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This model can also be accessed using the alias <code class="docutils literal notranslate"><span class="pre">Clennett2020</span></code>. The two models are identical.</p>
+</div>
+<hr class="docutils" />
+</section>
+<section id="clennett2020-s2013">
+<span id="model-clennett2020-s2013"></span><h3>Clennett2020_s2013<a class="headerlink" href="#clennett2020-s2013" title="Link to this heading"></a></h3>
+<p><strong>Time range:</strong> 170 - 0 Ma</p>
+<p><strong>Layers:</strong></p>
+<ul class="simple">
+<li><p>Coastlines</p></li>
+<li><p>StaticPolygons</p></li>
+<li><p>Terranes</p></li>
+<li><p>Topologies</p></li>
+</ul>
+<p><strong>Description:</strong> Quantitative tomotectonic reconstruction of western North America and the eastern Pacific basin. See
+the ‘URL’ below for more details.</p>
+<p><strong>DOI / URL:</strong> <a class="reference external" href="https://doi.org/10.5281/zenodo.10348270">https://doi.org/10.5281/zenodo.10348270</a></p>
+<hr class="docutils" />
+</section>
+<section id="muller2019">
+<span id="model-muller2019"></span><h3>Muller2019<a class="headerlink" href="#muller2019" title="Link to this heading"></a></h3>
+<p><strong>Time range:</strong> 250 - 0 Ma</p>
+<p><strong>Layers:</strong></p>
+<ul class="simple">
+<li><p>Coastlines</p></li>
+<li><p>COBs</p></li>
+<li><p>ContinentalPolygons</p></li>
+<li><p>Hotspots</p></li>
+<li><p>Johansson2018LIPs</p></li>
+<li><p>SeafloorFabric</p></li>
+<li><p>StaticPolygons</p></li>
+<li><p>Topologies</p></li>
+<li><p>Whittaker2015LIPs</p></li>
+</ul>
+<p><strong>Time-dependent rasters:</strong></p>
+<ul class="simple">
+<li><p>AgeGrids</p></li>
+<li><p>SedimentThickness</p></li>
+</ul>
+<p><strong>Description:</strong> This plate model for the last 250 Ma is based on a mantle reference frame, ie it orients the plates
+relative to the mantle using a set of geodynamic rules to exclude geodynamically unreasonable plate
+motions, which typically result from models based on paleomagnetic data. The model also includes
+continental deformation both along major rift systems and collisional plate boundary zones. See the
+‘URL’ below for more details.</p>
+<p><strong>DOI / URL:</strong> <a class="reference external" href="https://doi.org/10.5281/zenodo.10525286">https://doi.org/10.5281/zenodo.10525286</a></p>
+<hr class="docutils" />
+</section>
+<section id="scotese-and-wright2018">
+<span id="model-scotese-and-wright2018"></span><h3>Scotese_and_wright2018<a class="headerlink" href="#scotese-and-wright2018" title="Link to this heading"></a></h3>
+<p><strong>Time range:</strong> 540 - 0 Ma</p>
+<p><strong>Layers:</strong></p>
+<ul class="simple">
+<li><p>ContinentalPolygons</p></li>
+<li><p>COBs</p></li>
+<li><p>StaticPolygons</p></li>
+<li><p>Topologies</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The COBs layer is the same as the ContinentalPolygons layer. This model does not include explicit COBs files; use the ContinentalPolygons files instead until further notice.</p>
+</div>
+<p><strong>Description:</strong> Scotese and Wright (2018) deep-time plate reconstruction model. See the ‘URL’ below for more details.</p>
+<p><strong>DOI / URL:</strong> <a class="reference external" href="https://doi.org/10.5281/zenodo.5348491">https://doi.org/10.5281/zenodo.5348491</a></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The model has plate topologies only for the last 100 Ma. And only locations on land can be reconstructed with this model.</p>
+</div>
+<hr class="docutils" />
+</section>
+<section id="young2018">
+<span id="model-young2018"></span><h3>Young2018<a class="headerlink" href="#young2018" title="Link to this heading"></a></h3>
+<p><strong>Time range:</strong> 410 - 0 Ma</p>
+<p><strong>Layers:</strong></p>
+<ul class="simple">
+<li><p>Coastlines</p></li>
+<li><p>ContinentalPolygons</p></li>
+<li><p>COBs</p></li>
+<li><p>StaticPolygons</p></li>
+<li><p>Topologies</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The COBs layer is the same as the ContinentalPolygons layer. This model does not include explicit COBs files; use the ContinentalPolygons files instead until further notice.</p>
+</div>
+<p><strong>Description:</strong> Global plate and subduction-zone kinematics since the late Paleozoic. See the ‘URL’ below for more
+details.</p>
+<p><strong>DOI / URL:</strong> <a class="reference external" href="https://doi.org/10.5281/zenodo.10525369">https://doi.org/10.5281/zenodo.10525369</a></p>
+<hr class="docutils" />
+</section>
+<section id="torsvikcocks2017">
+<span id="model-torsvikcocks2017"></span><h3>Torsvikcocks2017<a class="headerlink" href="#torsvikcocks2017" title="Link to this heading"></a></h3>
+<p><strong>Time range:</strong> 540 - 0 Ma</p>
+<p><strong>Layers:</strong></p>
+<ul class="simple">
+<li><p>Coastlines</p></li>
+<li><p>StaticPolygons</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Only locations on land can be reconstructed with this model.</p>
+</div>
+<p><strong>Description:</strong> Earth History and Palaeogeography reconstruction resource (Torsvik and Cocks framework). See the
+‘URL’ below for more details.</p>
+<p><strong>URL:</strong> <a class="reference external" href="https://www.earthdynamics.org/earthhistory/data_info.html">https://www.earthdynamics.org/earthhistory/data_info.html</a></p>
+<hr class="docutils" />
+</section>
+<section id="matthews2016-mantle-ref">
+<span id="model-matthews2016-mantle-ref"></span><h3>Matthews2016_mantle_ref<a class="headerlink" href="#matthews2016-mantle-ref" title="Link to this heading"></a></h3>
+<p><strong>Time range:</strong> 410 - 0 Ma</p>
+<p><strong>Layers:</strong></p>
+<ul class="simple">
+<li><p>Coastlines</p></li>
+<li><p>ContinentalPolygons</p></li>
+<li><p>COBs</p></li>
+<li><p>StaticPolygons</p></li>
+<li><p>Topologies</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The COBs layer is the same as the ContinentalPolygons layer. This model does not include explicit COBs files; use the ContinentalPolygons files instead until further notice.</p>
+</div>
+<p><strong>Time-dependent rasters:</strong></p>
+<ul class="simple">
+<li><p>AgeGrids</p></li>
+<li><p>Coastlines</p></li>
+<li><p>Topologies</p></li>
+</ul>
+<p><strong>Description:</strong> This model is identical to MATTHEWS2016_pmag_ref in terms of relative plate models but uses a true
+polar wander corrected paleomagnetic model, viewed as a proxy for a mantle reference frame model. See the ‘URL’ below for more details.</p>
+<p><strong>DOI / URL:</strong> <a class="reference external" href="https://doi.org/10.5281/zenodo.10526156">https://doi.org/10.5281/zenodo.10526156</a></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This model can also be accessed using the alias <code class="docutils literal notranslate"><span class="pre">matthews2016</span></code> or using the following Python code.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">model_manager</span><span class="o">.</span><span class="n">get_model</span><span class="p">(</span>
+   <span class="s2">&quot;matthews2016&quot;</span><span class="p">,</span>
+   <span class="n">reference_frame</span><span class="o">=</span><span class="n">ReferenceFrame</span><span class="o">.</span><span class="n">MantleReferenceFrame</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<hr class="docutils" />
+</section>
+<section id="matthews2016-pmag-ref">
+<span id="model-matthews2016-pmag-ref"></span><h3>Matthews2016_pmag_ref<a class="headerlink" href="#matthews2016-pmag-ref" title="Link to this heading"></a></h3>
+<p><strong>Time range:</strong> 410 - 0 Ma</p>
+<p><strong>Layers:</strong></p>
+<ul class="simple">
+<li><p>Coastlines</p></li>
+<li><p>ContinentalPolygons</p></li>
+<li><p>COBs</p></li>
+<li><p>StaticPolygons</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The COBs layer is the same as the ContinentalPolygons layer. This model does not include explicit COBs files; use the ContinentalPolygons files instead until further notice.</p>
+</div>
+<p><strong>Description:</strong> This plate model represents the first continuous late Paleozoic to present-day global plate model
+with evolving plate boundaries, building on and extending two previously published models for the
+late Paleozoic (410-250 Ma) (Domeier and Torsvik, 2014) and the MULLER2016 model Mesozoic-Cenozoic
+(230-0 Ma). The model was designed for continuity during the 250-230 Ma transition period between
+the two models, used an updated absolute reference frame of the Mesozoic-Cenozoic model and added a
+new Paleozoic reconstruction for the Baltica-derived Alexander Terrane, now accreted to western
+North America. See the ‘URL’ below for more details.</p>
+<p><strong>URL:</strong> <a class="reference external" href="https://gwsdoc.gplates.org/models#matthews2016_pmag_ref">https://gwsdoc.gplates.org/models#matthews2016_pmag_ref</a></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This model can also be accessed using the following Python code.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">model_manager</span><span class="o">.</span><span class="n">get_model</span><span class="p">(</span>
+   <span class="s2">&quot;matthews2016&quot;</span><span class="p">,</span>
+   <span class="n">reference_frame</span><span class="o">=</span><span class="n">ReferenceFrame</span><span class="o">.</span><span class="n">PmagReferenceFrame</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<hr class="docutils" />
+</section>
+<section id="muller2016">
+<span id="model-muller2016"></span><h3>Muller2016<a class="headerlink" href="#muller2016" title="Link to this heading"></a></h3>
+<p><strong>Time range:</strong> 230 - 0 Ma</p>
+<p><strong>Layers:</strong></p>
+<ul class="simple">
+<li><p>Coastlines</p></li>
+<li><p>COBs</p></li>
+<li><p>StaticPolygons</p></li>
+<li><p>Topologies</p></li>
+</ul>
+<p><strong>Time-dependent rasters:</strong></p>
+<ul class="simple">
+<li><p>AgeGrids</p></li>
+</ul>
+<p><strong>Description:</strong> This model represents an update of the SETON2012 model, both in terms of relative and absolute plate
+motions. The absolute reference used is based on the same hotspot model for the last 100 Ma as used
+in SETON2012, and a true-polar wander corrected paleomagnetic model for 230 to 100 Ma, with an added
+10 deg longitudinal correction for the time period from 100-230 Ma in an attempt to minimise
+geodynamically unreasonable longitudinal plate motions, resulting in a modified mantle reference
+frame. See the ‘URL’ below for more details.</p>
+<p><strong>DOI / URL:</strong> <a class="reference external" href="https://doi.org/10.5281/zenodo.10565444">https://doi.org/10.5281/zenodo.10565444</a></p>
+<hr class="docutils" />
+</section>
+<section id="scotese2016">
+<span id="model-scotese2016"></span><h3>Scotese2016<a class="headerlink" href="#scotese2016" title="Link to this heading"></a></h3>
+<p><strong>Time range:</strong> 750 - 0 Ma</p>
+<p><strong>Layers:</strong></p>
+<ul class="simple">
+<li><p>Coastlines</p></li>
+<li><p>StaticPolygons</p></li>
+</ul>
+<p><strong>Description:</strong> PALEOMAP PaleoAtlas reconstruction dataset for GPlates (Scotese framework). See the ‘URL’ below for more details.</p>
+<p><strong>DOI / URL:</strong> <a class="reference external" href="https://doi.org/10.5281/zenodo.10596609">https://doi.org/10.5281/zenodo.10596609</a></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This model is also known as <code class="docutils literal notranslate"><span class="pre">Paleomap</span></code>. The two model names can be used interchangeably to refer to the same model.</p>
+</div>
+<hr class="docutils" />
+</section>
+<section id="zahirovic2016">
+<span id="model-zahirovic2016"></span><h3>Zahirovic2016<a class="headerlink" href="#zahirovic2016" title="Link to this heading"></a></h3>
+<p><strong>Time range:</strong> 230 - 0 Ma</p>
+<p><strong>Layers:</strong></p>
+<ul class="simple">
+<li><p>Coastlines</p></li>
+<li><p>ContinentalPolygons</p></li>
+<li><p>COBs</p></li>
+<li><p>Isochrons</p></li>
+<li><p>StaticPolygons</p></li>
+<li><p>Topologies</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The COBs layer is the same as the ContinentalPolygons layer. This model does not include explicit COBs files; use the ContinentalPolygons files instead until further notice.</p>
+</div>
+<p><strong>Time-dependent rasters:</strong></p>
+<ul class="simple">
+<li><p>AgeGrids</p></li>
+</ul>
+<p><strong>Description:</strong> Eastern Tethys tectonic evolution and deep-mantle-structure reconstruction since the latest
+Jurassic. See the ‘URL’ below for more details.</p>
+<p><strong>DOI / URL:</strong> <a class="reference external" href="https://doi.org/10.5281/zenodo.10531296">https://doi.org/10.5281/zenodo.10531296</a></p>
+<hr class="docutils" />
+</section>
+<section id="gibbons2015">
+<span id="model-gibbons2015"></span><h3>Gibbons2015<a class="headerlink" href="#gibbons2015" title="Link to this heading"></a></h3>
+<p><strong>Time range:</strong> 300 - 0 Ma</p>
+<p><strong>Layers:</strong></p>
+<ul class="simple">
+<li><p>Coastlines</p></li>
+<li><p>StaticPolygons</p></li>
+<li><p>Topologies</p></li>
+</ul>
+<p><strong>Description:</strong> Model reconciling India-Eurasia and intra-oceanic arc collisions in the central-eastern Tethys. See
+the ‘URL’ below for more details.</p>
+<p><strong>DOI / URL:</strong> <a class="reference external" href="https://doi.org/10.5281/zenodo.10595658">https://doi.org/10.5281/zenodo.10595658</a></p>
+<hr class="docutils" />
+</section>
+<section id="zahirovic2014">
+<span id="model-zahirovic2014"></span><h3>Zahirovic2014<a class="headerlink" href="#zahirovic2014" title="Link to this heading"></a></h3>
+<p><strong>Time range:</strong> 300 - 0 Ma</p>
+<p><strong>Layers:</strong></p>
+<ul class="simple">
+<li><p>Coastlines</p></li>
+<li><p>StaticPolygons</p></li>
+</ul>
+<p><strong>Description:</strong> Model reconciling India-Eurasia and intra-oceanic arc collisions in the central-eastern Tethys. See
+the ‘URL’ below for more details.</p>
+<p><strong>DOI / URL:</strong> <a class="reference external" href="https://doi.org/10.5281/zenodo.10595658">https://doi.org/10.5281/zenodo.10595658</a></p>
+<hr class="docutils" />
+</section>
+<section id="shephard2013">
+<span id="model-shephard2013"></span><h3>Shephard2013<a class="headerlink" href="#shephard2013" title="Link to this heading"></a></h3>
+<p><strong>Time range:</strong> 200 - 0 Ma</p>
+<p><strong>Layers:</strong></p>
+<ul class="simple">
+<li><p>Coastlines</p></li>
+<li><p>StaticPolygons</p></li>
+<li><p>Topologies</p></li>
+</ul>
+<p><strong>Description:</strong> Arctic tectonic evolution model since Pangea breakup integrating geology, geophysics, and mantle
+context. See the ‘URL’ below for more details.</p>
+<p><strong>DOI / URL:</strong> <a class="reference external" href="https://doi.org/10.5281/zenodo.10595888">https://doi.org/10.5281/zenodo.10595888</a></p>
+<hr class="docutils" />
+</section>
+<section id="gurnis2012">
+<span id="model-gurnis2012"></span><h3>Gurnis2012<a class="headerlink" href="#gurnis2012" title="Link to this heading"></a></h3>
+<p><strong>Time range:</strong> 140 - 0 Ma</p>
+<p><strong>Layers:</strong></p>
+<ul class="simple">
+<li><p>Coastlines</p></li>
+<li><p>StaticPolygons</p></li>
+<li><p>Topologies</p></li>
+</ul>
+<p><strong>Description:</strong> Continuously closing-plate reconstruction model for self-consistent global plate polygons. See the
+‘URL’ below for more details.</p>
+<p><strong>DOI / URL:</strong> <a class="reference external" href="https://doi.org/10.5281/zenodo.10596349">https://doi.org/10.5281/zenodo.10596349</a></p>
+<hr class="docutils" />
+</section>
+<section id="seton2012">
+<span id="model-seton2012"></span><h3>Seton2012<a class="headerlink" href="#seton2012" title="Link to this heading"></a></h3>
+<p><strong>Time range:</strong> 200 - 0 Ma</p>
+<p><strong>Layers:</strong></p>
+<ul class="simple">
+<li><p>Coastlines</p></li>
+<li><p>COBs</p></li>
+<li><p>ContinentalPolygons</p></li>
+<li><p>StaticPolygons</p></li>
+<li><p>Topologies</p></li>
+</ul>
+<p><strong>Time-dependent rasters:</strong></p>
+<ul class="simple">
+<li><p>AgeGrids</p></li>
+</ul>
+<p><strong>Description:</strong> This model represents the first global plate model with topological plate boundaries. It is based on
+a hybrid absolute reference frame, based on a moving hotspot model for the last 100 Ma, and a true-
+polar wander corrected paleomagnetic model for 200 to 100 Ma. This combination of absolute reference
+frames is viewed as a proxy for a mantle reference frame model. See the ‘URL’ below for more
+details.</p>
+<p><strong>DOI / URL:</strong> <a class="reference external" href="https://doi.org/10.5281/zenodo.10596049">https://doi.org/10.5281/zenodo.10596049</a></p>
+<hr class="docutils" />
+</section>
+<section id="muller2008">
+<span id="model-muller2008"></span><h3>Muller2008<a class="headerlink" href="#muller2008" title="Link to this heading"></a></h3>
+<p><strong>Time range:</strong> 140 - 0 Ma</p>
+<p><strong>Layers:</strong></p>
+<ul class="simple">
+<li><p>StaticPolygons</p></li>
+</ul>
+<p><strong>Description:</strong> MULLER2008 model data archive.</p>
+<p><strong>URL:</strong> <a class="reference external" href="https://earthbyte.org/webdav/ftp/incoming/mchin/plate-models/MULLER2008">https://earthbyte.org/webdav/ftp/incoming/mchin/plate-models/MULLER2008</a>,</p>
+<hr class="docutils" />
+</section>
+<section id="golonka">
+<span id="model-golonka"></span><h3>Golonka<a class="headerlink" href="#golonka" title="Link to this heading"></a></h3>
+<p><strong>Time range:</strong> 540 - 0 Ma</p>
+<p><strong>Layers:</strong></p>
+<ul class="simple">
+<li><p>Coastlines</p></li>
+<li><p>StaticPolygons</p></li>
+</ul>
+<p><strong>Description:</strong> Community-driven paleogeographic reconstruction model (GOLONKA) with deep-time coverage. See the
+‘URL’ below for more details.</p>
+<p><strong>URL:</strong> <a class="reference external" href="https://gwsdoc.gplates.org/models#golonka">https://gwsdoc.gplates.org/models#golonka</a></p>
+<hr class="docutils" />
+</section>
+<section id="rodinia">
+<span id="model-rodinia"></span><h3>Rodinia<a class="headerlink" href="#rodinia" title="Link to this heading"></a></h3>
+<p><strong>Time range:</strong> 1100 - 530 Ma</p>
+<p><strong>Layers:</strong></p>
+<ul class="simple">
+<li><p>Coastlines</p></li>
+<li><p>StaticPolygons</p></li>
+</ul>
+<p><strong>Description:</strong> Rodinia-focused Precambrian reconstruction model for deep-time paleogeography. See the ‘URL’ below
+for more details.</p>
+<p><strong>URL:</strong> <a class="reference external" href="https://gwsdoc.gplates.org/models#rodinia">https://gwsdoc.gplates.org/models#rodinia</a></p>
+<hr class="docutils" />
+</section>
+</section>
+<section id="model-aliases">
+<span id="id1"></span><h2><a class="toc-backref" href="#id5" role="doc-backlink">Model Aliases</a><a class="headerlink" href="#model-aliases" title="Link to this heading"></a></h2>
+<p>Some models have aliases, which are alternative names that can be used to refer to the same model. For example, the model “Muller2025” can also be referred to as “Shirmard2025”.</p>
+<section id="default">
+<h3>Default<a class="headerlink" href="#default" title="Link to this heading"></a></h3>
+<p>The “Default” model is an alias for <a class="reference internal" href="#model-zahirovic2022"><span class="std std-ref">Zahirovic2022</span></a>. The two models are identical.</p>
+</section>
+<hr class="docutils" />
+<section id="shirmard2025">
+<h3>Shirmard2025<a class="headerlink" href="#shirmard2025" title="Link to this heading"></a></h3>
+<p>The “Shirmard2025” model is an alias for <a class="reference internal" href="#model-muller2025"><span class="std std-ref">Muller2025</span></a>. The two models are identical.</p>
+</section>
+<hr class="docutils" />
+<section id="cao2023">
+<h3>Cao2023<a class="headerlink" href="#cao2023" title="Link to this heading"></a></h3>
+<p>The “Cao2023” model is an alias for <a class="reference internal" href="#model-cao2024"><span class="std std-ref">Cao2024</span></a>. The two models are identical.</p>
+</section>
+<hr class="docutils" />
+<section id="matthews2016">
+<h3>Matthews2016<a class="headerlink" href="#matthews2016" title="Link to this heading"></a></h3>
+<p>The “Matthews2016” model is an alias for <a class="reference internal" href="#model-matthews2016-mantle-ref"><span class="std std-ref">Matthews2016_mantle_ref</span></a>. The two models are identical.</p>
+</section>
+<hr class="docutils" />
+<section id="clennett2020">
+<h3>Clennett2020<a class="headerlink" href="#clennett2020" title="Link to this heading"></a></h3>
+<p>The “Clennett2020” model is an alias for <a class="reference internal" href="#model-clennett2020-m2019"><span class="std std-ref">Clennett2020_m2019</span></a>. The two models are identical.</p>
+</section>
+<hr class="docutils" />
+<section id="paleomap">
+<h3>Paleomap<a class="headerlink" href="#paleomap" title="Link to this heading"></a></h3>
+<p>The “Paleomap” model is an alias for <a class="reference internal" href="#model-scotese2016"><span class="std std-ref">Scotese2016</span></a>. The two models are identical.</p>
+</section>
+<hr class="docutils" />
+<section id="li2008">
+<h3>Li2008<a class="headerlink" href="#li2008" title="Link to this heading"></a></h3>
+<p>The “Li2008” model is an alias for <a class="reference internal" href="#model-rodinia"><span class="std std-ref">Rodinia</span></a>. The two models are identical.</p>
+<hr class="docutils" />
+</section>
+</section>
+<section id="archived-models">
+<span id="id2"></span><h2><a class="toc-backref" href="#id6" role="doc-backlink">Archived Models</a><a class="headerlink" href="#archived-models" title="Link to this heading"></a></h2>
+<p>The following models are archived and no longer actively maintained. They are retained for historical reference.</p>
+<section id="domeier2014">
+<span id="model-domeier2014"></span><h3>Domeier2014<a class="headerlink" href="#domeier2014" title="Link to this heading"></a></h3>
+<p><strong>Time range:</strong> 410 - 250 Ma</p>
+<p><strong>Layers:</strong></p>
+<ul class="simple">
+<li><p>Coastlines</p></li>
+<li><p>StaticPolygons</p></li>
+<li><p>Topologies</p></li>
+</ul>
+<p><strong>Description:</strong> unknown</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="generated/plate_model_manager.auxiliary.html" class="btn btn-neutral float-left" title="plate_model_manager.auxiliary" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023-2026, The University of Sydney.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

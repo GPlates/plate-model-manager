@@ -1,0 +1,224 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Plate Model Manager 1.4.0 Documentation &mdash; plate-model-manager 1.4.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/sidebar_tweaks.css?v=695f7a7b" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=c32019de"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Installation" href="installation.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="#" class="icon icon-home">
+            plate-model-manager
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="basic_usages.html">Basic Usages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="command_line_interface.html">Command Line Interface (CLI)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plate_models.html">Plate Models</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">plate-model-manager</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Plate Model Manager 1.4.0 Documentation</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="plate-model-manager-version-documentation">
+<h1>Plate Model Manager 1.4.0 Documentation<a class="headerlink" href="#plate-model-manager-version-documentation" title="Link to this heading"></a></h1>
+<p>Originally the <code class="docutils literal notranslate"><span class="pre">plate-model-manager</span></code> was designed for <a class="reference external" href="https://github.com/GPlates/gplately">GPlately</a>.
+Later, it was found also useful in other scenarios and contexts.
+The <code class="docutils literal notranslate"><span class="pre">plate-model-manager</span></code> downloads and manages the plate reconstruction model files.
+It is a dataset manager for plate tectonic reconstruction models, similar to <a class="reference external" href="https://www.npmjs.com/">NPM</a> or <a class="reference external" href="https://anaconda.org/anaconda/conda">Conda</a> for software packages.</p>
+<p>Have you ever wondered where to get the plate tectonic reconstruction models for your research?
+Are you tired of downloading files from Internet manually and specify file paths when calling <a class="reference external" href="https://www.gplates.org/docs/pygplates/">PyGPlates</a> functions?
+If the answer is yes, you probably want to check out this <code class="docutils literal notranslate"><span class="pre">plate-model-manager</span></code> Python module.</p>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#how-to-install">How to install</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="installation.html#use-pip">Use pip</a></li>
+<li class="toctree-l3"><a class="reference internal" href="installation.html#use-conda">Use conda</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="basic_usages.html">Basic Usages</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="basic_usages.html#download-rotation-files">Download rotation files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="basic_usages.html#download-a-layer">Download a layer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="basic_usages.html#list-all-layer-names">List all layer names</a></li>
+<li class="toctree-l2"><a class="reference internal" href="basic_usages.html#list-all-available-model-names">List all available model names</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="examples.html#use-with-pygplates">Use with pyGPlates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples.html#use-with-gplately">Use with GPlately</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples.html#use-without-internet">Use without Internet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples.html#use-with-joblib">Use with joblib</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="command_line_interface.html">Command Line Interface (CLI)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="command_line_interface.html#list-available-model-names">List available model names</a></li>
+<li class="toctree-l2"><a class="reference internal" href="command_line_interface.html#show-the-details-of-a-plate-model">Show the details of a plate model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="command_line_interface.html#download-a-plate-model">Download a plate model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="command_line_interface.html#download-all-plate-models">Download all plate models</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api.html#main-classes">Main Classes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/plate_model_manager.PlateModelManager.html">PlateModelManager</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/plate_model_manager.PlateModel.html">PlateModel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/plate_model_manager.PresentDayRasterManager.html">PresentDayRasterManager</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#others">Others</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/plate_model_manager.FileDownloader.html">FileDownloader</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/plate_model_manager.ZenodoRecord.html">ZenodoRecord</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/plate_model_manager.auxiliary.html">plate_model_manager.auxiliary</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="plate_models.html">Plate Models</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="plate_models.html#default-model">Default Model</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="plate_models.html#zahirovic2022">Zahirovic2022</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="plate_models.html#recommended-alternative-models">Recommended Alternative Models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="plate_models.html#muller2025">Muller2025</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plate_models.html#alfonso2024">Alfonso2024</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plate_models.html#cao2024">Cao2024</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plate_models.html#muller2022">Muller2022</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plate_models.html#merdith2021">Merdith2021</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plate_models.html#clennett2020-m2019">Clennett2020_m2019</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plate_models.html#clennett2020-s2013">Clennett2020_s2013</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plate_models.html#muller2019">Muller2019</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plate_models.html#scotese-and-wright2018">Scotese_and_wright2018</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plate_models.html#young2018">Young2018</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plate_models.html#torsvikcocks2017">Torsvikcocks2017</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plate_models.html#matthews2016-mantle-ref">Matthews2016_mantle_ref</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plate_models.html#matthews2016-pmag-ref">Matthews2016_pmag_ref</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plate_models.html#muller2016">Muller2016</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plate_models.html#scotese2016">Scotese2016</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plate_models.html#zahirovic2016">Zahirovic2016</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plate_models.html#gibbons2015">Gibbons2015</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plate_models.html#zahirovic2014">Zahirovic2014</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plate_models.html#shephard2013">Shephard2013</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plate_models.html#gurnis2012">Gurnis2012</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plate_models.html#seton2012">Seton2012</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plate_models.html#muller2008">Muller2008</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plate_models.html#golonka">Golonka</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plate_models.html#rodinia">Rodinia</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="plate_models.html#model-aliases">Model Aliases</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="plate_models.html#default">Default</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plate_models.html#shirmard2025">Shirmard2025</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plate_models.html#cao2023">Cao2023</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plate_models.html#matthews2016">Matthews2016</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plate_models.html#clennett2020">Clennett2020</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plate_models.html#paleomap">Paleomap</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plate_models.html#li2008">Li2008</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="plate_models.html#archived-models">Archived Models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="plate_models.html#domeier2014">Domeier2014</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Link to this heading"></a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
+</ul>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="installation.html" class="btn btn-neutral float-right" title="Installation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023-2026, The University of Sydney.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
