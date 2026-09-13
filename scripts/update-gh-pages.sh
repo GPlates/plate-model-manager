@@ -10,11 +10,13 @@ touch ./gh-pages/dev/.nojekyll
 cd ./gh-pages/
 
 # remove accidental self-referential "stable" links inside version folders
+shopt -s nullglob
 for maybe_stable_link in ./v*/stable; do
     if [ -L "$maybe_stable_link" ]; then
         rm "$maybe_stable_link"
     fi
 done
+shopt -u nullglob
 
 git config --global user.name "michaelchin"
 git config --global user.email "michael.chin@sydney.edu.au"
