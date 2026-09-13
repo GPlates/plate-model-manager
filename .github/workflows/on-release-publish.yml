@@ -1,21 +1,126 @@
 name: PyPI Publish on Release
 
-permissions:
-  contents: write
-
 on:
   release:
     types: [published]
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: Git tag to build and upload, usually matching the published release
+        required: true
+        type: string
+
+permissions:
+  contents: read
 
 jobs:
+  validate-tag:
+    name: Validate release tag
+    runs-on: ubuntu-latest
+    outputs:
+      release_tag: ${{ steps.validate.outputs.release_tag }}
+    env:
+      RELEASE_TAG: ${{ github.event_name == 'release' && github.event.release.tag_name || inputs.release_tag }}
+    steps:
+      - name: Validate release tag
+        id: validate
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const releaseTag = process.env.RELEASE_TAG?.trim();
+
+            if (!releaseTag) {
+              core.setFailed('A release tag is required to publish to PyPI.');
+              return;
+            }
+
+            if (!/^[A-Za-z0-9._/-]+$/.test(releaseTag)) {
+              core.setFailed(`Invalid release tag "${releaseTag}". Use only letters, numbers, dot, underscore, slash, and hyphen.`);
+              return;
+            }
+
+            try {
+              await github.rest.git.getRef({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                ref: `tags/${releaseTag}`,
+              });
+            } catch (error) {
+              core.setFailed(`Release tag "${releaseTag}" does not exist in this repository.`);
+              return;
+            }
+
+            core.setOutput('release_tag', releaseTag);
+            core.info(`Validated release tag ${releaseTag}.`);
+
   build:
+    name: Build PMM Python Package
+    needs: validate-tag
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.ref_name }}
-      - name: PyPI Publish
+          ref: ${{ needs.validate-tag.outputs.release_tag }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Build distributions
         run: |
-          chmod +x ./scripts/pypi-publish.sh
-          ./scripts/pypi-publish.sh '${{ secrets.PYPI_UPLOAD }}'
+          python -m pip install --upgrade build
+          python -m build
+
+      - name: Upload distributions
+        uses: actions/upload-artifact@v4
+        with:
+          name: pmm-dist
+          path: dist/
+
+  publish-to-testpypi:
+    name: Publish PMM Python Package to TestPyPI
+    needs: build
+    runs-on: ubuntu-latest
+    environment: testpypi
+    permissions:
+      # IMPORTANT: this permission is mandatory for Trusted Publishing (OIDC)
+      id-token: write
+    steps:
+      - name: Download distributions
+        uses: actions/download-artifact@v4
+        with:
+          name: pmm-dist
+          path: dist/
+
+      - name: Publish package distributions to TestPyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          repository-url: https://test.pypi.org/legacy/
+        # No credentials needed here: TestPyPI is configured to trust this
+        # repository/workflow via Trusted Publishing (OIDC), which mints a
+        # short-lived token automatically using the id-token permission above.
+
+  publish-to-pypi:
+    name: Publish PMM Python Package to PyPI
+    needs: publish-to-testpypi
+    # Manual workflow_dispatch runs are for testing only — never touch real PyPI.
+    if: github.event_name == 'release'
+    runs-on: ubuntu-latest
+    environment: pypi
+    permissions:
+      # IMPORTANT: this permission is mandatory for Trusted Publishing (OIDC)
+      id-token: write
+    steps:
+      - name: Download distributions
+        uses: actions/download-artifact@v4
+        with:
+          name: pmm-dist
+          path: dist/
+
+      - name: Publish package distributions to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        # No credentials needed here: PyPI is configured to trust this
+        # repository/workflow via Trusted Publishing (OIDC), which mints a
+        # short-lived token automatically using the id-token permission above.
