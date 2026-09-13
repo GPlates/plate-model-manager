@@ -52,6 +52,14 @@ plate\_model\_manager.utils.network module
    :show-inheritance:
    :undoc-members:
 
+plate\_model\_manager.utils.settings module
+-------------------------------------------
+
+.. automodule:: plate_model_manager.utils.settings
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
 plate\_model\_manager.utils.unzip module
 ----------------------------------------
 

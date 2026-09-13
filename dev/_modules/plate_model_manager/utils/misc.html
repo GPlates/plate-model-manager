@@ -92,9 +92,11 @@
 <span class="c1">#    51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.</span>
 <span class="c1">#</span>
 <span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">settings</span>
 
 <span class="n">pmm_logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">&quot;pmm&quot;</span><span class="p">)</span>
 <span class="n">stdout_handler</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">StreamHandler</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="p">)</span>
@@ -114,13 +116,17 @@
     <span class="n">pmm_logger</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">is_debug_mode</span><span class="p">():</span>
-        <span class="n">turn_on_debug_logging</span><span class="p">()</span></div>
+        <span class="n">turn_on_debug_logging</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">settings</span><span class="o">.</span><span class="n">enable_log_to_file</span><span class="p">:</span>
+        <span class="n">add_logging_file</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">log_file</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="add_logging_file">
 <a class="viewcode-back" href="../../../plate_model_manager.utils.html#plate_model_manager.utils.misc.add_logging_file">[docs]</a>
 <span class="k">def</span> <span class="nf">add_logging_file</span><span class="p">(</span><span class="n">filename</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;pmm.log&quot;</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">):</span>
+    <span class="n">Path</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">fh</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">FileHandler</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
     <span class="n">fh</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">level</span><span class="p">)</span>
     <span class="n">fh</span><span class="o">.</span><span class="n">setFormatter</span><span class="p">(</span><span class="n">formatter</span><span class="p">)</span>
@@ -182,11 +188,11 @@
 <div class="viewcode-block" id="is_debug_mode">
 <a class="viewcode-back" href="../../../plate_model_manager.utils.html#plate_model_manager.utils.misc.is_debug_mode">[docs]</a>
 <span class="k">def</span> <span class="nf">is_debug_mode</span><span class="p">():</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if the debug mode is enabled by checking the environment variable &quot;PMM_DEBUG&quot;.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if the debug mode is enabled via settings.debug.</span>
 
-<span class="sd">    export PMM_DEBUG=true to enable the debug mode.</span>
+<span class="sd">    export PMM_DEBUG=true, or set debug = true in a settings.toml file, to enable the debug mode.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="s2">&quot;PMM_DEBUG&quot;</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;PMM_DEBUG&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;true&quot;</span></div>
+    <span class="k">return</span> <span class="n">settings</span><span class="o">.</span><span class="n">debug</span></div>
 
 
 
