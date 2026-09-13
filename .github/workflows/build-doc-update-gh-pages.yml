@@ -22,6 +22,9 @@ jobs:
           repository: gplates/plate-model-manager
           token: ${{ secrets.GH_PAGE_COMMIT_TOKEN }}
           path: main
+          # Full history + tags needed so setuptools-git-versioning can
+          # compute the real version instead of falling back to 0.0.1.
+          fetch-depth: 0
 
       - name: Checkout github pages branch
         uses: actions/checkout@v4
