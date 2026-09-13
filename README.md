@@ -48,6 +48,7 @@ Visit [this page](https://gplates.github.io/plate-model-manager/latest/examples.
 
 - [latest dev](https://gplates.github.io/plate-model-manager/latest/)
 - [latest stable](https://gplates.github.io/plate-model-manager/stable/)
+- [v1.4.0](https://gplates.github.io/plate-model-manager/v1.4.0/)
 - [v1.3.0](https://gplates.github.io/plate-model-manager/v1.3.0/)
 - [v1.2.0](https://gplates.github.io/plate-model-manager/v1.2.0/)
 
