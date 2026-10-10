@@ -401,6 +401,35 @@ class PlateModel:
 
         return self.get_layer(name, return_none_if_not_exist=return_none_if_not_exist)
 
+    def _check_layer_name(self, layer_name: str) -> None:
+        """Make sure ``layer_name`` is a configured geometry layer (or ``Rotations``).
+
+        Without this check, :meth:`get_layer` called in readonly mode with a name
+        that is not a geometry layer (for example a time-dependent raster such as
+        ``AgeGrids``) silently returns an empty list instead of raising an error.
+
+        :param layer_name: Layer name to check.
+        :raises LayerNotFoundInModel: If ``layer_name`` is not a configured geometry
+            layer. If it is a time-dependent raster name, the message points the
+            caller to :meth:`get_raster`.
+        """
+        if not self.model or layer_name == "Rotations":
+            return
+        if layer_name in self.model.get("Layers", {}):
+            return
+
+        raster_names = self.get_avail_time_dependent_raster_names()
+        if layer_name.lower() in [name.lower() for name in raster_names]:
+            raise LayerNotFoundInModel(
+                f"'{layer_name}' is a time-dependent raster, not a geometry layer, in model({self.model_name}). "
+                + f"Use get_raster('{layer_name}', time) or get_rasters('{layer_name}', times) instead of get_layer()."
+            )
+        raise LayerNotFoundInModel(
+            f"The layer({layer_name}) was not found in model({self.model_name}). "
+            + f"Available layers: {', '.join(self.model.get('Layers', {}).keys())}. "
+            + "For time-dependent rasters, use get_raster() or get_rasters()."
+        )
+
     def get_layer(
         self, layer_name: str, return_none_if_not_exist: bool = False
     ) -> Union[List[str], None]:
@@ -427,6 +456,7 @@ class PlateModel:
             ``return_none_if_not_exist`` is ``False``.
         """
         try:
+            self._check_layer_name(layer_name)
             if not self.readonly:
                 layer_folder = self._download_layer_files(layer_name)
             else:
@@ -471,6 +501,7 @@ class PlateModel:
 
         """
         try:
+            self._check_layer_name(layer_name)
             if not self.readonly:
                 layer_folder = self._download_layer_files(layer_name)
             else:
